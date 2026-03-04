@@ -1,0 +1,257 @@
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:get/utils.dart';
+import 'package:workforceclientapp/Bindings/MyBindings.dart';
+import 'package:workforceclientapp/Controllers/CreateNewPasswordController.dart';
+import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
+import 'package:workforceclientapp/views/screens/Authentications/CreateNewPassword.dart';
+import 'package:workforceclientapp/views/screens/Authentications/ForgotPasswordScreen.dart';
+import 'package:workforceclientapp/views/screens/Authentications/LoginScreen.dart';
+import 'package:workforceclientapp/views/screens/Authentications/OTPVerificationScreen.dart';
+import 'package:workforceclientapp/views/screens/Authentications/PasswordUpdatedScreen.dart';
+import 'package:workforceclientapp/views/screens/Authentications/SignupScreen.dart';
+import 'package:workforceclientapp/views/screens/Chat/ReviewJobScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDescriptionScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobPostCompletedScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobTitleScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/PickAddressScreen.dart';
+import 'package:workforceclientapp/views/screens/DashBoard/SelectServiceScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/UploadJobImageScreen.dart';
+import 'package:workforceclientapp/views/screens/Chat/AllChats.dart';
+import 'package:workforceclientapp/views/screens/JobRecommendations/EndTheOrderScreen.dart';
+import 'package:workforceclientapp/views/screens/JobRecommendations/JobRecommendations.dart';
+import 'package:workforceclientapp/views/screens/JobRecommendations/TradesmenDetailScreen.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/TermsAndConditions.dart';
+import 'package:workforceclientapp/views/screens/Notifications/NotificationSettingScreen.dart';
+import 'package:workforceclientapp/views/screens/PostedOrders/OrdersDetailsScreen.dart';
+import 'package:workforceclientapp/views/screens/Profile/DeleteAccountScreen.dart';
+import 'package:workforceclientapp/views/screens/Profile/UpdatePasswordScreen.dart';
+import 'package:workforceclientapp/views/screens/SelectLanguage.dart';
+import 'package:workforceclientapp/views/screens/SplashScreen.dart';
+import 'package:workforceclientapp/views/screens/onboard/OnBoardScreen1.dart';
+
+class AppRoutes {
+  static final List<GetPage> pages = [
+    GetPage(
+      name: AppLinks.select_service_screen,
+      page: () => const SelectServiceScreen(),
+      binding: SelectServiceBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.splash_screen,
+      page: () => const SplashScreen(),
+      binding: SplashScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.onboard_screen,
+      page: () => const OnBoardScreen1(),
+      binding: OnBoardScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.select_language_screen,
+      page: () => SelectLanguage(),
+      binding: SelectLanguageBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.login_screen,
+      page: () => LoginScreen(),
+      binding: LoginScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.forgot_password_screen,
+      page: () => const ForgotPasswordScreen(),
+      binding: ForgotPasswordBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.create_new_password_screen,
+      page: () => const CreateNewPassword(),
+      binding: CreateNewPasswordBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.otp_verification_screen,
+      page: () => const OTPVerificationScreen(),
+      binding: OTPVerificationBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.signup_screen,
+      page: () => const SignupScreen(),
+      binding: SignupScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.password_updated_screen,
+      page: () => const PasswordUpdatedScreen(),
+      binding: PasswordUpdatedBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.job_description_screen,
+      page: () => const JobDescriptionScreen(),
+      binding: JobDescriptionBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.job_title_screen,
+      page: () => const JobTitleScreen(),
+      binding: JobTitleBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.job_post_completed_screen,
+      page: () => const JobPostCompletedScreen(),
+      binding: JobPostCompletedBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.pick_address_screen,
+      page: () => const PickAddressScreen(),
+      binding: PickAddressBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.upload_job_image_screen,
+      page: () => const UploadJobImageScreen(),
+      binding: UploadJobImageBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.review_screen,
+      page: () => const ReviewJobScreen(),
+      binding: ReviewScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.posted_orders_section,
+      page: () => const PostedOrdersSection(),
+      binding: PostedOrdersSectionBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.all_chats,
+      page: () => const AllChats(),
+      binding: AllChatsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.end_the_order_screen,
+      page: () => const EndTheOrderScreen(),
+      binding: EndTheOrderBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.orders_details_screen,
+      page: () => OrdersDetailsScreen(),
+      binding: OrdersDetailsScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.job_recommendations,
+      page: () => const JobRecommendations(),
+      binding: JobRecommendationsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.tradesmen_detail_screen,
+      page: () => const TradesmenDetailScreen(),
+      binding: TradesmenDetailScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.delete_account_screen,
+      page: () => const DeleteAccountScreen(),
+      binding: DeleteAccountScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.update_password_screen,
+      page: () => const UpdatePasswordScreen(),
+      binding: UpdatePasswordScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.notification_setting_screen,
+      page: () => const NotificationSettingScreen(),
+      binding: NotificationSettingScreenBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.terms_and_conditions,
+      page: () => const TermsAndConditions(),
+      binding: TermsAndConditionsBindings(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: AppLinks.privacy_policy,
+      page: () => const PrivacyPolicy(),
+      binding: PrivacyPolicyBindings(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
+  ];
+}
+
+class AppLinks {
+  static const splash_screen = '/splash';
+  static const select_language_screen = '/select_language';
+  static const onboard_screen = '/onboard_screen';
+  static const select_service_screen = '/select_service';
+  static const login_screen = '/login';
+  static const forgot_password_screen = '/forgot_password';
+  static const create_new_password_screen = '/create_new_password';
+  static const otp_verification_screen = '/otp_verification_screen';
+  static const signup_screen = '/signup_screen';
+  static const password_updated_screen = '/password_updated_screen';
+  static const job_description_screen = '/job_description_screen';
+  static const job_title_screen = '/job_title_screen';
+  static const job_post_completed_screen = '/jobpost_completed_screen';
+  static const pick_address_screen = '/pick_address_screen';
+  static const upload_job_image_screen = '/upload_job_image_screen';
+  static const review_screen = '/review_screen';
+  static const posted_orders_section = '/PostedOrdersSection';
+  static const all_chats = '/all_chats ';
+  static const end_the_order_screen = '/end_the_order_screen';
+  static const orders_details_screen = '/orders_details_screen';
+  static const job_recommendations = '/job_recommendations';
+  static const tradesmen_detail_screen = '/tradesmen_detail_screen';
+  static const delete_account_screen = '/delete_account_screen';
+  static const update_password_screen = '/update_password_screen';
+  static const notification_setting_screen = '/notification_setting_screen';
+  static const terms_and_conditions = '/terms_and_conditions';
+  static const privacy_policy = '/privacy_policy';
+}

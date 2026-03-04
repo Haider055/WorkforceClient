@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "544124172877",
+    "project_id": "workforce-65127",
+    "storage_bucket": "workforce-65127.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544124172877:android:5597b981d7f3b45772fa04",
+        "android_client_info": {
+          "package_name": "com.dmn.auftragnowclient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCss5zSPVf4hKNSvkznEI_HkAZidnbCsrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544124172877:android:e2cc7ce11708e0e872fa04",
+        "android_client_info": {
+          "package_name": "com.example.my_hammer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCss5zSPVf4hKNSvkznEI_HkAZidnbCsrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

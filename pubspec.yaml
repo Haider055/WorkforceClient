@@ -1,0 +1,86 @@
+name: workforceclientapp
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  cupertino_icons: ^1.0.8
+  http: ^0.13.0
+  dio: ^5.4.1
+  get: ^4.6.6
+  shared_preferences: ^2.5.4
+  fluttertoast: ^8.2.4
+  pinput: ^5.0.1
+  image_picker: ^1.0.4
+  flutter_rating_bar: ^4.0.1
+  google_places_flutter: ^2.0.9
+  google_maps_flutter: ^2.14.0
+  geolocator: ^10.1.0
+  geocoding: ^2.1.0
+  google_place: ^0.4.7
+  flutter_bloc: ^9.1.0
+  flutter_svg: ^2.0.9
+  linear_progress_bar: ^1.1.3
+  photo_viewer: ^0.0.2
+  expandable_text: ^2.3.0
+  lottie: ^3.0.0
+  provider: ^6.1.1
+  flutter_launcher_icons: ^0.13.1
+  simple_flutter_reverb: ^0.0.2
+  # audioplayers: ^5.2.1
+  firebase_core: ^2.32.0
+  firebase_messaging: ^14.7.10
+  device_info_plus: ^10.1.0
+  sqflite: ^2.4.2
+
+dependency_overrides:
+  http: ^0.13.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/icons/app_Icon.png"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: lib/assets/fonts/Poppins-Black.ttf
+        - asset: lib/assets/fonts/Poppins-BlackItalic.ttf
+        - asset: lib/assets/fonts/Poppins-Bold.ttf
+        - asset: lib/assets/fonts/Poppins-BoldItalic.ttf
+        - asset: lib/assets/fonts/Poppins-ExtraBold.ttf        
+        - asset: lib/assets/fonts/Poppins-ExtraBoldItalic.ttf        
+        - asset: lib/assets/fonts/Poppins-ExtraLight.ttf
+        - asset: lib/assets/fonts/Poppins-ExtraLightItalic.ttf
+        - asset: lib/assets/fonts/Poppins-Italic.ttf
+        - asset: lib/assets/fonts/Poppins-Light.ttf
+        - asset: lib/assets/fonts/Poppins-LightItalic.ttf
+        - asset: lib/assets/fonts/Poppins-Medium.ttf
+        - asset: lib/assets/fonts/Poppins-MediumItalic.ttf
+        - asset: lib/assets/fonts/Poppins-Regular.ttf
+        - asset: lib/assets/fonts/Poppins-SemiBold.ttf
+        - asset: lib/assets/fonts/Poppins-SemiBoldItalic.ttf
+        - asset: lib/assets/fonts/Poppins-Thin.ttf
+        - asset: lib/assets/fonts/Poppins-ThinItalic.ttf
+
+  assets:
+    - lib/assets/images/
+    - lib/assets/icons/
+    - lib/assets/fonts/
+    - lib/assets/mp3/
