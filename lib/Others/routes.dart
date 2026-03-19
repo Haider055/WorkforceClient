@@ -1,10 +1,6 @@
-import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
-import 'package:get/utils.dart';
 import 'package:workforceclientapp/Bindings/MyBindings.dart';
-import 'package:workforceclientapp/Controllers/CreateNewPasswordController.dart';
-import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
 import 'package:workforceclientapp/views/screens/Authentications/CreateNewPassword.dart';
 import 'package:workforceclientapp/views/screens/Authentications/ForgotPasswordScreen.dart';
 import 'package:workforceclientapp/views/screens/Authentications/LoginScreen.dart';

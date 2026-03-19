@@ -148,6 +148,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
               )
             : Scaffold(
                 backgroundColor: Colors.white,
+                resizeToAvoidBottomInset: false,
                 appBar: AppBar(
                   leadingWidth: MediaQuery.of(context).size.width,
                   leading: Container(

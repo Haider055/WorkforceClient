@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:workforceclientapp/l10n/app_localizations.dart';
-import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
 
 class Strings {
   static String auftragNowText(BuildContext context) =>

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
@@ -34,6 +35,68 @@ import 'package:workforceclientapp/views/widgets/ProfileInfoCard.dart';
 
 class SelectServiceScreen extends GetView<SelectServiceController> {
   const SelectServiceScreen({super.key});
+
+  void manageinnAppPurchase() async {
+    try {
+      listenToPurchases();
+      final InAppPurchase inAppPurchase = InAppPurchase.instance;
+
+      List<ProductDetails> products = [];
+      Stream<List<PurchaseDetails>> purchaseStream =
+          inAppPurchase.purchaseStream;
+      final Set<String> kIds = {
+        'connect100',
+        'connect50',
+        'connect10',
+      };
+      final bool available = await inAppPurchase.isAvailable();
+      if (!available) {
+        print("Store not available");
+        return;
+      }
+
+      ProductDetailsResponse response =
+          await inAppPurchase.queryProductDetails(kIds);
+      products = response.productDetails;
+      showPurchaseDialog(Get.context!, products);
+      print("Store available");
+      print(products.length);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  void listenToPurchases() {
+    final InAppPurchase inAppPurchase = InAppPurchase.instance;
+
+    inAppPurchase.purchaseStream.listen((purchases) {
+      for (var purchase in purchases) {
+        if (purchase.status == PurchaseStatus.purchased) {
+          print("✅ Purchase Success: ${purchase.productID}");
+
+          // TODO: give user coins here
+        } else if (purchase.status == PurchaseStatus.error) {
+          print("❌ Purchase Error");
+        } else if (purchase.status == PurchaseStatus.pending) {
+          print("⏳ Pending...");
+        }
+
+        // IMPORTANT: complete purchase
+        if (purchase.pendingCompletePurchase) {
+          inAppPurchase.completePurchase(purchase);
+        }
+      }
+    });
+  }
+
+  void showPurchaseDialog(BuildContext context, List<ProductDetails> products) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return PurchaseDialog(products: products);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +303,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
       }
     } else if (index == 2) {
       controller.currentIndex.value = index;
-      controller.unreadMessagesCount.value = 0;
+      // controller.unreadMessagesCount.value = 0;
       if (Get.isRegistered<AllChatsContoller>()) {
         if (!Get.find<AllChatsContoller>().isLoading.value) {
           Get.find<AllChatsContoller>().refreshData();
@@ -431,6 +494,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                             .width,
                                         child: ElevatedButton(
                                           onPressed: () {
+                                            // manageinnAppPurchase();
                                             Constants.fromWhere =
                                                 "SelectServiceScreen";
                                             Get.toNamed(AppLinks.login_screen);
@@ -690,6 +754,106 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
               ),
             ],
           );
+  }
+}
+
+class PurchaseDialog extends StatefulWidget {
+  final List<ProductDetails> products;
+
+  const PurchaseDialog({super.key, required this.products});
+
+  @override
+  State<PurchaseDialog> createState() => _PurchaseDialogState();
+}
+
+class _PurchaseDialogState extends State<PurchaseDialog> {
+  bool isLoading = false;
+
+  void buyProduct(ProductDetails product) async {
+    setState(() => isLoading = true);
+
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
+
+    await InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
+
+    setState(() => isLoading = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            /// Title
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Buy Coins",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                )
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            /// List of Products
+            widget.products.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text("No products available"),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.products.length,
+                    itemBuilder: (context, index) {
+                      final product = widget.products[index];
+
+                      return Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          leading: const Icon(Icons.monetization_on,
+                              color: Colors.orange),
+                          title: Text(product.title),
+                          subtitle: Text(product.description),
+                          trailing: isLoading
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                )
+                              : Text(
+                                  product.price,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                          onTap: isLoading ? null : () => buyProduct(product),
+                        ),
+                      );
+                    },
+                  ),
+
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -1697,7 +1861,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                           child: ElevatedButton(
                             onPressed: () async {
                               try {
-                                LogoutUser();
+                                logoutUser();
                               } catch (e) {
                                 throw Exception(e);
                               }
@@ -1863,7 +2027,7 @@ class _ProfileSectionState extends State<ProfileSection> {
     }
   }
 
-  void LogoutUser() async {
+  void logoutUser() async {
     _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('isLogin', "loggedOut");
     Get.offAllNamed(AppLinks.select_service_screen);

@@ -46,7 +46,7 @@ class LoginContoller extends GetxController {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('token')) {
-              String tokenString = dataObj['token']; // Convert to JSON string
+              String tokenString = dataObj['token'];
               await _prefs.setString('token', tokenString);
             }
             if (dataObj.keys.contains('user')) {
@@ -56,8 +56,8 @@ class LoginContoller extends GetxController {
                   // Get.to(const SelectServiceScreen());
                   return "otherUser";
                 } else {
-                  await fCMSaveToken();
                   await saveUserInfo(dataObj['user']);
+                  await fCMSaveToken();
                   Fluttertoast.showToast(msg: msg);
                   return "done";
                 }
@@ -202,12 +202,7 @@ class LoginContoller extends GetxController {
         try {
           Commons.hideProgressDialog();
           if (Constants.fromWhere == "JobPostCompletedScreen") {
-            Get.to(
-              const JobPostCompletedScreen(),
-              transition: Transition.rightToLeft, // Left-to-right animation
-              duration: const Duration(
-                  milliseconds: 500), // Optional: animation duration
-            );
+            Get.offAllNamed(AppLinks.job_post_completed_screen);
           } else {
             Get.offAllNamed(AppLinks.select_service_screen);
           }

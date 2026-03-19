@@ -37,7 +37,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 12.0, top: 4.0),
+                          padding: const EdgeInsets.all(12),
                           child: HeadingTextW600(
                               text: Strings.notifications(context),
                               centerAlign: false,
@@ -245,88 +245,107 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Widget _buildNotificationView(NotificationModel notification, int index) {
-    return Column(
-      children: [
-        Row(
+    return GestureDetector(
+      onTap: () async {
+        try {
+          print(notification.actionText ?? "null");
+          if (notification.actionText == "View Job") {
+            int jobPostingId = notification.jobPostingId == null
+                ? -1
+                : int.parse(notification.jobPostingId!);
+            Get.toNamed(AppLinks.orders_details_screen,
+                arguments: {'jobId': jobPostingId});
+          }
+        } catch (e) {
+          throw Exception(e);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Column(
           children: [
-            Expanded(
-              flex: 2, // 20%
-              child: Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    try {
-                      if (notification.id != null) {
-                        if (!notification.isRead!) {
-                          Commons.showProgressDialog(context);
-                          await controller.pleaseMarkAsRead(
-                              context, notification.id!);
-                          Commons.hideProgressDialog();
-                          notification.isRead = true;
+            Row(
+              children: [
+                Expanded(
+                  flex: 2, // 20%
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: () async {
+                        try {
+                          if (notification.id != null) {
+                            if (!notification.isRead!) {
+                              Commons.showProgressDialog(context);
+                              await controller.pleaseMarkAsRead(
+                                  context, notification.id!);
+                              Commons.hideProgressDialog();
+                              notification.isRead = true;
+                            }
+                          }
+                        } catch (e) {
+                          throw Exception(e);
                         }
-                      }
-                    } catch (e) {
-                      throw Exception(e);
-                    }
-                  },
-                  child: Center(
-                      child:
-                          SvgPicture.asset("lib/assets/icons/unreadIcon.svg")),
+                      },
+                      child: Center(
+                          child: SvgPicture.asset(
+                              "lib/assets/icons/unreadIcon.svg")),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 6, // 60%
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 4.0, right: 4.0, bottom: 3.0),
-                    child: Text(notification.title!,
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Poppins')),
+                Expanded(
+                  flex: 6, // 60%
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 4.0, right: 4.0, bottom: 3.0),
+                        child: Text(notification.title!,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Poppins')),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                        child: Text(notification.body!,
+                            textAlign: TextAlign.start,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins')),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: Text(notification.body!,
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins')),
-                  ),
-                ],
+                ),
+                Expanded(
+                  flex: 2, // 20%
+                  child: Center(
+                      child: Headingdescription(
+                          text: notification.humanReadableCreatedAt!,
+                          centerAlign: true,
+                          size: 12)),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                color: const Color(MyColors.grayColor),
+                height: 1,
               ),
-            ),
-            Expanded(
-              flex: 2, // 20%
-              child: Center(
-                  child: Headingdescription(
-                      text: notification.humanReadableCreatedAt!,
-                      centerAlign: true,
-                      size: 12)),
-            ),
+            )
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Container(
-            color: const Color(MyColors.grayColor),
-            height: 1,
-          ),
-        )
-      ],
+      ),
     );
   }
 }

@@ -228,6 +228,7 @@ class _AllChatsState extends State<AllChats> {
                 // Constants.unReadcount.value -= chat.unreadCount.value;
               }
               chat.unreadCount.value = 0;
+              // Constants.unReadcount.value -= chat.unreadCount.value;
               Commons.showProgressDialog(Get.context!);
               print("Updated jobStatus: ${chat.jobStatus}");
               controller.updateChatObject(chat.id!, index);
@@ -239,6 +240,7 @@ class _AllChatsState extends State<AllChats> {
                 // Constants.unReadcount.value -= chat.unreadCount.value;
               }
               chat.unreadCount.value = 0;
+              // Constants.unReadcount.value -= chat.unreadCount.value;
               // getTradesmenList();
             }
             // if (result == "update") {

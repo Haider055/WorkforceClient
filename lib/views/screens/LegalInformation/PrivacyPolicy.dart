@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:workforceclientapp/Controllers/NotificationsContoller.dart';
-import 'package:workforceclientapp/Models/NotificationPreference.dart';
-import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
-import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 

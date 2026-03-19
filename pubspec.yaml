@@ -1,10 +1,11 @@
 name: workforceclientapp
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 1.1.0+2
 
 environment:
   sdk: ^3.5.3
+  
 
 dependencies:
   flutter:
@@ -40,6 +41,7 @@ dependencies:
   firebase_messaging: ^14.7.10
   device_info_plus: ^10.1.0
   sqflite: ^2.4.2
+  in_app_purchase: ^3.2.3
 
 dependency_overrides:
   http: ^0.13.0
@@ -48,6 +50,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "lib/assets/icons/app_Icon.png"
+  remove_alpha_ios: true
 
 dev_dependencies:
   flutter_test:

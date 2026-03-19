@@ -54,6 +54,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       locale: localeProvider.locale, // or dynamically loaded
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
