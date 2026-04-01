@@ -18,7 +18,7 @@ class PasswordUpdatedScreen extends GetView<PasswordUpdatedController> {
         if (Platform.isAndroid) {
           Get.offAllNamed(AppLinks.login_screen);
         } else if (Platform.isIOS) {
-          Get.offNamed(AppLinks.login_screen);
+          Get.offAllNamed(AppLinks.login_screen);
         }
         return false;
       },

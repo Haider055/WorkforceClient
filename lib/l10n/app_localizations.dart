@@ -752,6 +752,12 @@ abstract class AppLocalizations {
   /// **'Order Detail'**
   String get orderDetailText;
 
+  /// No description provided for @searchYourLocationText.
+  ///
+  /// In en, this message translates to:
+  /// **'Search your location'**
+  String get searchYourLocationText;
+
   /// No description provided for @pleaseVerifyYourEmailText.
   ///
   /// In en, this message translates to:
@@ -775,6 +781,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photos Not Found'**
   String get photosNotFoundText;
+
+  /// No description provided for @sendARequestText.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a request'**
+  String get sendARequestText;
 
   /// No description provided for @noPhotosWereUploadText.
   ///

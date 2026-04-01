@@ -1218,7 +1218,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                 controller.getRemainingTrademenRequests(
                                     int.parse(controller.postedJobDetail
                                         .tradespersonRequestsCount!.value));
-                            Get.offNamed(
+                            Get.toNamed(
                               AppLinks.job_recommendations,
                               arguments: {
                                 'jobId': controller.postedJobDetail.id,

@@ -338,6 +338,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get orderDetailText => 'Bestelldetails';
 
   @override
+  String get searchYourLocationText => 'Suchen Sie Ihren Standort';
+
+  @override
   String get pleaseVerifyYourEmailText => 'Bitte bestätigen Sie Ihre E-Mail';
 
   @override
@@ -348,6 +351,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get photosNotFoundText => 'Fotos nicht gefunden';
+
+  @override
+  String get sendARequestText => 'eine Anfrage senden';
 
   @override
   String get noPhotosWereUploadText => 'Keine Fotos wurden hochgeladen!';

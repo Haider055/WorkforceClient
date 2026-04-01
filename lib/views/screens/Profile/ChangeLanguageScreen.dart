@@ -72,89 +72,87 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               child: Card(
                 elevation: 0,
                 color: const Color(MyColors.cardGrayColor100),
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, top: 12),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: HeadingTextW500(
-                              text: Strings.selectLanguageText(context),
-                              centerAlign: false,
-                              size: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 12),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: HeadingTextW500(
+                            text: Strings.selectLanguageText(context),
+                            centerAlign: false,
+                            size: 16),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16.0, right: 16.0, top: 8.0),
+                      child: Card(
+                        elevation: 0,
+                        color: selectedLang == 'en'
+                            ? Colors.red.shade50
+                            : const Color(MyColors.whiteColor),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          side: BorderSide(
+                            color: selectedLang == 'en'
+                                ? const Color(MyColors.themeRedColor)
+                                : const Color(MyColors.darkGrayColor),
+                          ),
+                        ),
+                        child: RadioListTile(
+                          title: const Headingdescription(
+                              text: 'English', centerAlign: false, size: 14),
+                          value: 'en',
+                          groupValue: selectedLang,
+                          selected: selectedLang == 'en' ? true : false,
+                          activeColor: const Color(MyColors.themeRedColor),
+                          tileColor: Colors.white,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedLang = 'en';
+                              setLanguage();
+                            });
+                          },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 16.0, top: 8.0),
-                        child: Card(
-                          elevation: 0,
-                          color: selectedLang == 'en'
-                              ? Colors.red.shade50
-                              : const Color(MyColors.whiteColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide(
-                              color: selectedLang == 'en'
-                                  ? const Color(MyColors.themeRedColor)
-                                  : const Color(MyColors.darkGrayColor),
-                            ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16.0, right: 16.0, top: 5.0, bottom: 8.0),
+                      child: Card(
+                        elevation: 0,
+                        color: selectedLang == 'de'
+                            ? Colors.red.shade50
+                            : const Color(MyColors.whiteColor),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          side: BorderSide(
+                            color: selectedLang == 'de'
+                                ? const Color(MyColors.themeRedColor)
+                                : const Color(MyColors.darkGrayColor),
                           ),
-                          child: RadioListTile(
-                            title: const Headingdescription(
-                                text: 'English', centerAlign: false, size: 14),
-                            value: 'en',
-                            groupValue: selectedLang,
-                            selected: selectedLang == 'en' ? true : false,
-                            activeColor: const Color(MyColors.themeRedColor),
-                            tileColor: Colors.white,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedLang = 'en';
-                                setLanguage();
-                              });
-                            },
-                          ),
+                        ),
+                        child: RadioListTile(
+                          title: const Headingdescription(
+                              text: 'German', centerAlign: false, size: 14),
+                          value: 'de',
+                          groupValue: selectedLang,
+                          selected: selectedLang == 'de' ? true : false,
+                          activeColor: const Color(MyColors.themeRedColor),
+                          tileColor: Colors.white,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedLang = 'de';
+                              setLanguage();
+                            });
+                          },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 16.0, top: 5.0, bottom: 8.0),
-                        child: Card(
-                          elevation: 0,
-                          color: selectedLang == 'de'
-                              ? Colors.red.shade50
-                              : const Color(MyColors.whiteColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide(
-                              color: selectedLang == 'de'
-                                  ? const Color(MyColors.themeRedColor)
-                                  : const Color(MyColors.darkGrayColor),
-                            ),
-                          ),
-                          child: RadioListTile(
-                            title: const Headingdescription(
-                                text: 'German', centerAlign: false, size: 14),
-                            value: 'de',
-                            groupValue: selectedLang,
-                            selected: selectedLang == 'de' ? true : false,
-                            activeColor: const Color(MyColors.themeRedColor),
-                            tileColor: Colors.white,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedLang = 'de';
-                                setLanguage();
-                              });
-                            },
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             )

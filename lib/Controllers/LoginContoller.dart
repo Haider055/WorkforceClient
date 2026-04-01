@@ -12,7 +12,6 @@ import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
-import 'package:workforceclientapp/views/screens/ClientJobPosting/JobPostCompletedScreen.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 

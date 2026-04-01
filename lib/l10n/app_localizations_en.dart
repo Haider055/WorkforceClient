@@ -337,6 +337,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get orderDetailText => 'Order Detail';
 
   @override
+  String get searchYourLocationText => 'Search your location';
+
+  @override
   String get pleaseVerifyYourEmailText => 'Please verify your Email';
 
   @override
@@ -347,6 +350,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photosNotFoundText => 'Photos Not Found';
+
+  @override
+  String get sendARequestText => 'Send a request';
 
   @override
   String get noPhotosWereUploadText => 'No Photos were Uploaded!';

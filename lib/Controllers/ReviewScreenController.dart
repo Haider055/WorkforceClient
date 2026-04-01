@@ -19,8 +19,8 @@ class ReviewScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    jobPostingId = data['jobPostingId'];
-    tradesmenId = data['tradesmenId'];
+    jobPostingId.value = data['jobPostingId'];
+    tradesmenId.value = data['tradesmenId'];
   }
 
   Future<bool> pleaseSubmitReview(BuildContext context, String review,

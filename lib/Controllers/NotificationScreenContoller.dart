@@ -63,6 +63,16 @@ class NotificationScreenContoller extends GetxController {
           notiList.addAll(notificationList!.notificationsList!);
           print("lenght");
           print(notiList.length);
+          // update count
+          Constants.unreadNotificationsCount.value = 0;
+          for (var i = 0;
+              i < notificationList!.notificationsList!.length;
+              i++) {
+            if (!notificationList!.notificationsList![i].isRead.value) {
+              Constants.unreadNotificationsCount.value++;
+            }
+          }
+          //***
           if (notificationList!.pagination != null) {}
           isLoadingMore.value = false;
           isLoading.value = false;
@@ -135,6 +145,10 @@ class NotificationScreenContoller extends GetxController {
         if (jsonData['success']) {
           if (jsonData['message'] == "All notifications marked as read") {
             Fluttertoast.showToast(msg: "All notifications marked as read");
+            Constants.unreadNotificationsCount.value = 0;
+            for (var i = 0; i < notiList.length; i++) {
+              notiList[i].isRead.value = true;
+            }
             return true;
           }
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
@@ -164,6 +178,7 @@ class NotificationScreenContoller extends GetxController {
       if (response.statusCode == 200) {
         if (jsonData['success']) {
           Fluttertoast.showToast(msg: "Notifications marked as read");
+          Constants.unreadNotificationsCount.value--;
           return true;
           // if (jsonData['message'] == "All notifications marked as read") {
           //   Fluttertoast.showToast(msg: "All notifications marked as read");

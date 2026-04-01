@@ -164,7 +164,8 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                     googleAPIKey:
                                         "AIzaSyBZz4unF-wEdjkLUM6jOI8TSKu8E-CisnM",
                                     inputDecoration: InputDecoration(
-                                      hintText: "Search your location",
+                                      hintText: Strings.searchYourLocationText(
+                                          context),
                                       border: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                             color:

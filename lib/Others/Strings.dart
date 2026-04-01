@@ -435,6 +435,10 @@ class Strings {
 
   static String tradesmenJobRequestMessageText(BuildContext context) =>
       AppLocalizations.of(context)!.tradesmenJobrequestMessageText;
+  static String searchYourLocationText(BuildContext context) =>
+      AppLocalizations.of(context)!.searchYourLocationText;
+  static String sendARequestText(BuildContext context) =>
+      AppLocalizations.of(context)!.sendARequestText;
 
   static String deleteAccountDescText(BuildContext context) =>
       AppLocalizations.of(context)!.deleteAccountDescText;

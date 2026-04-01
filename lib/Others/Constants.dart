@@ -38,6 +38,7 @@ class Constants {
   static String emailToVerify = "";
   static int remainingRequestsCount = 6;
   static RxInt unReadcount = 0.obs;
+  static RxInt unreadNotificationsCount = 0.obs;
 
   static int lastPostedJobId = 0;
   static late final SimpleFlutterReverb reverb;

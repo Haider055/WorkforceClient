@@ -38,10 +38,12 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
     return WillPopScope(
       onWillPop: () async {
         if (Platform.isAndroid) {
-          Get.offAllNamed(AppLinks.login_screen);
+          Get.back();
+          return true;
           // Closes the app in Android
         } else if (Platform.isIOS) {
-          Get.offAllNamed(AppLinks.login_screen);
+          Get.back();
+          return true;
         }
         return false;
       },
@@ -274,8 +276,8 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                                   500), // Optional: animation duration
                                         );
                                       } else {
-                                        Get.offAllNamed(
-                                            AppLinks.select_service_screen);
+                                        // Get.offAllNamed(
+                                        //     AppLinks.select_service_screen);
                                       }
                                     } catch (e) {
                                       e.printError();
@@ -290,7 +292,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                           msg: "You can now login!");
                                       Get.offAllNamed(AppLinks.login_screen);
                                     } else {
-                                      Get.offAllNamed(
+                                      Get.toNamed(
                                           AppLinks.create_new_password_screen,
                                           arguments: {
                                             "email": controller.email.value

@@ -11,6 +11,7 @@ import 'package:simple_flutter_reverb/simple_flutter_reverb.dart';
 import 'package:simple_flutter_reverb/simple_flutter_reverb_options.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
 import 'package:workforceclientapp/Controllers/LoginContoller.dart';
+import 'package:workforceclientapp/Controllers/NotificationScreenContoller.dart';
 import 'package:workforceclientapp/Models/CheckBoxQuestion.dart';
 import 'package:workforceclientapp/Models/Message.dart';
 import 'package:workforceclientapp/Models/QuestionOption.dart';
@@ -59,6 +60,7 @@ class SelectServiceController extends GetxController {
 
   void init() async {
     await getAllOptionsOfServices();
+    await getNotificationsCount();
     await manageFirebaseThings(Get.context!);
     await checkIsLoggedIn();
     AllChatsContoller controller = Get.put(AllChatsContoller());
@@ -150,6 +152,21 @@ class SelectServiceController extends GetxController {
 
   Future<void> getAllOptionsOfServices() async {
     allListOptions.value = await pleaseGetAllServices();
+  }
+
+  Future<void> getNotificationsCount() async {
+    Get.put(NotificationScreenContoller());
+    // NotificationList? notificationList = await notificationScreenContoller
+    //     .getAllNotificationList(Get.context!, "");
+    // if (notificationList != null) {
+    //   for (var i = 0; i < notificationList.notificationsList!.length; i++) {
+    //     if (!notificationList.notificationsList![i].isRead.value) {
+    //       Constants.unreadNotificationsCount.value++;
+    //     }
+    //   }
+    //   // unreadNotificationsCount.value =
+    //   //     notificationList.notificationsList!.length;
+    // }
   }
 
   Future<List<Services>> pleaseGetServices(String query) async {

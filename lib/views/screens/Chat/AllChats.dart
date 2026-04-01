@@ -55,13 +55,15 @@ class _AllChatsState extends State<AllChats> {
                             child: Column(
                               children: [
                                 controller.list.isNotEmpty
-                                    ? ListView.builder(
-                                        itemCount: controller.list.length,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          return _buildChatView(
-                                              controller.list[index], index);
-                                        },
+                                    ? Expanded(
+                                        child: ListView.builder(
+                                          itemCount: controller.list.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            return _buildChatView(
+                                                controller.list[index], index);
+                                          },
+                                        ),
                                       )
                                     : _buildNoChatsView(),
                                 controller.totalChats > controller.list.length

@@ -156,7 +156,6 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                       bottom: BorderSide(
                                           color: Color.fromARGB(
                                               147, 203, 203, 203),
-                                          strokeAlign: 2.0,
                                           style: BorderStyle.solid)),
                                   child: Center(
                                     child: HeadingTextW600(
@@ -246,11 +245,42 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                 //     label: Strings.chatText(context),
                 //     backgroundColor: Color(MyColors.whiteColor)),
                 BottomNavigationBarItem(
-                    icon: controller.currentIndex.value == 3
-                        ? SvgPicture.asset(
-                            "lib/assets/icons/notificationRedIcon.svg")
-                        : SvgPicture.asset(
-                            "lib/assets/icons/bellblackIcon.svg"),
+                    icon: Obx(() {
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          controller.currentIndex.value == 3
+                              ? SvgPicture.asset(
+                                  "lib/assets/icons/notificationRedIcon.svg")
+                              : SvgPicture.asset(
+                                  "lib/assets/icons/bellblackIcon.svg"),
+                          if (Constants.unreadNotificationsCount.value > 0)
+                            Positioned(
+                              right: -6,
+                              top: -4,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: Text(
+                                  '${Constants.unreadNotificationsCount.value}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    }),
                     label: Strings.notification(context),
                     backgroundColor: const Color(MyColors.whiteColor)),
                 BottomNavigationBarItem(
@@ -1552,12 +1582,13 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                             child: Obx(() {
                               return RichText(
                                 text: TextSpan(
-                                  text: '', // default style
+                                  text: '',
                                   style: const TextStyle(
                                       color: Colors.black, fontSize: 13),
                                   children: <TextSpan>[
-                                    const TextSpan(
-                                      text: 'Send a request ',
+                                    TextSpan(
+                                      text:
+                                          '${Strings.sendARequestText(context)} ',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 13,

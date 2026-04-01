@@ -21,14 +21,14 @@ class LoginScreen extends GetView<LoginContoller> {
       onWillPop: () async {
         if (FocusScope.of(context).hasFocus) {
           FocusScope.of(context).unfocus(); // Close keyboard
-          return false; // DO NOT pop screen
+          return true;
         }
         if (Constants.fromWhere == "SelectServiceScreen") {
           Get.offAllNamed(AppLinks.select_service_screen);
         } else {
           Get.back();
         }
-        return false;
+        return true;
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -102,7 +102,7 @@ class LoginScreen extends GetView<LoginContoller> {
                     padding: const EdgeInsets.only(right: 22.0, top: 8.0),
                     child: GestureDetector(
                       onTap: () {
-                        Get.offAllNamed(AppLinks.forgot_password_screen);
+                        Get.toNamed(AppLinks.forgot_password_screen);
                       },
                       child: Align(
                         alignment: Alignment.topRight,

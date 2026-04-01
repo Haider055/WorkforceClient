@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class NotificationModel {
   String? id;
   String? type;
@@ -12,23 +14,26 @@ class NotificationModel {
   String? readAt;
   String? createdAt;
   String? humanReadableCreatedAt;
-  bool? isRead = false;
+  RxBool isRead = false.obs;
 
-  NotificationModel(
-      {this.id,
-      this.type,
-      this.title,
-      this.body,
-      this.jobPostingId,
-      this.serviceName,
-      this.location,
-      this.dataCreatedAt,
-      this.actionUrl,
-      this.actionText,
-      this.readAt,
-      this.createdAt,
-      this.humanReadableCreatedAt,
-      this.isRead});
+  NotificationModel({
+    this.id,
+    this.type,
+    this.title,
+    this.body,
+    this.jobPostingId,
+    this.serviceName,
+    this.location,
+    this.dataCreatedAt,
+    this.actionUrl,
+    this.actionText,
+    this.readAt,
+    this.createdAt,
+    this.humanReadableCreatedAt,
+    bool isRead = false, // ✅ normal bool here
+  }) {
+    this.isRead.value = isRead;
+  }
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'] ?? {};

@@ -37,6 +37,13 @@ class PostedOrderDetailsController extends GetxController {
   void onInit() {
     super.onInit();
     if (data['jobId'] != null) {
+      if (data['section'] != null && data['section'] == 'tradesmen') {
+        chatTabColor.value = MyColors.silverColor;
+        recommendedTabColor.value = MyColors.silverColor;
+        tradesmenTabColor.value = MyColors.themeRedColor;
+        orderDetailTabColor.value = MyColors.silverColor;
+        selectedTabName.value = "tradesmen";
+      }
       jobId.value = data['jobId'];
       if (jobId == -1) {
         Fluttertoast.showToast(msg: "Job Id not found!");
