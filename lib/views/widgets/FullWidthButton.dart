@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FullWidthButton extends StatelessWidget {
   final String text;
@@ -14,29 +15,33 @@ class FullWidthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 19.0, right: 19.0),
-          child: TextButton(
-            onPressed: onPressed,
-            style: ButtonStyle(
-                shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))),
-                padding: WidgetStateProperty.all(
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-                backgroundColor: WidgetStateProperty.all<Color>(Color(color))),
-            child: Padding(
-              padding: const EdgeInsets.all(1.5),
-              child: Text(
-                text,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500),
+      width: double.infinity,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 19.w),
+        child: TextButton(
+          onPressed: onPressed,
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Color(color)),
+            padding: WidgetStatePropertyAll(
+              EdgeInsets.symmetric(vertical: 14.h),
+            ),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
           ),
-        ));
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

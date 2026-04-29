@@ -82,19 +82,19 @@ class OTPVerificationController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['message'] == "Fee Already Paid") {
-          Get.snackbar("Fee Already Paid", "", colorText: Colors.white);
-          return "Fee Already Paid";
-        } else {
-          Get.snackbar("Fee Submitted Successfully", "",
-              colorText: Colors.white);
+        // if (jsonData['message'] == "Fee Already Paid") {
+        //   Get.snackbar("Fee Already Paid", "", colorText: Colors.white);
+        //   return "Fee Already Paid";
+        // } else {
+        //   Get.snackbar("Fee Submitted Successfully", "",
+        //       colorText: Colors.white);
 
-          return "Fee Submitted Successfully";
-        }
+        //   return "Fee Submitted Successfully";
+        // }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Get.snackbar("Failed", "Oops!, Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return "failed";
       }
 
@@ -180,15 +180,15 @@ class OTPVerificationController extends GetxController {
               return "done";
             } else {
               // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
-              return Strings.somethingWentWrong(context);
+              return Strings.somethingWentWrong(Get.context!);
             }
           } else {
             // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
-            return Strings.somethingWentWrong(context);
+            return Strings.somethingWentWrong(Get.context!);
           }
         } else {
           // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
-          return Strings.somethingWentWrong(context);
+          return Strings.somethingWentWrong(Get.context!);
         }
       } else {
         if (jsonData.keys.contains('errors')) {

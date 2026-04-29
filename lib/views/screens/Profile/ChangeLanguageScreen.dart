@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
@@ -46,15 +47,15 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                       child: HeadingTextW600(
                     text: Strings.changeLanguageText(context),
                     centerAlign: false,
-                    size: 16.0,
+                    size: 16.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
                       Get.back();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 12.0),
-                      child: Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12.0.w),
+                      child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(Icons.arrow_back_ios)),
                     ),
@@ -68,7 +69,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0.r),
               child: Card(
                 elevation: 0,
                 color: const Color(MyColors.cardGrayColor100),
@@ -77,25 +78,25 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 12),
+                      padding: EdgeInsets.only(left: 20.0.w, top: 12.h),
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: HeadingTextW500(
                             text: Strings.selectLanguageText(context),
                             centerAlign: false,
-                            size: 16),
+                            size: 16.sp),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 16.0.w, right: 16.0.w, top: 8.0.h),
                       child: Card(
                         elevation: 0,
                         color: selectedLang == 'en'
                             ? Colors.red.shade50
                             : const Color(MyColors.whiteColor),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8.0.r),
                           side: BorderSide(
                             color: selectedLang == 'en'
                                 ? const Color(MyColors.themeRedColor)
@@ -103,8 +104,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                           ),
                         ),
                         child: RadioListTile(
-                          title: const Headingdescription(
-                              text: 'English', centerAlign: false, size: 14),
+                          title: Headingdescription(
+                              text: 'English', centerAlign: false, size: 14.sp),
                           value: 'en',
                           groupValue: selectedLang,
                           selected: selectedLang == 'en' ? true : false,
@@ -120,15 +121,18 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 5.0, bottom: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 16.0.w,
+                          right: 16.0.w,
+                          top: 5.0.h,
+                          bottom: 8.0.h),
                       child: Card(
                         elevation: 0,
                         color: selectedLang == 'de'
                             ? Colors.red.shade50
                             : const Color(MyColors.whiteColor),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8.0.r),
                           side: BorderSide(
                             color: selectedLang == 'de'
                                 ? const Color(MyColors.themeRedColor)
@@ -136,8 +140,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                           ),
                         ),
                         child: RadioListTile(
-                          title: const Headingdescription(
-                              text: 'German', centerAlign: false, size: 14),
+                          title: Headingdescription(
+                              text: 'German', centerAlign: false, size: 14.sp),
                           value: 'de',
                           groupValue: selectedLang,
                           selected: selectedLang == 'de' ? true : false,

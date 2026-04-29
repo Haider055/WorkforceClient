@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/EndtheOrderController.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
@@ -28,7 +29,7 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width..w,
           leading: Card(
             color: const Color(MyColors.appbackgroundColor),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -45,15 +46,15 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                       child: HeadingTextW600(
                     text: Strings.assignment(context),
                     centerAlign: false,
-                    size: 19.0,
+                    size: 19.0.sp,
                   )),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10.0),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.0.w),
                     child: Align(
                         alignment: Alignment.centerLeft,
                         child: Icon(
                           Icons.arrow_back_ios_new,
-                          size: 20,
+                          size: 20.sp,
                         )),
                   )
                 ],
@@ -67,32 +68,32 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.only(top: 12.0, left: 25),
+                padding: EdgeInsets.only(top: 12.0.h, left: 25.0.w),
                 child: HeadingTextW600(
                     text: Strings.endingOrderPageHead(context),
                     centerAlign: false,
-                    size: 18.0),
+                    size: 18.0.sp),
               ),
             ),
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 25.0, top: 15.0),
+                padding: EdgeInsets.only(left: 25.0.w, top: 15.0.h),
                 child: HeadingTextW500(
                     text: Strings.endingOrderPageDesc(context),
                     centerAlign: false,
-                    size: 14.0),
+                    size: 14.0.sp),
               ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0.r),
                 child: ListView.builder(
                   itemCount: controller.reasons.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12.0, right: 12.0, top: 5.0),
+                      padding: EdgeInsets.only(
+                          left: 12.0.w, right: 12.0.w, top: 5.0.h),
                       child: Obx(() {
                         return Card(
                           elevation: 0,
@@ -101,7 +102,7 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                               ? Colors.red.shade50
                               : const Color(MyColors.whiteColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(8.0.r),
                             side: BorderSide(
                               color: controller.selectedReason.value ==
                                       controller.reasons[index]
@@ -113,7 +114,7 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                             title: Headingdescription(
                                 text: controller.reasons[index],
                                 centerAlign: false,
-                                size: 14),
+                                size: 14.sp),
                             value: controller.reasons[index],
                             groupValue: controller.selectedReason.value,
                             activeColor: const Color(MyColors.themeRedColor),
@@ -132,10 +133,10 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 12.0),
+                  EdgeInsets.only(left: 25.0.w, right: 25.0.w, bottom: 12.0.h),
               child: FullWidthButtonPrimary(
                   text: Strings.continueText(context),
-                  fontsize: 15.0,
+                  fontsize: 15.0.sp,
                   color: MyColors.themeRedColor,
                   onPressed: () {
                     if (controller.selectedReason.value.isNotEmpty) {

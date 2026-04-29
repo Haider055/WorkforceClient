@@ -38,19 +38,23 @@ class UploadJobImagesController extends GetxController {
     // if (validFiles.isEmpty) return;
 
     if (validFiles.length < pickedFiles.length) {
-      Fluttertoast.showToast(msg: "Files more than 2MB are Skipped");
+      Fluttertoast.showToast(
+          msg: Strings.filesLargerThan2MBSkipped(Get.context!));
     }
 
     int availableSlots = maxFiles - selectedImages.length;
 
     if (availableSlots <= 0) {
-      Fluttertoast.showToast(msg: "You can only upload up to $maxFiles images");
+      Fluttertoast.showToast(
+          msg:
+              " ${Strings.youCanOnlyUploadUpTo(Get.context!)} $maxFiles ${Strings.ximages(Get.context!)}");
       return;
     }
 
     if (validFiles.length > availableSlots) {
       Fluttertoast.showToast(
-          msg: "Only $availableSlots images can be added more.");
+          msg:
+              "${Strings.onlyInfoText(Get.context!)} $availableSlots ${Strings.imagesCanBeAddMoreText(Get.context!)}");
     }
 
     List<File> newImages =

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/NewMessageController.dart';
-import 'package:workforceclientapp/views/screens/ClientJobPosting/JobTitleScreen.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
+import 'package:workforceclientapp/Others/routes.dart';
 
 class SelectServiceController extends GetxController {
   final searchController = TextEditingController().obs;
@@ -87,9 +89,15 @@ class SelectServiceController extends GetxController {
       print("New unread added: $value");
       if (isLoggedIn != "loggedOut") {
         unreadMessagesCount.value = value;
+        playSound();
       }
       updateUnredMessagesCount(value);
     });
+  }
+
+  final player = AudioPlayer();
+  Future<void> playSound() async {
+    await player.play(AssetSource('mp3/comingmessagetune.mp3'));
   }
 
   Future<String?> getDeviceId() async {
@@ -183,7 +191,7 @@ class SelectServiceController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('services')) {
@@ -196,13 +204,13 @@ class SelectServiceController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } catch (e) {
@@ -225,7 +233,7 @@ class SelectServiceController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('services')) {
@@ -238,13 +246,13 @@ class SelectServiceController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } catch (e) {
@@ -272,7 +280,7 @@ class SelectServiceController extends GetxController {
         Constants.selectedServiceId = id;
         Constants.selectedServiceName = name;
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('questions')) {
@@ -334,15 +342,13 @@ class SelectServiceController extends GetxController {
             Constants.jobPostingAddress = "";
             searchController.value.text = "";
             Commons.hideProgressDialog();
-            Get.to(
-              const JobTitleScreen(),
-              transition: Transition.rightToLeft, // Left-to-right animation
-              duration: const Duration(
-                  milliseconds: 500), // Optional: animation duration
-            );
+            Get.toNamed(AppLinks.job_title_screen);
             return "";
           } else {
-            Fluttertoast.showToast(msg: "Job Questions not found!");
+            Constants.jobPostingSteps = 4;
+            Constants.currentJobPostingStep = 1;
+            Commons.hideProgressDialog();
+            Get.toNamed(AppLinks.job_title_screen);
             return "error";
           }
         } else {
@@ -390,7 +396,7 @@ class SelectServiceController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('unread_count')) {
@@ -400,13 +406,13 @@ class SelectServiceController extends GetxController {
 
           return count;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return count;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return count;
       }
     } catch (e) {
@@ -424,9 +430,10 @@ class SelectServiceController extends GetxController {
           .toList();
       allOptions = filteredOptions;
     } else {
-      showServicesSuggestions.value = false;
-      filteredOptions.clear();
-      allOptions = filteredOptions;
+      showServicesSuggestions.value = true;
+      filteredOptions = allOptions;
+      // filteredOptions.clear();
+      // allOptions = filteredOptions;
     }
   }
 

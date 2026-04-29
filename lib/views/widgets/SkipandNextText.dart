@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Skipandnexttext extends StatelessWidget {
   final String text;
@@ -8,11 +9,11 @@ class Skipandnexttext extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0.r),
         child: Text(text,
-            style: const TextStyle(
+            style: TextStyle(
                 color: Colors.black,
-                fontSize: 16.0,
+                fontSize: 16.0.sp,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins')),
       ),

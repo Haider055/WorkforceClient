@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FullWidthElevatedButton extends StatelessWidget {
   final String text;
@@ -23,13 +24,14 @@ class FullWidthElevatedButton extends StatelessWidget {
           elevation: 0,
           backgroundColor: Color(color), // Button color
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8), // Optional rounded corners
+            borderRadius:
+                BorderRadius.circular(8.r), // Optional rounded corners
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 14, // Adjust font size to fit inside
+            fontSize: 14.sp, // Adjust font size to fit inside
             color: Color(textColor), // Text color
             fontWeight: FontWeight.bold,
           ),

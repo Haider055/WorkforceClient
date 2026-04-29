@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/ProfileController.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
@@ -16,7 +17,7 @@ class DeleteAccountScreen extends GetView<ProfileController> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
             color: const Color(MyColors.whiteColor),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -32,15 +33,15 @@ class DeleteAccountScreen extends GetView<ProfileController> {
                       child: HeadingTextW600(
                     text: Strings.deleteAccount(context),
                     centerAlign: false,
-                    size: 16.0,
+                    size: 16.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
                       Get.back();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 12.0),
-                      child: Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12.0.r),
+                      child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(Icons.arrow_back_ios)),
                     ),
@@ -54,22 +55,22 @@ class DeleteAccountScreen extends GetView<ProfileController> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0.r),
               child: Card(
                 elevation: 0,
                 color: const Color(MyColors.cardGrayColor100),
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.r),
                       child: HeadingTextW500(
                           text: Strings.deleteAccountDescText(context),
                           centerAlign: false,
                           size: 16),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16, top: 8, right: 16, bottom: 16),
+                      padding: EdgeInsets.only(
+                          left: 16.w, top: 8.h, right: 16.w, bottom: 16.h),
                       child: FullWidthElevatedButton(
                           text: Strings.deleteMyAccount(context),
                           color: MyColors.themeRedColor,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OptVerificationTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -17,9 +18,9 @@ class OptVerificationTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: EdgeInsets.all(4.0.r),
         child: SizedBox(
-          width: 45, // Set width for rectangular box
+          width: 45.w, // Set width for rectangular box
           child: TextField(
             controller: controller,
             focusNode: focusNode,
@@ -28,23 +29,23 @@ class OptVerificationTextField extends StatelessWidget {
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             maxLength: 1, // Allow only 1 digit
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500),
             decoration: InputDecoration(
               counterText: "", // Hide character counter
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0), // Rectangular shape
+                borderRadius: BorderRadius.circular(8.0.r), // Rectangular shape
                 borderSide:
-                    BorderSide(color: Color(outlineTextColor), width: 1),
+                    BorderSide(color: Color(outlineTextColor), width: 1.w),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(8.0.r),
                 borderSide:
-                    BorderSide(color: Color(outlineTextColor), width: 1),
+                    BorderSide(color: Color(outlineTextColor), width: 1.w),
               ),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(8.0.r),
                   borderSide:
-                      BorderSide(color: Color(outlineTextColor), width: 1)),
+                      BorderSide(color: Color(outlineTextColor), width: 1.w)),
             ),
             onChanged: callback,
           ),

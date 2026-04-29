@@ -1,5 +1,6 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           child: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              leadingWidth: MediaQuery.of(context).size.width,
+              leadingWidth: MediaQuery.of(context).size.width.w,
               leading: Card(
                 color: const Color(MyColors.appbackgroundColor),
                 shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -53,15 +54,15 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                           child: HeadingTextW600(
                         text: Strings.orderDetail(context),
                         centerAlign: false,
-                        size: 19.0,
+                        size: 19.0.sp,
                       )),
                       GestureDetector(
                         onTap: () {
                           Get.back();
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 12.0),
-                          child: Align(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 12.0.w),
+                          child: const Align(
                               alignment: Alignment.centerLeft,
                               child: Icon(Icons.arrow_back_ios)),
                         ),
@@ -78,7 +79,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     color:
                                         const Color(MyColors.cardBlueColor50),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
                                     onSelected: (value) {
                                       if (value == 0) {
@@ -103,10 +104,10 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                             SvgPicture.asset(
                                               "lib/assets/icons/cancelRedIcon.svg",
                                               fit: BoxFit.contain,
-                                              height: 18,
-                                              width: 18,
+                                              height: 18.h,
+                                              width: 18.w,
                                             ),
-                                            const SizedBox(width: 10),
+                                            SizedBox(width: 10.w),
                                             Text(Strings.removeJob(context),
                                                 style: const TextStyle(
                                                     color: Color(MyColors
@@ -133,7 +134,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 28.0, top: 12),
+                          padding: EdgeInsets.only(left: 28.0.w, top: 12.0.h),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -155,23 +156,23 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text("Order Detail",
+                                      Text(Strings.orderDetail(Get.context!),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               color: Color(controller
                                                   .orderDetailTabColor.value),
-                                              fontSize: 15,
+                                              fontSize: 15.sp,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: 'Poppins')),
-                                      const SizedBox(
-                                        height: 8,
+                                      SizedBox(
+                                        height: 8.h,
                                       ),
                                       controller.selectedTabName.value ==
                                               "orderDetail"
                                           ? Container(
-                                              width: 70, // Thin line
-                                              height:
-                                                  2, // Adjust height as needed
+                                              width: 70.w, // Thin line
+                                              height: 2
+                                                  .h, // Adjust height as needed
                                               color: Color(controller
                                                   .orderDetailTabColor
                                                   .value), // Red color
@@ -180,7 +181,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 25),
+                                SizedBox(width: 25.w),
                                 GestureDetector(
                                   onTap: () {
                                     controller.chatTabColor.value =
@@ -196,23 +197,23 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                   },
                                   child: Column(
                                     children: [
-                                      Text("Tradesmen",
+                                      Text(Strings.tradesman(Get.context!),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                               color: Color(controller
                                                   .tradesmenTabColor.value),
-                                              fontSize: 15,
+                                              fontSize: 15.sp,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: 'Poppins')),
-                                      const SizedBox(
-                                        height: 8,
+                                      SizedBox(
+                                        height: 8.h,
                                       ),
                                       controller.selectedTabName.value ==
                                               "tradesmen"
                                           ? Container(
-                                              width: 70, // Thin line
-                                              height:
-                                                  2, // Adjust height as needed
+                                              width: 70.w, // Thin line
+                                              height: 2
+                                                  .h, // Adjust height as needed
                                               color: Color(controller
                                                   .tradesmenTabColor
                                                   .value), // Red color
@@ -221,7 +222,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 25),
+                                SizedBox(width: 25.w),
                                 GestureDetector(
                                   onTap: () {
                                     controller.chatTabColor.value =
@@ -238,12 +239,12 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text("Chat",
+                                          Text(Strings.chatText(Get.context!),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: Color(controller
                                                       .chatTabColor.value),
-                                                  fontSize: 15,
+                                                  fontSize: 15.sp,
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: 'Poppins')),
                                           // Card(
@@ -261,13 +262,13 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                           // )
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 8,
+                                      SizedBox(
+                                        height: 8.h,
                                       ),
                                       controller.selectedTabName.value == "chat"
                                           ? Container(
-                                              width: 50,
-                                              height: 2,
+                                              width: 50.w,
+                                              height: 2.h,
                                               color: Color(controller
                                                   .chatTabColor.value),
                                             )
@@ -275,48 +276,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 25),
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.chatTabColor.value =
-                                        MyColors.silverColor;
-                                    controller.recommendedTabColor.value =
-                                        MyColors.themeRedColor;
-                                    controller.tradesmenTabColor.value =
-                                        MyColors.silverColor;
-                                    controller.orderDetailTabColor.value =
-                                        MyColors.silverColor;
-                                    controller.selectedTabName.value =
-                                        "recommended";
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Text("Recommended",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              color: Color(controller
-                                                  .recommendedTabColor.value),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'Poppins')),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      controller.selectedTabName.value ==
-                                              "recommended"
-                                          ? Container(
-                                              width: 100, // Thin line
-                                              height:
-                                                  2, // Adjust height as needed
-                                              color: Color(controller
-                                                  .recommendedTabColor
-                                                  .value), // Red color
-                                            )
-                                          : const SizedBox(),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(width: 30),
+                                SizedBox(width: 25.w),
+                                SizedBox(width: 30.w),
                               ],
                             ),
                           ),
@@ -363,21 +324,23 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
         children: [
           const Spacer(),
           Image.asset("lib/assets/images/nointerstedtradesmenimage.png",
-              width: MediaQuery.of(Get.context!).size.width,
-              height: MediaQuery.of(Get.context!).size.height / 5,
+              width: MediaQuery.of(Get.context!).size.width.w,
+              height: MediaQuery.of(Get.context!).size.height.h / 5,
               fit: BoxFit.contain),
-          const Padding(
-            padding: EdgeInsets.all(12.0),
+          Padding(
+            padding: EdgeInsets.all(12.0.r),
             child: HeadingTextW700(
-                text: "No Interested Tradesman", centerAlign: true, size: 22),
+                text: Strings.nointerestedTradesmanText(Get.context!),
+                centerAlign: true,
+                size: 22.sp),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 12.0, right: 12.0),
+          Padding(
+            padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
             child: Headingdescription(
                 text:
-                    "No tradesman has expressed interest in your job yet. You can start a conversation once someone shows interest.",
+                    Strings.nointerestedTradesmanDescriptionText(Get.context!),
                 centerAlign: true,
-                size: 13.0),
+                size: 13.0.sp),
           ),
           const Spacer(),
         ],
@@ -392,21 +355,22 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
         children: [
           const Spacer(),
           Image.asset("lib/assets/images/emptychatimage.png",
-              width: MediaQuery.of(Get.context!).size.width,
-              height: MediaQuery.of(Get.context!).size.height / 5,
+              width: MediaQuery.of(Get.context!).size.width.w,
+              height: MediaQuery.of(Get.context!).size.height.h / 5,
               fit: BoxFit.contain),
-          const Padding(
-            padding: EdgeInsets.all(12.0),
+          Padding(
+            padding: EdgeInsets.all(12.0.r),
             child: HeadingTextW700(
-                text: "Chat box is empty", centerAlign: true, size: 22),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 12.0, right: 12.0),
-            child: Headingdescription(
-                text:
-                    "You have not started chatting with tradesman yet. Start a chat to get you job done soon.",
+                text: Strings.chatBoxIsEmpty(Get.context!),
                 centerAlign: true,
-                size: 13.0),
+                size: 22.sp),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+            child: Headingdescription(
+                text: Strings.chatBoxIsEmptyDescription(Get.context!),
+                centerAlign: true,
+                size: 13.0.sp),
           ),
           const Spacer(),
         ],
@@ -421,21 +385,22 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
         children: [
           const Spacer(),
           Image.asset("lib/assets/images/norecommendedtradesmenimage.png",
-              width: MediaQuery.of(Get.context!).size.width,
-              height: MediaQuery.of(Get.context!).size.height / 5,
+              width: MediaQuery.of(Get.context!).size.width.w,
+              height: MediaQuery.of(Get.context!).size.height.h / 5,
               fit: BoxFit.contain),
-          const Padding(
-            padding: EdgeInsets.all(12.0),
+          Padding(
+            padding: EdgeInsets.all(12.0.r),
             child: HeadingTextW700(
-                text: "No  Recommended", centerAlign: true, size: 22),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 12.0, right: 12.0),
-            child: Headingdescription(
-                text:
-                    "You have not started chatting with tradesman yet. Start a chat to get you job done soon.",
+                text: Strings.noRecommendedText(Get.context!),
                 centerAlign: true,
-                size: 13.0),
+                size: 22.sp),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+            child: Headingdescription(
+                text: Strings.chatBoxIsEmptyDescription(Get.context!),
+                centerAlign: true,
+                size: 13.0.sp),
           ),
           const Spacer(),
         ],
@@ -448,21 +413,21 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 12.0),
+        SizedBox(height: 12.0.h),
         HeadingTextW500(
             text: postedJobAnswers.question ?? "N/A",
             centerAlign: false,
-            size: 14.0),
-        const SizedBox(height: 10.0),
+            size: 14.0.sp),
+        SizedBox(height: 10.0.h),
         Headingdescription(
             text: postedJobAnswers.answer ?? "N/A",
             centerAlign: false,
-            size: 14.0),
-        const SizedBox(height: 7.0),
+            size: 14.0.sp),
+        SizedBox(height: 7.0.h),
         postedJobAnswers.id == controller.postedJobDetail.jobAnswers!.last.id
             ? const SizedBox()
             : Container(
-                height: 0.5,
+                height: 0.5.h,
                 color: const Color(MyColors.lightGrayColor),
               )
       ],
@@ -473,16 +438,16 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(6.0),
+              padding: EdgeInsets.all(6.0.r),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: SizedBox(
-                      height: 90,
-                      width: 90,
+                      height: 90.r,
+                      width: 90.w,
                       child: PhotoViewerImage(
                         imageUrl: url,
                         fit: BoxFit.cover,
@@ -498,15 +463,15 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-              top: 30.0, bottom: 10.0, left: 18, right: 18),
+          padding: EdgeInsets.only(
+              top: 30.0.h, bottom: 10.0.h, left: 18.r, right: 18.r),
           child: HeadingTextW600(
               text: controller.postedJobDetail.serviceName ?? "N/A",
               centerAlign: false,
-              size: 18.0),
+              size: 18.0.sp),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 14.0, top: 4.0),
+          padding: EdgeInsets.only(left: 14.0.w, top: 4.0.h),
           child: Align(
             alignment: Alignment.topLeft,
             child: Card(
@@ -519,22 +484,22 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                           ? const Color(MyColors.cardcolorOrange200)
                           : const Color(MyColors.cardColorGreen200),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
+                  borderRadius: BorderRadius.circular(6.r)),
               child: Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: EdgeInsets.all(5.0.r),
                 child: controller.postedJobDetail.status == "open"
                     ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset("lib/assets/icons/inprocessIcon.svg",
-                              height: 14.0, width: 14.0),
-                          const SizedBox(
-                            width: 6.0,
+                              height: 14.0.h, width: 14.0.w),
+                          SizedBox(
+                            width: 6.0.w,
                           ),
                           Headingdescription(
                               text: Strings.inProcess(Get.context!),
                               centerAlign: false,
-                              size: 12)
+                              size: 12.sp)
                         ],
                       )
                     : controller.postedJobDetail.status == "in_progress"
@@ -543,19 +508,19 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             children: [
                               lottie.Lottie.asset(
                                 'lib/assets/icons/ActiveStatusRipple.json',
-                                width: 14,
-                                height: 14,
+                                width: 14.w,
+                                height: 14.h,
                                 fit: BoxFit.contain,
                                 repeat: true,
                                 animate: true,
                               ),
-                              const SizedBox(
-                                width: 6.0,
+                              SizedBox(
+                                width: 6.0.w,
                               ),
                               Headingdescription(
                                   text: Strings.active(Get.context!),
                                   centerAlign: false,
-                                  size: 12)
+                                  size: 12.sp)
                             ],
                           )
                         : controller.postedJobDetail.status == "cancelled"
@@ -564,15 +529,15 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                 children: [
                                   SvgPicture.asset(
                                       "lib/assets/icons/jobCancelledIcon.svg",
-                                      height: 14.0,
-                                      width: 14.0),
-                                  const SizedBox(
-                                    width: 6.0,
+                                      height: 14.0.h,
+                                      width: 14.0.w),
+                                  SizedBox(
+                                    width: 6.0.w,
                                   ),
                                   Headingdescription(
                                       text: Strings.canceledText(Get.context!),
                                       centerAlign: false,
-                                      size: 12)
+                                      size: 12.sp)
                                 ],
                               )
                             : Row(
@@ -580,15 +545,15 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                 children: [
                                   SvgPicture.asset(
                                       "lib/assets/icons/completedTickIcon.svg",
-                                      height: 14.0,
-                                      width: 14.0),
-                                  const SizedBox(
-                                    width: 6.0,
+                                      height: 14.0.h,
+                                      width: 14.0.w),
+                                  SizedBox(
+                                    width: 6.0.w,
                                   ),
                                   Headingdescription(
                                       text: Strings.completed(Get.context!),
                                       centerAlign: false,
-                                      size: 12)
+                                      size: 12.sp)
                                 ],
                               ),
               ),
@@ -603,32 +568,32 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                   ),
                 )
               : Padding(
-                  padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+                  padding: EdgeInsets.only(left: 14.0.w, right: 14.0.w),
                   child: Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(8.0.r),
                     ),
                     color: const Color(MyColors.cardGrayColor100),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0.r),
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.r),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
                                   "lib/assets/icons/interestedtradesmenLogo.svg",
-                                  height: 16,
-                                  width: 16,
+                                  height: 16.h,
+                                  width: 16.w,
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: 8.w),
                                 HeadingTextW500(
                                   text:
                                       Strings.interestedTradesman(Get.context!),
                                   centerAlign: false,
-                                  size: 14,
+                                  size: 14.sp,
                                 ),
                               ],
                             ),
@@ -637,36 +602,37 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             alignment: Alignment.topLeft,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                                  EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                               child: RichText(
                                 maxLines: 2,
                                 softWrap: false,
                                 overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
                                   text: Strings.youGot(Get.context!),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontFamily: 'Poppins',
                                     color: Colors.black,
-                                    fontSize: 14,
+                                    fontSize: 14.sp,
                                   ),
                                   children: [
                                     TextSpan(
                                       text:
                                           " ${controller.postedJobDetail.tradespersonApplicationsCount ?? "0"} ",
-                                      style: const TextStyle(
-                                        color: Color(MyColors.themeRedColor),
+                                      style: TextStyle(
+                                        color:
+                                            const Color(MyColors.themeRedColor),
                                         fontFamily: 'Poppins',
-                                        fontSize: 16,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextSpan(
                                       text: Strings.pickTheBestAndStartWork(
                                           Get.context!),
-                                      style: const TextStyle(
-                                        color: Color(MyColors.blackColor),
+                                      style: TextStyle(
+                                        color: const Color(MyColors.blackColor),
                                         fontFamily: 'Poppins',
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                       ),
                                     ),
                                   ],
@@ -675,7 +641,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             ),
                           ),
                           GridView.builder(
-                            padding: const EdgeInsets.all(8),
+                            padding: EdgeInsets.all(8.r),
                             itemCount: controller.tradesmenImages.length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -685,7 +651,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             ),
                             itemBuilder: (context, index) {
                               return CircleAvatar(
-                                radius: 33,
+                                radius: 33.r,
                                 backgroundImage: NetworkImage(
                                     controller.tradesmenImages[index]),
                               );
@@ -694,7 +660,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             physics: const NeverScrollableScrollPhysics(),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(4.0),
+                            padding: EdgeInsets.all(4.0.r),
                             child: FullWidthElevatedButton(
                               text: Strings.interestedTradesman(Get.context!),
                               color: MyColors.themeRedColor,
@@ -729,78 +695,79 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                 );
         }),
         Padding(
-          padding: const EdgeInsets.only(left: 14.0, right: 14.0, top: 14.0),
+          padding: EdgeInsets.only(left: 14.0.w, right: 14.0.w, top: 14.0.h),
           child: SizedBox(
-            width: MediaQuery.of(Get.context!).size.width,
+            width: MediaQuery.of(Get.context!).size.width.w,
             child: Card(
               elevation: 0,
               color: const Color(MyColors.infoPinkColor),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0.r),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(7.0),
+                      padding: EdgeInsets.all(7.0.r),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             "lib/assets/icons/ChatAnswers.svg",
-                            height: 22,
-                            width: 22,
+                            height: 22.h,
+                            width: 22.w,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 12.0, right: 8.0),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                             child: Headingdescription(
-                                text: "0 Answers",
+                                text: Strings.zeroAnswers(Get.context!),
                                 centerAlign: false,
-                                size: 14),
+                                size: 14.sp),
                           ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(7.0),
+                      padding: EdgeInsets.all(7.0.r),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             "lib/assets/icons/timer.svg",
-                            height: 22,
-                            width: 22,
+                            height: 22.h,
+                            width: 22.w,
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 12.0, right: 8.0),
+                                EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                             child: Headingdescription(
                                 text: controller.postedJobDetail
                                         .humanReadableCreatedAt ??
                                     "N/A",
                                 centerAlign: false,
-                                size: 14),
+                                size: 14.sp),
                           ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(7.0),
+                      padding: EdgeInsets.all(7.0.r),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             "lib/assets/icons/location.svg",
-                            height: 22,
-                            width: 22,
+                            height: 22.h,
+                            width: 22.w,
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 12.0, right: 8.0),
+                                EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                             child: Headingdescription(
                                 text: controller.postedJobDetail.city ?? "N/A",
                                 centerAlign: false,
-                                size: 14),
+                                size: 14.sp),
                           ),
                         ],
                       ),
@@ -812,64 +779,64 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 14.0, right: 14.0, top: 14.0),
+          padding: EdgeInsets.only(left: 14.0.w, right: 14.0.w, top: 14.0.h),
           child: Card(
             elevation: 0,
             color: const Color(MyColors.cardGrayColor50),
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: EdgeInsets.all(4.0.r),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
+                      padding: EdgeInsets.only(top: 12.0.h),
                       child: HeadingTextW500(
                           text: Strings.info(Get.context!),
                           centerAlign: false,
-                          size: 18.0),
+                          size: 18.0.r),
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 12.0, left: 8.0),
+                      padding: EdgeInsets.only(top: 12.0.h, left: 8.0.w),
                       child: HeadingTextW500(
                           text: Strings.jobTitle(Get.context!),
                           centerAlign: false,
-                          size: 16.0),
+                          size: 16.0.r),
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 4.0, left: 8.0),
+                      padding: EdgeInsets.only(top: 4.0.h, left: 8.0.w),
                       child: Headingdescription(
                           text: controller.postedJobDetail.title ?? "N/A",
                           centerAlign: false,
-                          size: 16.0),
+                          size: 16.0.sp),
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 12.0, left: 8.0),
+                      padding: EdgeInsets.only(top: 12.0.h, left: 8.0.w),
                       child: HeadingTextW500(
                           text: Strings.jobDescription(Get.context!),
                           centerAlign: false,
-                          size: 16.0),
+                          size: 16.0.sp),
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 4.0, left: 8.0, right: 8.0, bottom: 6.0),
+                      padding: EdgeInsets.only(
+                          top: 4.0.h, left: 8.0.w, right: 8.0.w, bottom: 6.0.h),
                       child: Headingdescription(
                           text: controller.postedJobDetail.desc ?? "N/A",
                           centerAlign: false,
-                          size: 14.0),
+                          size: 14.0.sp),
                     ),
                   ),
                 ],
@@ -878,7 +845,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: EdgeInsets.all(14.0.r),
           child: Card(
             elevation: 0,
             color: const Color(MyColors.cardGrayColor50),
@@ -886,14 +853,14 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
+                  padding: EdgeInsets.only(top: 12.0.h),
                   child: HeadingTextW500(
                       text: Strings.details(Get.context!),
                       centerAlign: false,
-                      size: 18.0),
+                      size: 18.0.sp),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0.r),
                   child: controller.postedJobDetail.jobAnswers != null
                       ? ListView.builder(
                           shrinkWrap: true,
@@ -906,11 +873,11 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                           },
                         )
                       : Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: EdgeInsets.all(5.0.r),
                           child: Headingdescription(
                               text: Strings.dataNotFound(Get.context!),
                               centerAlign: false,
-                              size: 15),
+                              size: 15.sp),
                         ),
                 ),
               ],
@@ -918,9 +885,9 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 14.0, right: 14.0, bottom: 14.0),
+          padding: EdgeInsets.only(left: 14.0.w, right: 14.0.w, bottom: 14.0.h),
           child: SizedBox(
-            width: MediaQuery.of(Get.context!).size.width,
+            width: MediaQuery.of(Get.context!).size.width.w,
             child: Card(
               elevation: 0,
               color: const Color(MyColors.cardGrayColor50),
@@ -929,20 +896,20 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: EdgeInsets.all(12.0.r),
                     child: HeadingTextW500(
                         text: Strings.photos(Get.context!),
                         centerAlign: false,
-                        size: 18.0),
+                        size: 18.0.sp),
                   ),
                   controller.postedJobDetail.imageList != null
                       ? controller.postedJobDetail.imageList!.isNotEmpty
                           ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 6.0),
+                              padding:
+                                  EdgeInsets.only(left: 14.0.w, bottom: 6.0.h),
                               child: SizedBox(
-                                height:
-                                    95, // Adjust height based on your image size
+                                height: 95
+                                    .h, // Adjust height based on your image size
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
@@ -956,23 +923,23 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                               ),
                             )
                           : Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
+                              padding: EdgeInsets.only(bottom: 16.0.h),
                               child: Center(
                                 child: Headingdescription(
                                     text: Strings.noPhotosWereUploaded(
                                         Get.context!),
                                     centerAlign: false,
-                                    size: 15),
+                                    size: 15.sp),
                               ),
                             )
                       : Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
+                          padding: EdgeInsets.only(bottom: 16.0.h),
                           child: Center(
                             child: Headingdescription(
                                 text:
                                     Strings.noPhotosWereUploaded(Get.context!),
                                 centerAlign: false,
-                                size: 15),
+                                size: 15.sp),
                           ),
                         ),
                 ],
@@ -981,10 +948,10 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+          padding: EdgeInsets.only(left: 14.0.w, right: 14.0.w),
           child: SizedBox(
-            width: MediaQuery.of(Get.context!).size.width,
-            height: MediaQuery.of(Get.context!).size.height / 2,
+            width: MediaQuery.of(Get.context!).size.width.w,
+            height: MediaQuery.of(Get.context!).size.height.h / 2,
             child: Card(
               elevation: 0,
               color: const Color(MyColors.lightSilverColor),
@@ -993,19 +960,19 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 12.0, top: 12.0),
+                    padding: EdgeInsets.only(left: 12.0.w, top: 12.0.h),
                     child: HeadingTextW500(
                         text: Strings.yourAddress(Get.context!),
                         centerAlign: false,
-                        size: 18.0),
+                        size: 18.0.sp),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(6.0),
+                    padding: EdgeInsets.all(6.0.r),
                     child: Card(
                       elevation: 0,
                       color: Colors.white,
                       child: Padding(
-                        padding: const EdgeInsets.all(7.0),
+                        padding: EdgeInsets.all(7.0.r),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1017,17 +984,19 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     softWrap: true,
                                     overflow: TextOverflow.visible,
                                     text: TextSpan(
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: 13,
+                                        fontSize: 13.sp,
                                       ),
                                       children: [
-                                        const TextSpan(
-                                          text: "Address: ",
+                                        TextSpan(
+                                          text:
+                                              "${Strings.addressText(Get.context!)}: ",
                                           style: TextStyle(
-                                            color: Color(MyColors.blackColor),
+                                            color: const Color(
+                                                MyColors.blackColor),
                                             fontFamily: 'Poppins',
-                                            fontSize: 14,
+                                            fontSize: 14.sp,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
@@ -1035,10 +1004,11 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                           text: controller
                                                   .postedJobDetail.location ??
                                               "N/A",
-                                          style: const TextStyle(
-                                            color: Color(MyColors.blackColor),
+                                          style: TextStyle(
+                                            color: const Color(
+                                                MyColors.blackColor),
                                             fontFamily: 'Poppins',
-                                            fontSize: 14,
+                                            fontSize: 14.sp,
                                           ),
                                         ),
                                       ],
@@ -1052,27 +1022,28 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize: 13.sp,
                                 ),
                                 children: [
-                                  const TextSpan(
-                                    text: "PostCode: ",
+                                  TextSpan(
+                                    text:
+                                        "${Strings.postcodeText(Get.context!)}: ",
                                     style: TextStyle(
-                                      color: Color(MyColors.blackColor),
+                                      color: const Color(MyColors.blackColor),
                                       fontFamily: 'Poppins',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   TextSpan(
                                     text: controller.postedJobDetail.postcode ??
                                         "N/A",
-                                    style: const TextStyle(
-                                      color: Color(MyColors.blackColor),
+                                    style: TextStyle(
+                                      color: const Color(MyColors.blackColor),
                                       fontFamily: 'Poppins',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ],
@@ -1083,27 +1054,27 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize: 13.sp,
                                 ),
                                 children: [
-                                  const TextSpan(
-                                    text: "City: ",
+                                  TextSpan(
+                                    text: "${Strings.cityText(Get.context!)}: ",
                                     style: TextStyle(
-                                      color: Color(MyColors.blackColor),
+                                      color: const Color(MyColors.blackColor),
                                       fontFamily: 'Poppins',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   TextSpan(
                                     text: controller.postedJobDetail.city ??
                                         "N/A",
-                                    style: const TextStyle(
-                                      color: Color(MyColors.blackColor),
+                                    style: TextStyle(
+                                      color: const Color(MyColors.blackColor),
                                       fontFamily: 'Poppins',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ],
@@ -1114,27 +1085,28 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 13,
+                                  fontSize: 13.sp,
                                 ),
                                 children: [
-                                  const TextSpan(
-                                    text: "Country: ",
+                                  TextSpan(
+                                    text:
+                                        "${Strings.countryText(Get.context!)}: ",
                                     style: TextStyle(
-                                      color: Color(MyColors.blackColor),
+                                      color: const Color(MyColors.blackColor),
                                       fontFamily: 'Poppins',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   TextSpan(
                                     text: controller.postedJobDetail.country ??
                                         "N/A",
-                                    style: const TextStyle(
-                                      color: Color(MyColors.blackColor),
+                                    style: TextStyle(
+                                      color: const Color(MyColors.blackColor),
                                       fontFamily: 'Poppins',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                 ],
@@ -1146,17 +1118,17 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 14.0),
+                    padding: EdgeInsets.only(
+                        left: 10.0.w, right: 10.0.w, top: 14.0.h),
                     child: HeadingTextW500(
                         text: Strings.viewOnMap(Get.context!),
                         centerAlign: false,
-                        size: 18.0),
+                        size: 18.0.sp),
                   ),
                   Obx(() {
                     return Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(10.0.r),
                         child: GoogleMap(
                           // onMapCreated: _onMapCreated,
                           initialCameraPosition: CameraPosition(
@@ -1187,21 +1159,21 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: EdgeInsets.all(14.0.r),
           child: Card(
             elevation: 0,
             color: const Color(MyColors.cardGrayColor200),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0.r),
               child: Center(
                 child: Row(
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(left: 4.0, right: 12.0),
+                        padding: EdgeInsets.only(left: 4.0.w, right: 12.0.w),
                         child: SvgPicture.asset(
                             "lib/assets/icons/informationLogo.svg",
-                            height: 24.0,
-                            width: 24.0)),
+                            height: 24.0.h,
+                            width: 24.0.w)),
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
@@ -1235,28 +1207,28 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                           softWrap: false,
                           overflow: TextOverflow.ellipsis,
                           text: TextSpan(
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
-                              fontSize: 13,
+                              fontSize: 13.sp,
                             ),
                             children: [
-                              const TextSpan(
-                                text: "Send Requests",
+                              TextSpan(
+                                text: "${Strings.sendRequest(Get.context!)}",
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Color(MyColors.themeRedColor),
+                                  color: const Color(MyColors.themeRedColor),
                                   fontFamily: 'Poppins',
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               TextSpan(
                                 text:
                                     " to ${controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value))} more tradesman to get more answers.",
-                                style: const TextStyle(
-                                  color: Color(MyColors.blackColor),
+                                style: TextStyle(
+                                  color: const Color(MyColors.blackColor),
                                   fontFamily: 'Poppins',
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                 ),
                               ),
                             ],
@@ -1330,7 +1302,7 @@ class _TradesmenSectionState extends State<TradesmenSection> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 12.0),
+          padding: EdgeInsets.only(top: 12.0.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -1357,28 +1329,28 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                 child: Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(5.r)),
                   color: Color(allOptionColor),
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: EdgeInsets.all(4.0.r),
                     child: Row(
                       children: [
                         SvgPicture.asset(
                           applicationStatus == "All"
                               ? "lib/assets/icons/ticklogoblue.svg"
                               : "lib/assets/icons/ticklogoblack.svg",
-                          height: 14,
-                          width: 14,
+                          height: 14.h,
+                          width: 14.w,
                           fit: BoxFit.contain,
                         ),
-                        const SizedBox(
-                          width: 4.0,
+                        SizedBox(
+                          width: 4.0.w,
                         ),
                         Text(Strings.allText(context),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color(allOptionTextColor),
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: 'Poppins')),
                       ],
@@ -1387,7 +1359,7 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 6.0),
+                padding: EdgeInsets.only(left: 6.0.w),
                 child: GestureDetector(
                   onTap: () {
                     try {
@@ -1411,28 +1383,28 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                   child: Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
+                        borderRadius: BorderRadius.circular(5.r)),
                     color: Color(acceptedOptionColor),
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: EdgeInsets.all(4.0.r),
                       child: Row(
                         children: [
                           SvgPicture.asset(
                             applicationStatus == "approved"
                                 ? "lib/assets/icons/ticklogoblue.svg"
                                 : "lib/assets/icons/ticklogoblack.svg",
-                            height: 14,
-                            width: 14,
+                            height: 14.h,
+                            width: 14.w,
                             fit: BoxFit.contain,
                           ),
-                          const SizedBox(
-                            width: 4.0,
+                          SizedBox(
+                            width: 4.0.w,
                           ),
                           Text(Strings.accepted(context),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color(acceptedOptionTextColor),
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Poppins')),
                         ],
@@ -1442,7 +1414,7 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 6.0),
+                padding: EdgeInsets.only(left: 6.0.w),
                 child: GestureDetector(
                   onTap: () {
                     try {
@@ -1466,28 +1438,28 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                   child: Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
+                        borderRadius: BorderRadius.circular(5.r)),
                     color: Color(rejectedOptionColor),
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: EdgeInsets.all(4.0.r),
                       child: Row(
                         children: [
                           SvgPicture.asset(
                             applicationStatus == "declined"
                                 ? "lib/assets/icons/crossLogoRed.svg"
                                 : "lib/assets/icons/crossLogoBlack.svg",
-                            height: 14,
-                            width: 14,
+                            height: 14.h,
+                            width: 14.w,
                             fit: BoxFit.contain,
                           ),
-                          const SizedBox(
-                            width: 4.0,
+                          SizedBox(
+                            width: 4.0.w,
                           ),
                           Text(Strings.rejected(context),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color(rejectedOptionTextColor),
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Poppins')),
                         ],
@@ -1500,10 +1472,10 @@ class _TradesmenSectionState extends State<TradesmenSection> {
           ),
         ),
         isLoading
-            ? const Center(
+            ? Center(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 32.0),
-                  child: CircularProgressIndicator(
+                  padding: EdgeInsets.only(top: 32.0.h),
+                  child: const CircularProgressIndicator(
                       color: Color(MyColors.themeRedColor)),
                 ),
               )
@@ -1520,56 +1492,22 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                         },
                       )
                     : SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.5,
+                        height: MediaQuery.of(context).size.height.h / 1.5,
                         child: Center(
                           child: Headingdescription(
                               text: Strings.noTradesmen(context),
                               centerAlign: false,
-                              size: 16.0),
+                              size: 16.0.sp),
                         ),
                       )
                 : const SizedBox(),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
-        //   child: Align(
-        //       alignment: Alignment.topLeft,
-        //       child: HeadingTextW600(
-        //           text: Strings.acceptedText, centerAlign: false, size: 16.0)),
-        // ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: Padding(
-        //     padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-        //     child: Headingdescription(
-        //         text: "You choose a tradesman to work for you.",
-        //         centerAlign: false,
-        //         size: 14),
-        //   ),
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
-        //   child: Align(
-        //       alignment: Alignment.topLeft,
-        //       child: HeadingTextW600(
-        //           text: Strings.rejectedText, centerAlign: false, size: 16)),
-        // ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: Padding(
-        //     padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-        //     child: Headingdescription(
-        //         text: "These are tradesmen you do not want to work with.",
-        //         centerAlign: false,
-        //         size: 14),
-        //   ),
-        // )
       ],
     );
   }
 
   Widget _buildTradesmenView(TradesmenRequest tradesmen) {
     return Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
+        padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 5.0.h),
         child: GestureDetector(
           onTap: () {
             try {
@@ -1586,14 +1524,14 @@ class _TradesmenSectionState extends State<TradesmenSection> {
             color: const Color(MyColors.colorNeutral100),
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 12.0),
+                padding: EdgeInsets.only(top: 12.0.h),
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
+                      padding: EdgeInsets.only(left: 10.0.w),
                       child: tradesmen.userProfileImg != null
                           ? CircleAvatar(
-                              radius: 24,
+                              radius: 24.r,
                               backgroundImage: NetworkImage(tradesmen
                                   .userProfileImg
                                   .toString()), // Replace with actual image
@@ -1601,7 +1539,7 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                           : SvgPicture.asset(
                               "lib/assets/images/tradesmenplaceholdericon.svg"),
                     ),
-                    const SizedBox(width: 8.0),
+                    SizedBox(width: 8.0.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1619,10 +1557,10 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                         softWrap: false,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: Colors.black,
-                                            fontSize: 14.0),
+                                            fontSize: 14.0.sp),
                                       ),
                                     ),
                                   ],
@@ -1635,16 +1573,15 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                   children: [
                                     Flexible(
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
+                                        padding: EdgeInsets.only(right: 10.0.w),
                                         child: RichText(
                                           maxLines: 1,
                                           softWrap: false,
                                           overflow: TextOverflow.ellipsis,
                                           text: TextSpan(
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                              fontSize: 13.sp,
                                             ),
                                             children: [
                                               tradesmen.serviceArea != null
@@ -1697,10 +1634,11 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        "${tradesmen.reviewsCount ?? 0} reviews",
-                                        style: const TextStyle(
-                                            color: Color(MyColors.midGrayColor),
-                                            fontSize: 14.0),
+                                        "${tradesmen.reviewsCount ?? 0} ${Strings.reviews(Get.context!)}",
+                                        style: TextStyle(
+                                            color: const Color(
+                                                MyColors.midGrayColor),
+                                            fontSize: 14.0.sp),
                                       ),
                                     ),
                                   ],
@@ -1711,22 +1649,22 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.star,
-                                      size: 16,
-                                      color: Color(MyColors.themeRedColor),
+                                      size: 16.sp,
+                                      color:
+                                          const Color(MyColors.themeRedColor),
                                     ),
-                                    const SizedBox(
-                                      width: 2.0,
+                                    SizedBox(
+                                      width: 2.0.w,
                                     ),
                                     Flexible(
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
+                                        padding: EdgeInsets.only(right: 10.0.w),
                                         child: Text(
                                           "${tradesmen.rating!.length > 3 ? tradesmen.rating!.substring(0, 3) : tradesmen.rating! ?? "0"}/5",
-                                          style: const TextStyle(
-                                              fontSize: 13,
+                                          style: TextStyle(
+                                              fontSize: 13.sp,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -1742,40 +1680,40 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0, left: 12.0),
+                    padding: EdgeInsets.only(top: 4.0.h, left: 12.0.w),
                     child: Headingdescription(
                         text:
-                            "Applied : ${tradesmen.humanReadableCreatedAt ?? "N/A"}",
+                            "${Strings.appliedText(Get.context!)} : ${tradesmen.humanReadableCreatedAt ?? "N/A"}",
                         centerAlign: false,
-                        size: 12),
+                        size: 12.sp),
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
+                padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 4.0.h),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Card(
                     color: const Color(MyColors.whiteColor),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9)),
+                        borderRadius: BorderRadius.circular(9.r)),
                     child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.all(4.0.r),
                         child: ExpandableText(tradesmen.coverLetter ?? "N/A",
                             expandText: Strings.showMore(context),
                             collapseText: Strings.showLess(context),
                             maxLines: 2,
-                            linkStyle: const TextStyle(
+                            linkStyle: TextStyle(
                                 color: Colors.grey,
                                 fontFamily: 'Poppins',
-                                fontSize: 12.0),
-                            style: const TextStyle(
+                                fontSize: 12.0.sp),
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Poppins',
-                                fontSize: 14.0))),
+                                fontSize: 14.0.sp))),
                   ),
                 ),
               ),
@@ -1784,29 +1722,32 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                 return tradesmen.loadingValue.value.isEmpty
                     ? tradesmen.status == "pending"
                         ? Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.r),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, right: 5.0),
+                                    padding: EdgeInsets.only(
+                                        left: 5.0.w, right: 5.0.w),
                                     child: FullWidthElevatedButton(
                                         onPressed: () async {
                                           tradesmen.loadingValue.value = "0";
-                                          bool res = await controller
+                                          int chatId = await controller
                                               .pleaseUpdateRequestsStatus(
                                                   widget.jobId,
                                                   tradesmen.id!,
                                                   "approved",
                                                   context);
-                                          if (res) {
+                                          if (chatId != -1) {
                                             Fluttertoast.showToast(
-                                                msg:
-                                                    "The Request has been Accepted, now you an start Chat");
+                                                msg: Strings
+                                                    .therequesthasbeenapproved(
+                                                        context));
                                             tradesmen.status = "approved";
                                             tradesmen.loadingValue.value = "";
+                                            print(chatId);
+                                            tradesmen.chatId = chatId;
                                           } else {
                                             Fluttertoast.showToast(
                                                 msg: Strings.somethingWentWrong(
@@ -1821,21 +1762,22 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, right: 5.0),
+                                    padding: EdgeInsets.only(
+                                        left: 5.0.w, right: 5.0.w),
                                     child: FullWidthElevatedButton(
                                         onPressed: () async {
                                           tradesmen.loadingValue.value = "0";
-                                          bool res = await controller
+                                          int chatId = await controller
                                               .pleaseUpdateRequestsStatus(
                                                   widget.jobId,
                                                   tradesmen.id!,
                                                   "declined",
                                                   context);
-                                          if (res) {
+                                          if (chatId != -1) {
                                             Fluttertoast.showToast(
-                                                msg:
-                                                    "The Request has been Declined");
+                                                msg: Strings
+                                                    .therequesthasbeendeclined(
+                                                        Get.context!));
                                             tradesmen.status = "declined";
                                             tradesmen.loadingValue.value = "";
                                           } else {
@@ -1857,11 +1799,11 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                 tradesmen.status == "expired" ||
                                 tradesmen.status == "rejected"
                             ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 13.0,
-                                    right: 13.0,
-                                    bottom: 8.0,
-                                    top: 5.0),
+                                padding: EdgeInsets.only(
+                                    left: 13.0.w,
+                                    right: 13.0.w,
+                                    bottom: 8.0.h,
+                                    top: 5.0.h),
                                 child: FullWidthElevatedButton(
                                     onPressed: () {
                                       // Fluttertoast.showToast(msg: "Chat");
@@ -1871,11 +1813,11 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                     textColor: MyColors.whiteColor),
                               )
                             : Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 13.0,
-                                    right: 13.0,
-                                    bottom: 8.0,
-                                    top: 5.0),
+                                padding: EdgeInsets.only(
+                                    left: 13.0.w,
+                                    right: 13.0.w,
+                                    bottom: 8.0.h,
+                                    top: 5.0.h),
                                 child: FullWidthElevatedButton(
                                     onPressed: () async {
                                       var result = await Get.to(
@@ -1903,10 +1845,10 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                     color: MyColors.themeRedColor,
                                     textColor: MyColors.whiteColor),
                               )
-                    : const Center(
+                    : Center(
                         child: Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: CircularProgressIndicator(
+                          padding: EdgeInsets.all(4.0.r),
+                          child: const CircularProgressIndicator(
                             color: Color(MyColors.themeRedColor),
                           ),
                         ),
@@ -1964,10 +1906,10 @@ class _ChatSectionState extends State<ChatSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0.r),
         child: isLoading
             ? SizedBox(
-                height: MediaQuery.of(context).size.height / 1.5,
+                height: MediaQuery.of(context).size.height.h / 1.5,
                 child: const Center(
                   child: CircularProgressIndicator(
                       color: Color(MyColors.themeRedColor)),
@@ -1996,51 +1938,17 @@ class _ChatSectionState extends State<ChatSection> {
                       child: Headingdescription(
                           text: Strings.noTradesmen(context),
                           centerAlign: false,
-                          size: 16.0),
+                          size: 16.0.sp),
                     ),
                   )
             : const SizedBox(),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
-        //   child: Align(
-        //       alignment: Alignment.topLeft,
-        //       child: HeadingTextW600(
-        //           text: Strings.acceptedText, centerAlign: false, size: 16.0)),
-        // ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: Padding(
-        //     padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-        //     child: Headingdescription(
-        //         text: "You choose a tradesman to work for you.",
-        //         centerAlign: false,
-        //         size: 14),
-        //   ),
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
-        //   child: Align(
-        //       alignment: Alignment.topLeft,
-        //       child: HeadingTextW600(
-        //           text: Strings.rejectedText, centerAlign: false, size: 16)),
-        // ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: Padding(
-        //     padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-        //     child: Headingdescription(
-        //         text: "These are tradesmen you do not want to work with.",
-        //         centerAlign: false,
-        //         size: 14),
-        //   ),
-        // )
       ],
     );
   }
 
   Widget _buildTradesmenView(TradesmenRequest tradesmen) {
     return Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
+        padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 5.0.h),
         child: GestureDetector(
           onTap: () {
             try {
@@ -2052,19 +1960,19 @@ class _ChatSectionState extends State<ChatSection> {
           },
           child: Card(
             elevation: 0,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r)),
             color: const Color(MyColors.colorNeutral100),
             child: Column(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 12.0),
+                padding: EdgeInsets.only(top: 12.0.h),
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
+                      padding: EdgeInsets.only(left: 10.0.w),
                       child: tradesmen.userProfileImg != null
                           ? CircleAvatar(
-                              radius: 24,
+                              radius: 24.r,
                               backgroundImage: NetworkImage(tradesmen
                                   .userProfileImg
                                   .toString()), // Replace with actual image
@@ -2072,7 +1980,7 @@ class _ChatSectionState extends State<ChatSection> {
                           : SvgPicture.asset(
                               "lib/assets/images/tradesmenplaceholdericon.svg"),
                     ),
-                    const SizedBox(width: 8.0),
+                    SizedBox(width: 8.0.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2090,10 +1998,10 @@ class _ChatSectionState extends State<ChatSection> {
                                         softWrap: false,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: Colors.black,
-                                            fontSize: 14.0),
+                                            fontSize: 14.0.sp),
                                       ),
                                     ),
                                   ],
@@ -2106,16 +2014,15 @@ class _ChatSectionState extends State<ChatSection> {
                                   children: [
                                     Flexible(
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
+                                        padding: EdgeInsets.only(right: 10.0.w),
                                         child: RichText(
                                           maxLines: 1,
                                           softWrap: false,
                                           overflow: TextOverflow.ellipsis,
                                           text: TextSpan(
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                              fontSize: 13.sp,
                                             ),
                                             children: [
                                               tradesmen.serviceArea != null
@@ -2168,10 +2075,11 @@ class _ChatSectionState extends State<ChatSection> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        "${tradesmen.reviewsCount ?? 0} reviews",
-                                        style: const TextStyle(
-                                            color: Color(MyColors.midGrayColor),
-                                            fontSize: 14.0),
+                                        "${tradesmen.reviewsCount ?? 0} ${Strings.reviews(context)}",
+                                        style: TextStyle(
+                                            color: const Color(
+                                                MyColors.midGrayColor),
+                                            fontSize: 14.0.sp),
                                       ),
                                     ),
                                   ],
@@ -2182,22 +2090,22 @@ class _ChatSectionState extends State<ChatSection> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.star,
-                                      size: 16,
-                                      color: Color(MyColors.themeRedColor),
+                                      size: 16.sp,
+                                      color:
+                                          const Color(MyColors.themeRedColor),
                                     ),
-                                    const SizedBox(
-                                      width: 2.0,
+                                    SizedBox(
+                                      width: 2.0.w,
                                     ),
                                     Flexible(
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
+                                        padding: EdgeInsets.only(right: 10.0.w),
                                         child: Text(
                                           "${tradesmen.rating!.length > 3 ? tradesmen.rating!.substring(0, 3) : tradesmen.rating! ?? "0"}/5",
-                                          style: const TextStyle(
-                                              fontSize: 13,
+                                          style: TextStyle(
+                                              fontSize: 13.sp,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -2213,40 +2121,40 @@ class _ChatSectionState extends State<ChatSection> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0, left: 12.0),
+                    padding: EdgeInsets.only(top: 4.0.h, left: 12.0.w),
                     child: Headingdescription(
                         text:
-                            "Applied : ${tradesmen.humanReadableCreatedAt ?? "N/A"}",
+                            "${Strings.appliedText(Get.context!)} : ${tradesmen.humanReadableCreatedAt ?? "N/A"}",
                         centerAlign: false,
-                        size: 12),
+                        size: 12.sp),
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
+                padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 4.0.h),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Card(
                     color: const Color(MyColors.whiteColor),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9)),
+                        borderRadius: BorderRadius.circular(9.r)),
                     child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.all(4.0.r),
                         child: ExpandableText(tradesmen.coverLetter ?? "N/A",
                             expandText: Strings.showMore(context),
                             collapseText: Strings.showLess(context),
                             maxLines: 2,
-                            linkStyle: const TextStyle(
+                            linkStyle: TextStyle(
                                 color: Colors.grey,
                                 fontFamily: 'Poppins',
-                                fontSize: 12.0),
-                            style: const TextStyle(
+                                fontSize: 12.0.sp),
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Poppins',
-                                fontSize: 14.0))),
+                                fontSize: 14.0.sp))),
                   ),
                 ),
               ),
@@ -2255,27 +2163,28 @@ class _ChatSectionState extends State<ChatSection> {
                 return tradesmen.loadingValue.value.isEmpty
                     ? tradesmen.status == "pending"
                         ? Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.r),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, right: 5.0),
+                                    padding: EdgeInsets.only(
+                                        left: 5.0.w, right: 5.0.w),
                                     child: FullWidthElevatedButton(
                                         onPressed: () async {
                                           tradesmen.loadingValue.value = "0";
-                                          bool res = await controller
+                                          int chatId = await controller
                                               .pleaseUpdateRequestsStatus(
                                                   widget.jobId,
                                                   tradesmen.id!,
                                                   "approved",
                                                   context);
-                                          if (res) {
+                                          if (chatId != -1) {
                                             Fluttertoast.showToast(
-                                                msg:
-                                                    "The Request has been Accepted, now you an start Chat");
+                                                msg: Strings
+                                                    .therequesthasbeenapproved(
+                                                        Get.context!));
                                             tradesmen.status = "approved";
                                             tradesmen.loadingValue.value = "";
                                           } else {
@@ -2292,21 +2201,22 @@ class _ChatSectionState extends State<ChatSection> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, right: 5.0),
+                                    padding: EdgeInsets.only(
+                                        left: 5.0.w, right: 5.0.w),
                                     child: FullWidthElevatedButton(
                                         onPressed: () async {
                                           tradesmen.loadingValue.value = "0";
-                                          bool res = await controller
+                                          int chatId = await controller
                                               .pleaseUpdateRequestsStatus(
                                                   widget.jobId,
                                                   tradesmen.id!,
                                                   "declined",
                                                   context);
-                                          if (res) {
+                                          if (chatId != -1) {
                                             Fluttertoast.showToast(
-                                                msg:
-                                                    "The Request has been Declined");
+                                                msg: Strings
+                                                    .therequesthasbeendeclined(
+                                                        Get.context!));
                                             tradesmen.status = "declined";
                                             tradesmen.loadingValue.value = "";
                                           } else {
@@ -2328,11 +2238,11 @@ class _ChatSectionState extends State<ChatSection> {
                                 tradesmen.status == "expired" ||
                                 tradesmen.status == "rejected"
                             ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 13.0,
-                                    right: 13.0,
-                                    bottom: 8.0,
-                                    top: 5.0),
+                                padding: EdgeInsets.only(
+                                    left: 13.0.w,
+                                    right: 13.0.w,
+                                    bottom: 8.0.h,
+                                    top: 5.0.h),
                                 child: FullWidthElevatedButton(
                                     onPressed: () {
                                       // Fluttertoast.showToast(msg: "Chat");
@@ -2342,11 +2252,11 @@ class _ChatSectionState extends State<ChatSection> {
                                     textColor: MyColors.whiteColor),
                               )
                             : Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 13.0,
-                                    right: 13.0,
-                                    bottom: 8.0,
-                                    top: 5.0),
+                                padding: EdgeInsets.only(
+                                    left: 13.0.w,
+                                    right: 13.0.w,
+                                    bottom: 8.0.h,
+                                    top: 5.0.h),
                                 child: FullWidthElevatedButton(
                                     onPressed: () async {
                                       var result = await Get.to(
@@ -2374,10 +2284,10 @@ class _ChatSectionState extends State<ChatSection> {
                                     color: MyColors.themeRedColor,
                                     textColor: MyColors.whiteColor),
                               )
-                    : const Center(
+                    : Center(
                         child: Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: CircularProgressIndicator(
+                          padding: EdgeInsets.all(4.0.r),
+                          child: const CircularProgressIndicator(
                             color: Color(MyColors.themeRedColor),
                           ),
                         ),

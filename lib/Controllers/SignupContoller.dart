@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 
 class SignUpContoller extends GetxController {
@@ -51,41 +52,37 @@ class SignUpContoller extends GetxController {
         }),
       );
 
+      print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       String message = jsonData['message'];
-      // print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
-          if (message == "User registered successfully") {
-            Fluttertoast.showToast(msg: "User registered successfully");
-            Constants.signupEmail = emailTextField.value.text;
-            Constants.signupPassword = passwordTextField.value.text;
-            Commons.hideProgressDialog();
-            Get.offAllNamed(
-              AppLinks.otp_verification_screen,
-              arguments: {
-                "email": emailTextField.value.text.toString(),
-                "fromWhere": "signup"
-              },
-            );
-            return "";
-          } else {}
-        }
-      } else {
-        if (message == "Validation error") {
-          Map<String, dynamic> jsonDataError = jsonData['errors'];
-          if (jsonDataError.keys.contains('email')) {
-            String msg = jsonDataError['email'];
-            Fluttertoast.showToast(msg: msg);
-            return msg;
-          } else if (jsonDataError.keys.contains("phone")) {
-            String msg = jsonDataError['phone'];
-            Fluttertoast.showToast(msg: msg);
-            return msg;
-          } else {}
+          Fluttertoast.showToast(msg: message);
+          Constants.signupEmail = emailTextField.value.text;
+          Constants.signupPassword = passwordTextField.value.text;
+          Commons.hideProgressDialog();
+          Get.offAllNamed(
+            AppLinks.otp_verification_screen,
+            arguments: {
+              "email": emailTextField.value.text.toString(),
+              "fromWhere": "signup"
+            },
+          );
           return "";
         }
+      } else {
+        Map<String, dynamic> jsonDataError = jsonData['errors'];
+        if (jsonDataError.keys.contains('email')) {
+          String msg = jsonDataError['email'];
+          Fluttertoast.showToast(msg: msg);
+          return msg;
+        } else if (jsonDataError.keys.contains("phone")) {
+          String msg = jsonDataError['phone'];
+          Fluttertoast.showToast(msg: msg);
+          return msg;
+        } else {}
+        return "";
       }
       return "";
     } catch (e) {
@@ -103,13 +100,13 @@ class SignUpContoller extends GetxController {
 
     passwordStrength.value = strength;
     if (strength < 0.4) {
-      passwordStrengthText.value = "Weak";
+      passwordStrengthText.value = Strings.weakText(Get.context!);
     } else if (strength < 0.8) {
-      passwordStrengthText.value = "Moderate";
+      passwordStrengthText.value = Strings.moderateText(Get.context!);
     } else if (strength < 1.0) {
-      passwordStrengthText.value = "Good";
+      passwordStrengthText.value = Strings.goodText(Get.context!);
     } else {
-      passwordStrengthText.value = "Strong";
+      passwordStrengthText.value = Strings.strongText(Get.context!);
       showPasswordRules.value = false;
     }
   }

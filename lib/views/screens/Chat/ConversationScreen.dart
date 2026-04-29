@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/NewMessageController.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/widgets/DialogButton.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
 import 'package:simple_flutter_reverb/simple_flutter_reverb.dart';
@@ -34,7 +36,7 @@ class ConversationScreen extends StatefulWidget {
 class _TradesmenChatScreenState extends State<ConversationScreen> {
   late int jobId, requestId;
   late String status, jobStatus;
-  String option = "Start Contract Now";
+  String option = Strings.startContractNowText(Get.context!);
   final data = Get.arguments;
   RxBool isLoading = true.obs;
   String backResults = "update";
@@ -52,7 +54,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
   late SharedPreferences _prefs;
   final ScrollController _scrollController = ScrollController();
   // final PusherChannelsFlutter _pusher = PusherChannelsFlutter.getInstance();
-  late Chat? chat;
+  Chat? chat = null;
   // late PusherClient pusher;
   // late Channel channel;
   // final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
@@ -68,7 +70,6 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
     }
     fromWhere = data['fromWhere'];
     if (data['chat'] != null) {
-      print("object");
       chat = data['chat'];
       jobId = chat!.jobPostingId!;
       jobStatus = chat!.jobStatus!;
@@ -76,13 +77,13 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
       chatId = chat!.id!;
       status = chat!.applicationStatus!;
       if (jobStatus == "completed") {
-        option = "Job has been done";
+        option = Strings.jobHasBeenDoneText(Get.context!);
       } else if (jobStatus == "in_progress" && status == "in_progress") {
-        option = "Mark as Complete";
+        option = Strings.markAsCompleteText(Get.context!);
       } else if (status == "rejected") {
-        option = "Chat is closed";
+        option = Strings.chatIsClosedText(Get.context!);
       } else {
-        option = "Start Contract Now";
+        option = Strings.startContractNowText(Get.context!);
       }
       // pusherService.initPusher();
       // initPusher();
@@ -91,12 +92,11 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
       getLastMessages("");
       _initializePusher();
     } else {
-      print("object2");
       if (data['chatId'] != null) {
         chatId = data['chatId'];
         getChatObject();
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
       }
     }
   }
@@ -114,541 +114,6 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
     // await _prefs.setString('profile_img', userObj['profile_img'] ?? "");
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return WillPopScope(
-  //     onWillPop: () async {
-  //       if (fromWhere == "OrderDetail") {
-  //         try {
-  //           if (chat != null) {
-  //             if (Constants.unReadcount.value >= chat!.unreadCount.value) {
-  //               Constants.unReadcount.value -= chat!.unreadCount.value;
-  //             } else {
-  //               Constants.unReadcount.value -= chat!.unreadCount.value;
-  //             }
-  //             Constants.unReadcount.value = 0;
-  //             chat!.unreadCount.value = 0;
-  //           }
-  //         } catch (e) {
-  //           throw Exception(e);
-  //         }
-  //       } else {
-  //         Get.back(result: backResults);
-  //       }
-  //       // disconnectPusher();
-  //       // await Future.delayed(Duration(milliseconds: 100));
-  //       return true;
-  //     },
-  //     child: SafeArea(child: Obx(() {
-  //       return isLoading.value
-  //           ? const Center(
-  //               child: CircularProgressIndicator(
-  //                 color: Color(MyColors.themeRedColor),
-  //               ),
-  //             )
-  //           : Scaffold(
-  //               backgroundColor: Colors.white,
-  //               resizeToAvoidBottomInset: true,
-  //               appBar: AppBar(
-  //                 leadingWidth: MediaQuery.of(context).size.width,
-  //                 leading: Container(
-  //                   color: const Color(MyColors.whiteColor),
-  //                   child: Row(
-  //                     children: [
-  //                       Expanded(
-  //                         flex: 1,
-  //                         child: Center(
-  //                           child: GestureDetector(
-  //                             onTap: () async {
-  //                               try {
-  //                                 if (fromWhere == "OrderDetail") {
-  //                                   try {
-  //                                     if (chat != null) {
-  //                                       if (Constants.unReadcount.value >=
-  //                                           chat!.unreadCount.value) {
-  //                                         Constants.unReadcount.value -=
-  //                                             chat!.unreadCount.value;
-  //                                       } else {
-  //                                         Constants.unReadcount.value -=
-  //                                             chat!.unreadCount.value;
-  //                                       }
-  //                                       Constants.unReadcount.value = 0;
-  //                                       chat!.unreadCount.value = 0;
-  //                                     }
-  //                                   } catch (e) {
-  //                                     throw Exception(e);
-  //                                   }
-  //                                   Get.back(result: backResults);
-  //                                 } else {
-  //                                   Get.back(result: backResults);
-  //                                 }
-  //                               } catch (e) {
-  //                                 throw Exception(e);
-  //                               }
-  //                             },
-  //                             child: const Padding(
-  //                               padding: EdgeInsets.only(left: 12.0),
-  //                               child: Icon(Icons.arrow_back_ios),
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       Expanded(
-  //                         flex: 7,
-  //                         child: GestureDetector(
-  //                           onTap: () {
-  //                             Get.toNamed(
-  //                               AppLinks.tradesmen_detail_screen,
-  //                               arguments: {
-  //                                 'tradesmenId': chat!.tradesmenId ?? -1
-  //                               },
-  //                             );
-  //                           },
-  //                           child: Row(
-  //                             children: [
-  //                               chat!.profileImg != null
-  //                                   ? Padding(
-  //                                       padding: const EdgeInsets.all(4.0),
-  //                                       child: CircleAvatar(
-  //                                         backgroundImage: NetworkImage(
-  //                                           chat!.profileImg.toString(),
-  //                                         ),
-  //                                       ),
-  //                                     )
-  //                                   : Image.asset(
-  //                                       "lib/assets/icons/placeholder_tradesmen.png",
-  //                                     ),
-  //                               Padding(
-  //                                 padding: const EdgeInsets.only(
-  //                                   top: 8.0,
-  //                                   left: 8.0,
-  //                                   right: 8.0,
-  //                                 ),
-  //                                 child: Column(
-  //                                   crossAxisAlignment:
-  //                                       CrossAxisAlignment.start,
-  //                                   children: [
-  //                                     Text(
-  //                                       chat!.tradesmenName!,
-  //                                       textAlign: TextAlign.start,
-  //                                       maxLines: 1,
-  //                                       overflow: TextOverflow.ellipsis,
-  //                                       style: const TextStyle(
-  //                                         color: Colors.black,
-  //                                         fontSize: 16,
-  //                                         fontWeight: FontWeight.w500,
-  //                                         fontFamily: 'Poppins',
-  //                                       ),
-  //                                     ),
-  //                                     Text(
-  //                                       chat!.serviceName!,
-  //                                       textAlign: TextAlign.start,
-  //                                       maxLines: 1,
-  //                                       overflow: TextOverflow.ellipsis,
-  //                                       style: const TextStyle(
-  //                                         color: Colors.black,
-  //                                         fontSize: 12,
-  //                                         fontWeight: FontWeight.w500,
-  //                                         fontFamily: 'Poppins',
-  //                                       ),
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //               body: Obx(() {
-  //                 return Column(
-  //                   children: [
-  //                     Expanded(
-  //                       flex: 3,
-  //                       child: Container(
-  //                         color: const Color(MyColors.cardGrayColor100),
-  //                         child: Padding(
-  //                           padding: const EdgeInsets.only(
-  //                               left: 6.0, right: 6.0, top: 6.0),
-  //                           child: Column(
-  //                             children: [
-  //                               Align(
-  //                                 alignment: Alignment.topLeft,
-  //                                 child: Padding(
-  //                                   padding: const EdgeInsets.only(left: 8.0),
-  //                                   child: HeadingTextW500(
-  //                                       text: "Job: ${chat!.jobTitle ?? "N/A"}",
-  //                                       centerAlign: false,
-  //                                       size: 13),
-  //                                 ),
-  //                               ),
-  //                               Align(
-  //                                   alignment: Alignment.topLeft,
-  //                                   child: Padding(
-  //                                     padding: const EdgeInsets.all(2.0),
-  //                                     child: Card(
-  //                                       elevation: 0,
-  //                                       color: option == "Mark as Complete"
-  //                                           ? const Color(
-  //                                               MyColors.cardColorGreenLight)
-  //                                           : option == "Chat is closed"
-  //                                               ? const Color(
-  //                                                   MyColors.cardcolorOrange200)
-  //                                               : option == "Start Contract Now"
-  //                                                   ? const Color(MyColors
-  //                                                       .cardColorSky200)
-  //                                                   : option ==
-  //                                                           "Job has been done"
-  //                                                       ? const Color(MyColors
-  //                                                           .cardColorGreen200)
-  //                                                       : const Color(MyColors
-  //                                                           .cardcolorOrange200),
-  //                                       shape: RoundedRectangleBorder(
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(6)),
-  //                                       child: Padding(
-  //                                         padding: const EdgeInsets.only(
-  //                                             left: 3.0, right: 3.0, top: 3.0),
-  //                                         child: option == "Mark as Complete"
-  //                                             ? Row(
-  //                                                 mainAxisSize:
-  //                                                     MainAxisSize.min,
-  //                                                 children: [
-  //                                                   Lottie.asset(
-  //                                                     'lib/assets/icons/ActiveStatusRipple.json',
-  //                                                     width: 14,
-  //                                                     height: 14,
-  //                                                     fit: BoxFit.contain,
-  //                                                     repeat: true,
-  //                                                     animate: true,
-  //                                                   ),
-  //                                                   const SizedBox(
-  //                                                     width: 2.0,
-  //                                                   ),
-  //                                                   Headingdescription(
-  //                                                       text: Strings.active(
-  //                                                           context),
-  //                                                       centerAlign: false,
-  //                                                       size: 12)
-  //                                                 ],
-  //                                               )
-  //                                             : option == "Start Contract Now"
-  //                                                 ? Row(
-  //                                                     mainAxisSize:
-  //                                                         MainAxisSize.min,
-  //                                                     children: [
-  //                                                       SvgPicture.asset(
-  //                                                           "lib/assets/icons/inprocessIcon.svg",
-  //                                                           height: 14.0,
-  //                                                           width: 14.0),
-  //                                                       const SizedBox(
-  //                                                         width: 2.0,
-  //                                                       ),
-  //                                                       Headingdescription(
-  //                                                           text: Strings
-  //                                                               .inProcess(
-  //                                                                   context),
-  //                                                           centerAlign: false,
-  //                                                           size: 12)
-  //                                                     ],
-  //                                                   )
-  //                                                 : option ==
-  //                                                         "Job has been done"
-  //                                                     ? Row(
-  //                                                         mainAxisSize:
-  //                                                             MainAxisSize.min,
-  //                                                         children: [
-  //                                                           SvgPicture.asset(
-  //                                                               "lib/assets/icons/completedTickIcon.svg",
-  //                                                               height: 14.0,
-  //                                                               width: 14.0),
-  //                                                           const SizedBox(
-  //                                                             width: 2.0,
-  //                                                           ),
-  //                                                           Headingdescription(
-  //                                                               text: Strings
-  //                                                                   .completed(
-  //                                                                       context),
-  //                                                               centerAlign:
-  //                                                                   false,
-  //                                                               size: 12)
-  //                                                         ],
-  //                                                       )
-  //                                                     : Row(
-  //                                                         mainAxisSize:
-  //                                                             MainAxisSize.min,
-  //                                                         children: [
-  //                                                           SvgPicture.asset(
-  //                                                               "lib/assets/icons/jobCancelledIcon.svg",
-  //                                                               height: 14.0,
-  //                                                               width: 14.0),
-  //                                                           const SizedBox(
-  //                                                             width: 2.0,
-  //                                                           ),
-  //                                                           Headingdescription(
-  //                                                               text: Strings
-  //                                                                   .canceledText(
-  //                                                                       context),
-  //                                                               centerAlign:
-  //                                                                   false,
-  //                                                               size: 12)
-  //                                                         ],
-  //                                                       ),
-  //                                       ),
-  //                                     ),
-  //                                   )),
-  //                               Padding(
-  //                                 padding: const EdgeInsets.only(
-  //                                     left: 8.0, right: 8.0),
-  //                                 child: FullWidthElevatedButton(
-  //                                   text: option,
-  //                                   color: option == "Mark as Complete"
-  //                                       ? MyColors.themeRedColor
-  //                                       : option == "Job has been done"
-  //                                           ? MyColors.lightGrayColor
-  //                                           : option == "Chat is closed"
-  //                                               ? MyColors.lightGrayColor
-  //                                               : MyColors.themeRedColor,
-  //                                   onPressed: () {
-  //                                     if (option == "Start Contract Now") {
-  //                                       updateJobStatus("in_progress");
-  //                                     } else if (option == "Mark as Complete") {
-  //                                       showDialog(
-  //                                         context: context,
-  //                                         builder: (context) => AlertDialog(
-  //                                           title: const Text("Job is done"),
-  //                                           content: const Text(
-  //                                               "Are you sure to complete this contract?"),
-  //                                           contentTextStyle: const TextStyle(
-  //                                               fontSize: 15.5,
-  //                                               color: Colors.black),
-  //                                           shape: RoundedRectangleBorder(
-  //                                               borderRadius:
-  //                                                   BorderRadius.circular(12)),
-  //                                           backgroundColor: const Color(
-  //                                               MyColors.colorRed200),
-  //                                           actions: [
-  //                                             Row(
-  //                                               mainAxisAlignment:
-  //                                                   MainAxisAlignment
-  //                                                       .spaceEvenly,
-  //                                               children: [
-  //                                                 Expanded(
-  //                                                   child: Padding(
-  //                                                     padding:
-  //                                                         const EdgeInsets.only(
-  //                                                             left: 8.0,
-  //                                                             right: 8.0),
-  //                                                     child:
-  //                                                         FullWidthOutlineButton(
-  //                                                             text: Strings
-  //                                                                 .noText(
-  //                                                                     context),
-  //                                                             fontsize: 15.0,
-  //                                                             color: MyColors
-  //                                                                 .themeRedColor,
-  //                                                             onPressed: () {
-  //                                                               Get.back();
-  //                                                             }),
-  //                                                   ),
-  //                                                 ),
-  //                                                 Expanded(
-  //                                                   child: Padding(
-  //                                                     padding:
-  //                                                         const EdgeInsets.only(
-  //                                                             left: 8.0,
-  //                                                             right: 8.0),
-  //                                                     child:
-  //                                                         FullWidthButtonPrimary(
-  //                                                             text: Strings
-  //                                                                 .yesText(
-  //                                                                     context),
-  //                                                             fontsize: 15.0,
-  //                                                             color: MyColors
-  //                                                                 .themeRedColor,
-  //                                                             onPressed: () {
-  //                                                               Get.back();
-  //                                                               updateJobStatus(
-  //                                                                   "completed");
-  //                                                             }),
-  //                                                   ),
-  //                                                 )
-  //                                               ],
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                       );
-  //                                     } else {}
-  //                                   },
-  //                                   textColor: MyColors.whiteColor,
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Expanded(
-  //                       flex: 15,
-  //                       child: Padding(
-  //                         padding: const EdgeInsets.only(
-  //                             bottom: 8.0, left: 8.0, right: 8.0, top: 4.0),
-  //                         child: Column(
-  //                           children: [
-  //                             Obx(() {
-  //                               return Expanded(
-  //                                 child: ListView.builder(
-  //                                   padding: const EdgeInsets.all(10),
-  //                                   itemCount: chatObj!.pagination!.hasMore!
-  //                                       ? messagesList.length + 1
-  //                                       : messagesList.length,
-  //                                   reverse: true,
-  //                                   controller: _scrollController,
-  //                                   itemBuilder: (context, index) {
-  //                                     if (index == messagesList.length) {
-  //                                       return Obx(() {
-  //                                         return isLoadMoreEnable.value
-  //                                             ? const Center(
-  //                                                 child:
-  //                                                     CircularProgressIndicator(
-  //                                                   color: Colors.red,
-  //                                                 ),
-  //                                               )
-  //                                             : GestureDetector(
-  //                                                 onTap: () {
-  //                                                   try {
-  //                                                     isLoadMoreEnable.value =
-  //                                                         true;
-  //                                                     getLastMessages(chatObj!
-  //                                                         .pagination!
-  //                                                         .nextCursor!);
-  //                                                   } catch (e) {
-  //                                                     throw Exception(e);
-  //                                                   }
-  //                                                 },
-  //                                                 child: Card(
-  //                                                   elevation: 0,
-  //                                                   shape:
-  //                                                       RoundedRectangleBorder(
-  //                                                           borderRadius:
-  //                                                               BorderRadius
-  //                                                                   .circular(
-  //                                                                       6)),
-  //                                                   color: const Color(MyColors
-  //                                                       .cardColorGreen200),
-  //                                                   child: Padding(
-  //                                                     padding:
-  //                                                         const EdgeInsets.all(
-  //                                                             5.0),
-  //                                                     child: Text("Load More",
-  //                                                         textAlign:
-  //                                                             TextAlign.center,
-  //                                                         style: TextStyle(
-  //                                                             color: Colors
-  //                                                                 .black
-  //                                                                 .withOpacity(
-  //                                                                     0.8),
-  //                                                             fontSize: 14,
-  //                                                             fontWeight:
-  //                                                                 FontWeight
-  //                                                                     .w500,
-  //                                                             fontFamily:
-  //                                                                 'Poppins')),
-  //                                                   ),
-  //                                                 ),
-  //                                               );
-  //                                       });
-  //                                     } else {
-  //                                       final message = messagesList[index];
-  //                                       return Align(
-  //                                         alignment:
-  //                                             message.senderId == clientId
-  //                                                 ? Alignment.centerRight
-  //                                                 : Alignment.centerLeft,
-  //                                         child: Container(
-  //                                           padding: const EdgeInsets.symmetric(
-  //                                             vertical: 10,
-  //                                             horizontal: 14,
-  //                                           ),
-  //                                           margin: const EdgeInsets.symmetric(
-  //                                             vertical: 4,
-  //                                           ),
-  //                                           constraints: BoxConstraints(
-  //                                             maxWidth: MediaQuery.of(
-  //                                                   context,
-  //                                                 ).size.width *
-  //                                                 0.75,
-  //                                           ),
-  //                                           decoration: BoxDecoration(
-  //                                             color:
-  //                                                 message.senderId == clientId
-  //                                                     ? Colors.blue[100]
-  //                                                     : const Color(MyColors
-  //                                                         .cardGrayColor100),
-  //                                             borderRadius:
-  //                                                 BorderRadius.circular(
-  //                                               10,
-  //                                             ),
-  //                                           ),
-  //                                           child: Text(message.message!),
-  //                                         ),
-  //                                       );
-  //                                     }
-  //                                   },
-  //                                 ),
-  //                               );
-  //                             }),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Expanded(
-  //                       flex: 2,
-  //                       child: Row(
-  //                         children: [
-  //                           Expanded(flex: 10, child: textfieldWidget()),
-  //                           Expanded(
-  //                             flex: 2,
-  //                             child: GestureDetector(
-  //                               onTap: () {
-  //                                 try {
-  //                                   if (conversationContoller.messageTextField
-  //                                       .value.text.isNotEmpty) {
-  //                                     sendMessage(
-  //                                       conversationContoller
-  //                                           .messageTextField.value.text,
-  //                                     );
-  //                                   }
-  //                                 } catch (e) {
-  //                                   throw Exception(e);
-  //                                 }
-  //                               },
-  //                               child: Center(
-  //                                 child: SvgPicture.asset(
-  //                                   "lib/assets/icons/sendButton.svg",
-  //                                   fit: BoxFit.cover,
-  //                                   height:
-  //                                       MediaQuery.of(context).size.height / 10,
-  //                                   width:
-  //                                       MediaQuery.of(context).size.width / 8,
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 );
-  //               }),
-  //             );
-  //     })),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -663,6 +128,9 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
               }
               Constants.unReadcount.value = 0;
               chat!.unreadCount.value = 0;
+            } else {
+              Get.back();
+              return true;
             }
           } catch (e) {
             throw Exception(e);
@@ -676,436 +144,194 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
       },
       child: SafeArea(
         child: Obx(() {
-          if (isLoading.value) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Color(MyColors.themeRedColor),
-              ),
-            );
-          }
-          return Scaffold(
-            backgroundColor: Colors.white,
-            resizeToAvoidBottomInset: true,
-            appBar: AppBar(
-              leadingWidth: MediaQuery.of(context).size.width,
-              toolbarHeight: 170,
-              leading: Container(
-                color: const Color(MyColors.whiteColor),
-                child: Column(
-                  children: [
-                    Row(
+          return GestureDetector(
+            onTap: () {
+              FocusScope.of(Get.context!).unfocus();
+            },
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              resizeToAvoidBottomInset: true,
+              appBar: appBarWidget(),
+              body: isLoading.value || chat == null
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(MyColors.themeRedColor),
+                      ),
+                    )
+                  : Column(
                       children: [
                         Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: () async {
-                                try {
-                                  if (fromWhere == "OrderDetail") {
-                                    try {
-                                      if (chat != null) {
-                                        if (Constants.unReadcount.value >=
-                                            chat!.unreadCount.value) {
-                                          Constants.unReadcount.value -=
-                                              chat!.unreadCount.value;
-                                        } else {
-                                          Constants.unReadcount.value -=
-                                              chat!.unreadCount.value;
-                                        }
-                                        Constants.unReadcount.value = 0;
-                                        chat!.unreadCount.value = 0;
-                                      }
-                                    } catch (e) {
-                                      throw Exception(e);
-                                    }
-                                    Get.back(result: backResults);
-                                  } else {
-                                    Get.back(result: backResults);
-                                  }
-                                } catch (e) {
-                                  throw Exception(e);
-                                }
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 12.0),
-                                child: Icon(Icons.arrow_back_ios),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 7,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.toNamed(
-                                AppLinks.tradesmen_detail_screen,
-                                arguments: {
-                                  'tradesmenId': chat!.tradesmenId ?? -1
-                                },
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                chat!.profileImg != null
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                            chat!.profileImg.toString(),
-                                          ),
-                                        ),
-                                      )
-                                    : Image.asset(
-                                        "lib/assets/icons/placeholder_tradesmen.png",
-                                      ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 8.0,
-                                    left: 8.0,
-                                    right: 8.0,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        chat!.tradesmenName!,
-                                        textAlign: TextAlign.start,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                      Text(
-                                        chat!.serviceName!,
-                                        textAlign: TextAlign.start,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      color: const Color(MyColors.cardGrayColor100),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 6.0, right: 6.0, top: 6.0),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: HeadingTextW500(
-                                    text: "Job: ${chat!.jobTitle ?? "N/A"}",
-                                    centerAlign: false,
-                                    size: 13),
-                              ),
-                            ),
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Card(
-                                    elevation: 0,
-                                    color: option == "Mark as Complete"
-                                        ? const Color(
-                                            MyColors.cardColorGreenLight)
-                                        : option == "Chat is closed"
-                                            ? const Color(
-                                                MyColors.cardcolorOrange200)
-                                            : option == "Start Contract Now"
-                                                ? const Color(
-                                                    MyColors.cardColorSky200)
-                                                : option == "Job has been done"
-                                                    ? const Color(MyColors
-                                                        .cardColorGreen200)
-                                                    : const Color(MyColors
-                                                        .cardcolorOrange200),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(6)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3.0, right: 3.0, top: 3.0),
-                                      child: option == "Mark as Complete"
-                                          ? Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Lottie.asset(
-                                                  'lib/assets/icons/ActiveStatusRipple.json',
-                                                  width: 14,
-                                                  height: 14,
-                                                  fit: BoxFit.contain,
-                                                  repeat: true,
-                                                  animate: true,
-                                                ),
-                                                const SizedBox(
-                                                  width: 2.0,
-                                                ),
-                                                Headingdescription(
-                                                    text:
-                                                        Strings.active(context),
-                                                    centerAlign: false,
-                                                    size: 12)
-                                              ],
+                          flex: 8,
+                          child: Obx(() {
+                            return ListView.builder(
+                              controller: _scrollController,
+                              reverse: true,
+                              padding: EdgeInsets.only(
+                                  left: 10.w, right: 10.w, bottom: 10.h),
+                              itemCount: chatObj!.pagination!.hasMore!
+                                  ? messagesList.length + 1
+                                  : messagesList.length,
+                              itemBuilder: (context, index) {
+                                if (index == messagesList.length) {
+                                  return Obx(() {
+                                    return Center(
+                                      child: isLoadMoreEnable.value
+                                          ? const CircularProgressIndicator(
+                                              color:
+                                                  Color(MyColors.grayColor300),
                                             )
-                                          : option == "Start Contract Now"
-                                              ? Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    SvgPicture.asset(
-                                                        "lib/assets/icons/inprocessIcon.svg",
-                                                        height: 14.0,
-                                                        width: 14.0),
-                                                    const SizedBox(
-                                                      width: 2.0,
-                                                    ),
-                                                    Headingdescription(
-                                                        text: Strings.inProcess(
-                                                            context),
-                                                        centerAlign: false,
-                                                        size: 12)
-                                                  ],
-                                                )
-                                              : option == "Job has been done"
-                                                  ? Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            "lib/assets/icons/completedTickIcon.svg",
-                                                            height: 14.0,
-                                                            width: 14.0),
-                                                        const SizedBox(
-                                                          width: 2.0,
-                                                        ),
-                                                        Headingdescription(
-                                                            text: Strings
-                                                                .completed(
-                                                                    context),
-                                                            centerAlign: false,
-                                                            size: 12)
-                                                      ],
-                                                    )
-                                                  : Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            "lib/assets/icons/jobCancelledIcon.svg",
-                                                            height: 14.0,
-                                                            width: 14.0),
-                                                        const SizedBox(
-                                                          width: 2.0,
-                                                        ),
-                                                        Headingdescription(
-                                                            text: Strings
-                                                                .canceledText(
-                                                                    context),
-                                                            centerAlign: false,
-                                                            size: 12)
-                                                      ],
-                                                    ),
+                                          : DialogButton(
+                                              text: Strings.loadMoreText(
+                                                  Get.context!),
+                                              color: MyColors.midGrayColor,
+                                              onPressed: () {
+                                                isLoadMoreEnable.value = true;
+                                                getLastMessages(chatObj!
+                                                    .pagination!.nextCursor!);
+                                              },
+                                            ),
+                                    );
+                                  });
+                                }
+
+                                final message = messagesList[index];
+
+                                return Align(
+                                  alignment: message.senderId == clientId
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(vertical: 4.r),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.r, horizontal: 14.r),
+                                    constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width.w *
+                                              0.75,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: message.senderId == clientId
+                                          ? Colors.red[700]
+                                          : const Color(
+                                              MyColors.cardGrayColor100),
+                                      borderRadius: message.senderId == clientId
+                                          ? BorderRadius.only(
+                                              bottomLeft: Radius.circular(8.r),
+                                              topRight: Radius.circular(8.r),
+                                              topLeft: Radius.circular(8.r),
+                                              bottomRight: Radius.circular(0.r))
+                                          : BorderRadius.only(
+                                              bottomLeft: Radius.circular(0.r),
+                                              topRight: Radius.circular(8.r),
+                                              topLeft: Radius.circular(8.r),
+                                              bottomRight:
+                                                  Radius.circular(8.r)),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          message.senderId == clientId
+                                              ? CrossAxisAlignment.end
+                                              : CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          message.message ?? "",
+                                          style: TextStyle(
+                                              fontSize: 13.8,
+                                              color:
+                                                  message.senderId == clientId
+                                                      ? Colors.white
+                                                      : Colors.black),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: Text(
+                                                message.humanReadableCreatedAt ==
+                                                        null
+                                                    ? ""
+                                                    : (message
+                                                                    .humanReadableCreatedAt ==
+                                                                "0s ago" ||
+                                                            message.humanReadableCreatedAt ==
+                                                                "1s ago" ||
+                                                            message.humanReadableCreatedAt ==
+                                                                "vor 0 Sek." ||
+                                                            message.humanReadableCreatedAt ==
+                                                                "vor 1 Sek.")
+                                                        ? Strings.nowText(
+                                                            Get.context!)
+                                                        : message
+                                                            .humanReadableCreatedAt!,
+                                                style: TextStyle(
+                                                    fontSize: 11,
+                                                    color: message.senderId ==
+                                                            clientId
+                                                        ? Colors.white70
+                                                        : Colors.black54),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 2,
+                                            ),
+                                            message.sent
+                                                ? Icon(
+                                                    Icons.done,
+                                                    size: 14,
+                                                    color: message.senderId ==
+                                                            clientId
+                                                        ? Colors.white70
+                                                        : Colors.black54,
+                                                  )
+                                                : SizedBox(
+                                                    width: 7,
+                                                  )
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                )),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, right: 8.0),
-                              child: FullWidthElevatedButton(
-                                text: option,
-                                color: option == "Mark as Complete"
-                                    ? MyColors.themeRedColor
-                                    : option == "Job has been done"
-                                        ? MyColors.lightGrayColor
-                                        : option == "Chat is closed"
-                                            ? MyColors.lightGrayColor
-                                            : MyColors.themeRedColor,
-                                onPressed: () {
-                                  if (option == "Start Contract Now") {
-                                    updateJobStatus("in_progress");
-                                  } else if (option == "Mark as Complete") {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text("Job is done"),
-                                        content: const Text(
-                                            "Are you sure to complete this contract?"),
-                                        contentTextStyle: const TextStyle(
-                                            fontSize: 15.5,
-                                            color: Colors.black),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                        backgroundColor:
-                                            const Color(MyColors.colorRed200),
-                                        actions: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0,
-                                                          right: 8.0),
-                                                  child: FullWidthOutlineButton(
-                                                      text: Strings.noText(
-                                                          context),
-                                                      fontsize: 15.0,
-                                                      color: MyColors
-                                                          .themeRedColor,
-                                                      onPressed: () {
-                                                        Get.back();
-                                                      }),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0,
-                                                          right: 8.0),
-                                                  child: FullWidthButtonPrimary(
-                                                      text: Strings.yesText(
-                                                          context),
-                                                      fontsize: 15.0,
-                                                      color: MyColors
-                                                          .themeRedColor,
-                                                      onPressed: () {
-                                                        Get.back();
-                                                        updateJobStatus(
-                                                            "completed");
-                                                      }),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  } else {}
+                                );
+                              },
+                            );
+                          }),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(flex: 10, child: textfieldWidget()),
+                            Expanded(
+                              flex: 2,
+                              child: GestureDetector(
+                                onTap: () {
+                                  try {
+                                    if (conversationContoller.messageTextField
+                                        .value.text.isNotEmpty) {
+                                      sendMessage(
+                                        conversationContoller
+                                            .messageTextField.value.text,
+                                      );
+                                    }
+                                  } catch (e) {
+                                    throw Exception(e);
+                                  }
                                 },
-                                textColor: MyColors.whiteColor,
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    "lib/assets/icons/sendButton.svg",
+                                    fit: BoxFit.cover,
+                                    height:
+                                        MediaQuery.of(context).size.height / 10,
+                                    width:
+                                        MediaQuery.of(context).size.width / 8,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  flex: 8,
-                  child: Obx(() {
-                    return ListView.builder(
-                      controller: _scrollController,
-                      reverse: true,
-                      padding: const EdgeInsets.all(10),
-                      itemCount: chatObj!.pagination!.hasMore!
-                          ? messagesList.length + 1
-                          : messagesList.length,
-                      itemBuilder: (context, index) {
-                        /// LOAD MORE
-                        if (index == messagesList.length) {
-                          return Center(
-                            child: isLoadMoreEnable.value
-                                ? const CircularProgressIndicator()
-                                : TextButton(
-                                    onPressed: () {
-                                      isLoadMoreEnable.value = true;
-                                      getLastMessages(
-                                          chatObj!.pagination!.nextCursor!);
-                                    },
-                                    child: const Text("Load More"),
-                                  ),
-                          );
-                        }
-
-                        final message = messagesList[index];
-
-                        return Align(
-                          alignment: message.senderId == clientId
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 4),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 14),
-                            constraints: BoxConstraints(
-                              maxWidth:
-                                  MediaQuery.of(context).size.width * 0.75,
-                            ),
-                            decoration: BoxDecoration(
-                              color: message.senderId == clientId
-                                  ? Colors.blue[100]
-                                  : const Color(MyColors.cardGrayColor100),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(message.message ?? ""),
-                          ),
-                        );
-                      },
-                    );
-                  }),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      Expanded(flex: 10, child: textfieldWidget()),
-                      Expanded(
-                        flex: 2,
-                        child: GestureDetector(
-                          onTap: () {
-                            try {
-                              if (conversationContoller
-                                  .messageTextField.value.text.isNotEmpty) {
-                                sendMessage(
-                                  conversationContoller
-                                      .messageTextField.value.text,
-                                );
-                              }
-                            } catch (e) {
-                              throw Exception(e);
-                            }
-                          },
-                          child: Center(
-                            child: SvgPicture.asset(
-                              "lib/assets/icons/sendButton.svg",
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height / 10,
-                              width: MediaQuery.of(context).size.width / 8,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                        )
+                      ],
+                    ),
             ),
           );
         }),
@@ -1116,7 +342,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
   void updateJobStatus(String status) async {
     try {
       Commons.showProgressDialog(context);
-      bool res = await postedOrderDetailsController.pleaseUpdateRequestsStatus(
+      int chatId =
+          await postedOrderDetailsController.pleaseUpdateRequestsStatus(
         jobId,
         requestId,
         status,
@@ -1124,14 +351,16 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
       );
       Commons.hideProgressDialog();
       backResults = "reload";
-      if (res) {
+      if (chatId != -1) {
         setState(() {
-          if (option == "Start Contract Now") {
-            option = "Mark as Complete";
-            Fluttertoast.showToast(msg: "Your Job is started and Active Now");
+          if (option == Strings.startContractNowText(Get.context!)) {
+            option = Strings.markAsCompleteText(Get.context!);
+            Fluttertoast.showToast(
+                msg: Strings.yourJobstartedActiveNowActiveText(context));
           } else {
-            option = "Job has been done";
-            Fluttertoast.showToast(msg: "Your Job has Completed!");
+            option = Strings.jobHasBeenDoneText(Get.context!);
+            Fluttertoast.showToast(
+                msg: Strings.jobhasbeenCompletedText(Get.context!));
             Get.toNamed(AppLinks.review_screen, arguments: {
               'jobPostingId': chat!.jobPostingId,
               'tradesmenId': chat!.tradesmenId
@@ -1144,15 +373,23 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
     }
   }
 
-  void sendMessage(String message) async {
+  void sendMessage(String msg) async {
     try {
+      Message message = Message(
+          id: null,
+          chatId: chatId,
+          senderId: clientId,
+          receiverId: null,
+          humanReadableCreatedAt: Strings.nowText(Get.context!),
+          message: msg);
+      message.sent = false;
+      messagesList.insert(0, message);
       Message? messageObj = await conversationContoller.sendMessage(
         context,
-        message,
+        msg,
         chatId,
       );
       if (messageObj != null) {
-        messagesList.insert(0, messageObj);
         _scrollToBottom();
       }
     } catch (e) {
@@ -1162,77 +399,73 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
 
   Widget textfieldWidget() {
     return Padding(
-      padding:
-          const EdgeInsets.only(bottom: 14.0, right: 6.0, left: 14.0, top: 8.0),
+      padding: EdgeInsets.only(
+          bottom: 14.0.h, right: 6.0.w, left: 14.0.w, top: 8.0.h),
       child: TextFormField(
         controller: conversationContoller.messageTextField(),
         keyboardType: TextInputType.text,
-        enabled: option == "Chat is closed"
-            ? false
-            : option == "Job has been done"
-                ? false
-                : true,
+        // enabled: option == "Chat is closed"
+        //     ? false
+        //     : option == "Job has been done"
+        //         ? false
+        //         : true,
+        enabled: true,
         onChanged: (value) {},
         obscuringCharacter: "*",
         validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Field cannot be empty!";
-          } else if (value.length < 3) {
-            return "Must be at least 3 characters long!";
-          }
           return null;
         },
         decoration: InputDecoration(
-          hintText: "Type a Message...",
+          hintText: Strings.typeaMessageText(Get.context!),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10.0.r),
             borderSide: BorderSide(
-              width: 2.0,
+              width: 2.0.w,
               color: Colors.red.withOpacity(0.7),
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10.0.r),
             borderSide: BorderSide(
-              width: 2.0,
+              width: 2.0.w,
               color: Colors.red.withOpacity(0.7),
             ),
           ),
           filled: true,
-          fillColor: const Color(MyColors.lightSilverColor),
-          hintStyle: const TextStyle(
+          fillColor: const Color(MyColors.lightSilverColor).withOpacity(0.8),
+          hintStyle: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 14.0,
-            color: Color(0x66000000),
+            fontSize: 14.0.sp,
+            color: const Color(0x66000000),
             fontWeight: FontWeight.w400,
           ),
           prefixIcon: null,
           prefixIconColor: const Color(0x66000000),
           suffixIcon: null,
           suffixIconColor: const Color(0x66000000),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 14.0,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 16.0.w,
+            vertical: 14.0.h,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              width: 2.0,
-              color: Color(MyColors.fieldBorderColor),
+            borderRadius: BorderRadius.circular(26.0),
+            borderSide: BorderSide(
+              width: 1.5.w,
+              color: const Color(MyColors.fieldBorderColor),
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              width: 2.0,
-              color: Color(MyColors.fieldBorderColor),
+            borderRadius: BorderRadius.circular(26.0.r),
+            borderSide: BorderSide(
+              width: 1.5.w,
+              color: const Color(MyColors.themeRedColor),
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              width: 2.0,
-              color: Color(MyColors.fieldBorderColor),
+            borderRadius: BorderRadius.circular(26.0),
+            borderSide: BorderSide(
+              width: 1.5.w,
+              color: const Color(MyColors.fieldBorderColor),
             ),
           ),
         ),
@@ -1273,7 +506,12 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
           if (messages.isNotEmpty) {
             print("New message added: ${messages.last.message}");
             if (messages.last.chatId == chatId) {
-              messagesList.insert(0, messages.last);
+              if (messages.last.senderId == clientId) {
+                messagesList.insert(0, messages.last);
+                messagesList.removeAt(1);
+              } else {
+                messagesList.insert(0, messages.last);
+              }
               _scrollToBottom();
             }
           }
@@ -1309,13 +547,13 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
       chatId = chat!.id!;
       status = chat!.applicationStatus!;
       if (jobStatus == "completed") {
-        option = "Job has been done";
+        option = Strings.jobHasBeenDoneText(Get.context!);
       } else if (jobStatus == "in_progress" && status == "in_progress") {
-        option = "Mark as Complete";
+        option = Strings.markAsCompleteText(Get.context!);
       } else if (status == "rejected") {
-        option = "Completeddd";
+        option = Strings.completed(Get.context!);
       } else {
-        option = "Start Contract Now";
+        option = Strings.startConversation(Get.context!);
       }
       getUserInfo();
       getLastMessages("");
@@ -1323,5 +561,330 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  PreferredSizeWidget appBarWidget() {
+    return AppBar(
+      leadingWidth: MediaQuery.of(context).size.width.w,
+      toolbarHeight: 170,
+      leading: Container(
+        color: const Color(MyColors.whiteColor),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () async {
+                        try {
+                          if (fromWhere == "OrderDetail") {
+                            try {
+                              if (chat != null) {
+                                if (Constants.unReadcount.value >=
+                                    chat!.unreadCount.value) {
+                                  Constants.unReadcount.value -=
+                                      chat!.unreadCount.value;
+                                } else {
+                                  Constants.unReadcount.value -=
+                                      chat!.unreadCount.value;
+                                }
+                                Constants.unReadcount.value = 0;
+                                chat!.unreadCount.value = 0;
+                              }
+                            } catch (e) {
+                              throw Exception(e);
+                            }
+                            Get.back(result: backResults);
+                          } else {
+                            Get.back(result: backResults);
+                          }
+                        } catch (e) {
+                          throw Exception(e);
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 12.0.w),
+                        child: const Icon(Icons.arrow_back_ios),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 7,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(
+                        AppLinks.tradesmen_detail_screen,
+                        arguments: {'tradesmenId': chat!.tradesmenId ?? -1},
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        chat!.profileImg != null
+                            ? Padding(
+                                padding: EdgeInsets.all(4.0.r),
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    chat!.profileImg.toString(),
+                                  ),
+                                ),
+                              )
+                            : Image.asset(
+                                "lib/assets/icons/placeholder_tradesmen.png",
+                              ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 8.0.h,
+                            left: 8.0.w,
+                            right: 8.0.w,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                chat!.tradesmenName!,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0.sp,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                              Text(
+                                chat!.serviceName!,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.0.sp,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              color: const Color(MyColors.cardGrayColor100),
+              child: Padding(
+                padding: EdgeInsets.only(left: 6.0.w, right: 6.0.w, top: 6.0.h),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.0.w),
+                        child: HeadingTextW500(
+                            text:
+                                "${Strings.jobText(Get.context!)}: ${chat!.jobTitle ?? "N/A"}",
+                            centerAlign: false,
+                            size: 13.sp),
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(2.0.r),
+                          child: Card(
+                            elevation: 0,
+                            color: option ==
+                                    Strings.markAsCompleteText(Get.context!)
+                                ? const Color(MyColors.cardColorGreenLight)
+                                : option ==
+                                        Strings.chatIsClosedText(Get.context!)
+                                    ? const Color(MyColors.cardcolorOrange200)
+                                    : option ==
+                                            Strings.startContractNowText(
+                                                Get.context!)
+                                        ? const Color(MyColors.cardColorSky200)
+                                        : option ==
+                                                Strings.jobHasBeenDoneText(
+                                                    Get.context!)
+                                            ? const Color(
+                                                MyColors.cardColorGreen200)
+                                            : const Color(
+                                                MyColors.cardcolorOrange200),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0.r)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 3.0.w, right: 3.0.w, top: 3.0.h),
+                              child: option ==
+                                      Strings.markAsCompleteText(Get.context!)
+                                  ? Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Lottie.asset(
+                                          'lib/assets/icons/ActiveStatusRipple.json',
+                                          width: 14.0.w,
+                                          height: 14.0.h,
+                                          fit: BoxFit.contain,
+                                          repeat: true,
+                                          animate: true,
+                                        ),
+                                        SizedBox(
+                                          width: 2.0.w,
+                                        ),
+                                        Headingdescription(
+                                            text: Strings.active(context),
+                                            centerAlign: false,
+                                            size: 12.sp)
+                                      ],
+                                    )
+                                  : option ==
+                                          Strings.startContractNowText(
+                                              Get.context!)
+                                      ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SvgPicture.asset(
+                                                "lib/assets/icons/inprocessIcon.svg",
+                                                height: 14.0.h,
+                                                width: 14.0.w),
+                                            SizedBox(
+                                              width: 2.0.w,
+                                            ),
+                                            Headingdescription(
+                                                text:
+                                                    Strings.inProcess(context),
+                                                centerAlign: false,
+                                                size: 12.sp)
+                                          ],
+                                        )
+                                      : option ==
+                                              Strings.jobHasBeenDoneText(
+                                                  Get.context!)
+                                          ? Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SvgPicture.asset(
+                                                    "lib/assets/icons/completedTickIcon.svg",
+                                                    height: 14.0.h,
+                                                    width: 14.0.w),
+                                                SizedBox(
+                                                  width: 2.0.w,
+                                                ),
+                                                Headingdescription(
+                                                    text: Strings.completed(
+                                                        context),
+                                                    centerAlign: false,
+                                                    size: 12.sp)
+                                              ],
+                                            )
+                                          : Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SvgPicture.asset(
+                                                    "lib/assets/icons/jobCancelledIcon.svg",
+                                                    height: 14.0.h,
+                                                    width: 14.0.w),
+                                                SizedBox(
+                                                  width: 2.0.w,
+                                                ),
+                                                Headingdescription(
+                                                    text: Strings.canceledText(
+                                                        context),
+                                                    centerAlign: false,
+                                                    size: 12.sp)
+                                              ],
+                                            ),
+                            ),
+                          ),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                      child: FullWidthElevatedButton(
+                        text: option,
+                        color: option ==
+                                Strings.markAsCompleteText(Get.context!)
+                            ? MyColors.themeRedColor
+                            : option == Strings.jobHasBeenDoneText(Get.context!)
+                                ? MyColors.lightGrayColor
+                                : option ==
+                                        Strings.chatIsClosedText(Get.context!)
+                                    ? MyColors.lightGrayColor
+                                    : MyColors.themeRedColor,
+                        onPressed: () {
+                          if (option ==
+                              Strings.startContractNowText(Get.context!)) {
+                            updateJobStatus("in_progress");
+                          } else if (option ==
+                              Strings.markAsCompleteText(Get.context!)) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title:
+                                    Text(Strings.jobHasBeenDoneText(context)),
+                                content: Text(Strings
+                                    .areYouSureToCompleteThisContractText(
+                                        Get.context!)),
+                                contentTextStyle: TextStyle(
+                                    fontSize: 15.5.sp, color: Colors.black),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.sp)),
+                                backgroundColor:
+                                    const Color(MyColors.colorRed200),
+                                actions: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0.w, right: 8.0.w),
+                                          child: FullWidthOutlineButton(
+                                              text: Strings.noText(context),
+                                              fontsize: 15.0.sp,
+                                              color: MyColors.themeRedColor,
+                                              onPressed: () {
+                                                Get.back();
+                                              }),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0.w, right: 8.0.w),
+                                          child: FullWidthButtonPrimary(
+                                              text: Strings.yesText(context),
+                                              fontsize: 15.0.sp,
+                                              color: MyColors.themeRedColor,
+                                              onPressed: () {
+                                                Get.back();
+                                                updateJobStatus("completed");
+                                              }),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {}
+                        },
+                        textColor: MyColors.whiteColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

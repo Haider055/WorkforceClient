@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/NotificationScreenContoller.dart';
@@ -33,59 +34,63 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               ? _buildNoLoginView()
               : Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: HeadingTextW600(
-                              text: Strings.notifications(context),
-                              centerAlign: false,
-                              size: 22),
-                        ),
-                        !controller.isLoading.value &&
-                                controller.notiList.isNotEmpty
-                            ? GestureDetector(
-                                onTap: () async {
-                                  try {
-                                    Commons.showProgressDialog(context);
-                                    await controller
-                                        .pleaseMarkAllAsRead(context);
-                                    Commons.hideProgressDialog();
-                                  } catch (e) {
-                                    throw Exception(e);
-                                  }
-                                },
-                                child: Card(
-                                  color: const Color(MyColors.cardGrayColor50),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusGeometry.circular(12)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            "lib/assets/icons/markAsReadIcon.svg"),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
-                                        const Text("Mark all as read",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                color: Color(
-                                                    MyColors.themeRedColor),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'Poppins'))
-                                      ],
-                                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(left: 12.w, top: 12.h, bottom: 4.h),
+                        child: HeadingTextW600(
+                            text: Strings.notifications(context),
+                            centerAlign: false,
+                            size: 20.sp),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: !controller.isLoading.value &&
+                              controller.notiList.isNotEmpty
+                          ? GestureDetector(
+                              onTap: () async {
+                                try {
+                                  Commons.showProgressDialog(context);
+                                  await controller.pleaseMarkAllAsRead(context);
+                                  Commons.hideProgressDialog();
+                                } catch (e) {
+                                  throw Exception(e);
+                                }
+                              },
+                              child: Card(
+                                color: const Color(MyColors.cardGrayColor50),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadiusGeometry.circular(12.r)),
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0.r),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset(
+                                          "lib/assets/icons/markAsReadIcon.svg"),
+                                      SizedBox(
+                                        width: 3.w,
+                                      ),
+                                      Text(
+                                          Strings.markAllAsReadText(
+                                              Get.context!),
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              color:
+                                                  Color(MyColors.themeRedColor),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Poppins'))
+                                    ],
                                   ),
                                 ),
-                              )
-                            : const SizedBox()
-                      ],
+                              ),
+                            )
+                          : const SizedBox(),
                     ),
                     Obx(() {
                       return controller.isLoading.value
@@ -127,10 +132,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Widget _buildLoadMoreButton() {
     return controller.isLoadingMore.value
-        ? const Center(
+        ? Center(
             child: Padding(
-              padding: EdgeInsets.all(4.0),
-              child: CircularProgressIndicator(
+              padding: EdgeInsets.all(4.0.r),
+              child: const CircularProgressIndicator(
                 color: Color(MyColors.themeRedColor),
               ),
             ),
@@ -138,9 +143,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         : ElevatedButton(
             style: ButtonStyle(
                 shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))),
+                    borderRadius: BorderRadius.circular(10.r))),
                 fixedSize: WidgetStatePropertyAll(
-                    Size.fromWidth(MediaQuery.of(context).size.width / 2)),
+                    Size.fromWidth(MediaQuery.of(context).size.width.w / 2)),
                 foregroundColor: const WidgetStatePropertyAll(
                     Color(MyColors.infoPinkColor2)),
                 elevation: const WidgetStatePropertyAll(0)),
@@ -159,19 +164,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 throw Exception(e);
               }
             },
-            child: const Padding(
-              padding: EdgeInsets.all(4.0),
+            child: Padding(
+              padding: EdgeInsets.all(4.0.r),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Headingdescription(
-                      text: "Load More", centerAlign: false, size: 14),
+                      text: Strings.loadMoreText(Get.context!),
+                      centerAlign: false,
+                      size: 14.sp),
                   SizedBox(
-                    width: 5.0,
+                    width: 5.0.w,
                   ),
                   Icon(
                     Icons.keyboard_arrow_down,
-                    size: 20,
+                    size: 20.sp,
                   )
                 ],
               ),
@@ -181,34 +188,34 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Widget _buildNoLoginView() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0.r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Spacer(),
           SvgPicture.asset("lib/assets/icons/emptyNotificationsIcon.svg",
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 7,
+              width: MediaQuery.of(context).size.width.w,
+              height: MediaQuery.of(context).size.height.h / 7,
               fit: BoxFit.contain),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12.0.r),
             child: HeadingTextW600(
                 text: Strings.notifications(context),
                 centerAlign: true,
-                size: 20),
+                size: 20.sp),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+            padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
             child: Headingdescription(
                 text: Strings.notificationIsEmptyDesc(context),
                 centerAlign: true,
-                size: 13.5),
+                size: 13.5.sp),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 20.0),
+            padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 20.0.h),
             child: FullWidthButtonPrimary(
                 text: Strings.loginText(context),
-                fontsize: 15.0,
+                fontsize: 15.0.sp,
                 color: MyColors.themeRedColor,
                 onPressed: () {
                   Constants.fromWhere = "SelectServiceScreen";
@@ -223,21 +230,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Widget _buildNoNotificationView() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 1.4,
+      height: MediaQuery.of(context).size.height.h / 1.4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset("lib/assets/icons/emptyNotificationsIcon.svg",
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 7,
+              width: MediaQuery.of(context).size.width.w,
+              height: MediaQuery.of(context).size.height.h / 7,
               fit: BoxFit.contain),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12.0.r),
             child: HeadingTextW600(
                 text: Strings.notificationListEmpty(context),
                 centerAlign: true,
-                size: 17),
+                size: 17.sp),
           ),
         ],
       ),
@@ -262,6 +269,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             Get.toNamed(AppLinks.orders_details_screen,
                 arguments: {'jobId': jobPostingId, 'section': "tradesmen"});
           }
+          if (!notification.isRead.value) {
+            var res =
+                await controller.pleaseMarkAsRead(context, notification.id!);
+            if (res) {
+              notification.isRead.value = true;
+            }
+          }
         } catch (e) {
           throw Exception(e);
         }
@@ -272,70 +286,71 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               ? Colors.black.withOpacity(0)
               : Colors.black.withOpacity(0.05),
           child: Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: EdgeInsets.all(3.0.r),
             child: Column(
               children: [
                 Row(
                   children: [
                     Expanded(
-                      flex: 2, // 20%
+                      flex: 2,
                       child: Padding(
-                        padding: const EdgeInsets.all(2.0),
+                        padding: EdgeInsets.all(2.0.r),
                         child: GestureDetector(
-                          onTap: () async {
-                            try {
-                              if (notification.id != null &&
-                                  !notification.isRead.value) {
-                                if (!notification.isRead.value) {
-                                  Commons.showProgressDialog(context);
-                                  await controller.pleaseMarkAsRead(
-                                      context, notification.id!);
-                                  Commons.hideProgressDialog();
-                                  notification.isRead.value = true;
-                                }
-                              }
-                            } catch (e) {
-                              throw Exception(e);
-                            }
-                          },
-                          child: Center(
-                              child: notification.isRead.value
-                                  ? SvgPicture.asset(
-                                      "lib/assets/icons/readIconNotify.svg")
-                                  : SvgPicture.asset(
-                                      "lib/assets/icons/unreadIcon.svg")),
-                        ),
+                            onTap: () async {
+                              // try {
+                              //   if (notification.id != null &&
+                              //       !notification.isRead.value) {
+                              //     if (!notification.isRead.value) {
+                              //       Commons.showProgressDialog(context);
+                              // await controller.pleaseMarkAsRead(
+                              //     context, notification.id!);
+                              //       Commons.hideProgressDialog();
+                              //       notification.isRead.value = true;
+                              //     }
+                              //   }
+                              // } catch (e) {
+                              //   throw Exception(e);
+                              // }
+                            },
+                            child: Center(
+                              child: SvgPicture.asset(
+                                  "lib/assets/icons/readIconNotify.svg"),
+                              //  notification.isRead.value
+                              //     ? SvgPicture.asset(
+                              //         "lib/assets/icons/readIconNotify.svg")
+                              //     : SvgPicture.asset(
+                              //         "lib/assets/icons/unreadIcon.svg")),
+                            )),
                       ),
                     ),
                     Expanded(
-                      flex: 6, // 60%
+                      flex: 9,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 4.0, right: 4.0, bottom: 3.0),
+                            padding: EdgeInsets.only(
+                                left: 4.0.w, right: 4.0.w, bottom: 3.0.h),
                             child: Text(notification.title!,
                                 textAlign: TextAlign.start,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 14,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: 'Poppins')),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: 4.0, right: 4.0),
+                            padding: EdgeInsets.only(left: 4.0.w, right: 4.0.w),
                             child: Text(notification.body!,
                                 textAlign: TextAlign.start,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: 13.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Poppins')),
                           ),
@@ -343,17 +358,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 2, // 20%
+                      flex: 2,
                       child: Center(
                           child: Headingdescription(
                               text: notification.humanReadableCreatedAt!,
                               centerAlign: true,
-                              size: 12)),
+                              size: 12.sp)),
                     ),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: EdgeInsets.all(4.0.r),
                   child: Container(
                     color: const Color(MyColors.grayColor),
                     height: 1,

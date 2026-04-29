@@ -746,6 +746,12 @@ abstract class AppLocalizations {
   /// **'Details'**
   String get detailsText;
 
+  /// No description provided for @tradesman.
+  ///
+  /// In en, this message translates to:
+  /// **'Tradesman'**
+  String get tradesman;
+
   /// No description provided for @orderDetailText.
   ///
   /// In en, this message translates to:
@@ -829,6 +835,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Portfolio'**
   String get portfolioText;
+
+  /// No description provided for @portfoliosText.
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolios'**
+  String get portfoliosText;
 
   /// No description provided for @descriptionText.
   ///
@@ -1190,6 +1202,12 @@ abstract class AppLocalizations {
   /// **'Interested Tradesman'**
   String get interestedTradesmanText;
 
+  /// No description provided for @nointerestedTradesmanText.
+  ///
+  /// In en, this message translates to:
+  /// **'No Interested Tradesman'**
+  String get nointerestedTradesmanText;
+
   /// No description provided for @interestedText.
   ///
   /// In en, this message translates to:
@@ -1501,6 +1519,564 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'If you have any questions or suggestions about our Privacy Policy, please do not hesitate to contact us at info@auftragnow.com'**
   String get privacyPolicyPoint10Text;
+
+  /// No description provided for @thisQuestionIsCompulsToAnsText.
+  ///
+  /// In en, this message translates to:
+  /// **'This Question is compulsory to Answer'**
+  String get thisQuestionIsCompulsToAnsText;
+
+  /// No description provided for @toMore10TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 10 tradesmen to get additional asnwers'**
+  String get toMore10TradesmenText;
+
+  /// No description provided for @toMore9TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 9 tradesmen to get additional asnwers'**
+  String get toMore9TradesmenText;
+
+  /// No description provided for @toMore8TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 8 tradesmen to get additional asnwers'**
+  String get toMore8TradesmenText;
+
+  /// No description provided for @toMore7TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 7 tradesmen to get additional asnwers'**
+  String get toMore7TradesmenText;
+
+  /// No description provided for @toMore6TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 6 tradesmen to get additional asnwers'**
+  String get toMore6TradesmenText;
+
+  /// No description provided for @toMore5TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 5 tradesmen to get additional asnwers'**
+  String get toMore5TradesmenText;
+
+  /// No description provided for @toMore4TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 4 tradesmen to get additional asnwers'**
+  String get toMore4TradesmenText;
+
+  /// No description provided for @toMore3TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 3 tradesmen to get additional asnwers'**
+  String get toMore3TradesmenText;
+
+  /// No description provided for @toMore2TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 2 tradesmen to get additional asnwers'**
+  String get toMore2TradesmenText;
+
+  /// No description provided for @toMore1TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 1 tradesmen to get additional asnwers'**
+  String get toMore1TradesmenText;
+
+  /// No description provided for @messageNotSentText.
+  ///
+  /// In en, this message translates to:
+  /// **'Message not Sent'**
+  String get messageNotSentText;
+
+  /// No description provided for @loadMoreText.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get loadMoreText;
+
+  /// No description provided for @nowText.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get nowText;
+
+  /// No description provided for @startContractNowText.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Contract Now'**
+  String get startContractNowText;
+
+  /// No description provided for @markAsCompleteText.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Complete'**
+  String get markAsCompleteText;
+
+  /// No description provided for @jobHasBeenDoneText.
+  ///
+  /// In en, this message translates to:
+  /// **'Job has been done'**
+  String get jobHasBeenDoneText;
+
+  /// No description provided for @jobText.
+  ///
+  /// In en, this message translates to:
+  /// **'Job'**
+  String get jobText;
+
+  /// No description provided for @areYouSureToCompleteThisContractText.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure to complete this contract?'**
+  String get areYouSureToCompleteThisContractText;
+
+  /// No description provided for @jobhasbeenCompletedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Job has been Completed!'**
+  String get jobhasbeenCompletedText;
+
+  /// No description provided for @yourJobstartedActiveNowActiveText.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Job is started and Active Now'**
+  String get yourJobstartedActiveNowActiveText;
+
+  /// No description provided for @chatIsClosedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat is Closed'**
+  String get chatIsClosedText;
+
+  /// No description provided for @taptoStartConversationText.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to Start Conversation'**
+  String get taptoStartConversationText;
+
+  /// No description provided for @goBackText.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get goBackText;
+
+  /// No description provided for @atLeast12CharactersText.
+  ///
+  /// In en, this message translates to:
+  /// **'at least 12 characters'**
+  String get atLeast12CharactersText;
+
+  /// No description provided for @lowercaseText.
+  ///
+  /// In en, this message translates to:
+  /// **'lowercase'**
+  String get lowercaseText;
+
+  /// No description provided for @uppercaseText.
+  ///
+  /// In en, this message translates to:
+  /// **'uppercase'**
+  String get uppercaseText;
+
+  /// No description provided for @specialSymbolsText.
+  ///
+  /// In en, this message translates to:
+  /// **'special symbols'**
+  String get specialSymbolsText;
+
+  /// No description provided for @numbersText.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers'**
+  String get numbersText;
+
+  /// No description provided for @pleaseEnterYourEmailText.
+  ///
+  /// In en, this message translates to:
+  /// **'please Enter Your Email'**
+  String get pleaseEnterYourEmailText;
+
+  /// No description provided for @emailCannotBeEmptyText.
+  ///
+  /// In en, this message translates to:
+  /// **'email Cannot Be Empty'**
+  String get emailCannotBeEmptyText;
+
+  /// No description provided for @newUserText.
+  ///
+  /// In en, this message translates to:
+  /// **'new user'**
+  String get newUserText;
+
+  /// No description provided for @youCanNowLoginText.
+  ///
+  /// In en, this message translates to:
+  /// **'you can now Login!'**
+  String get youCanNowLoginText;
+
+  /// No description provided for @bycreatingaccountyouAgreetoourText.
+  ///
+  /// In en, this message translates to:
+  /// **'By creating an account, you agree to Bitte geben Sie eine Bewertung abour'**
+  String get bycreatingaccountyouAgreetoourText;
+
+  /// No description provided for @andText.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get andText;
+
+  /// No description provided for @nameCannotBeEmptyText.
+  ///
+  /// In en, this message translates to:
+  /// **'name Cannot Be Empty'**
+  String get nameCannotBeEmptyText;
+
+  /// No description provided for @phoneCannotBeEmptyText.
+  ///
+  /// In en, this message translates to:
+  /// **'phone Cannot Be Empty'**
+  String get phoneCannotBeEmptyText;
+
+  /// No description provided for @passwordCannotBeEmptyText.
+  ///
+  /// In en, this message translates to:
+  /// **'password Cannot Be Empty'**
+  String get passwordCannotBeEmptyText;
+
+  /// No description provided for @confirmPasswordCannotBeEmptyText.
+  ///
+  /// In en, this message translates to:
+  /// **'confirm Password Cannot Be Empty'**
+  String get confirmPasswordCannotBeEmptyText;
+
+  /// No description provided for @pleaseEnterValidPhoneText.
+  ///
+  /// In en, this message translates to:
+  /// **'please enter a valid phone'**
+  String get pleaseEnterValidPhoneText;
+
+  /// No description provided for @pleaseFollowPasswordRulesText.
+  ///
+  /// In en, this message translates to:
+  /// **'please Follow Password Rules'**
+  String get pleaseFollowPasswordRulesText;
+
+  /// No description provided for @passwordDoNotMatchText.
+  ///
+  /// In en, this message translates to:
+  /// **'password Do Not Match'**
+  String get passwordDoNotMatchText;
+
+  /// No description provided for @typeaMessageText.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a Message...'**
+  String get typeaMessageText;
+
+  /// No description provided for @howyourExperiencewithtradesman.
+  ///
+  /// In en, this message translates to:
+  /// **'How has your experience been with the tradesman?'**
+  String get howyourExperiencewithtradesman;
+
+  /// No description provided for @canYoutellusMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Can you tell us more?'**
+  String get canYoutellusMore;
+
+  /// No description provided for @pleaseExplaininyourownWordsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Explain in your own words'**
+  String get pleaseExplaininyourownWordsText;
+
+  /// No description provided for @reviewCannotbeemptyText.
+  ///
+  /// In en, this message translates to:
+  /// **'review cannot be empty'**
+  String get reviewCannotbeemptyText;
+
+  /// No description provided for @pleaseGiveSomeRatingText.
+  ///
+  /// In en, this message translates to:
+  /// **'please Give Some Rating'**
+  String get pleaseGiveSomeRatingText;
+
+  /// No description provided for @discardChangesText.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes!'**
+  String get discardChangesText;
+
+  /// No description provided for @areYouSureToEndJobPostingProcessText.
+  ///
+  /// In en, this message translates to:
+  /// **'are you sure to End Job Posting Process?'**
+  String get areYouSureToEndJobPostingProcessText;
+
+  /// No description provided for @stepText.
+  ///
+  /// In en, this message translates to:
+  /// **'Step'**
+  String get stepText;
+
+  /// No description provided for @tellUsMoreAboutYourNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us more about your need'**
+  String get tellUsMoreAboutYourNeed;
+
+  /// No description provided for @jobhasbeenpostedsuccessfullyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Your job has been posted successfully!'**
+  String get jobhasbeenpostedsuccessfullyText;
+
+  /// No description provided for @jobisnowliveandreadyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Your job is now live and ready to attract skilled professionals.'**
+  String get jobisnowliveandreadyText;
+
+  /// No description provided for @postingyourJobText.
+  ///
+  /// In en, this message translates to:
+  /// **'Posting your Job...'**
+  String get postingyourJobText;
+
+  /// No description provided for @dragtomovePinText.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to move pin to exact location'**
+  String get dragtomovePinText;
+
+  /// No description provided for @photosOfConstructionPlansOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos of construction plans (optional)'**
+  String get photosOfConstructionPlansOptional;
+
+  /// No description provided for @max15MbFileText.
+  ///
+  /// In en, this message translates to:
+  /// **'Max. 15 files, Max. 2 MB per file'**
+  String get max15MbFileText;
+
+  /// No description provided for @uploadFilesFromGalleryText.
+  ///
+  /// In en, this message translates to:
+  /// **'upload files from Gallery'**
+  String get uploadFilesFromGalleryText;
+
+  /// No description provided for @pleaseLoginToSeeprofileText.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Login to See Your Profile'**
+  String get pleaseLoginToSeeprofileText;
+
+  /// No description provided for @selectText.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get selectText;
+
+  /// No description provided for @requestHasSentText.
+  ///
+  /// In en, this message translates to:
+  /// **'Request has sent'**
+  String get requestHasSentText;
+
+  /// No description provided for @activeWithinText.
+  ///
+  /// In en, this message translates to:
+  /// **'active within'**
+  String get activeWithinText;
+
+  /// No description provided for @activeWithinOfText.
+  ///
+  /// In en, this message translates to:
+  /// **'of'**
+  String get activeWithinOfText;
+
+  /// No description provided for @reviewedOnText.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed on'**
+  String get reviewedOnText;
+
+  /// No description provided for @seeourPrivacyPlolicyText.
+  ///
+  /// In en, this message translates to:
+  /// **'See our Privacy Policy'**
+  String get seeourPrivacyPlolicyText;
+
+  /// No description provided for @youCanAdjustYourNotificationSettingText.
+  ///
+  /// In en, this message translates to:
+  /// **'You can adjust your notification settings anytime.'**
+  String get youCanAdjustYourNotificationSettingText;
+
+  /// No description provided for @updatesOnJobsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates on Jobs'**
+  String get updatesOnJobsText;
+
+  /// No description provided for @markAllAsReadText.
+  ///
+  /// In en, this message translates to:
+  /// **'mark all as read'**
+  String get markAllAsReadText;
+
+  /// No description provided for @nointerestedTradesmanDescriptionText.
+  ///
+  /// In en, this message translates to:
+  /// **'No tradesman has expressed interest in your job yet. You can start a conversation once someone shows interest.'**
+  String get nointerestedTradesmanDescriptionText;
+
+  /// No description provided for @chatBoxIsEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not started chatting with tradesman yet. Start a chat to get you job done soon.'**
+  String get chatBoxIsEmptyDescription;
+
+  /// No description provided for @noRecommendedText.
+  ///
+  /// In en, this message translates to:
+  /// **'No Recommended'**
+  String get noRecommendedText;
+
+  /// No description provided for @zeroAnswers.
+  ///
+  /// In en, this message translates to:
+  /// **'0 Answers'**
+  String get zeroAnswers;
+
+  /// No description provided for @addressText.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressText;
+
+  /// No description provided for @postcodeText.
+  ///
+  /// In en, this message translates to:
+  /// **'postcode'**
+  String get postcodeText;
+
+  /// No description provided for @cityText.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityText;
+
+  /// No description provided for @countryText.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get countryText;
+
+  /// No description provided for @appliedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied'**
+  String get appliedText;
+
+  /// No description provided for @therequesthasbeenapproved.
+  ///
+  /// In en, this message translates to:
+  /// **'The Request has been Accepted, now you an start Chat'**
+  String get therequesthasbeenapproved;
+
+  /// No description provided for @therequesthasbeendeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'The Request has been Declined'**
+  String get therequesthasbeendeclined;
+
+  /// No description provided for @weakText.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak'**
+  String get weakText;
+
+  /// No description provided for @moderateText.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get moderateText;
+
+  /// No description provided for @goodText.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get goodText;
+
+  /// No description provided for @strongText.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get strongText;
+
+  /// No description provided for @loginRequiredText.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get loginRequiredText;
+
+  /// No description provided for @pleaseLoginToPostJobDescText.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not logged in. Please log in to post your job. Once logged in, your post will be published.'**
+  String get pleaseLoginToPostJobDescText;
+
+  /// No description provided for @customRequestMessageText.
+  ///
+  /// In en, this message translates to:
+  /// **'I saw your profile and was impressed with your previous work. Would you be interested doing this work?'**
+  String get customRequestMessageText;
+
+  /// No description provided for @allNotificationsMarkedAsReadText.
+  ///
+  /// In en, this message translates to:
+  /// **'All notifications marked as read'**
+  String get allNotificationsMarkedAsReadText;
+
+  /// No description provided for @filesLargerThan2MBSkippedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Files more than 2MB are Skipped'**
+  String get filesLargerThan2MBSkippedText;
+
+  /// No description provided for @youCanOnlyUploadUpTo.
+  ///
+  /// In en, this message translates to:
+  /// **'you can only upload upto'**
+  String get youCanOnlyUploadUpTo;
+
+  /// No description provided for @ximages.
+  ///
+  /// In en, this message translates to:
+  /// **'images'**
+  String get ximages;
+
+  /// No description provided for @onlyInfoText.
+  ///
+  /// In en, this message translates to:
+  /// **'Only'**
+  String get onlyInfoText;
+
+  /// No description provided for @imagesCanBeAddMoreText.
+  ///
+  /// In en, this message translates to:
+  /// **'images can be add more'**
+  String get imagesCanBeAddMoreText;
 }
 
 class _AppLocalizationsDelegate

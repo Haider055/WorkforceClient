@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HeadingTextW500 extends StatelessWidget {
   final String text;
   final bool centerAlign;
   final double size;
   const HeadingTextW500(
-      {required this.text, required this.centerAlign, required this.size, super.key});
+      {required this.text,
+      required this.centerAlign,
+      required this.size,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class HeadingTextW500 extends StatelessWidget {
           textAlign: centerAlign ? TextAlign.center : TextAlign.start,
           style: TextStyle(
               color: Colors.black,
-              fontSize: size,
+              fontSize: size.sp,
               fontWeight: FontWeight.w500,
               fontFamily: 'Poppins')),
     );

@@ -8,6 +8,7 @@ import 'package:workforceclientapp/Models/PostedJobDetail.dart';
 import 'package:workforceclientapp/Models/PostedOrders.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 
 class PostedOrdersController extends GetxController {
   RxBool isLoading = true.obs;
@@ -85,6 +86,7 @@ class PostedOrdersController extends GetxController {
   }
 
   void checkIsLoggedIn() async {
+    print("object");
     // print(widget.isLoggedin);
     _prefs = await SharedPreferences.getInstance();
     isLoggedin.value = _prefs.getString("isLogin") ?? "loggedOut";
@@ -139,13 +141,13 @@ class PostedOrdersController extends GetxController {
           }
           return postedOrders;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedOrders;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedOrders;
       }
     } catch (e) {
@@ -180,11 +182,11 @@ class PostedOrdersController extends GetxController {
           }
           return postedJobDetail;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedJobDetail;
         }
       } else {
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedJobDetail;
       }
     } catch (e) {

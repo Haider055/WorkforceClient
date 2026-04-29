@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
@@ -22,12 +23,12 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text("Discard changes!"),
-            content: const Text("Are you sure to end Job Posting procress?"),
-            contentTextStyle:
-                const TextStyle(fontSize: 15.5, color: Colors.black),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            title: Text(Strings.discardChangesText(Get.context!)),
+            content:
+                Text(Strings.areYouSureToEndJobPostingProcess(Get.context!)),
+            contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r)),
             backgroundColor: const Color(MyColors.colorRed200),
             actions: [
               Row(
@@ -35,10 +36,10 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                       child: FullWidthOutlineButton(
                           text: Strings.noText(context),
-                          fontsize: 15.0,
+                          fontsize: 15.0.sp,
                           color: MyColors.themeRedColor,
                           onPressed: () {
                             Get.back();
@@ -47,10 +48,10 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                       child: FullWidthButtonPrimary(
                           text: Strings.yesText(context),
-                          fontsize: 15.0,
+                          fontsize: 15.0.sp,
                           color: MyColors.themeRedColor,
                           onPressed: () {
                             Get.back();
@@ -80,14 +81,14 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                         style: BorderStyle.solid)),
                 child: Center(
                     child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                   child: Text(Constants.selectedServiceName,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16.0,
+                          fontSize: 16.0.sp,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins')),
                 )),
@@ -105,8 +106,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 0),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.0.w, vertical: 0),
                                 child: LinearProgressBar(
                                   maxSteps: Constants.jobPostingSteps,
                                   progressType:
@@ -117,19 +118,20 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                       const Color(MyColors.themeRedColor),
                                   backgroundColor:
                                       const Color(MyColors.lightSilverColor),
-                                  borderRadius: BorderRadius.circular(2),
+                                  borderRadius: BorderRadius.circular(2.r),
                                 ),
                               ),
                               Align(
                                 alignment: Alignment.topRight,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 5.0, right: 15),
+                                  padding: EdgeInsets.only(
+                                      top: 5.0.h, right: 15.0.w),
                                   child: Text(
-                                    "Step ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
-                                    style: const TextStyle(
-                                        fontSize: 14.5,
-                                        color: Color(MyColors.midGrayColor)),
+                                    "${Strings.step(Get.context!)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
+                                    style: TextStyle(
+                                        fontSize: 14.5.sp,
+                                        color:
+                                            const Color(MyColors.midGrayColor)),
                                   ),
                                 ),
                               ),
@@ -139,7 +141,7 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                         Expanded(
                           flex: 16,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.r),
                             child: Column(
                               children: [
                                 const Spacer(),
@@ -148,30 +150,33 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                   color: const Color(MyColors.cardGrayColor50),
                                   child: Column(
                                     children: [
-                                      const Padding(
+                                      Padding(
                                         padding: EdgeInsets.only(
-                                            left: 16.0, right: 16, top: 16),
+                                            left: 16.0.w,
+                                            right: 16.0.w,
+                                            top: 16.0.h),
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: HeadingTextW500(
-                                              text:
-                                                  "Photos of construction plans (optional)",
+                                              text: Strings
+                                                  .photosOfConstructionPlansOptional(
+                                                      Get.context!),
                                               centerAlign: false,
-                                              size: 18),
+                                              size: 18.sp),
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 16.0,
-                                            right: 16.0,
-                                            top: 10,
-                                            bottom: 16.0),
+                                        padding: EdgeInsets.only(
+                                            left: 16.0.w,
+                                            right: 16.0.w,
+                                            top: 10.h,
+                                            bottom: 16.0.h),
                                         child: Headingdescription(
                                             text: Strings
                                                 .addingPicturesHelpsBetterQuotes(
                                                     context),
                                             centerAlign: false,
-                                            size: 17),
+                                            size: 17.sp),
                                       ),
                                       _buildRadioOption(
                                           Strings.yesText(context), 1),
@@ -187,7 +192,7 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                       controller.selectedValue == "Yes"
                                           ? controller.selectedImages.isNotEmpty
                                               ? SizedBox(
-                                                  height: 110,
+                                                  height: 110.h,
                                                   child: ListView.builder(
                                                     scrollDirection:
                                                         Axis.horizontal,
@@ -203,7 +208,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(10),
+                                                                  .circular(
+                                                                      10.r),
                                                           child: Stack(
                                                             children: [
                                                               Padding(
@@ -216,14 +222,15 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                              10),
+                                                                              10.r),
                                                                   child: Image.file(
-                                                                      controller.selectedImages[
+                                                                      controller
+                                                                              .selectedImages[
                                                                           index],
                                                                       width:
-                                                                          100,
+                                                                          100.w,
                                                                       height:
-                                                                          110,
+                                                                          110.h,
                                                                       fit: BoxFit
                                                                           .cover),
                                                                 ),
@@ -283,14 +290,14 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                                           .photoShareAgree(
                                                               context),
                                                       centerAlign: false,
-                                                      size: 14),
+                                                      size: 14.sp),
                                                 ),
                                               ],
                                             )
                                           : const SizedBox(),
                                       _buildRadioOption(
                                           Strings.noMaybeLater(context), 0),
-                                      const SizedBox(height: 16),
+                                      SizedBox(height: 16.h),
                                     ],
                                   ),
                                 ),
@@ -302,17 +309,17 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                         Expanded(
                           flex: 2,
                           child: Padding(
-                            padding: const EdgeInsets.all(9.0),
+                            padding: EdgeInsets.all(9.0.r),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 25.0, right: 12.0),
+                                    padding: EdgeInsets.only(
+                                        left: 25.0.w, right: 12.0.w),
                                     child: FullWidthOutlineButton(
                                         text: Strings.back(context),
-                                        fontsize: 15.0,
+                                        fontsize: 15.0.sp,
                                         color: MyColors.themeRedColor,
                                         onPressed: () {
                                           Constants.currentJobPostingStep--;
@@ -322,11 +329,11 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12.0, right: 25.0),
+                                    padding: EdgeInsets.only(
+                                        left: 12.0.w, right: 25.0.w),
                                     child: FullWidthButtonPrimary(
                                         text: Strings.next(context),
-                                        fontsize: 15.0,
+                                        fontsize: 15.0.sp,
                                         color: MyColors.themeRedColor,
                                         onPressed: () {
                                           if (controller
@@ -389,12 +396,12 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
         controller.selectedValue!.value = text; // Toggle selection
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
         child: Container(
           width: MediaQuery.of(Get.context!).size.width * 0.95,
           height: MediaQuery.of(Get.context!).size.height / 16,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          padding: const EdgeInsets.all(12),
+          margin: EdgeInsets.symmetric(vertical: 8.0.h),
+          padding: EdgeInsets.all(12.0.r),
           decoration: BoxDecoration(
             color: isSelected
                 ? const Color(0xFFFFEBEE)
@@ -419,7 +426,7 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
               ),
               Text(
                 text,
-                style: const TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 18.sp, color: Colors.black),
               ),
             ],
           ),
@@ -431,23 +438,23 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
   Widget _imagePickOption() {
     return Column(
       children: [
-        const SizedBox(height: 9.0),
-        const Padding(
-          padding: EdgeInsets.only(left: 19.0),
+        SizedBox(height: 9.0.h),
+        Padding(
+          padding: EdgeInsets.only(left: 19.0.w),
           child: Align(
             alignment: Alignment.topLeft,
             child: Headingdescription(
-                text: "Max. 15 files, Max. 2 MB per file",
+                text: Strings.max15MbFileText(Get.context!),
                 centerAlign: false,
-                size: 13),
+                size: 13.0.sp),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: EdgeInsets.all(4.0.r),
           child: GestureDetector(
             onTap: controller.pickImage,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w),
               child: SizedBox(
                 width: MediaQuery.of(Get.context!).size.width *
                     0.9, // Adjust width
@@ -456,7 +463,7 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                   children: [
                     Image.asset(
                       width: MediaQuery.of(Get.context!).size.width,
-                      height: 70.0,
+                      height: 70.0.h,
                       "lib/assets/images/pickimage_rectangle.png",
                       fit: BoxFit.fill,
                     ),
@@ -464,18 +471,19 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          width: 40.0,
-                          height: 40.0,
+                          width: 40.0.w,
+                          height: 40.0.h,
                           "lib/assets/images/pickimage_icon.png",
                           fit: BoxFit.fill,
                         ),
-                        const SizedBox(
-                          width: 12.0,
+                        SizedBox(
+                          width: 12.0.w,
                         ),
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            "Upload files from gallery",
-                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            Strings.uploadFilesFromGallery(Get.context!),
+                            style: TextStyle(
+                                fontSize: 16.0.sp, color: Colors.black),
                           ),
                         ),
                       ],

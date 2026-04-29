@@ -26,6 +26,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:544124172877:android:a8d84f7c419b04a972fa04",
+        "android_client_info": {
+          "package_name": "com.dmn.workforceclientapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCss5zSPVf4hKNSvkznEI_HkAZidnbCsrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:544124172877:android:e2cc7ce11708e0e872fa04",
         "android_client_info": {
           "package_name": "com.example.my_hammer"

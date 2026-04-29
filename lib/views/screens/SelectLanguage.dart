@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Controllers/SelectLanguageController.dart';
@@ -21,7 +22,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.only(top: 50.0.h),
               child: Align(
                   alignment: Alignment.topCenter,
                   child: Image.asset(
@@ -35,28 +36,28 @@ class SelectLanguage extends GetView<SelectLanguageController> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: SplashScreenimage(
+                  Padding(
+                    padding: EdgeInsets.all(16.0.r),
+                    child: const SplashScreenimage(
                         path: "lib/assets/images/select_language_image.png"),
                   ),
                   Text(Strings.selectLanguageText(context),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.black,
-                          fontSize: 29.0,
+                          fontSize: 29.0.sp,
                           fontWeight: FontWeight.w700,
                           fontFamily: 'Poppins')),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0.r),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: EdgeInsets.all(12.0.r),
                           child: FullWidthButtonPrimary(
                               text: Strings.englishText(context),
-                              fontsize: 17.0,
+                              fontsize: 17.0.sp,
                               color: MyColors.themeRedColor,
                               onPressed: () async {
                                 _prefs = await SharedPreferences.getInstance();
@@ -69,11 +70,10 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                               }),
                         ),
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 12.0, right: 12.0),
+                          padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
                           child: FullWidthOutlineButton(
                               text: Strings.germanText(context),
-                              fontsize: 17.0,
+                              fontsize: 17.0.sp,
                               color: MyColors.themeRedColor,
                               onPressed: () async {
                                 _prefs = await SharedPreferences.getInstance();

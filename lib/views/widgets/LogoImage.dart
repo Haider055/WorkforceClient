@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LogoImage extends StatelessWidget {
@@ -8,7 +9,7 @@ class LogoImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SvgPicture.asset("lib/assets/icons/auftragnowRedBalck.svg",
-          fit: BoxFit.contain, height: 26.0, width: 146.0),
+          fit: BoxFit.contain, height: 26.0.h, width: 146.0.w),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/JobRecommendationController.dart';
@@ -32,7 +33,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
             color: const Color(MyColors.appbackgroundColor),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -48,7 +49,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       child: HeadingTextW600(
                     text: Strings.recommendations(Get.context!),
                     centerAlign: false,
-                    size: 19.0,
+                    size: 19.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -61,7 +62,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       }
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: EdgeInsets.only(right: 10.0.w),
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: Image.asset(
@@ -83,46 +84,46 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, top: 12.0, right: 20),
+                      padding: EdgeInsets.only(
+                          left: 20.0.w, top: 12.0.h, right: 20.w),
                       child: HeadingTextW600(
                           text: Strings.recommendationScreenHeading(context),
                           centerAlign: false,
-                          size: 18),
+                          size: 18.sp),
                     ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, top: 10.0, right: 20),
+                      padding: EdgeInsets.only(
+                          left: 20.0.w, top: 10.0.h, right: 20.w),
                       child: Headingdescription(
                           text: Strings.recommendationScreenDesc(context),
                           centerAlign: false,
-                          size: 14),
+                          size: 14.sp),
                     ),
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 20, top: 22.0, right: 20),
+                        EdgeInsets.only(left: 20.0.w, top: 22.0.h, right: 20.w),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: HeadingTextW600(
                           text: Strings.recommendedCraftsmen(context),
                           centerAlign: false,
-                          size: 18.0),
+                          size: 18.0.sp),
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, top: 8.0, bottom: 12.0),
+                    padding: EdgeInsets.only(
+                        left: 20.0.w, top: 8.0.h, bottom: 12.0.h),
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(Strings.requestUpTo10Tradesmen(context),
-                            style: const TextStyle(
-                                fontSize: 14.0,
+                            style: TextStyle(
+                                fontSize: 14.0.sp,
                                 fontFamily: 'Poppins',
-                                color: Color(MyColors.midGrayColor)))),
+                                color: const Color(MyColors.midGrayColor)))),
                   ),
                 ],
               ),
@@ -143,37 +144,38 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0.r),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0, top: 6.0),
+                      padding: EdgeInsets.only(bottom: 12.0.h, top: 6.0.h),
                       child: GestureDetector(
                         onTap: () {},
                         child: RichText(
                           text: TextSpan(
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 16.0.sp),
                             children: [
                               WidgetSpan(
                                 child: Image.asset(
                                   "lib/assets/icons/yellowinfo.png",
-                                  height: 18,
-                                  width: 18,
+                                  height: 18.h,
+                                  width: 18.w,
                                   fit: BoxFit.contain,
                                 ),
                               ),
                               TextSpan(
                                   text:
-                                      ' Select ${controller.remainingRequestsCount.value}',
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
-                              const TextSpan(
-                                  text: ' more craftsmen',
+                                      ' ${Strings.selectText(Get.context!)} ${controller.remainingRequestsCount.value}',
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500)),
+                              TextSpan(
+                                  text:
+                                      ' ${Strings.moreCraftmen(Get.context!)}',
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w400)),
                             ],
                           ),
@@ -187,11 +189,11 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 10.0),
+                                  padding: EdgeInsets.only(
+                                      left: 20.0.w, right: 10.0.w),
                                   child: FullWidthOutlineButton(
                                       text: Strings.cancelText(context),
-                                      fontsize: 16.0,
+                                      fontsize: 16.0.sp,
                                       color: MyColors.themeRedColor,
                                       onPressed: () {
                                         if (controller.fromWhere.value ==
@@ -207,15 +209,15 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 20.0),
+                                  padding: EdgeInsets.only(
+                                      left: 10.0.w, right: 20.0.w),
                                   child: FullWidthButtonPrimary(
                                       text: Strings.orderDetail(context),
-                                      fontsize: 16.0,
+                                      fontsize: 16.0.sp,
                                       color: MyColors.themeRedColor,
                                       onPressed: () {
-                                        Get.offAllNamed(
-                                          AppLinks.posted_orders_section,
+                                        Get.toNamed(
+                                          AppLinks.orders_details_screen,
                                           arguments: {
                                             'jobId': Constants.lastPostedJobId
                                           },
@@ -241,17 +243,17 @@ class JobRecommendations extends GetView<JobRecommendationController> {
         Image.asset(
           icon,
           color: color,
-          height: 26,
-          width: 26,
+          height: 26.h,
+          width: 26.w,
           fit: BoxFit.contain,
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           label,
           textAlign: TextAlign.center,
           style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 11.5,
+              fontSize: 11.5.sp,
               color: color,
               fontWeight: FontWeight.w400),
         ),
@@ -262,7 +264,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
   Widget _buildSuggestedCraftmenOptions(Tradesmen tradesmen) {
     return Obx(() {
       return Padding(
-        padding: const EdgeInsets.only(left: 17.0, right: 17.0, top: 5.0),
+        padding: EdgeInsets.only(left: 17.0.w, right: 17.0.w, top: 5.0.h),
         child: GestureDetector(
           onTap: () {
             try {
@@ -279,8 +281,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
               side: BorderSide(
                   color:
                       const Color(MyColors.cardGrayColor300).withOpacity(0.4),
-                  width: 1.0),
-              borderRadius: BorderRadius.circular(12),
+                  width: 1.0.w),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Column(
               children: [
@@ -294,35 +296,36 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                 ? Align(
                                     alignment: Alignment.topLeft,
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 12.0),
+                                      padding: EdgeInsets.only(left: 12.0.w),
                                       child: Card(
                                         color: const Color(
                                             MyColors.infoYellowColor),
-                                        shape: const RoundedRectangleBorder(
+                                        shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(9),
-                                              bottomRight: Radius.circular(9)),
+                                              bottomLeft: Radius.circular(9.r),
+                                              bottomRight:
+                                                  Radius.circular(9.r)),
                                         ),
                                         elevation: 0,
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 7.0, vertical: 2.5),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 7.0.w,
+                                              vertical: 2.5.h),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               SvgPicture.asset(
                                                 "lib/assets/icons/AgencyIconsvg.svg",
                                                 fit: BoxFit.contain,
-                                                height: 13,
-                                                width: 13,
+                                                height: 13.h,
+                                                width: 13.w,
                                               ),
-                                              const SizedBox(width: 4),
+                                              SizedBox(width: 4.w),
                                               Headingdescription(
                                                 text: Strings.agency(
                                                     Get.context!),
                                                 centerAlign: false,
-                                                size: 10.0,
+                                                size: 10.0.sp,
                                               ),
                                             ],
                                           ),
@@ -333,22 +336,22 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                 : const SizedBox()
                             : const SizedBox()
                         : const SizedBox(),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8.0, right: 8.0),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0.h, right: 8.0.w),
                       child: Icon(
                         Icons.arrow_forward_ios,
-                        color: Color(MyColors.blackColor80),
-                        size: 16,
+                        color: const Color(MyColors.blackColor80),
+                        size: 16.sp,
                       ),
                     )
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 6.0),
+                  padding: EdgeInsets.only(top: 6.0.h),
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: EdgeInsets.only(left: 10.0.w),
                         child: tradesmen.profileImg != null
                             ? CircleAvatar(
                                 radius: 24,
@@ -359,7 +362,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                             : Image.asset(
                                 "lib/assets/icons/placeholder_tradesmen.png"),
                       ),
-                      const SizedBox(width: 8.0),
+                      SizedBox(width: 8.0.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -377,10 +380,10 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                           softWrap: false,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black,
-                                              fontSize: 14.0),
+                                              fontSize: 14.0.sp),
                                         ),
                                       ),
                                     ],
@@ -393,16 +396,16 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                     children: [
                                       Flexible(
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10.0),
+                                          padding:
+                                              EdgeInsets.only(right: 10.0.w),
                                           child: RichText(
                                             maxLines: 1,
                                             softWrap: false,
                                             overflow: TextOverflow.ellipsis,
                                             text: TextSpan(
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize: 13.sp,
                                               ),
                                               children: [
                                                 TextSpan(
@@ -432,7 +435,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 2.0),
+                              padding: EdgeInsets.only(top: 2.0.h),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -443,11 +446,11 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                       children: [
                                         Flexible(
                                           child: Text(
-                                            "${tradesmen.reviewsCount ?? "0"} reviews",
-                                            style: const TextStyle(
-                                                color: Color(
+                                            "${tradesmen.reviewsCount ?? "0"} ${Strings.reviews(Get.context!)}",
+                                            style: TextStyle(
+                                                color: const Color(
                                                     MyColors.midGrayColor),
-                                                fontSize: 14.0),
+                                                fontSize: 14.0.sp),
                                           ),
                                         ),
                                       ],
@@ -458,22 +461,23 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        const Icon(
+                                        Icon(
                                           Icons.star,
-                                          size: 16,
-                                          color: Color(MyColors.themeRedColor),
+                                          size: 16.0.sp,
+                                          color: const Color(
+                                              MyColors.themeRedColor),
                                         ),
-                                        const SizedBox(
-                                          width: 2.0,
+                                        SizedBox(
+                                          width: 2.0.w,
                                         ),
                                         Flexible(
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10.0),
+                                            padding:
+                                                EdgeInsets.only(right: 10.0.w),
                                             child: Text(
                                               "${tradesmen.rating!.length > 3 ? tradesmen.rating!.substring(0, 3) : tradesmen.rating! ?? "0"}/5",
-                                              style: const TextStyle(
-                                                  fontSize: 13,
+                                              style: TextStyle(
+                                                  fontSize: 13.sp,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -490,11 +494,11 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.0.h),
                 // Send Request Button
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, bottom: 10.0),
+                  padding: EdgeInsets.only(
+                      left: 8.0.w, right: 8.0.w, bottom: 10.0.h),
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -504,9 +508,9 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                             ? const Color(MyColors.infoPinkColor)
                             : const Color(MyColors.themeRedColor),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
                       ),
                       onPressed: () async {
                         try {
@@ -532,12 +536,12 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                         alignment: Alignment.center,
                         children: [
                           tradesmen.status.value == "loading"
-                              ? const Padding(
-                                  padding: EdgeInsets.all(8.0),
+                              ? Padding(
+                                  padding: EdgeInsets.all(8.0.r),
                                   child: SizedBox(
-                                    height: 14,
-                                    width: 14,
-                                    child: CircularProgressIndicator(
+                                    height: 14.h,
+                                    width: 14.w,
+                                    child: const CircularProgressIndicator(
                                       color: Color(MyColors.whiteColor),
                                     ),
                                   ),
@@ -547,7 +551,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                   children: [
                                     Text(
                                       tradesmen.status.value == "sent"
-                                          ? "Request has sent"
+                                          ? Strings.requestHasSent(Get.context!)
                                           : Strings.sendRequest(Get.context!),
                                       style: TextStyle(
                                           color:
@@ -556,7 +560,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                                       MyColors.themeRedColor)
                                                   : Colors.white,
                                           fontFamily: 'Poppins',
-                                          fontSize: 13),
+                                          fontSize: 13.sp),
                                     ),
                                   ],
                                 ),

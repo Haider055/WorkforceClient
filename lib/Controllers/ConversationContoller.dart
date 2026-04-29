@@ -64,6 +64,7 @@ class ConversationContoller extends GetxController {
       BuildContext context, String message, int chatId) async {
     try {
       Message? messageObj;
+      messageTextField.value.text = "";
       final response =
           await http.post(Uri.parse('${Constants.baseUrl}/chats/send-message'),
               headers: await Commons.manageRequestHeader(),
@@ -79,8 +80,6 @@ class ConversationContoller extends GetxController {
           if (jsonData['message'] == "Message sent successfully") {
             if (jsonData.keys.contains('data')) {
               messageObj = Message.fromJson(jsonData['data']['message']);
-              Fluttertoast.showToast(msg: "Sent");
-              messageTextField.value.text = "";
               return messageObj;
             }
             Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));

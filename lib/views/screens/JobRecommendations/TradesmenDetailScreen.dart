@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:photo_viewer/photo_viewer.dart';
@@ -21,7 +22,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
             color: const Color(MyColors.appbackgroundColor),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -37,15 +38,15 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                       child: HeadingTextW600(
                     text: Strings.overview(context),
                     centerAlign: false,
-                    size: 19.0,
+                    size: 19.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
                       Get.back();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10.0.w),
+                      child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(Icons.arrow_back_ios)),
                     ),
@@ -61,60 +62,61 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(11.0),
+                        padding: EdgeInsets.all(11.0.r),
                         child: Card(
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Color(MyColors.cardGrayColor200)),
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(12.r)),
                           elevation: 0,
                           color: const Color(MyColors.cardGrayColor100),
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: EdgeInsets.all(10.0.r),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Placeholder for the image
                                 Expanded(
                                   flex: 2,
-                                  child:
-                                      controller.tradesmen!.profileImg != null
-                                          ? Card(
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(9)),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(9),
-                                                child: PhotoViewerImage(
-                                                  imageUrl: controller
-                                                      .tradesmen!.profileImg!
-                                                      .toString(),
-                                                  errorWidget: (p0, p1, p2) {
-                                                    return Center(
-                                                        child: SvgPicture.asset(
-                                                      "lib/assets/images/tradesmenplaceholdericon.svg",
-                                                      fit: BoxFit.fill,
-                                                      height: 20,
-                                                      width: 20,
-                                                    ));
-                                                  },
-                                                ),
-                                              ),
-                                            )
-                                          : SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  8,
-                                              child: Image.asset(
-                                                "lib/assets/images/tradesmenplaceholdericon.svg",
-                                                fit: BoxFit.fill,
-                                              ),
+                                  child: controller.tradesmen!.profileImg !=
+                                          null
+                                      ? Card(
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(9.r)),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(9.r),
+                                            child: PhotoViewerImage(
+                                              imageUrl: controller
+                                                  .tradesmen!.profileImg!
+                                                  .toString(),
+                                              errorWidget: (p0, p1, p2) {
+                                                return Center(
+                                                    child: SvgPicture.asset(
+                                                  "lib/assets/images/tradesmenplaceholdericon.svg",
+                                                  fit: BoxFit.fill,
+                                                  height: 20.h,
+                                                  width: 20.w,
+                                                ));
+                                              },
                                             ),
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height
+                                                  .h /
+                                              8,
+                                          child: Image.asset(
+                                            "lib/assets/images/tradesmenplaceholdericon.svg",
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
                                 ),
-                                const SizedBox(width: 12),
+                                SizedBox(width: 12.w),
                                 // Tradesman details
                                 Expanded(
                                   flex: 6,
@@ -125,8 +127,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                       Text.rich(TextSpan(
                                         text:
                                             controller.tradesmen!.name ?? "N/A",
-                                        style: const TextStyle(
-                                            fontSize: 16,
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600),
                                         children: [
@@ -134,9 +136,9 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                             alignment:
                                                 PlaceholderAlignment.middle,
                                             child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left:
-                                                      4), // space between text and icon
+                                              padding: EdgeInsets.only(
+                                                  left: 4
+                                                      .r), // space between text and icon
                                               child: controller.tradesmen!
                                                           .tradesmenProfile !=
                                                       null
@@ -151,8 +153,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                               .isVerified!
                                                           ? SvgPicture.asset(
                                                               "lib/assets/icons/verifiedIcon.svg",
-                                                              height: 14.0,
-                                                              width: 14.0)
+                                                              height: 14.0.h,
+                                                              width: 14.0.w)
                                                           : const SizedBox()
                                                       : const SizedBox()
                                                   : const SizedBox(),
@@ -160,21 +162,21 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                           ),
                                         ],
                                       )),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: 6.h),
                                       Row(
                                         children: [
                                           SvgPicture.asset(
                                               "lib/assets/icons/thumbIcon.svg",
-                                              height: 16,
-                                              width: 16),
-                                          const SizedBox(width: 6),
-                                          const Text.rich(
+                                              height: 16.h,
+                                              width: 16.w),
+                                          SizedBox(width: 6.w),
+                                          Text.rich(
                                             TextSpan(
-                                              text: "Recommend ",
-                                              style: TextStyle(fontSize: 14),
-                                              children: [
+                                              text: "Recommended ",
+                                              style: TextStyle(fontSize: 14.sp),
+                                              children: const [
                                                 TextSpan(
-                                                  text: "1488 ",
+                                                  text: "many ",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black,
@@ -192,52 +194,53 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: 6.h),
                                       Row(
                                         children: [
                                           SvgPicture.asset(
                                               "lib/assets/icons/starIcon.svg",
-                                              height: 16,
-                                              width: 16),
-                                          const SizedBox(width: 6),
+                                              height: 16.h,
+                                              width: 16.w),
+                                          SizedBox(width: 6.w),
                                           Text.rich(
                                             TextSpan(
                                               text:
                                                   "${controller.tradesmen!.rating!.length > 3 ? controller.tradesmen!.rating!.substring(0, 3) : controller.tradesmen!.rating! ?? "0"}/5",
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 14,
+                                                fontSize: 14.sp,
                                               ),
                                               children: [
                                                 TextSpan(
                                                   text:
-                                                      " (${controller.tradesmen!.reviewsCount ?? 0} reviews)",
-                                                  style: const TextStyle(
+                                                      " (${controller.tradesmen!.reviewsCount ?? 0} ${Strings.reviews(Get.context!)})",
+                                                  style: TextStyle(
                                                       color: Colors.grey,
-                                                      fontSize: 14),
+                                                      fontSize: 14.sp),
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: 6.h),
                                       Row(
                                         children: [
                                           SvgPicture.asset(
                                               "lib/assets/icons/locationIcon.svg",
-                                              height: 16,
-                                              width: 16),
-                                          const SizedBox(width: 6),
+                                              height: 16.h,
+                                              width: 16.w),
+                                          SizedBox(width: 6.w),
                                           Expanded(
                                             child: Text.rich(
                                               overflow: TextOverflow.ellipsis,
                                               softWrap: true,
                                               maxLines: 2,
                                               TextSpan(
-                                                text: "Active within ",
-                                                style: const TextStyle(
-                                                    fontSize: 14,
+                                                text: Strings.activeWithinText(
+                                                    context),
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
                                                     color: Colors.black),
                                                 children: [
                                                   controller.tradesmen!
@@ -245,7 +248,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                           null
                                                       ? TextSpan(
                                                           text:
-                                                              "${controller.tradesmen?.serviceArea?.radius ?? 'N/A'} KM of ${controller.tradesmen?.serviceArea?.city ?? 'N/A'}",
+                                                              "${controller.tradesmen?.serviceArea?.radius ?? 'N/A'} KM ${Strings.activeWithinOfText(Get.context!)} ${controller.tradesmen?.serviceArea?.city ?? 'N/A'}",
                                                           style: const TextStyle(
                                                               color:
                                                                   Colors.black,
@@ -266,14 +269,14 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: 6.h),
                                       Row(
                                         children: [
                                           SvgPicture.asset(
                                               "lib/assets/icons/member_since_icon.svg",
-                                              height: 16,
-                                              width: 16),
-                                          const SizedBox(width: 6),
+                                              height: 16.h,
+                                              width: 16.w),
+                                          SizedBox(width: 6.w),
                                           Expanded(
                                             child: Text.rich(
                                               overflow: TextOverflow.ellipsis,
@@ -282,8 +285,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                               TextSpan(
                                                 text: Strings.memberSince(
                                                     context),
-                                                style: const TextStyle(
-                                                    fontSize: 14),
+                                                style:
+                                                    TextStyle(fontSize: 14.sp),
                                                 children: [
                                                   controller.tradesmen!
                                                               .memberSince !=
@@ -318,7 +321,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 11.0, right: 11.0),
+                        padding: EdgeInsets.only(left: 11.0.w, right: 11.0.w),
                         child: Row(
                           children: [
                             Expanded(
@@ -327,16 +330,15 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                     side: const BorderSide(
                                         color:
                                             Color(MyColors.cardGrayColor200)),
-                                    borderRadius: BorderRadius.circular(12)),
+                                    borderRadius: BorderRadius.circular(12.r)),
                                 elevation: 0,
                                 color: const Color(MyColors.cardGrayColor100),
                                 child: Padding(
-                                    padding: const EdgeInsets.all(9.0),
+                                    padding: EdgeInsets.all(9.0.r),
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 2.0),
+                                          padding: EdgeInsets.only(top: 2.0.h),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -344,8 +346,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                               Stack(
                                                 children: [
                                                   Container(
-                                                    width: 25,
-                                                    height: 25,
+                                                    width: 25.w,
+                                                    height: 25.h,
                                                     decoration: BoxDecoration(
                                                       color: Colors
                                                           .white, // White background
@@ -356,8 +358,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                           color: Colors.grey
                                                               .withOpacity(
                                                                   0.3), // Soft shadow
-                                                          blurRadius: 1,
-                                                          spreadRadius: 1,
+                                                          blurRadius: 1.r,
+                                                          spreadRadius: 1.r,
                                                           offset: const Offset(
                                                               0, 1),
                                                         ),
@@ -365,26 +367,27 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                     ),
                                                     child: Center(
                                                       child: SvgPicture.asset(
-                                                          "lib/assets/icons/workerIcon.svg",
-                                                          height: 16,
-                                                          width: 16),
+                                                        "lib/assets/icons/workerIcon.svg",
+                                                        height: 16.h,
+                                                        width: 16.w,
+                                                      ),
                                                     ),
-                                                  ),
+                                                  )
                                                 ],
                                               ),
-                                              const SizedBox(
-                                                width: 5,
+                                              SizedBox(
+                                                width: 5.w,
                                               ),
                                               HeadingTextW500(
                                                   text:
                                                       Strings.services(context),
                                                   centerAlign: false,
-                                                  size: 17),
+                                                  size: 17.sp),
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 12,
+                                        SizedBox(
+                                          height: 12.h,
                                         ),
                                         ListView.builder(
                                           shrinkWrap: true,
@@ -394,8 +397,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                               controller.professionsList.length,
                                           itemBuilder: (context, index) {
                                             return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(2.5),
+                                              padding: EdgeInsets.all(2.5.r),
                                               child: Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Row(
@@ -420,14 +422,14 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                                         index)
                                                                     .icon!
                                                                     .url!,
-                                                                height: 16,
-                                                                width: 16,
+                                                                height: 16.h,
+                                                                width: 16.w,
                                                                 fit:
                                                                     BoxFit.fill)
                                                             : const SizedBox()
                                                         : const SizedBox(),
-                                                    const SizedBox(
-                                                      width: 6,
+                                                    SizedBox(
+                                                      width: 6.w,
                                                     ),
                                                     Headingdescription(
                                                         text: controller
@@ -437,7 +439,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                                 .name ??
                                                             "N/A",
                                                         centerAlign: false,
-                                                        size: 16),
+                                                        size: 16.sp),
                                                   ],
                                                 ),
                                               ),
@@ -452,36 +454,36 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(11.0),
+                        padding: EdgeInsets.all(11.0.r),
                         child: Card(
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Color(MyColors.cardGrayColor200)),
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(12.r)),
                           elevation: 0,
                           color: const Color(MyColors.cardGrayColor100),
                           child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: EdgeInsets.all(12.0.r),
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(8.0.r),
                                     child: Align(
                                       alignment: Alignment.topLeft,
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
                                               "lib/assets/icons/informationLogo.svg",
-                                              height: 18,
-                                              width: 18),
-                                          const SizedBox(
-                                            width: 4,
+                                              height: 18.h,
+                                              width: 18.w),
+                                          SizedBox(
+                                            width: 4.w,
                                           ),
                                           HeadingTextW500(
                                               text: Strings.aboutThisCompany(
                                                   context),
                                               centerAlign: false,
-                                              size: 16),
+                                              size: 16.sp),
                                         ],
                                       ),
                                     ),
@@ -489,19 +491,21 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                   Align(
                                     alignment: Alignment.topLeft,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0, bottom: 8.0),
+                                      padding: EdgeInsets.only(
+                                          left: 8.0.w,
+                                          right: 8.0.w,
+                                          bottom: 8.0.w),
                                       child: controller.tradesmen!
                                                   .tradesmenProfile !=
                                               null
                                           ? Headingdescription(
                                               text: controller.tradesmen!
                                                       .tradesmenProfile!.bio ??
-                                                  "No Information",
+                                                  "N/A",
                                               centerAlign: false,
                                               size: 14)
                                           : const Headingdescription(
-                                              text: "No Information",
+                                              text: "N/A",
                                               centerAlign: false,
                                               size: 14),
                                     ),
@@ -511,24 +515,24 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 11.0, right: 11.0),
+                        padding: EdgeInsets.only(left: 11.0.w, right: 11.0.w),
                         child: Card(
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                   color: Color(MyColors.cardGrayColor200)),
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(12.r)),
                           elevation: 0,
                           color: const Color(MyColors.cardGrayColor100),
                           child: Padding(
-                              padding: const EdgeInsets.all(5.0),
+                              padding: EdgeInsets.all(5.0.r),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
+                                      padding: EdgeInsets.only(
+                                          left: 8.0.w, right: 8.0.w),
                                       child: SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -558,10 +562,10 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                 .portfolioBackColor.value),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(10.r),
                                             ),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 2, horizontal: 2),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2.r, horizontal: 2.r),
                                           ),
                                           child: Text(
                                               Strings.portfolio(context),
@@ -570,7 +574,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                   color: Color(controller
                                                       .portfolioTextColor
                                                       .value),
-                                                  fontSize: 14.5,
+                                                  fontSize: 14.5.sp,
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: 'Poppins')),
                                         ),
@@ -579,8 +583,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
+                                      padding: EdgeInsets.only(
+                                          left: 8.0.w, right: 8.0.w),
                                       child: SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -614,17 +618,17 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                 .reviewsBackColor.value),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(10.r),
                                             ),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 2, horizontal: 2),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 2.r, horizontal: 2.r),
                                           ),
                                           child: Text(Strings.reviews(context),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: Color(controller
                                                       .reviewsTextColor.value),
-                                                  fontSize: 14.5,
+                                                  fontSize: 14.5.sp,
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: 'Poppins')),
                                         ),
@@ -645,15 +649,15 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                               : Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 12.0, left: 22),
+                                      padding: EdgeInsets.only(
+                                          top: 12.0.h, left: 22.w),
                                       child: Align(
                                         alignment: Alignment.topLeft,
                                         child: HeadingTextW600(
                                             text:
-                                                "Portfolios (${controller.totalPortfolio.value})",
+                                                "${Strings.portfolios(context)} (${controller.totalPortfolio.value})",
                                             centerAlign: false,
-                                            size: 16),
+                                            size: 16.sp),
                                       ),
                                     ),
                                     controller.portfolioList!.isNotEmpty
@@ -672,20 +676,20 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                           )
                                         : Center(
                                             child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.all(8.0.r),
                                             child: Headingdescription(
                                                 text: Strings.noPortfolioFound(
                                                     context),
                                                 centerAlign: false,
-                                                size: 14.0),
+                                                size: 14.0.sp),
                                           )),
                                   ],
                                 )
                           : Obx(() => controller.loadingReviews.value
-                              ? const Center(
+                              ? Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 16.0),
-                                    child: CircularProgressIndicator(
+                                    padding: EdgeInsets.only(top: 16.0.h),
+                                    child: const CircularProgressIndicator(
                                       color: Color(MyColors.themeRedColor),
                                     ),
                                   ),
@@ -693,15 +697,15 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                               : Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 12.0, left: 22),
+                                      padding: EdgeInsets.only(
+                                          top: 12.0.h, left: 22.w),
                                       child: Align(
                                         alignment: Alignment.topLeft,
                                         child: HeadingTextW600(
                                             text:
-                                                "Reviews (${controller.totalReviews.value})",
+                                                "${Strings.reviews(Get.context!)} (${controller.totalReviews.value})",
                                             centerAlign: false,
-                                            size: 16),
+                                            size: 16.sp),
                                       ),
                                     ),
                                     Obx(() => Column(
@@ -726,14 +730,13 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                 : Center(
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
+                                                          EdgeInsets.all(8.0.r),
                                                       child: Headingdescription(
                                                         text: Strings
                                                             .noReviewFound(
                                                                 context),
                                                         centerAlign: false,
-                                                        size: 14.0,
+                                                        size: 14.0.sp,
                                                       ),
                                                     ),
                                                   ),
@@ -761,48 +764,48 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
 
   Widget _buildPortfolioView(Portfolio portfolio) {
     return Padding(
-      padding: const EdgeInsets.only(left: 11.0, right: 11.0, top: 7.0),
+      padding: EdgeInsets.only(left: 11.0.w, right: 11.0.w, top: 7.0.h),
       child: Card(
         shape: RoundedRectangleBorder(
             side: const BorderSide(color: Color(MyColors.cardGrayColor200)),
-            borderRadius: BorderRadius.circular(12)),
+            borderRadius: BorderRadius.circular(12.0.r)),
         elevation: 0,
         color: const Color(MyColors.cardGrayColor100),
         child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: EdgeInsets.all(5.0.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 12.0, right: 12, top: 8.0),
+                      EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 8.0.h),
                   child: HeadingTextW500(
                       text: portfolio.title ?? "N/A",
                       centerAlign: false,
-                      size: 17),
+                      size: 17.sp),
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 12.0, right: 12.0, top: 4.0),
+                      EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 4.0.h),
                   child: Headingdescription(
                       text: portfolio.desc ?? "N/A",
                       centerAlign: false,
-                      size: 14),
+                      size: 14.sp),
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 12.0, top: 8.0, right: 8.0),
+                      EdgeInsets.only(left: 12.0.w, top: 8.0.h, right: 8.0.w),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children:
                           List.generate(portfolio.imageList!.length, (index) {
                         return SizedBox(
-                          height: 80,
-                          width: 70,
+                          height: 80.h,
+                          width: 70.w,
                           child: Card(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(10.r)),
                             elevation: 1,
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -813,8 +816,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                         child: SvgPicture.asset(
                                       "lib/assets/images/tradesmenplaceholdericon.svg",
                                       fit: BoxFit.fill,
-                                      height: 20,
-                                      width: 20,
+                                      height: 20.h,
+                                      width: 20.w,
                                     ));
                                   },
                                 )),
@@ -832,37 +835,37 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
 
   Widget _buildReviewView(Reviews review) {
     return Padding(
-      padding: const EdgeInsets.only(left: 11.0, right: 11.0, top: 7),
+      padding: EdgeInsets.only(left: 11.0.w, right: 11.0.w, top: 7.0.h),
       child: Card(
         shape: RoundedRectangleBorder(
             side: const BorderSide(color: Color(MyColors.cardGrayColor200)),
-            borderRadius: BorderRadius.circular(12)),
+            borderRadius: BorderRadius.circular(12.r)),
         elevation: 0,
         color: const Color(MyColors.cardGrayColor100),
         child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: EdgeInsets.all(5.0.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0.r),
                   child: Row(
                     children: [
                       Headingdescription(
                           text: review.userName ?? "N/A",
                           centerAlign: false,
-                          size: 13),
-                      const Headingdescription(
-                          text: ", ", centerAlign: false, size: 14),
+                          size: 13.sp),
+                      Headingdescription(
+                          text: ", ", centerAlign: false, size: 14.sp),
                       Headingdescription(
                           text: review.userCity! ?? "N/A",
                           centerAlign: false,
-                          size: 13)
+                          size: 13.sp)
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                  padding: EdgeInsets.only(left: 8.0.w, bottom: 4.0.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -875,7 +878,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                               itemCount: 5,
                               itemSize: 20,
                               itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                                  EdgeInsets.symmetric(horizontal: 2.0.w),
                               itemBuilder: (context, _) => const Icon(
                                 Icons.star,
                                 color: Color(MyColors.themeRedColor),
@@ -887,7 +890,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                         width: 4,
                       ),
                       Text(
-                          "Reviewed on ${review.humanReadableCreatedAt ?? "N/A"}",
+                          "${Strings.reviewedOn(Get.context!)} ${review.humanReadableCreatedAt ?? "N/A"}",
                           textAlign: TextAlign.start,
                           style: const TextStyle(
                               color: Colors.grey,
@@ -898,28 +901,28 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                   child: Text(review.title ?? "N/A",
                       textAlign: TextAlign.start,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Poppins')),
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 3.0),
+                      EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 3.0.h),
                   child: Card(
                     elevation: 0,
                     color: const Color(MyColors.infoPinkColor).withOpacity(0.5),
-                    shape: const RoundedRectangleBorder(
+                    shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                            topRight: Radius.circular(8))),
+                            bottomLeft: Radius.circular(8.r),
+                            bottomRight: Radius.circular(8.r),
+                            topRight: Radius.circular(8.r))),
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: EdgeInsets.all(4.0.w),
                       child: Text(review.comment ?? "N/A",
                           textAlign: TextAlign.start,
                           style: const TextStyle(
@@ -938,19 +941,20 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
 
   Widget _buildLoadMoreButton() {
     return Obx(() => controller.loadMore.value
-        ? const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: CircularProgressIndicator(
+        ? Padding(
+            padding: EdgeInsets.all(4.0.r),
+            child: const CircularProgressIndicator(
               color: Color(MyColors.themeRedColor),
             ),
           )
         : ElevatedButton(
             style: ButtonStyle(
               shape: WidgetStateProperty.all(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r)),
               ),
               fixedSize: WidgetStateProperty.all(
-                Size.fromWidth(MediaQuery.of(Get.context!).size.width / 2.5),
+                Size.fromWidth(MediaQuery.of(Get.context!).size.width.w / 2.5),
               ),
               foregroundColor: WidgetStateProperty.all(
                 const Color(MyColors.infoPinkColor2),
@@ -971,15 +975,17 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                 throw Exception(e);
               }
             },
-            child: const Padding(
-              padding: EdgeInsets.all(4.0),
+            child: Padding(
+              padding: EdgeInsets.all(4.0.r),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Headingdescription(
-                      text: "Load More", centerAlign: false, size: 14),
-                  SizedBox(width: 5.0),
-                  Icon(Icons.keyboard_arrow_down, size: 20),
+                      text: Strings.loadMoreText(Get.context!),
+                      centerAlign: false,
+                      size: 14.sp),
+                  SizedBox(width: 5.0.w),
+                  Icon(Icons.keyboard_arrow_down, size: 20.r),
                 ],
               ),
             ),

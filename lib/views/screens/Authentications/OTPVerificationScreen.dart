@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
@@ -10,7 +11,6 @@ import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
-import 'package:workforceclientapp/views/screens/ClientJobPosting/JobPostCompletedScreen.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/RedClickableText.dart';
@@ -22,15 +22,15 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
-      width: 47,
-      height: 50,
+      width: 47.w,
+      height: 50.h,
       textStyle: const TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.w600,
         color: Color.fromRGBO(30, 60, 87, 1),
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.0.r),
         border: Border.all(color: Color(controller.outlineBorderColor.value)),
       ),
     );
@@ -57,19 +57,21 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                   Get.back();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 32.0, left: 12.0),
+                  padding: EdgeInsets.only(top: 32.0.h, left: 12.0.w),
                   child: Row(
                     children: [
                       SvgPicture.asset(
                         "lib/assets/icons/bckTwoarrows.svg",
-                        height: 14,
-                        width: 14,
+                        height: 14.h,
+                        width: 14.w,
                         fit: BoxFit.contain,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 6.0),
+                      Padding(
+                        padding: EdgeInsets.only(left: 6.0.w),
                         child: Headingdescription(
-                            text: "Go Back", centerAlign: false, size: 12),
+                            text: Strings.goBackText(Get.context!),
+                            centerAlign: false,
+                            size: 12.sp),
                       ),
                     ],
                   ),
@@ -86,32 +88,31 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 25.0),
+                              padding: EdgeInsets.only(left: 25.0.w),
                               child: Text(
                                 Strings.otpVerification(context),
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 28.0,
+                                    fontSize: 28.0.sp,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: 25.0, top: 6.0),
+                            padding: EdgeInsets.only(left: 25.0.w, top: 6.0.h),
                             child: Align(
                               alignment: Alignment.topLeft,
                               child: Headingdescription(
                                 text:
                                     Strings.otpVerificationScreenText(context),
                                 centerAlign: false,
-                                size: 15.0,
+                                size: 15.0.sp,
                               ),
                             ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(top: 25),
+                              padding: EdgeInsets.only(top: 25.0.h),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -134,7 +135,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                             focusNode: controller.focusNode,
                                             defaultPinTheme: defaultPinTheme,
                                             separatorBuilder: (index) =>
-                                                const SizedBox(width: 8),
+                                                SizedBox(width: 8.w),
                                             // validator: (value) {
                                             //   return value == '2222'
                                             //       ? null
@@ -166,10 +167,10 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Container(
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 9),
-                                                  width: 22,
-                                                  height: 1,
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 9.0.h),
+                                                  width: 22.0.w,
+                                                  height: 1.0.h,
                                                   color: Color(controller
                                                       .completeBorderColor
                                                       .value),
@@ -183,7 +184,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                                   .copyWith(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              8),
+                                                              8.r),
                                                       border: Border.all(
                                                           color: Color(controller
                                                               .completeBorderColor
@@ -196,7 +197,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                                   .copyWith(
                                                 color: Colors.white,
                                                 borderRadius:
-                                                    BorderRadius.circular(15),
+                                                    BorderRadius.circular(15.r),
                                                 border: Border.all(
                                                     color: Color(controller
                                                         .completeBorderColor
@@ -216,31 +217,31 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                 ],
                               )),
                           Padding(
-                            padding: const EdgeInsets.only(top: 55.0),
+                            padding: EdgeInsets.only(top: 55.0.h),
                             child: Text(controller.middleText.value,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color:
                                         Color(controller.middleTextCode.value),
-                                    fontSize: 16.0,
+                                    fontSize: 16.0.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Poppins')),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 50.0),
+                            padding: EdgeInsets.only(top: 50.0.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Headingdescription(
                                     text: Strings.didNotReceiveCode(context),
                                     centerAlign: false,
-                                    size: 16.0),
-                                const SizedBox(
-                                  width: 4.0,
+                                    size: 16.0.sp),
+                                SizedBox(
+                                  width: 4.0.w,
                                 ),
                                 RedClickableText(
                                   text: Strings.resend(context),
-                                  size: 16.0,
+                                  size: 16.0.sp,
                                   callback: () {
                                     Get.offAllNamed(AppLinks.login_screen);
                                   },
@@ -249,8 +250,8 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                top: 25.0, left: 8.0, right: 8.0),
+                            padding: EdgeInsets.only(
+                                top: 25.0.h, left: 8.0.w, right: 8.0.w),
                             child: FullWidthButton(
                               text: Strings.verify(context),
                               color: controller.verifyButtonColor.value,
@@ -267,14 +268,16 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                     try {
                                       if (Constants.fromWhere ==
                                           "JobPostCompletedScreen") {
-                                        Get.to(
-                                          const JobPostCompletedScreen(),
-                                          transition: Transition
-                                              .rightToLeft, // Left-to-right animation
-                                          duration: const Duration(
-                                              milliseconds:
-                                                  500), // Optional: animation duration
-                                        );
+                                        Get.toNamed(
+                                            AppLinks.job_post_completed_screen);
+                                        // Get.to(
+                                        //   const JobPostCompletedScreen(),
+                                        //   transition: Transition
+                                        //       .rightToLeft, // Left-to-right animation
+                                        //   duration: const Duration(
+                                        //       milliseconds:
+                                        //           500), // Optional: animation duration
+                                        // );
                                       } else {
                                         // Get.offAllNamed(
                                         //     AppLinks.select_service_screen);
@@ -289,7 +292,8 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                             "signup" ||
                                         controller.fromWhere.value == "login") {
                                       Fluttertoast.showToast(
-                                          msg: "You can now login!");
+                                          msg: Strings.youCanNowLoginText(
+                                              Get.context!));
                                       Get.offAllNamed(AppLinks.login_screen);
                                     } else {
                                       Get.toNamed(
@@ -333,8 +337,8 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                 child: Image.asset(
                   "lib/assets/images/signuperrorimage.png",
                   fit: BoxFit.contain,
-                  height: 136.0,
-                  width: 123.0,
+                  height: 136.0.h,
+                  width: 123.0.w,
                 )),
           ),
           HeadingText(
@@ -342,13 +346,13 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
           Headingdescription(
               text: Strings.somethingWentWrong(Get.context!),
               centerAlign: true,
-              size: 15.0),
+              size: 15.0.sp),
           Headingdescription(
               text: Strings.wrongPin(Get.context!),
               centerAlign: true,
-              size: 15.0),
+              size: 15.0.sp),
           Padding(
-            padding: const EdgeInsets.only(top: 18.0),
+            padding: EdgeInsets.only(top: 18.0.h),
             child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: const WidgetStatePropertyAll(
@@ -359,7 +363,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                   Get.back();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                  padding: EdgeInsets.only(left: 50.0.w, right: 50.0.w),
                   child: Container(
                     child: Center(
                         child: Text(
@@ -369,7 +373,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                   ),
                 )),
           ),
-          const SizedBox(height: 16.0)
+          SizedBox(height: 16.0.h)
         ],
       ),
     );

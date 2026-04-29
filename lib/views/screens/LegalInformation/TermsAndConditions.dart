@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
@@ -13,7 +14,7 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
       child: Scaffold(
         backgroundColor: const Color(MyColors.cardGrayColor100),
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
             color: const Color(MyColors.cardGrayColor100),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -29,15 +30,15 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
                       child: HeadingTextW600(
                     text: Strings.termsAndConditionText(context),
                     centerAlign: false,
-                    size: 18.0,
+                    size: 18.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
                       Get.back();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 12.0),
-                      child: Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12.0.w),
+                      child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(Icons.arrow_back_ios)),
                     ),
@@ -49,23 +50,24 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12.0.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const HeadingTextW600(
-                    text: "EULA", centerAlign: true, size: 16),
+                HeadingTextW600(text: "EULA", centerAlign: true, size: 16.sp),
                 Headingdescription(
                     text: Strings.eULAText(Get.context!),
                     centerAlign: false,
-                    size: 14),
-                const HeadingTextW600(
-                    text: "Liscense", centerAlign: true, size: 16),
+                    size: 14.sp),
+                HeadingTextW600(
+                    text: Strings.lisenceText(Get.context!),
+                    centerAlign: true,
+                    size: 16.sp),
                 Headingdescription(
                     text: Strings.lisenceText(Get.context!),
                     centerAlign: false,
-                    size: 14),
+                    size: 14.sp),
               ],
             ),
           ),

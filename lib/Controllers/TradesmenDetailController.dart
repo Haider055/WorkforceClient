@@ -64,7 +64,7 @@ class TradesmenDetailController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('trade_person')) {
@@ -75,13 +75,13 @@ class TradesmenDetailController extends GetxController {
 
           return tradesmen;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return tradesmen;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmen;
       }
     } catch (e) {
@@ -120,13 +120,13 @@ class TradesmenDetailController extends GetxController {
 
           return tradesmenReview;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return tradesmenReview;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmenReview;
       }
     } catch (e) {
@@ -149,7 +149,7 @@ class TradesmenDetailController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.containsKey('portfolios')) {
@@ -163,13 +163,13 @@ class TradesmenDetailController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } catch (e) {

@@ -335,6 +335,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get detailsText => 'Details';
 
   @override
+  String get tradesman => 'Händler';
+
+  @override
   String get orderDetailText => 'Bestelldetails';
 
   @override
@@ -353,7 +356,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get photosNotFoundText => 'Fotos nicht gefunden';
 
   @override
-  String get sendARequestText => 'eine Anfrage senden';
+  String get sendARequestText => 'Senden Sie eine Anfrage';
 
   @override
   String get noPhotosWereUploadText => 'Keine Fotos wurden hochgeladen!';
@@ -377,6 +380,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get portfolioText => 'Portfolio';
+
+  @override
+  String get portfoliosText => 'Portfolios';
 
   @override
   String get descriptionText => 'Beschreibung';
@@ -579,6 +585,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get interestedTradesmanText => 'Interessierter Handwerker';
 
   @override
+  String get nointerestedTradesmanText => 'Kein interessierter Handwerker';
+
+  @override
   String get interestedText => 'Interessiert';
 
   @override
@@ -767,4 +776,321 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get privacyPolicyPoint10Text =>
       'Bei Fragen oder Anregungen zu unserer Datenschutzrichtlinie kontaktieren Sie uns bitte unter info@auftragnow.com.';
+
+  @override
+  String get thisQuestionIsCompulsToAnsText =>
+      'Diese Frage muss beantwortet werden';
+
+  @override
+  String get toMore10TradesmenText =>
+      'an 10 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore9TradesmenText =>
+      'an 9 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore8TradesmenText =>
+      'an 8 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore7TradesmenText =>
+      'an 7 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore6TradesmenText =>
+      'an 6 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore5TradesmenText =>
+      'an 5 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore4TradesmenText =>
+      'an 4 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore3TradesmenText =>
+      'an 3 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore2TradesmenText =>
+      'an 2 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get toMore1TradesmenText =>
+      'an 1 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
+  String get messageNotSentText => 'Nachricht nicht gesendet';
+
+  @override
+  String get loadMoreText => 'mehr laden';
+
+  @override
+  String get nowText => 'Jetzt';
+
+  @override
+  String get startContractNowText => 'Vertrag jetzt starten';
+
+  @override
+  String get markAsCompleteText => 'Als abgeschlossen markieren';
+
+  @override
+  String get jobHasBeenDoneText => 'Die Arbeit wurde erledigt';
+
+  @override
+  String get jobText => 'Arbeit';
+
+  @override
+  String get areYouSureToCompleteThisContractText =>
+      'Sind Sie sicher, dass Sie diesen Vertrag abschließen werden?';
+
+  @override
+  String get jobhasbeenCompletedText => 'Auftrag abgeschlossen!';
+
+  @override
+  String get yourJobstartedActiveNowActiveText =>
+      'Ihr Auftrag wurde gestartet und ist jetzt aktiv';
+
+  @override
+  String get chatIsClosedText => 'Chat ist geschlossen';
+
+  @override
+  String get taptoStartConversationText =>
+      'Tippen Sie hier, um eine Unterhaltung zu starten.';
+
+  @override
+  String get goBackText => 'Geh zurück';
+
+  @override
+  String get atLeast12CharactersText => 'Mindestens 12 Zeichen';
+
+  @override
+  String get lowercaseText => 'Kleinbuchstaben';
+
+  @override
+  String get uppercaseText => 'Großbuchstaben';
+
+  @override
+  String get specialSymbolsText => 'spezielle Symbole';
+
+  @override
+  String get numbersText => 'Zahlen';
+
+  @override
+  String get pleaseEnterYourEmailText =>
+      'Bitte geben Sie Ihre E-Mail-Adresse ein';
+
+  @override
+  String get emailCannotBeEmptyText =>
+      'Die E-Mail-Adresse darf nicht leer sein.';
+
+  @override
+  String get newUserText => 'Neuer Benutzer';
+
+  @override
+  String get youCanNowLoginText => 'Sie können sich jetzt anmelden!';
+
+  @override
+  String get bycreatingaccountyouAgreetoourText =>
+      'Mit der Erstellung eines Kontos stimmen Sie unseren Bedingungen zu';
+
+  @override
+  String get andText => 'Und';
+
+  @override
+  String get nameCannotBeEmptyText => 'Der Name darf nicht leer sein.';
+
+  @override
+  String get phoneCannotBeEmptyText => 'Telefon kann nicht leer sein';
+
+  @override
+  String get passwordCannotBeEmptyText => 'Das Passwort darf nicht leer sein.';
+
+  @override
+  String get confirmPasswordCannotBeEmptyText =>
+      'confirm Password Cannot Be Empty';
+
+  @override
+  String get pleaseEnterValidPhoneText =>
+      'Bitte geben Sie eine gültige Telefonnummer ein.';
+
+  @override
+  String get pleaseFollowPasswordRulesText =>
+      'Bitte befolgen Sie die Passwortregeln';
+
+  @override
+  String get passwordDoNotMatchText => 'Passwort stimmt nicht überein';
+
+  @override
+  String get typeaMessageText => 'Geben Sie eine Nachricht ein...';
+
+  @override
+  String get howyourExperiencewithtradesman =>
+      'Wie waren Ihre Erfahrungen mit dem Handwerker?';
+
+  @override
+  String get canYoutellusMore => 'Können Sie uns mehr erzählen?';
+
+  @override
+  String get pleaseExplaininyourownWordsText =>
+      'Bitte erklären Sie es in Ihren eigenen Worten';
+
+  @override
+  String get reviewCannotbeemptyText => 'Die Rezension darf nicht leer sein';
+
+  @override
+  String get pleaseGiveSomeRatingText => 'Bitte geben Sie eine Bewertung ab';
+
+  @override
+  String get discardChangesText => 'Änderungen verwerfen!';
+
+  @override
+  String get areYouSureToEndJobPostingProcessText =>
+      'Sind Sie sicher, dass Sie den Stellenausschreibungsprozess beenden möchten?';
+
+  @override
+  String get stepText => 'Schritt';
+
+  @override
+  String get tellUsMoreAboutYourNeed =>
+      'Schildern Sie uns bitte Ihre Bedürfnisse genauer';
+
+  @override
+  String get jobhasbeenpostedsuccessfullyText =>
+      'Ihre Stellenanzeige wurde erfolgreich veröffentlicht!';
+
+  @override
+  String get jobisnowliveandreadyText =>
+      'Ihre Stellenanzeige ist jetzt online und bereit, qualifizierte Fachkräfte anzuziehen';
+
+  @override
+  String get postingyourJobText => 'Posting your Job...';
+
+  @override
+  String get dragtomovePinText => 'Drag to move pin to exact location';
+
+  @override
+  String get photosOfConstructionPlansOptional =>
+      'Fotos von Bauplänen (optional)';
+
+  @override
+  String get max15MbFileText => 'Maximal 15 Dateien, maximal 2 MB pro Datei';
+
+  @override
+  String get uploadFilesFromGalleryText =>
+      'Laden Sie Dateien aus der Galerie hoch';
+
+  @override
+  String get pleaseLoginToSeeprofileText =>
+      'Bitte melden Sie sich an, um Ihr Profil zu sehen';
+
+  @override
+  String get selectText => 'Wählen';
+
+  @override
+  String get requestHasSentText => 'Anfrage wurde gesendet';
+
+  @override
+  String get activeWithinText => 'Aktiv im Umkreis von';
+
+  @override
+  String get activeWithinOfText => 'um';
+
+  @override
+  String get reviewedOnText => 'Rezension vom';
+
+  @override
+  String get seeourPrivacyPlolicyText => 'siehe unsere Datenschutzerklärung';
+
+  @override
+  String get youCanAdjustYourNotificationSettingText =>
+      'Sie können Ihre Benachrichtigungseinstellungen jederzeit anpassen.';
+
+  @override
+  String get updatesOnJobsText => 'Updates zu Jobs';
+
+  @override
+  String get markAllAsReadText => 'Markiere alles als gelesen';
+
+  @override
+  String get nointerestedTradesmanDescriptionText =>
+      'Bisher hat noch kein Handwerker Interesse an Ihrem Auftrag bekundet. Sie können das Gespräch beginnen, sobald jemand Interesse zeigt.';
+
+  @override
+  String get chatBoxIsEmptyDescription =>
+      'Sie haben noch keinen Kontakt zu einem Handwerker aufgenommen. Starten Sie jetzt einen Chat, damit Ihr Auftrag schnell erledigt wird.';
+
+  @override
+  String get noRecommendedText => 'nein Empfohlen';
+
+  @override
+  String get zeroAnswers => '0 Antworten';
+
+  @override
+  String get addressText => 'Adresse';
+
+  @override
+  String get postcodeText => 'Postleitzahl';
+
+  @override
+  String get cityText => 'Stadt';
+
+  @override
+  String get countryText => 'Land';
+
+  @override
+  String get appliedText => 'Angewandt';
+
+  @override
+  String get therequesthasbeenapproved =>
+      'Die Anfrage wurde angenommen, Sie können jetzt den Chat starten.';
+
+  @override
+  String get therequesthasbeendeclined => 'Der Antrag wurde abgelehnt.';
+
+  @override
+  String get weakText => 'schwach';
+
+  @override
+  String get moderateText => 'Mäßig';
+
+  @override
+  String get goodText => 'Gut';
+
+  @override
+  String get strongText => 'Stark';
+
+  @override
+  String get loginRequiredText => 'Anmeldung erforderlich';
+
+  @override
+  String get pleaseLoginToPostJobDescText =>
+      'Sie sind nicht angemeldet. Bitte melden Sie sich an, um Ihre Stellenanzeige zu veröffentlichen. Nach der Anmeldung wird Ihre Anzeige veröffentlicht.';
+
+  @override
+  String get customRequestMessageText =>
+      'Ich habe Ihr Profil gesehen und war von Ihren bisherigen Arbeiten beeindruckt. Hätten Sie Interesse an diesem Auftrag?';
+
+  @override
+  String get allNotificationsMarkedAsReadText =>
+      'Alle als gelesen markierten Benachrichtigungen';
+
+  @override
+  String get filesLargerThan2MBSkippedText =>
+      'Dateien, die größer als 2 MB sind, werden übersprungen.';
+
+  @override
+  String get youCanOnlyUploadUpTo => 'Sie können maximal';
+
+  @override
+  String get ximages => 'Bilder hochladen';
+
+  @override
+  String get onlyInfoText => 'Es können nur noch';
+
+  @override
+  String get imagesCanBeAddMoreText =>
+      'Es können weitere Bilder hinzugefügt werden';
 }

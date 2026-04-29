@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,16 @@ class NotificationsContoller extends GetxController {
   void onInit() {
     super.onInit();
     getPreferencesOptions();
+    // requestPermission();
+  }
+
+  Future<void> requestPermission() async {
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   Future<void> getPreferencesOptions() async {
@@ -139,11 +150,11 @@ class NotificationsContoller extends GetxController {
           }
           return notificationsList;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return notificationsList;
         }
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return notificationsList;
       }
     } catch (e) {
@@ -162,18 +173,15 @@ class NotificationsContoller extends GetxController {
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
-          if (jsonData['message'] == "All notifications marked as read") {
-            Fluttertoast.showToast(msg: "All notifications marked as read");
-            return true;
-          }
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
-          return false;
+          Fluttertoast.showToast(
+              msg: Strings.allNotificationsMarkedAsReadText(Get.context!));
+          return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
     } catch (e) {
@@ -192,14 +200,8 @@ class NotificationsContoller extends GetxController {
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
-          Fluttertoast.showToast(msg: "Notifications marked as read");
+          // Fluttertoast.showToast(msg: "Notifications marked as read");
           return true;
-          // if (jsonData['message'] == "All notifications marked as read") {
-          //   Fluttertoast.showToast(msg: "All notifications marked as read");
-          //   return true;
-          // }
-          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
-          // return false;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return false;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Rectangleindicator extends StatelessWidget {
   final int color;
@@ -9,12 +10,12 @@ class Rectangleindicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0, left: 5.0),
+        padding: EdgeInsets.only(bottom: 25.0.h, left: 5.0.w),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.0.r),
           child: Container(
-            width: size.toDouble(),
-            height: 6.5,
+            width: size.toDouble().w,
+            height: 6.5.h,
             color: Color(color),
           ),
         ),

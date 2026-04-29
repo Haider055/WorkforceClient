@@ -6,6 +6,7 @@ class Message {
   String? humanReadableCreatedAt;
   // String? read;
   String? message;
+  bool sent = true;
 
   Message(
       {required this.id,

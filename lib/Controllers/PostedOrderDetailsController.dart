@@ -88,13 +88,13 @@ class PostedOrderDetailsController extends GetxController {
 
           return postedJobDetail;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedJobDetail;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedJobDetail;
       }
     } catch (e) {
@@ -145,13 +145,13 @@ class PostedOrderDetailsController extends GetxController {
 
           return requestedTradesmen;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return requestedTradesmen;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return requestedTradesmen;
       }
     } catch (e) {
@@ -188,13 +188,13 @@ class PostedOrderDetailsController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } catch (e) {
@@ -202,12 +202,13 @@ class PostedOrderDetailsController extends GetxController {
     }
   }
 
-  Future<bool> pleaseUpdateRequestsStatus(
+  Future<int> pleaseUpdateRequestsStatus(
       int jobId, int requestId, String status, BuildContext context) async {
     RequestedTradesmen? requestedTradesmen;
     List<TradesmenRequest> list = [];
     Pagination pagination = Pagination();
     String url = "";
+    int chatid = -1;
 
     try {
       final response = await http.put(
@@ -219,25 +220,44 @@ class PostedOrderDetailsController extends GetxController {
         }),
       );
 
+      print(response.body);
       Map<String, dynamic> jsonData = json.decode(response.body);
-      // print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
-        if (jsonData['success'] == true) {
-          // Fluttertoast.showToast(msg: "Updated");
-          return true;
+        if (jsonData['success']) {
+          if (jsonData.keys.contains('data')) {
+            Map<String, dynamic> dataObj = jsonData['data'];
+            if (dataObj.keys.contains('job_application')) {
+              Map<String, dynamic> jobApplicationObj =
+                  dataObj['job_application'];
+              if (jobApplicationObj.keys.contains('chat')) {
+                Map<String, dynamic> chatObj = jobApplicationObj['chat'];
+                if (chatObj['id'] != null) {
+                  chatid = chatObj['id'];
+                  return chatid;
+                } else {
+                  return -2;
+                }
+              } else {
+                return -2;
+              }
+            } else {
+              return -2;
+            }
+          } else {
+            Fluttertoast.showToast(
+                msg: Strings.somethingWentWrong(Get.context!));
+            return chatid;
+          }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
-          return false;
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          return chatid;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
-        return false;
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        return chatid;
       }
     } catch (e) {
       throw Exception(e);
@@ -258,7 +278,7 @@ class PostedOrderDetailsController extends GetxController {
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
-          Fluttertoast.showToast(msg: Strings.jobHasRemoved(context));
+          Fluttertoast.showToast(msg: Strings.jobHasRemoved(Get.context!));
           Get.to(
             const SelectServiceScreen(),
             transition: Transition.rightToLeft, // Left-to-right animation
@@ -270,14 +290,14 @@ class PostedOrderDetailsController extends GetxController {
             Fluttertoast.showToast(msg: jsonData['message']);
           } else {
             Fluttertoast.showToast(
-                msg: Strings.somethingWentWrongRemovingJob(context));
+                msg: Strings.somethingWentWrongRemovingJob(Get.context!));
           }
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
         Fluttertoast.showToast(
-            msg: Strings.somethingWentWrongRemovingJob(context));
+            msg: Strings.somethingWentWrongRemovingJob(Get.context!));
       }
     } catch (e) {
       throw Exception(e);

@@ -334,6 +334,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get detailsText => 'Details';
 
   @override
+  String get tradesman => 'Tradesman';
+
+  @override
   String get orderDetailText => 'Order Detail';
 
   @override
@@ -375,6 +378,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get portfolioText => 'Portfolio';
+
+  @override
+  String get portfoliosText => 'Portfolios';
 
   @override
   String get descriptionText => 'Description';
@@ -572,6 +578,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get interestedTradesmanText => 'Interested Tradesman';
 
   @override
+  String get nointerestedTradesmanText => 'No Interested Tradesman';
+
+  @override
   String get interestedText => 'Interested';
 
   @override
@@ -755,4 +764,311 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyPolicyPoint10Text =>
       'If you have any questions or suggestions about our Privacy Policy, please do not hesitate to contact us at info@auftragnow.com';
+
+  @override
+  String get thisQuestionIsCompulsToAnsText =>
+      'This Question is compulsory to Answer';
+
+  @override
+  String get toMore10TradesmenText =>
+      'to more 10 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore9TradesmenText =>
+      'to more 9 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore8TradesmenText =>
+      'to more 8 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore7TradesmenText =>
+      'to more 7 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore6TradesmenText =>
+      'to more 6 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore5TradesmenText =>
+      'to more 5 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore4TradesmenText =>
+      'to more 4 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore3TradesmenText =>
+      'to more 3 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore2TradesmenText =>
+      'to more 2 tradesmen to get additional asnwers';
+
+  @override
+  String get toMore1TradesmenText =>
+      'to more 1 tradesmen to get additional asnwers';
+
+  @override
+  String get messageNotSentText => 'Message not Sent';
+
+  @override
+  String get loadMoreText => 'Load more';
+
+  @override
+  String get nowText => 'now';
+
+  @override
+  String get startContractNowText => 'Start Contract Now';
+
+  @override
+  String get markAsCompleteText => 'Mark as Complete';
+
+  @override
+  String get jobHasBeenDoneText => 'Job has been done';
+
+  @override
+  String get jobText => 'Job';
+
+  @override
+  String get areYouSureToCompleteThisContractText =>
+      'Are you sure to complete this contract?';
+
+  @override
+  String get jobhasbeenCompletedText => 'Job has been Completed!';
+
+  @override
+  String get yourJobstartedActiveNowActiveText =>
+      'Your Job is started and Active Now';
+
+  @override
+  String get chatIsClosedText => 'Chat is Closed';
+
+  @override
+  String get taptoStartConversationText => 'Tap to Start Conversation';
+
+  @override
+  String get goBackText => 'Go Back';
+
+  @override
+  String get atLeast12CharactersText => 'at least 12 characters';
+
+  @override
+  String get lowercaseText => 'lowercase';
+
+  @override
+  String get uppercaseText => 'uppercase';
+
+  @override
+  String get specialSymbolsText => 'special symbols';
+
+  @override
+  String get numbersText => 'Numbers';
+
+  @override
+  String get pleaseEnterYourEmailText => 'please Enter Your Email';
+
+  @override
+  String get emailCannotBeEmptyText => 'email Cannot Be Empty';
+
+  @override
+  String get newUserText => 'new user';
+
+  @override
+  String get youCanNowLoginText => 'you can now Login!';
+
+  @override
+  String get bycreatingaccountyouAgreetoourText =>
+      'By creating an account, you agree to Bitte geben Sie eine Bewertung abour';
+
+  @override
+  String get andText => 'and';
+
+  @override
+  String get nameCannotBeEmptyText => 'name Cannot Be Empty';
+
+  @override
+  String get phoneCannotBeEmptyText => 'phone Cannot Be Empty';
+
+  @override
+  String get passwordCannotBeEmptyText => 'password Cannot Be Empty';
+
+  @override
+  String get confirmPasswordCannotBeEmptyText =>
+      'confirm Password Cannot Be Empty';
+
+  @override
+  String get pleaseEnterValidPhoneText => 'please enter a valid phone';
+
+  @override
+  String get pleaseFollowPasswordRulesText => 'please Follow Password Rules';
+
+  @override
+  String get passwordDoNotMatchText => 'password Do Not Match';
+
+  @override
+  String get typeaMessageText => 'Type a Message...';
+
+  @override
+  String get howyourExperiencewithtradesman =>
+      'How has your experience been with the tradesman?';
+
+  @override
+  String get canYoutellusMore => 'Can you tell us more?';
+
+  @override
+  String get pleaseExplaininyourownWordsText =>
+      'Please Explain in your own words';
+
+  @override
+  String get reviewCannotbeemptyText => 'review cannot be empty';
+
+  @override
+  String get pleaseGiveSomeRatingText => 'please Give Some Rating';
+
+  @override
+  String get discardChangesText => 'Discard changes!';
+
+  @override
+  String get areYouSureToEndJobPostingProcessText =>
+      'are you sure to End Job Posting Process?';
+
+  @override
+  String get stepText => 'Step';
+
+  @override
+  String get tellUsMoreAboutYourNeed => 'Tell us more about your need';
+
+  @override
+  String get jobhasbeenpostedsuccessfullyText =>
+      'Your job has been posted successfully!';
+
+  @override
+  String get jobisnowliveandreadyText =>
+      'Your job is now live and ready to attract skilled professionals.';
+
+  @override
+  String get postingyourJobText => 'Posting your Job...';
+
+  @override
+  String get dragtomovePinText => 'Drag to move pin to exact location';
+
+  @override
+  String get photosOfConstructionPlansOptional =>
+      'Photos of construction plans (optional)';
+
+  @override
+  String get max15MbFileText => 'Max. 15 files, Max. 2 MB per file';
+
+  @override
+  String get uploadFilesFromGalleryText => 'upload files from Gallery';
+
+  @override
+  String get pleaseLoginToSeeprofileText => 'Please Login to See Your Profile';
+
+  @override
+  String get selectText => 'Select';
+
+  @override
+  String get requestHasSentText => 'Request has sent';
+
+  @override
+  String get activeWithinText => 'active within';
+
+  @override
+  String get activeWithinOfText => 'of';
+
+  @override
+  String get reviewedOnText => 'Reviewed on';
+
+  @override
+  String get seeourPrivacyPlolicyText => 'See our Privacy Policy';
+
+  @override
+  String get youCanAdjustYourNotificationSettingText =>
+      'You can adjust your notification settings anytime.';
+
+  @override
+  String get updatesOnJobsText => 'Updates on Jobs';
+
+  @override
+  String get markAllAsReadText => 'mark all as read';
+
+  @override
+  String get nointerestedTradesmanDescriptionText =>
+      'No tradesman has expressed interest in your job yet. You can start a conversation once someone shows interest.';
+
+  @override
+  String get chatBoxIsEmptyDescription =>
+      'You have not started chatting with tradesman yet. Start a chat to get you job done soon.';
+
+  @override
+  String get noRecommendedText => 'No Recommended';
+
+  @override
+  String get zeroAnswers => '0 Answers';
+
+  @override
+  String get addressText => 'Address';
+
+  @override
+  String get postcodeText => 'postcode';
+
+  @override
+  String get cityText => 'City';
+
+  @override
+  String get countryText => 'Country';
+
+  @override
+  String get appliedText => 'Applied';
+
+  @override
+  String get therequesthasbeenapproved =>
+      'The Request has been Accepted, now you an start Chat';
+
+  @override
+  String get therequesthasbeendeclined => 'The Request has been Declined';
+
+  @override
+  String get weakText => 'Weak';
+
+  @override
+  String get moderateText => 'Moderate';
+
+  @override
+  String get goodText => 'Good';
+
+  @override
+  String get strongText => 'Strong';
+
+  @override
+  String get loginRequiredText => 'Login Required';
+
+  @override
+  String get pleaseLoginToPostJobDescText =>
+      'You are not logged in. Please log in to post your job. Once logged in, your post will be published.';
+
+  @override
+  String get customRequestMessageText =>
+      'I saw your profile and was impressed with your previous work. Would you be interested doing this work?';
+
+  @override
+  String get allNotificationsMarkedAsReadText =>
+      'All notifications marked as read';
+
+  @override
+  String get filesLargerThan2MBSkippedText => 'Files more than 2MB are Skipped';
+
+  @override
+  String get youCanOnlyUploadUpTo => 'you can only upload upto';
+
+  @override
+  String get ximages => 'images';
+
+  @override
+  String get onlyInfoText => 'Only';
+
+  @override
+  String get imagesCanBeAddMoreText => 'images can be add more';
 }

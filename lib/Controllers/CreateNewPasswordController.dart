@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 
 class CreateNewPasswordController extends GetxController {
@@ -38,6 +39,7 @@ class CreateNewPasswordController extends GetxController {
 
   Future<void> pleaseResetPassword(String email) async {
     try {
+      Commons.showProgressDialog(Get.context!);
       final response = await http.post(
         Uri.parse('${Constants.baseUrl}/reset-password'),
         headers: await Commons.manageRequestHeader(),
@@ -50,13 +52,14 @@ class CreateNewPasswordController extends GetxController {
       );
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
+      Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
-        Get.offAllNamed(
+        Get.toNamed(
           AppLinks.password_updated_screen,
         );
       } else {
@@ -68,8 +71,9 @@ class CreateNewPasswordController extends GetxController {
     }
   }
 
-  Future<void> pleaseUpdatePassword(String currentPassword) async {
+  Future<bool> pleaseUpdatePassword(String currentPassword) async {
     try {
+      Commons.showProgressDialog(Get.context!);
       final response = await http.post(
         Uri.parse('${Constants.baseUrl}/update-password'),
         headers: await Commons.manageRequestHeader(),
@@ -82,6 +86,7 @@ class CreateNewPasswordController extends GetxController {
       );
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
+      Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
         // If the server did return a 200 CREATED response,
@@ -91,12 +96,14 @@ class CreateNewPasswordController extends GetxController {
         updatePassword();
         passwordTextField.value.text = "";
         confirmPasswordTextField.value.text = "";
+        return true;
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
+        return false;
       }
     } catch (e) {
-      throw Exception(e);
+      return false;
     }
   }
 
@@ -133,13 +140,13 @@ class CreateNewPasswordController extends GetxController {
 
     passwordStrength.value = strength;
     if (strength < 0.4) {
-      passwordStrengthText.value = "Weak";
+      passwordStrengthText.value = Strings.weakText(Get.context!);
     } else if (strength < 0.8) {
-      passwordStrengthText.value = "Moderate";
+      passwordStrengthText.value = Strings.moderateText(Get.context!);
     } else if (strength < 1.0) {
-      passwordStrengthText.value = "Good";
+      passwordStrengthText.value = Strings.goodText(Get.context!);
     } else {
-      passwordStrengthText.value = "Strong";
+      passwordStrengthText.value = Strings.strongText(Get.context!);
       showPasswordRules.value = false;
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RedClickableText extends StatelessWidget {
   final String text;
@@ -19,7 +20,7 @@ class RedClickableText extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: const Color(0xFFD60107),
-                fontSize: size,
+                fontSize: size.sp,
                 fontWeight: FontWeight.w400,
                 fontFamily: 'Poppins')),
       ),

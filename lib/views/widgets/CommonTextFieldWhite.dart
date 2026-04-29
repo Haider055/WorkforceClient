@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommonTextFieldWhite extends StatefulWidget {
   final String hint;
@@ -43,7 +44,7 @@ class _CommonTextFieldState extends State<CommonTextFieldWhite> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 19.0),
+      padding: EdgeInsets.symmetric(horizontal: 19.w),
       child: TextFormField(
         controller: widget.controller,
         keyboardType: widget.inputType,
@@ -62,36 +63,44 @@ class _CommonTextFieldState extends State<CommonTextFieldWhite> {
         decoration: InputDecoration(
           hintText: widget.hint,
           errorText: widget.errorText.isEmpty ? null : widget.errorText,
+
+          // ERROR BORDER
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10.r),
             borderSide: BorderSide(
-              width: 2.0,
+              width: 2.w,
               color: Colors.red.withOpacity(0.7),
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10.r),
             borderSide: BorderSide(
-              width: 2.0,
+              width: 2.w,
               color: Colors.red.withOpacity(0.7),
             ),
           ),
+
           filled: true,
           fillColor: widget.errorText.isEmpty
               ? const Color(MyColors.whiteColor)
               : Colors.red.withOpacity(0.12),
-          hintStyle: const TextStyle(
+
+          // TEXT STYLE
+          hintStyle: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 16.0,
-            color: Color(0x66000000),
+            fontSize: 16.sp,
+            color: const Color(0x66000000),
             fontWeight: FontWeight.w400,
           ),
+
           prefixIcon: widget.needprefixIcon ? widget.prefixIcon : null,
           prefixIconColor: const Color(0x66000000),
+
           suffixIcon: widget.needPasswordSuffixIcon
               ? IconButton(
                   icon: Icon(
                     _isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                    size: 22.sp,
                   ),
                   onPressed: () {
                     setState(() {
@@ -101,29 +110,33 @@ class _CommonTextFieldState extends State<CommonTextFieldWhite> {
                 )
               : null,
           suffixIconColor: const Color(0x66000000),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 14.0,
+
+          // INNER PADDING
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+            vertical: 14.h,
           ),
+
+          // NORMAL BORDER
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              width: 2.0,
-              color: Color(MyColors.fieldBorderColor),
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 2.w,
+              color: const Color(MyColors.fieldBorderColor),
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              width: 2.0,
-              color: Color(MyColors.fieldBorderColor),
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 2.w,
+              color: const Color(MyColors.fieldBorderColor),
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              width: 2.0,
-              color: Color(MyColors.fieldBorderColor),
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(
+              width: 2.w,
+              color: const Color(MyColors.fieldBorderColor),
             ),
           ),
         ),

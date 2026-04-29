@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
@@ -39,24 +40,27 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         "checkbox") {
       CheckBoxQuestion ques =
           questionsList.elementAt(_currentIndex).values.first;
-      if (ques.isRequired! == "1" && ques.selectedOptions.isEmpty) {
-        Fluttertoast.showToast(msg: "This Question is compulsory to Answer");
+      if (ques.isRequired! == 1 && ques.selectedOptions.isEmpty) {
+        Fluttertoast.showToast(
+            msg: Strings.thisQuestionIsCompulsToAns(Get.context!));
         return;
       }
     } else if (questionsList.elementAt(_currentIndex).entries.first.key ==
         "radio") {
       RadioQuestion radioQuestion =
           questionsList.elementAt(_currentIndex).values.first;
-      if (radioQuestion.isRequired! == "1" &&
+      if (radioQuestion.isRequired! == 1 &&
           radioQuestion.selectedOption!.isEmpty) {
-        Fluttertoast.showToast(msg: "This Question is compulsory to Answer");
+        Fluttertoast.showToast(
+            msg: Strings.thisQuestionIsCompulsToAns(Get.context!));
         return;
       }
     } else {
       TextQuestion question =
           questionsList.elementAt(_currentIndex).values.first;
-      if (question.isRequired! == "1" && question.answer.isEmpty) {
-        Fluttertoast.showToast(msg: "This Question is compulsory to Answer");
+      if (question.isRequired! == 1 && question.answer.isEmpty) {
+        Fluttertoast.showToast(
+            msg: Strings.thisQuestionIsCompulsToAns(Get.context!));
         return;
       }
     }
@@ -99,10 +103,10 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text("Discard changes!"),
-            content: const Text("Are you sure to end Job Posting procress?"),
-            contentTextStyle:
-                const TextStyle(fontSize: 15.5, color: Colors.black),
+            title: Text(Strings.discardChangesText(Get.context!)),
+            content:
+                Text(Strings.areYouSureToEndJobPostingProcess(Get.context!)),
+            contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             backgroundColor: const Color(MyColors.colorRed200),
@@ -112,10 +116,10 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                       child: FullWidthOutlineButton(
                           text: Strings.noText(context),
-                          fontsize: 15.0,
+                          fontsize: 15.0.sp,
                           color: MyColors.themeRedColor,
                           onPressed: () {
                             Get.back();
@@ -124,10 +128,10 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                       child: FullWidthButtonPrimary(
                           text: Strings.yesText(context),
-                          fontsize: 15.0,
+                          fontsize: 15.0.sp,
                           color: MyColors.themeRedColor,
                           onPressed: () {
                             Get.back();
@@ -142,161 +146,168 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         );
         return true;
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
-          leading: Card(
-            color: const Color(MyColors.appbackgroundColor),
-            shadowColor: const Color.fromARGB(158, 219, 219, 219),
-            elevation: 2,
-            shape: const Border(
-                bottom: BorderSide(
-                    color: Color.fromARGB(147, 203, 203, 203),
-                    style: BorderStyle.solid)),
-            child: Center(
-              child: Stack(
-                children: [
-                  Center(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Text(Constants.selectedServiceName,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins')),
-                  )),
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 0),
-                    child: LinearProgressBar(
-                      maxSteps: Constants.jobPostingSteps,
-                      progressType: LinearProgressBar.progressTypeLinear,
-                      minHeight: 6,
-                      currentStep: Constants.currentJobPostingStep,
-                      progressColor: const Color(MyColors.themeRedColor),
-                      backgroundColor: const Color(MyColors.lightSilverColor),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5.0, right: 15),
-                      child: Text(
-                        "Step ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
-                        style: const TextStyle(
-                            fontSize: 14.5,
-                            color: Color(MyColors.midGrayColor)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 16,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: questionsList.length,
-                physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        questionsList.elementAt(index).entries.first.key ==
-                                "checkbox"
-                            ? _buildCheckboxQuestion(
-                                questionsList
-                                    .elementAt(index)
-                                    .entries
-                                    .first
-                                    .value,
-                                context)
-                            : questionsList
-                                        .elementAt(index)
-                                        .entries
-                                        .first
-                                        .key ==
-                                    "radio"
-                                ? _buildMCQQuestion(
-                                    questionsList
-                                        .elementAt(index)
-                                        .entries
-                                        .first
-                                        .value,
-                                    context)
-                                : _buildTextQuestion(
-                                    questionsList
-                                        .elementAt(index)
-                                        .entries
-                                        .first
-                                        .value,
-                                    context),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: GestureDetector(
+        onTap: () {
+          if (FocusScope.of(Get.context!).hasFocus) {
+            FocusScope.of(Get.context!).unfocus();
+          }
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            leadingWidth: MediaQuery.of(context).size.width,
+            leading: Card(
+              color: const Color(MyColors.appbackgroundColor),
+              shadowColor: const Color.fromARGB(158, 219, 219, 219),
+              elevation: 2,
+              shape: const Border(
+                  bottom: BorderSide(
+                      color: Color.fromARGB(147, 203, 203, 203),
+                      style: BorderStyle.solid)),
+              child: Center(
+                child: Stack(
                   children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 25.0, right: 12.0),
-                        child: FullWidthOutlineButton(
-                            text: Strings.back(context),
-                            fontsize: 15.0,
-                            color: MyColors.themeRedColor,
-                            onPressed: () {
-                              _previousPage();
-                            }),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 25.0),
-                        child: FullWidthButtonPrimary(
-                            text: Strings.next(context),
-                            fontsize: 15.0,
-                            color: MyColors.themeRedColor,
-                            onPressed: () {
-                              _nextPage();
-                            }),
-                      ),
-                    )
+                    Center(
+                        child: Padding(
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                      child: Text(Constants.selectedServiceName,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0.sp,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Poppins')),
+                    )),
                   ],
                 ),
               ),
             ),
-          ],
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 0),
+                      child: LinearProgressBar(
+                        maxSteps: Constants.jobPostingSteps,
+                        progressType: LinearProgressBar.progressTypeLinear,
+                        minHeight: 6,
+                        currentStep: Constants.currentJobPostingStep,
+                        progressColor: const Color(MyColors.themeRedColor),
+                        backgroundColor: const Color(MyColors.lightSilverColor),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
+                        child: Text(
+                          "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
+                          style: TextStyle(
+                              fontSize: 14.5.sp,
+                              color: const Color(MyColors.midGrayColor)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 16,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: questionsList.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.all(12.0.r),
+                      child: Column(
+                        children: [
+                          questionsList.elementAt(index).entries.first.key ==
+                                  "checkbox"
+                              ? _buildCheckboxQuestion(
+                                  questionsList
+                                      .elementAt(index)
+                                      .entries
+                                      .first
+                                      .value,
+                                  context)
+                              : questionsList
+                                          .elementAt(index)
+                                          .entries
+                                          .first
+                                          .key ==
+                                      "radio"
+                                  ? _buildMCQQuestion(
+                                      questionsList
+                                          .elementAt(index)
+                                          .entries
+                                          .first
+                                          .value,
+                                      context)
+                                  : _buildTextQuestion(
+                                      questionsList
+                                          .elementAt(index)
+                                          .entries
+                                          .first
+                                          .value,
+                                      context),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 25.0.w, right: 12.0.w),
+                          child: FullWidthOutlineButton(
+                              text: Strings.back(context),
+                              fontsize: 15.0.sp,
+                              color: MyColors.themeRedColor,
+                              onPressed: () {
+                                _previousPage();
+                              }),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
+                          child: FullWidthButtonPrimary(
+                              text: Strings.next(context),
+                              fontsize: 15.0.sp,
+                              color: MyColors.themeRedColor,
+                              onPressed: () {
+                                _nextPage();
+                              }),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -309,25 +320,25 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
+            padding: EdgeInsets.only(top: 12.0.h, left: 12.0.w, right: 12.0.w),
             child: HeadingTextW500(
-                text: question.question!, centerAlign: false, size: 20.0),
+                text: question.question!, centerAlign: false, size: 20.0.sp),
           ),
-          const SizedBox(height: 12.0),
+          SizedBox(height: 12.0.h),
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+              padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
               child: Headingdescription(
                   text:
                       question.description == null ? "" : question.description!,
                   centerAlign: false,
-                  size: 16.0),
+                  size: 16.0.sp),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0.r),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -352,7 +363,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
       QuestionOption option, CheckBoxQuestion question) {
     bool selectAnswer = option.selected;
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(5.0.r),
       child: GestureDetector(
         onTap: () {
           setState(() {
@@ -397,7 +408,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         child: Card(
           color: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.0.r),
             side: const BorderSide(
               color: Color(MyColors.silverColor),
               width: 1,
@@ -412,18 +423,18 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                     option.icon != null
                         ? CircleAvatar(
                             backgroundImage:
-                                NetworkImage(option.icon!, scale: 50),
+                                NetworkImage(option.icon!, scale: 50.0.r),
                           )
                         : const Center(),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5.h),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 4.0, right: 4.0, bottom: 5.0, top: 5.0),
+                      padding: EdgeInsets.only(
+                          left: 4.0.w, right: 4.0.w, bottom: 5.0.h, top: 5.0.h),
                       child: option.optionText != null
                           ? Headingdescription(
                               text: option.optionText!,
                               centerAlign: true,
-                              size: 13.5)
+                              size: 13.5.sp)
                           : const Text("N/A"),
                     )
                   ],
@@ -432,8 +443,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
               Align(
                 alignment: Alignment.topRight,
                 child: Checkbox(
-                  side: const BorderSide(
-                    width: 2.0,
+                  side: BorderSide(
+                    width: 2.0.w,
                   ),
                   value: selectAnswer,
                   onChanged: (bool? value) {
@@ -499,14 +510,14 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         });
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
         child: Card(
           elevation: 0,
           color: selectAnswer == option.optionText
               ? Colors.red.shade50
               : const Color(MyColors.whiteColor),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(8.0.r),
             side: BorderSide(
               color: selectAnswer == option.optionText
                   ? const Color(MyColors.themeRedColor)
@@ -562,29 +573,29 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
         elevation: 0,
         color: const Color(MyColors.cardGrayColor50),
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
+          padding: EdgeInsets.only(bottom: 8.0.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Question Title
               Padding(
-                padding: const EdgeInsets.only(top: 12.0, left: 20),
+                padding: EdgeInsets.only(top: 12.0.h, left: 20.0.w),
                 child: HeadingTextW500(
                   text: question.question ?? '',
                   centerAlign: false,
-                  size: 20.0,
+                  size: 20.0.sp,
                 ),
               ),
               // Question Description
               Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 15),
+                padding: EdgeInsets.only(left: 20.0.w, top: 15.0.h),
                 child: Headingdescription(
                   text: question.description ?? '',
                   centerAlign: false,
-                  size: 16.0,
+                  size: 16.0.sp,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               // Options list - scrolls only if needed
               Expanded(
                 child: ListView.builder(
@@ -614,24 +625,25 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
             alignment: Alignment.topLeft,
             child: Padding(
               padding:
-                  const EdgeInsets.only(top: 12.0, left: 20.0, right: 20.0),
+                  EdgeInsets.only(top: 12.0.h, left: 20.0.w, right: 20.0.w),
               child: HeadingTextW500(
-                  text: question.question!, centerAlign: false, size: 20.0),
+                  text: question.question!, centerAlign: false, size: 20.0.sp),
             ),
           ),
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 15, right: 20.0),
+              padding:
+                  EdgeInsets.only(left: 20.0.w, top: 15.0.h, right: 20.0.w),
               child: Headingdescription(
                   text:
                       question.description == null ? "" : question.description!,
                   centerAlign: false,
-                  size: 16.0),
+                  size: 16.0.sp),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0.w),
             child: TextField(
               controller: TextEditingController(text: question.answer),
               onChanged: (value) {
@@ -642,11 +654,11 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                   fillColor: const Color(MyColors.whiteColor),
                   filled: true,
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9.0),
+                      borderRadius: BorderRadius.circular(9.0.r),
                       borderSide: const BorderSide(
                           color: Color(MyColors.themeRedColor))),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9.0),
+                      borderRadius: BorderRadius.circular(9.0.r),
                       borderSide: const BorderSide(
                           color: Color(MyColors.themeRedColor)))),
             ),

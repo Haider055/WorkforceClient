@@ -49,17 +49,23 @@ class LoginContoller extends GetxController {
               await _prefs.setString('token', tokenString);
             }
             if (dataObj.keys.contains('user')) {
-              if (dataObj['user']['role'] != null) {
-                if (dataObj['user']['role'] == "tradeperson") {
-                  Fluttertoast.showToast(msg: "Only Users allowed to login");
-                  // Get.to(const SelectServiceScreen());
-                  return "otherUser";
-                } else {
-                  await saveUserInfo(dataObj['user']);
-                  await fCMSaveToken();
-                  Fluttertoast.showToast(msg: msg);
-                  return "done";
+              if (dataObj['user'] != null) {
+                if (dataObj['user']['role'] != null) {
+                  if (dataObj['user']['role'] == "tradeperson") {
+                    Fluttertoast.showToast(msg: "Only Users allowed to login");
+                    // Get.to(const SelectServiceScreen());
+                    return "otherUser";
+                  } else {
+                    await saveUserInfo(dataObj['user']);
+                    await fCMSaveToken();
+                    Fluttertoast.showToast(msg: msg);
+                    // TextInput.finishAutofillContext(shouldSave: true);
+                    return "done";
+                  }
                 }
+              } else {
+                // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
+                return Strings.somethingWentWrong(Get.context!);
               }
             } else {
               // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
@@ -104,8 +110,18 @@ class LoginContoller extends GetxController {
       late final String? deviceId;
 
       if (Platform.isAndroid) {
-        token = await FirebaseMessaging.instance.getToken();
-        deviceId = await getDeviceId();
+        try {
+          token = await FirebaseMessaging.instance.getToken();
+        } catch (e) {
+          print(e.toString());
+          return "";
+        }
+        try {
+          deviceId = await getDeviceId();
+        } catch (e) {
+          print(e.toString());
+          return "";
+        }
         if (token != null) {
           print("token: $token");
           print("deviceId: $deviceId");
@@ -135,17 +151,17 @@ class LoginContoller extends GetxController {
         }
       }
 
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/fcm-token'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          "token": token.toString(),
-          "device_type": "android",
-          "device_id": deviceId.toString()
-        }),
-      );
+      // final response = await http.post(
+      //   Uri.parse('${Constants.baseUrl}/fcm-token'),
+      //   headers: await Commons.manageRequestHeader(),
+      //   body: jsonEncode(<String, String>{
+      //     "token": token.toString(),
+      //     "device_type": "android",
+      //     "device_id": deviceId.toString()
+      //   }),
+      // );
       print("object");
-      print(response.body);
+      // print(response.body);
 
       // Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -177,11 +193,12 @@ class LoginContoller extends GetxController {
 
   Future<void> pleaseValidateData() async {
     if (emailTextField.value.text.isEmpty) {
-      emailAddressErrorText.value = "Email cannot be empty!";
+      emailAddressErrorText.value =
+          Strings.emailCannotBeEmptyText(Get.context!);
       return;
     }
     if (passwordTextField.value.text.isEmpty) {
-      passwordErrorText.value = "Password cannot be empty!";
+      passwordErrorText.value = Strings.passwordCannotBeEmptyText(Get.context!);
       return;
     }
     if (Commons.isValidEmail(emailTextField.value.text)) {

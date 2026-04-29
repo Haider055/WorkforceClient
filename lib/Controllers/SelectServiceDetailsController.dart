@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:workforceclientapp/Models/Services.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 
 class SelectServiceDetailsController extends GetxController {
   final searchController = TextEditingController().obs;
@@ -27,7 +28,7 @@ class SelectServiceDetailsController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('services')) {
@@ -40,13 +41,13 @@ class SelectServiceDetailsController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: "Something went wrong");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } catch (e) {

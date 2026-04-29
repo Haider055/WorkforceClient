@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCss5zSPVf4hKNSvkznEI_HkAZidnbCsrE',
-    appId: '1:544124172877:android:a7dc6907b757d7d172fa04',
+    appId: '1:544124172877:android:a8d84f7c419b04a972fa04',
     messagingSenderId: '544124172877',
     projectId: 'workforce-65127',
     storageBucket: 'workforce-65127.firebasestorage.app',
@@ -60,7 +60,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyD6f97GMyBd54XX7AqzN3Btec2qCt46z3w',
-    appId: '1:544124172877:ios:13d5fc300b5d303c72fa04',
+    appId: '1:544124172877:ios:ad9d62f4f0f8410a72fa04',
     messagingSenderId: '544124172877',
     projectId: 'workforce-65127',
     storageBucket: 'workforce-65127.firebasestorage.app',

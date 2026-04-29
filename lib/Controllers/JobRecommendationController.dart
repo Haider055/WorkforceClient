@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:workforceclientapp/Models/Tradesmen.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 
 class JobRecommendationController extends GetxController {
   RxString bubbleInfoText = "".obs;
@@ -54,15 +55,13 @@ class JobRecommendationController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(
-              msg: "Something went wrong, while loading data!");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(
-            msg: "Something went wrong, while loading data!");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } catch (e) {
@@ -79,8 +78,7 @@ class JobRecommendationController extends GetxController {
         body: jsonEncode(<String, String>{
           'tradeperson_id': tradespersonId.toString(),
           'job_posting_id': jobId.toString(),
-          'message':
-              "I saw your profile and was impressed with your previous work. Would you be interested in helping with my kitchen renovation project?",
+          'message': Strings.customRequestMessageText(Get.context!),
         }),
       );
 
@@ -92,20 +90,17 @@ class JobRecommendationController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
 
-        if (jsonData['success'] == true) {
+        if (jsonData['success']) {
           if (jsonData.keys.contains('message')) {
             msg = jsonData['message'];
-            if (msg == "Request sent to tradesperson successfully") {
-              Fluttertoast.showToast(msg: msg);
-              if (jsonData['data']['remaining_requests'] != null) {
-                return jsonData['data']['remaining_requests'].toString();
-              }
+            Fluttertoast.showToast(msg: msg);
+            if (jsonData['data']['remaining_requests'] != null) {
+              return jsonData['data']['remaining_requests'].toString();
             }
           }
           return "";
         } else {
-          Fluttertoast.showToast(
-              msg: "Something went wrong, while sending request!");
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return "";
         }
       } else {

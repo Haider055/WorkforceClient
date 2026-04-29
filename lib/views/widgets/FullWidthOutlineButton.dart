@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 
 class FullWidthOutlineButton extends StatelessWidget {
@@ -23,16 +24,16 @@ class FullWidthOutlineButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: Color(MyColors.themeRedColor)),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(6),
+          padding: EdgeInsets.all(6.r),
           child: Text(
             text,
             style: TextStyle(
                 color: const Color(MyColors.themeRedColor),
-                fontSize: fontsize,
+                fontSize: fontsize.sp,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w500),
           ),

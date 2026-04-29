@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/NotificationsContoller.dart';
 import 'package:workforceclientapp/Models/NotificationPreference.dart';
@@ -17,7 +18,7 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
       child: Scaffold(
         backgroundColor: const Color(MyColors.cardGrayColor100),
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
             color: const Color(MyColors.cardGrayColor100),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -33,15 +34,15 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                       child: HeadingTextW600(
                     text: Strings.notification(context),
                     centerAlign: false,
-                    size: 18.0,
+                    size: 18.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
                       Get.back();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 12.0),
-                      child: Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12.0.w),
+                      child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(Icons.arrow_back_ios)),
                     ),
@@ -62,47 +63,42 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(14.0),
+                        padding: EdgeInsets.all(14.0.w),
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text:
-                                'You can adjust your notification settings anytime. See our ', // default style
+                                "${Strings.youCanAdjustYourNotificationSettingText(Get.context!)} ",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16,
+                              fontSize: 14.5.sp,
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                             children: <TextSpan>[
                               TextSpan(
-                                text: "Privacy Policy",
+                                text: Strings.seeourPrivacyPlolicyText(
+                                    Get.context!),
                                 style: TextStyle(
-                                  color: Color(MyColors.themeRedColor),
-                                  fontSize: 14.5,
+                                  color: const Color(MyColors.themeRedColor),
+                                  fontSize: 14.5.sp,
+                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              TextSpan(
-                                text: " for more info.",
-                                style: TextStyle(
-                                  color: Color(MyColors.blackColor),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding:
-                              EdgeInsets.only(left: 14.0, top: 12, bottom: 12),
+                          padding: EdgeInsets.only(
+                              left: 14.0.w, top: 12.h, bottom: 12.h),
                           child: HeadingTextW600(
-                              text: "Updates on Orders",
+                              text: Strings.updatesOnJobsText(Get.context!),
                               centerAlign: false,
-                              size: 20),
+                              size: 20.sp),
                         ),
                       ),
                       ListView.builder(
@@ -123,7 +119,7 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
 
   Widget _buildView(NotificationPreference preference) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 14.0.w, vertical: 6.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,31 +127,31 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
           HeadingTextW600(
             text: preference.title ?? '',
             centerAlign: false,
-            size: 18,
+            size: 18.sp,
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
           Headingdescription(
             text: preference.description ?? '',
             centerAlign: false,
-            size: 14,
+            size: 14.sp,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Card(
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.r),
             ),
             color: const Color(MyColors.whiteColor),
             child: Padding(
-              padding: const EdgeInsets.all(9.0),
+              padding: EdgeInsets.all(9.0.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const HeadingTextW500(
-                          text: "E-mail", centerAlign: false, size: 14),
+                      HeadingTextW500(
+                          text: "E-mail", centerAlign: false, size: 14.sp),
                       Transform.scale(
                         scale: 0.8, // Set to 0.6 or 0.7 for even smaller size
                         child: Obx(() {
@@ -191,8 +187,10 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const HeadingTextW500(
-                          text: "Notification", centerAlign: false, size: 14),
+                      HeadingTextW500(
+                          text: Strings.notification(Get.context!),
+                          centerAlign: false,
+                          size: 14.sp),
                       Transform.scale(
                         scale: 0.8, // Set to 0.6 or 0.7 for even smaller size
                         child: Obx(() {

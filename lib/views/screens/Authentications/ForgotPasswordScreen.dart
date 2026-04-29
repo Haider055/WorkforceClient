@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:workforceclientapp/Controllers/ForgotPasswordContoller.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
@@ -22,13 +23,9 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (FocusScope.of(context).hasFocus) {
-          FocusScope.of(context).unfocus(); // Close keyboard
-          return true;
-        }
-        return true;
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -40,19 +37,21 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                   Get.back();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 32.0, left: 12.0),
+                  padding: EdgeInsets.only(top: 32.0.h, left: 12.0.w),
                   child: Row(
                     children: [
                       SvgPicture.asset(
                         "lib/assets/icons/bckTwoarrows.svg",
-                        height: 14,
-                        width: 14,
+                        height: 14.h,
+                        width: 14.w,
                         fit: BoxFit.contain,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 6.0),
+                      Padding(
+                        padding: EdgeInsets.only(left: 6.0.w),
                         child: Headingdescription(
-                            text: "Go Back", centerAlign: false, size: 12),
+                            text: Strings.goBackText(Get.context!),
+                            centerAlign: false,
+                            size: 12.sp),
                       ),
                     ],
                   ),
@@ -67,8 +66,8 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                         child: Image.asset(
                           "lib/assets/images/forgot_password_image.png",
                           fit: BoxFit.contain,
-                          height: 252.0,
-                          width: 167.5,
+                          height: 252.0.h,
+                          width: 167.5.w,
                         ),
                       ),
                       Align(
@@ -78,31 +77,31 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                             centerAlign: true),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 25.0, top: 6.0),
+                        padding: EdgeInsets.only(left: 25.0.w, top: 6.0.h),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Headingdescription(
                             text: Strings.forgotPasswordDescText(context),
                             centerAlign: false,
-                            size: 13.8,
+                            size: 13.8.sp,
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 25.0, top: 25.0),
+                      Padding(
+                        padding: EdgeInsets.only(left: 25.0.w, top: 25.0.h),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Please Enter your Email",
+                            Strings.pleaseEnterYourEmailText(context),
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 16.5,
+                                fontSize: 16.5.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
+                        padding: EdgeInsets.only(top: 16.0.h),
                         child: CommonTextField(
                             errorText: controller.emailAddressErrorText.value,
                             hint: Strings.emailAddressText(context),
@@ -113,7 +112,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                             needprefixIcon: false),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 40.0),
+                        padding: EdgeInsets.only(top: 40.0.h),
                         child: FullWidthButton(
                           text: Strings.sendCodeText(context),
                           color: MyColors.themeRedColor,
@@ -138,17 +137,17 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                                 }
                               } else {
                                 controller.emailAddressErrorText.value =
-                                    "Please enter valid email!";
+                                    Strings.pleaseEnterValidEmail(Get.context!);
                               }
                             } else {
                               controller.emailAddressErrorText.value =
-                                  "Email Cannot be empty!";
+                                  Strings.emailCannotBeEmptyText(Get.context!);
                             }
                           },
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                        padding: EdgeInsets.only(top: 20.0.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -156,13 +155,13 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                                 text:
                                     "${Strings.rememberPasswordText(context)} + ?",
                                 centerAlign: false,
-                                size: 14.0),
-                            const SizedBox(
-                              width: 4.0,
+                                size: 14.0.sp),
+                            SizedBox(
+                              width: 4.0.w,
                             ),
                             RedClickableText(
                               text: Strings.loginText(context),
-                              size: 14.0,
+                              size: 14.0.sp,
                               callback: () {
                                 Get.back();
                               },

@@ -42,22 +42,19 @@ class ReviewScreenController extends GetxController {
       if (response.statusCode == 200) {
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
-            if (jsonData['data']['message'] ==
-                "Review submitted successfully") {
-              Fluttertoast.showToast(msg: jsonData['data']['message']);
-              return true;
-            }
-            return false;
+            Fluttertoast.showToast(msg: jsonData['data']['message']);
+            return true;
           } else {
-            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            Fluttertoast.showToast(
+                msg: Strings.somethingWentWrong(Get.context!));
             return false;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
     } catch (e) {
@@ -88,15 +85,16 @@ class ReviewScreenController extends GetxController {
             }
             return chat;
           } else {
-            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            Fluttertoast.showToast(
+                msg: Strings.somethingWentWrong(Get.context!));
             return chat;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return chat;
         }
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return chat;
       }
     } catch (e) {

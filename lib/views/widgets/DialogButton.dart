@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogButton extends StatelessWidget {
   final String text;
@@ -14,23 +15,31 @@ class DialogButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 160.0,
-        height: 35.0,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 28.0, right: 28.0),
-          child: TextButton(
-            onPressed: onPressed,
-            style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(Color(color))),
-            child: Text(
-              text,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13.0,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500),
+      width: 160.w,
+      height: 35.h,
+      child: Padding(
+        padding: EdgeInsets.only(left: 28.w, right: 28.w),
+        child: TextButton(
+          onPressed: onPressed,
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all<Color>(Color(color)),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
             ),
           ),
-        ));
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13.0.sp,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

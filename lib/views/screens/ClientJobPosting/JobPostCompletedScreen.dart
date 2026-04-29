@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/JobPostCompleteController.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
@@ -15,95 +16,110 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
         if (!controller.isLoading.value) {
           Get.offAllNamed(AppLinks.select_service_screen);
         }
-        return false;
       },
       child: Obx(() {
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
               child: !controller.isLoading.value
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Spacer(),
-                        HeadingTextW600(
-                            text: Strings.congratulations(context),
-                            centerAlign: false,
-                            size: 32.0),
-                        Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Image.asset(
-                                "lib/assets/icons/jobpostedicon.png",
-                                fit: BoxFit.contain,
-                                height: 217.0,
-                                width: 267.0)),
-                        const HeadingTextW600(
-                            text: "Your job has been posted successfully!",
-                            centerAlign: false,
-                            size: 13.5),
-                        const HeadingTextW500(
-                            text:
-                                "Your job is now live and ready to attract skilled professionals.",
-                            centerAlign: true,
-                            size: 16),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: FullWidthButtonPrimary(
-                                    text: Strings.exploreRecommendedTradesmen(
-                                        context),
-                                    fontsize: 15.0,
-                                    color: MyColors.themeRedColor,
-                                    onPressed: () {
-                                      Get.offNamed(
-                                        AppLinks.job_recommendations,
-                                        arguments: {
-                                          'jobId': Constants.lastPostedJobId,
-                                          'remainingRequeststoSend': 10,
-                                          'fromWhere': 'JobPostCompleted'
-                                        },
-                                      );
-                                    }),
+                  ? controller.jobPostingFailed.value
+                      ? const SizedBox()
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Spacer(),
+                            HeadingTextW600(
+                                text: Strings.congratulations(context),
+                                centerAlign: false,
+                                size: 32.0.sp),
+                            Padding(
+                                padding: EdgeInsets.all(12.0.r),
+                                child: Image.asset(
+                                    "lib/assets/icons/jobpostedicon.png",
+                                    fit: BoxFit.contain,
+                                    height: 217.0.h,
+                                    width: 267.0.r)),
+                            Padding(
+                              padding: EdgeInsets.all(8.0.r),
+                              child: HeadingTextW600(
+                                  text:
+                                      Strings.jobhasbeenpostedsuccessfullyText(
+                                          context),
+                                  centerAlign: false,
+                                  size: 15.5.sp),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0.r),
+                              child: HeadingTextW500(
+                                  text:
+                                      Strings.jobisnowliveandreadyText(context),
+                                  centerAlign: true,
+                                  size: 14.5.sp),
+                            ),
+                            const Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(8.0.r),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(12.0.r),
+                                    child: FullWidthButtonPrimary(
+                                        text:
+                                            Strings.exploreRecommendedTradesmen(
+                                                context),
+                                        fontsize: 15.0.sp,
+                                        color: MyColors.themeRedColor,
+                                        onPressed: () {
+                                          Get.offNamed(
+                                            AppLinks.job_recommendations,
+                                            arguments: {
+                                              'jobId':
+                                                  Constants.lastPostedJobId,
+                                              'remainingRequeststoSend': 10,
+                                              'fromWhere': 'JobPostCompleted'
+                                            },
+                                          );
+                                        }),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 12.0.w, right: 12.0.w),
+                                    child: FullWidthOutlineButton(
+                                        text: Strings.viewPostedJobs(context),
+                                        fontsize: 15.0.sp,
+                                        color: MyColors.themeRedColor,
+                                        onPressed: () {
+                                          Get.offAllNamed(
+                                              AppLinks.select_service_screen,
+                                              arguments: {
+                                                'toWhere': 'PostedJobs'
+                                              });
+                                        }),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 12.0, right: 12.0),
-                                child: FullWidthOutlineButton(
-                                    text: Strings.viewPostedJobs(context),
-                                    fontsize: 15.0,
-                                    color: MyColors.themeRedColor,
-                                    onPressed: () {
-                                      Get.offAllNamed(
-                                          AppLinks.select_service_screen,
-                                          arguments: {'toWhere': 'PostedJobs'});
-                                    }),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  : const Center(
+                            ),
+                          ],
+                        )
+                  : Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(
+                          const CircularProgressIndicator(
                             color: Color(MyColors.themeRedColor),
                           ),
                           SizedBox(
-                            height: 4.0,
+                            height: 4.0.h,
                           ),
-                          Text("Posting your Job...")
+                          Text(Strings.postingyourJobText(Get.context!)),
                         ],
                       ),
                     )),

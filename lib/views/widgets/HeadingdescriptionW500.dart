@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HeadingdescriptionW500 extends StatelessWidget {
   final String text;
@@ -17,7 +18,7 @@ class HeadingdescriptionW500 extends StatelessWidget {
           textAlign: centerAlign ? TextAlign.center : TextAlign.start,
           style: TextStyle(
               color: Colors.black,
-              fontSize: size,
+              fontSize: size.sp,
               fontWeight: FontWeight.w500,
               fontFamily: 'Poppins')),
     );

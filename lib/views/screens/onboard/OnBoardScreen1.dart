@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/OnboardingScreenController.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
@@ -33,7 +34,7 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.4,
+                  height: 0.72.sh,
                   child: PageView.builder(
                     controller: controller.pageController,
                     itemCount: 3,
@@ -52,8 +53,8 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
                       children: List.generate(3, (index) {
                         return Rectangleindicator(
                           size: controller.currentIndex.value == index
-                              ? 40.0
-                              : 20.0,
+                              ? 40.0.w
+                              : 20.0.w,
                           color: controller.currentIndex.value == index
                               ? 0xFFD60107
                               : 0x7F900B09,
@@ -61,13 +62,13 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
                       }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 32.0, right: 32.0, top: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 32.0.w, right: 32.0.w, top: 8.0.h),
                       child: FullWidthButtonPrimary(
                         text: controller.currentIndex.value == 2
                             ? Strings.letsStartText(context)
                             : Strings.continueText(context),
-                        fontsize: 17.0,
+                        fontsize: 17.0.sp,
                         color: MyColors.themeRedColor,
                         onPressed: () async {
                           controller.nextPage();
@@ -79,7 +80,7 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
                         controller.goToDashboard();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.all(4.0.r),
                         child: Skipandnexttext(
                           text: Strings.skipText(context),
                         ),
@@ -99,13 +100,13 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
   Widget SliderViewSplash(int page) {
     if (page == 0) {
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0.r),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 18.0, right: 18.0),
-              child: SplashScreenimage(
+            Padding(
+              padding: EdgeInsets.only(left: 18.0.w, right: 18.0.w),
+              child: const SplashScreenimage(
                   path: "lib/assets/images/splashscreenimage1.png"),
             ),
             Column(children: [
@@ -115,7 +116,7 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
               Headingdescription(
                 text: Strings.onBoardScreen1Description(Get.context!),
                 centerAlign: true,
-                size: 13.0,
+                size: 13.0.sp,
               ),
             ]),
           ],
@@ -123,13 +124,13 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
       );
     } else if (page == 1) {
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0.r),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 18.0, right: 18.0),
-              child: SplashScreenimage(
+            Padding(
+              padding: EdgeInsets.only(left: 18.0.w, right: 18.0.w),
+              child: const SplashScreenimage(
                   path: "lib/assets/images/splashscreenimage2.png"),
             ),
             Column(children: [
@@ -147,13 +148,13 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0.r),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 18.0, right: 18.0),
-              child: SplashScreenimage(
+            Padding(
+              padding: EdgeInsets.only(left: 18.0.w, right: 18.0.w),
+              child: const SplashScreenimage(
                   path: "lib/assets/images/splashscreenimage3.png"),
             ),
             Column(children: [
@@ -163,7 +164,7 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
               Headingdescription(
                 text: Strings.onBoardScreen3Description(Get.context!),
                 centerAlign: true,
-                size: 13.0,
+                size: 13.0.sp,
               ),
             ]),
           ],

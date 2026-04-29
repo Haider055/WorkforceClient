@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:workforceclientapp/Others/LocaleProvider.dart';
@@ -7,7 +8,6 @@ import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -36,9 +36,7 @@ void main() async {
 
     // Sudden disconnections (while sending API or uploading files)
   ]);
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),
@@ -53,24 +51,29 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      locale: localeProvider.locale, // or dynamically loaded
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      title: "AuftragNow",
-      theme: ThemeData(
-        primaryColor: const Color(MyColors.themeRedColor),
-        fontFamily: 'Poppins', // 👈 This applies the font globally
-        primarySwatch: Colors.red,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        locale: localeProvider.locale, // or dynamically loaded
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        title: "AuftragNow",
+        theme: ThemeData(
+          primaryColor: const Color(MyColors.themeRedColor),
+          fontFamily: 'Poppins', // 👈 This applies the font globally
+          primarySwatch: Colors.red,
+        ),
+        initialRoute: AppLinks.splash_screen,
+        getPages: AppRoutes.pages,
       ),
-      initialRoute: AppLinks.splash_screen,
-      getPages: AppRoutes.pages,
     );
   }
 }

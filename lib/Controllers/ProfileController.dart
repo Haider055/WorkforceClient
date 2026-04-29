@@ -134,7 +134,7 @@ class ProfileController extends GetxController {
           }
           return false;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else {

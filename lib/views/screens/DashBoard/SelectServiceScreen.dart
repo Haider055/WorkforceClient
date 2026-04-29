@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
@@ -36,136 +36,29 @@ import 'package:workforceclientapp/views/widgets/ProfileInfoCard.dart';
 class SelectServiceScreen extends GetView<SelectServiceController> {
   const SelectServiceScreen({super.key});
 
-  void manageinnAppPurchase() async {
-    try {
-      listenToPurchases();
-      final InAppPurchase inAppPurchase = InAppPurchase.instance;
-
-      List<ProductDetails> products = [];
-      Stream<List<PurchaseDetails>> purchaseStream =
-          inAppPurchase.purchaseStream;
-      final Set<String> kIds = {
-        'connect100',
-        'connect50',
-        'connect10',
-      };
-      final bool available = await inAppPurchase.isAvailable();
-      if (!available) {
-        print("Store not available");
-        return;
-      }
-
-      ProductDetailsResponse response =
-          await inAppPurchase.queryProductDetails(kIds);
-      products = response.productDetails;
-      showPurchaseDialog(Get.context!, products);
-      print("Store available");
-      print(products.length);
-    } catch (e) {
-      e.printError();
-    }
-  }
-
-  void listenToPurchases() {
-    final InAppPurchase inAppPurchase = InAppPurchase.instance;
-
-    inAppPurchase.purchaseStream.listen((purchases) {
-      for (var purchase in purchases) {
-        if (purchase.status == PurchaseStatus.purchased) {
-          print("✅ Purchase Success: ${purchase.productID}");
-
-          // TODO: give user coins here
-        } else if (purchase.status == PurchaseStatus.error) {
-          print("❌ Purchase Error");
-        } else if (purchase.status == PurchaseStatus.pending) {
-          print("⏳ Pending...");
-        }
-
-        // IMPORTANT: complete purchase
-        if (purchase.pendingCompletePurchase) {
-          inAppPurchase.completePurchase(purchase);
-        }
-      }
-    });
-  }
-
-  void showPurchaseDialog(BuildContext context, List<ProductDetails> products) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return PurchaseDialog(products: products);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: controller.currentIndex.value == 0
-              ? AppBar(
-                  leadingWidth: MediaQuery.of(context).size.width,
-                  leading: Container(
-                    color: const Color(MyColors.whiteColor),
-                    child: const Card(
-                      color: Color(MyColors.appbackgroundColor),
-                      shadowColor: Color.fromARGB(158, 219, 219, 219),
-                      elevation: 0.5,
-                      shape: Border(
-                          bottom: BorderSide(
-                              color: Color(MyColors.cardGrayColor100),
-                              style: BorderStyle.solid)),
-                      child: Center(
-                        child: LogoImage(),
-                      ),
-                    ),
-                  ),
-                )
-              : controller.currentIndex.value == 1
-                  ? AppBar(
-                      leadingWidth: MediaQuery.of(context).size.width,
-                      leading: Container(
-                        color: const Color(MyColors.lightSilverColor),
-                      ),
-                    )
-                  : controller.currentIndex.value == 2
-                      ? AppBar(
-                          leadingWidth: MediaQuery.of(context).size.width,
-                          leading: Container(
-                            color: const Color(MyColors.whiteColor),
-                          ),
-                        )
-                      : controller.currentIndex.value == 3
-                          ? AppBar(
-                              leadingWidth: MediaQuery.of(context).size.width,
-                              leading: Container(
-                                color: const Color(MyColors.whiteColor),
-                              ),
-                            )
-                          : AppBar(
-                              leadingWidth: MediaQuery.of(context).size.width,
-                              leading: Container(
-                                color: const Color(MyColors.lightSilverColor),
-                                child: Card(
-                                  color: const Color(MyColors.lightSilverColor),
-                                  shadowColor:
-                                      const Color.fromARGB(158, 219, 219, 219),
-                                  elevation: 0.5,
-                                  shape: const Border(
-                                      bottom: BorderSide(
-                                          color: Color.fromARGB(
-                                              147, 203, 203, 203),
-                                          style: BorderStyle.solid)),
-                                  child: Center(
-                                    child: HeadingTextW600(
-                                        text: Strings.profile(context),
-                                        centerAlign: false,
-                                        size: 18),
-                                  ),
-                                ),
-                              ),
-                            ),
+          appBar: AppBar(
+            leadingWidth: MediaQuery.of(context).size.width,
+            leading: Container(
+              color: const Color(MyColors.whiteColor),
+              child: const Card(
+                color: Color(MyColors.appbackgroundColor),
+                shadowColor: Color.fromARGB(158, 219, 219, 219),
+                elevation: 0.5,
+                shape: Border(
+                    bottom: BorderSide(
+                        color: Color(MyColors.cardGrayColor100),
+                        style: BorderStyle.solid)),
+                child: Center(
+                  child: LogoImage(),
+                ),
+              ),
+            ),
+          ),
           backgroundColor: Colors.white,
           bottomNavigationBar: Obx(() {
             return BottomNavigationBar(
@@ -213,10 +106,10 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                               right: -6,
                               top: -4,
                               child: Container(
-                                padding: const EdgeInsets.all(2),
+                                padding: EdgeInsets.all(2.r),
                                 decoration: BoxDecoration(
                                   color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
                                 constraints: const BoxConstraints(
                                   minWidth: 16,
@@ -224,9 +117,9 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                 ),
                                 child: Text(
                                   '${controller.unreadMessagesCount.value}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 10,
+                                    fontSize: 10.sp,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -259,20 +152,20 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                               right: -6,
                               top: -4,
                               child: Container(
-                                padding: const EdgeInsets.all(2),
+                                padding: EdgeInsets.all(2.r),
                                 decoration: BoxDecoration(
                                   color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 16,
-                                  minHeight: 16,
+                                constraints: BoxConstraints(
+                                  minWidth: 16.r,
+                                  minHeight: 16.r,
                                 ),
                                 child: Text(
                                   '${Constants.unreadNotificationsCount.value}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 10,
+                                    fontSize: 10.sp,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -351,7 +244,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
 
   Widget buildServiceOptions(int index) {
     return SizedBox(
-      height: 54.0,
+      height: 54.0.h,
       child: GestureDetector(
         onTap: () async {
           try {
@@ -372,21 +265,21 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
           Commons.hideProgressDialog();
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 27.0, right: 27.0, top: 3.0),
+          padding: EdgeInsets.only(left: 27.0.w, right: 27.0.w, top: 3.0.h),
           child: Card(
             elevation: 0,
             color: const Color(MyColors.cardGrayColor50),
-            margin: const EdgeInsets.symmetric(vertical: 0.1),
+            margin: EdgeInsets.symmetric(vertical: 0.1.h),
             shape: OutlineInputBorder(
                 borderSide: const BorderSide(
                     color: Color.fromARGB(255, 212, 212, 212),
                     strokeAlign: 1.0,
                     style: BorderStyle.solid),
-                borderRadius: BorderRadius.circular(5.0)),
+                borderRadius: BorderRadius.circular(5.0.r)),
             child: Row(
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(left: 14.0),
+                    padding: EdgeInsets.only(left: 14.0.w),
                     child:
                         controller.filteredOptions.elementAt(index).icon != null
                             ? Image.network(
@@ -394,33 +287,33 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                     .elementAt(index)
                                     .icon!
                                     .url!,
-                                height: 24,
-                                width: 24,
+                                height: 24.h,
+                                width: 24.w,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) {
                                   return SizedBox(
-                                      height: 24,
-                                      width: 24,
+                                      height: 24.h,
+                                      width: 24.w,
                                       child: SvgPicture.asset(
                                         "lib/assets/images/tradesmenplaceholdericon.svg",
                                         fit: BoxFit.contain,
-                                        height: 24,
-                                        width: 24,
+                                        height: 24.h,
+                                        width: 24.w,
                                       ));
                                 },
                               )
                             : SizedBox(
-                                height: 24,
-                                width: 24,
+                                height: 24.h,
+                                width: 24.w,
                                 child: SvgPicture.asset(
                                   "lib/assets/icons/bookIcon.svg",
                                   fit: BoxFit.contain,
-                                  height: 24,
-                                  width: 24,
+                                  height: 24.h,
+                                  width: 24.w,
                                 ))),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 8.0),
+                    padding: EdgeInsets.only(left: 10.0.w, right: 8.0.w),
                     child: Text(
                         controller.filteredOptions
                             .elementAt(index)
@@ -430,8 +323,8 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         softWrap: true,
-                        style: const TextStyle(
-                            fontSize: 15.5,
+                        style: TextStyle(
+                            fontSize: 15.5.sp,
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Poppins')),
                   ),
@@ -450,216 +343,244 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
             child: CircularProgressIndicator(
             color: Color(MyColors.themeRedColor),
           ))
-        : Stack(
-            children: [
-              Column(
-                children: [
-                  Column(
+        : GestureDetector(
+            onTap: () {
+              if (controller.searchInput.value.isEmpty) {
+                controller.showServicesSuggestions.value = false;
+              }
+              FocusScope.of(Get.context!).unfocus();
+            },
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
                     children: [
-                      controller.isLoggedIn.value == "loggedOut"
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 15.0),
-                              child: Card(
-                                elevation: 0,
-                                color: Colors.red.shade50,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0, top: 9.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Stack(
+                      Column(
+                        children: [
+                          controller.isLoggedIn.value == "loggedOut"
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 15.0.w, right: 15.0.w),
+                                  child: Card(
+                                    elevation: 0,
+                                    color: Colors.red.shade50,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8.0.w,
+                                              right: 8.0.w,
+                                              top: 9.0.h),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              Container(
-                                                width: 34,
-                                                height: 34,
-                                                decoration: BoxDecoration(
-                                                  color: Colors
-                                                      .white, // White background
-                                                  shape: BoxShape
-                                                      .circle, // Circular shape
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(
-                                                              0.3), // Soft shadow
-                                                      blurRadius: 5,
-                                                      spreadRadius: 2,
-                                                      offset:
-                                                          const Offset(0, 2),
+                                              Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 34.w,
+                                                    height: 34.h,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .white, // White background
+                                                      shape: BoxShape
+                                                          .circle, // Circular shape
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(
+                                                                  0.3), // Soft shadow
+                                                          blurRadius: 5,
+                                                          spreadRadius: 2,
+                                                          offset: const Offset(
+                                                              0, 2),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                                child: const Center(
-                                                    child: Icon(
-                                                        Icons.person_outline,
-                                                        color: Color(MyColors
-                                                            .themeRedColor),
-                                                        size: 26)),
+                                                    child: const Center(
+                                                        child: Icon(
+                                                            Icons
+                                                                .person_outline,
+                                                            color: Color(MyColors
+                                                                .themeRedColor),
+                                                            size: 26)),
+                                                  ),
+                                                ],
                                               ),
+                                              SizedBox(width: 10.0.r),
+                                              Expanded(
+                                                  child: Headingdescription(
+                                                      text: Strings
+                                                          .itSeemsYouAreNotLoginText(
+                                                              Get.context!),
+                                                      centerAlign: false,
+                                                      size: 14.5.sp)),
                                             ],
                                           ),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                              child: Headingdescription(
-                                                  text: Strings
-                                                      .itSeemsYouAreNotLoginText(
-                                                          Get.context!),
-                                                  centerAlign: false,
-                                                  size: 14.5)),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: SizedBox(
-                                        height: 32,
-                                        width: MediaQuery.of(Get.context!)
-                                            .size
-                                            .width,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            // manageinnAppPurchase();
-                                            Constants.fromWhere =
-                                                "SelectServiceScreen";
-                                            Get.toNamed(AppLinks.login_screen);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(MyColors
-                                                .themeRedColor), // Button color
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  8), // Optional rounded corners
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(12.0.r),
+                                          child: SizedBox(
+                                            height: 32.h,
+                                            width: MediaQuery.of(Get.context!)
+                                                .size
+                                                .width
+                                                .w,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                // manageinnAppPurchase();
+                                                Constants.fromWhere =
+                                                    "SelectServiceScreen";
+                                                Get.toNamed(
+                                                    AppLinks.login_screen);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color(
+                                                    MyColors
+                                                        .themeRedColor), // Button color
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8
+                                                          .r), // Optional rounded corners
+                                                ),
+                                              ),
+                                              child: Text(
+                                                Strings.loginText(Get.context!),
+                                                style: TextStyle(
+                                                  fontSize: 12
+                                                      .sp, // Adjust font size to fit inside
+                                                  color: Colors
+                                                      .white, // Text color
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
-                                          ),
-                                          child: const Text(
-                                            "Login",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  12, // Adjust font size to fit inside
-                                              color: Colors.white, // Text color
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.center,
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
+                                )
+                              : const SizedBox(),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 18.0.h, left: 24.w),
+                              child: HeadingTextW600(
+                                  text: Strings.hireNow(Get.context!),
+                                  centerAlign: false,
+                                  size: 28.sp),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: HeadingText(
+                                text:
+                                    Strings.selectServiceHeading(Get.context!),
+                                centerAlign: false),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(left: 25.0.w, top: 18.0.h),
+                              child: Headingdescription(
+                                  text: Strings.selectServiceDesc(Get.context!),
+                                  centerAlign: false,
+                                  size: 14.5.sp),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(Get.context!).size.width,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 24.0.h, left: 25.0.w, right: 25.0.w),
+                          child: TextField(
+                            controller: controller.searchController(),
+                            onChanged: (value) {
+                              controller.searchInput.value = value;
+                              // searchMillis =
+                              //     DateTime.now().millisecondsSinceEpoch;
+                              controller.filterSearchResults(
+                                  controller.searchInput.value);
+                              // searchQuery();
+                            },
+                            cursorColor: const Color(MyColors.themeRedColor),
+                            decoration: InputDecoration(
+                              prefixIcon:
+                                  const Icon(Icons.search, color: Colors.black),
+                              hintText: "e.g. ${Strings.painter(Get.context!)}",
+                              hintStyle: const TextStyle(
+                                  color: Color(MyColors.lightGrayColor)),
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.only(right: 6.0.w),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (controller.searchController.value.text
+                                        .isNotEmpty) {
+                                      controller.searchController.value.text =
+                                          "";
+                                      controller.filteredOptions.value = [];
+                                      controller.showServicesSuggestions.value =
+                                          false;
+                                    }
+                                  },
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
+                                        width: 30.w, // Adjust width
+                                        height: 30.h, // Adjust height
+                                      ),
+                                      Image.asset(
+                                        'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
+                                        width: 12.w, // Adjust width
+                                        height: 12.h, // Adjust height
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                              ), // Search icon at start
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(8.r)), // Border radius
+                                borderSide: BorderSide(
+                                    color: Color(
+                                        controller.textFieldBorderColor.value),
+                                    width: 1.5.w), // Black border
                               ),
-                            )
-                          : const SizedBox(),
-                      const Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 18.0, left: 24),
-                          child: HeadingTextW600(
-                              text: "Hire Now", centerAlign: false, size: 28),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: HeadingText(
-                            text: Strings.selectServiceHeading(Get.context!),
-                            centerAlign: false),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 25.0, top: 18.0),
-                          child: Headingdescription(
-                              text: Strings.selectServiceDesc(Get.context!),
-                              centerAlign: false,
-                              size: 14.5),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(Get.context!).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 24.0, left: 25.0, right: 25.0),
-                      child: TextField(
-                        controller: controller.searchController(),
-                        onChanged: (value) {
-                          controller.searchInput.value = value;
-                          // searchMillis =
-                          //     DateTime.now().millisecondsSinceEpoch;
-                          controller.filterSearchResults(
-                              controller.searchInput.value);
-                          // searchQuery();
-                        },
-                        cursorColor: const Color(MyColors.themeRedColor),
-                        decoration: InputDecoration(
-                          prefixIcon:
-                              const Icon(Icons.search, color: Colors.black),
-                          hintText: "e.g. ${Strings.painter(Get.context!)}",
-                          hintStyle: const TextStyle(
-                              color: Color(MyColors.lightGrayColor)),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 6.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                if (controller
-                                    .searchController.value.text.isNotEmpty) {
-                                  controller.searchController.value.text = "";
-                                  controller.filteredOptions.value = [];
-                                  controller.showServicesSuggestions.value =
-                                      false;
-                                }
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Image.asset(
-                                    'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
-                                    width: 30, // Adjust width
-                                    height: 30, // Adjust height
-                                  ),
-                                  Image.asset(
-                                    'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
-                                    width: 12, // Adjust width
-                                    height: 12, // Adjust height
-                                  ),
-                                ],
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.r)),
+                                borderSide: BorderSide(
+                                    color: Color(
+                                        controller.textFieldBorderColor.value),
+                                    width: 2.w),
                               ),
                             ),
-                          ), // Search icon at start
-                          border: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(8)), // Border radius
-                            borderSide: BorderSide(
-                                color: Color(
-                                    controller.textFieldBorderColor.value),
-                                width: 1.5), // Black border
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(
-                                color: Color(
-                                    controller.textFieldBorderColor.value),
-                                width: 2), // Black border when focused
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  controller.showServicesSuggestions.value
-                      ? Expanded(
-                          child: controller.filteredOptions.isNotEmpty
-                              ? ListView.builder(
-                                  itemCount: controller.filteredOptions.length,
-                                  itemBuilder: (context, index) {
-                                    return buildServiceOptions(index);
-                                  },
+                      controller.showServicesSuggestions.value
+                          ? controller.filteredOptions.isNotEmpty
+                              ? SizedBox(
+                                  height:
+                                      controller.isLoggedIn.value == "loggedOut"
+                                          ? 220.h
+                                          : 350.h,
+                                  child: ListView.builder(
+                                    itemCount:
+                                        controller.filteredOptions.length,
+                                    itemBuilder: (context, index) {
+                                      return buildServiceOptions(index);
+                                    },
+                                  ),
                                 )
                               : controller.isSearchingQuery.value
                                   ? SizedBox(
@@ -667,223 +588,130 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                               .size
                                               .height /
                                           7,
-                                      child: const Center(
+                                      child: Center(
                                           child: SizedBox(
-                                        height: 26,
-                                        width: 26,
-                                        child: CircularProgressIndicator(
+                                        height: 26.h,
+                                        width: 26.w,
+                                        child: const CircularProgressIndicator(
                                           color: Color(MyColors.themeRedColor),
                                         ),
                                       )),
                                     )
-                                  : Container(),
-                        )
-                      : const SizedBox(),
-                  controller.showServicesSuggestions.value == false
-                      ? SizedBox(
-                          width: MediaQuery.of(Get.context!).size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 50.0, left: 8, right: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  "lib/assets/icons/bookIconsvg.svg",
-                                  height: 38,
-                                  width: 38,
-                                  fit: BoxFit.contain,
+                                  : Container()
+                          : const SizedBox(),
+                      controller.showServicesSuggestions.value == false
+                          ? SizedBox(
+                              width:
+                                  MediaQuery.of(Get.context!).size.width * 0.9,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 50.0.h, left: 8.w, right: 8.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "lib/assets/icons/bookIconsvg.svg",
+                                      height: 38.h,
+                                      width: 38.w,
+                                      fit: BoxFit.contain,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12.0.w),
+                                          child: Text(
+                                              Strings.selectServiceInfo1(
+                                                  Get.context!),
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0x9C000000),
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'Poppins'))),
+                                    )
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 12.0),
-                                      child: Text(
-                                          Strings.selectServiceInfo1(
-                                              Get.context!),
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                              color: Color(0x9C000000),
-                                              fontSize: 14.5,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: 'Poppins'))),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                  controller.showServicesSuggestions.value == false
-                      ? SizedBox(
-                          width: MediaQuery.of(Get.context!).size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 32.0, left: 8, right: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  "lib/assets/icons/personredsvg.svg",
-                                  height: 38,
-                                  width: 38,
-                                  fit: BoxFit.contain,
+                              ),
+                            )
+                          : const SizedBox(),
+                      controller.showServicesSuggestions.value == false
+                          ? SizedBox(
+                              width:
+                                  MediaQuery.of(Get.context!).size.width * 0.9,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 32.0.h, left: 8.w, right: 8.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "lib/assets/icons/personredsvg.svg",
+                                      height: 38.h,
+                                      width: 38.w,
+                                      fit: BoxFit.contain,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12.0.w),
+                                          child: Text(
+                                              Strings.selectServiceInfo2(
+                                                  Get.context!),
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0x9C000000),
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'Poppins'))),
+                                    )
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 12.0),
-                                      child: Text(
-                                          Strings.selectServiceInfo2(
-                                              Get.context!),
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                              color: Color(0x9C000000),
-                                              fontSize: 14.5,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: 'Poppins'))),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                  controller.showServicesSuggestions.value == false
-                      ? SizedBox(
-                          width: MediaQuery.of(Get.context!).size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 32.0, left: 8, right: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  "lib/assets/icons/resStarsvg.svg",
-                                  fit: BoxFit.contain,
-                                  height: 38,
-                                  width: 38,
+                              ),
+                            )
+                          : const SizedBox(),
+                      controller.showServicesSuggestions.value == false
+                          ? SizedBox(
+                              width:
+                                  MediaQuery.of(Get.context!).size.width * 0.9,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 32.0.h, left: 8.w, right: 8.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "lib/assets/icons/resStarsvg.svg",
+                                      fit: BoxFit.contain,
+                                      height: 38.h,
+                                      width: 38.w,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12.0.w),
+                                          child: Text(
+                                              "${Strings.moreThan(Get.context!)} 10,000+ ${Strings.independentReviews(Get.context!)}",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0x9C000000),
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'Poppins'))),
+                                    )
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 12.0),
-                                      child: Text(
-                                          "${Strings.moreThan(Get.context!)} 10,000+ ${Strings.independentReviews(Get.context!)}",
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                              color: Color(0x9C000000),
-                                              fontSize: 14.5,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: 'Poppins'))),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
-              ),
-            ],
-          );
-  }
-}
-
-class PurchaseDialog extends StatefulWidget {
-  final List<ProductDetails> products;
-
-  const PurchaseDialog({super.key, required this.products});
-
-  @override
-  State<PurchaseDialog> createState() => _PurchaseDialogState();
-}
-
-class _PurchaseDialogState extends State<PurchaseDialog> {
-  bool isLoading = false;
-
-  void buyProduct(ProductDetails product) async {
-    setState(() => isLoading = true);
-
-    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
-
-    await InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
-
-    setState(() => isLoading = false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            /// Title
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Buy Coins",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
                 ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
-                )
               ],
             ),
-
-            const SizedBox(height: 10),
-
-            /// List of Products
-            widget.products.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text("No products available"),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: widget.products.length,
-                    itemBuilder: (context, index) {
-                      final product = widget.products[index];
-
-                      return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.symmetric(vertical: 6),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                          leading: const Icon(Icons.monetization_on,
-                              color: Colors.orange),
-                          title: Text(product.title),
-                          subtitle: Text(product.description),
-                          trailing: isLoading
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
-                                )
-                              : Text(
-                                  product.price,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                          onTap: isLoading ? null : () => buyProduct(product),
-                        ),
-                      );
-                    },
-                  ),
-
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
 
@@ -904,7 +732,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
         return Container(
           color: const Color(MyColors.lightSilverColor),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: controller.isLoggedin.value == "loggedOut"
                 ? _buildNoLoginView()
                 : Column(
@@ -912,11 +740,11 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
+                          padding: EdgeInsets.only(left: 10.0.r),
                           child: HeadingTextW600(
                               text: Strings.myPostedOrders(context),
                               centerAlign: false,
-                              size: 22),
+                              size: 22.sp),
                         ),
                       ),
                       _buildFilterOptionsView(),
@@ -970,7 +798,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0.r),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -987,15 +815,15 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                     ? const Color(MyColors.themeRedColor)
                     : const Color(MyColors.whiteColor),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10.0, right: 10.0, top: 2.0, bottom: 2.0),
-                  child: Text("All",
+                  padding: EdgeInsets.only(
+                      left: 10.0.w, right: 10.0.w, top: 2.0.h, bottom: 2.0.h),
+                  child: Text(Strings.allText(Get.context!),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: controller.selectedTabName.value == "all"
                               ? const Color(MyColors.whiteColor)
                               : const Color(MyColors.blackColor),
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: 'Poppins')),
                 ),
@@ -1016,16 +844,19 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                         ? const Color(MyColors.themeRedColor)
                         : const Color(MyColors.whiteColor),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 2.0, bottom: 2.0),
-                      child: Text("In Process",
+                      padding: EdgeInsets.only(
+                          left: 10.0.w,
+                          right: 10.0.w,
+                          top: 2.0.h,
+                          bottom: 2.0.h),
+                      child: Text(Strings.inProcess(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: controller.selectedTabName.value ==
                                       "inprocess"
                                   ? const Color(MyColors.whiteColor)
                                   : const Color(MyColors.blackColor),
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins')),
                     ),
@@ -1048,8 +879,11 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                         ? const Color(MyColors.themeRedColor)
                         : const Color(MyColors.whiteColor),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 2.0, bottom: 2.0),
+                      padding: EdgeInsets.only(
+                          left: 10.0.w,
+                          right: 10.0.w,
+                          top: 2.0.h,
+                          bottom: 2.0.h),
                       child: Text(Strings.active(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
@@ -1057,7 +891,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                   controller.selectedTabName.value == "Active"
                                       ? const Color(MyColors.whiteColor)
                                       : const Color(MyColors.blackColor),
-                              fontSize: 14,
+                              fontSize: 14.0.sp,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins')),
                     ),
@@ -1080,16 +914,19 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                         ? const Color(MyColors.themeRedColor)
                         : const Color(MyColors.whiteColor),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 2.0, bottom: 2.0),
-                      child: Text("Completed",
+                      padding: EdgeInsets.only(
+                          left: 10.0.w,
+                          right: 10.0.w,
+                          top: 2.0.h,
+                          bottom: 2.0.h),
+                      child: Text(Strings.completed(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: controller.selectedTabName.value ==
                                       "completed"
                                   ? const Color(MyColors.whiteColor)
                                   : const Color(MyColors.blackColor),
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins')),
                     ),
@@ -1112,16 +949,19 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                         ? const Color(MyColors.themeRedColor)
                         : const Color(MyColors.whiteColor),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 2.0, bottom: 2.0),
-                      child: Text("Cancelled",
+                      padding: EdgeInsets.only(
+                          left: 10.0.w,
+                          right: 10.0.w,
+                          top: 2.0.h,
+                          bottom: 2.0.h),
+                      child: Text(Strings.canceledText(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color:
                                   controller.selectedTabName.value == "canceled"
                                       ? const Color(MyColors.whiteColor)
                                       : const Color(MyColors.blackColor),
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins')),
                     ),
@@ -1138,10 +978,10 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
   Widget _buildLoadMoreButton() {
     return Obx(() {
       return controller.isLoadingMore.value
-          ? const Center(
+          ? Center(
               child: Padding(
-                padding: EdgeInsets.all(4.0),
-                child: CircularProgressIndicator(
+                padding: EdgeInsets.all(4.0.r),
+                child: const CircularProgressIndicator(
                   color: Color(MyColors.themeRedColor),
                 ),
               ),
@@ -1149,7 +989,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
           : ElevatedButton(
               style: ButtonStyle(
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
+                      borderRadius: BorderRadius.circular(10.r))),
                   fixedSize: WidgetStatePropertyAll(Size.fromWidth(
                       MediaQuery.of(Get.context!).size.width / 2)),
                   foregroundColor: const WidgetStatePropertyAll(
@@ -1170,19 +1010,21 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                   throw Exception(e);
                 }
               },
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
+              child: Padding(
+                padding: EdgeInsets.all(4.0.r),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Headingdescription(
-                        text: "Load More", centerAlign: false, size: 14),
+                        text: Strings.loadMoreText(Get.context!),
+                        centerAlign: false,
+                        size: 14.sp),
                     SizedBox(
-                      width: 5.0,
+                      width: 5.0.w,
                     ),
                     Icon(
                       Icons.keyboard_arrow_down,
-                      size: 20,
+                      size: 20.sp,
                     )
                   ],
                 ),
@@ -1195,31 +1037,31 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
     return SizedBox(
       height: MediaQuery.of(Get.context!).size.height * 0.6,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0.r),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Spacer(),
             Image.asset(
               "lib/assets/images/noorderspostedicon.png",
-              width: MediaQuery.of(Get.context!).size.width,
-              height: MediaQuery.of(Get.context!).size.height / 5,
+              width: MediaQuery.of(Get.context!).size.width.w,
+              height: MediaQuery.of(Get.context!).size.height.h / 5,
               fit: BoxFit.contain,
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0.r),
               child: HeadingTextW700(
                 text: Strings.noOrders(Get.context!),
                 centerAlign: true,
-                size: 22,
+                size: 22.sp,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: EdgeInsets.symmetric(horizontal: 12.0.r),
               child: Headingdescription(
                 text: Strings.startPostingYourOrders(Get.context!),
                 centerAlign: true,
-                size: 13.0,
+                size: 13.0.sp,
               ),
             ),
             const Spacer(),
@@ -1231,15 +1073,15 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
 
   Widget _buildNoJobPostedView2() {
     return SizedBox(
-      height: MediaQuery.of(Get.context!).size.height * 0.6,
+      height: MediaQuery.of(Get.context!).size.height.h * 0.6,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0.r),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0.r),
               child: HeadingTextW700(
                 text: controller.selectedTabName == "Active"
                     ? Strings.noActiveOrders(Get.context!)
@@ -1249,7 +1091,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                             ? Strings.noCompleteOrders(Get.context!)
                             : Strings.noCancelOrders(Get.context!),
                 centerAlign: true,
-                size: 22,
+                size: 22.sp,
               ),
             ),
             const Spacer(),
@@ -1264,35 +1106,35 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0.r),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Spacer(),
                 SvgPicture.asset("lib/assets/icons/noorderspostedicon.svg",
-                    width: MediaQuery.of(Get.context!).size.width,
-                    height: MediaQuery.of(Get.context!).size.height / 7,
+                    width: MediaQuery.of(Get.context!).size.width.w,
+                    height: MediaQuery.of(Get.context!).size.height.h / 7,
                     fit: BoxFit.contain),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: EdgeInsets.all(12.0.r),
                   child: HeadingTextW600(
                       text: Strings.myOrders(Get.context!),
                       centerAlign: true,
-                      size: 20),
+                      size: 20.sp),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                  padding: EdgeInsets.only(left: 12.0.r, right: 12.0.r),
                   child: Headingdescription(
                       text: Strings.pleaseLoginToSeeOrders(Get.context!),
                       centerAlign: true,
-                      size: 13.5),
+                      size: 13.5.sp),
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 12.0, right: 12.0, top: 20.0),
+                      EdgeInsets.only(left: 12.0.r, right: 12.0.r, top: 20.0.r),
                   child: FullWidthButtonPrimary(
                       text: Strings.loginText(Get.context!),
-                      fontsize: 15.0,
+                      fontsize: 15.0.sp,
                       color: MyColors.themeRedColor,
                       onPressed: () {
                         Constants.fromWhere = "SelectServiceScreen";
@@ -1326,39 +1168,39 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
         elevation: 0,
         color: const Color(MyColors.whiteColor),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r, top: 8.0.r),
                 child: HeadingTextW600(
-                    text: job.title ?? "N/A", centerAlign: false, size: 18),
+                    text: job.title ?? "N/A", centerAlign: false, size: 18.sp),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                 child: HeadingTextW500(
                     text: job.serviceName ?? "N/A",
                     centerAlign: false,
-                    size: 15),
+                    size: 15.sp),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                 child: RichText(
                   text: TextSpan(
                     text:
                         '${Strings.postedAt(Get.context!)}: ', // default style
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontFamily: 'Poppins',
                     ),
                     children: <TextSpan>[
                       TextSpan(
                         text: job.humanReadableCreatedAt ?? "N/A",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.black,
-                          fontSize: 12,
+                          fontSize: 12.sp,
                           fontFamily: 'Poppins',
                         ),
                       ),
@@ -1368,7 +1210,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               ),
               Obx(() {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 4.0, top: 4.0),
+                  padding: EdgeInsets.only(left: 4.0.r, top: 4.0.r),
                   child: Card(
                     elevation: 0,
                     color: job.status!.value == "open"
@@ -1379,24 +1221,24 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                 ? const Color(MyColors.cardcolorOrange200)
                                 : const Color(MyColors.cardColorGreen200),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
+                        borderRadius: BorderRadius.circular(6.r)),
                     child: Padding(
-                      padding: const EdgeInsets.all(3.0),
+                      padding: EdgeInsets.all(3.0.r),
                       child: job.status!.value == "open"
                           ? Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 SvgPicture.asset(
                                     "lib/assets/icons/inprocessIcon.svg",
-                                    height: 14.0,
-                                    width: 14.0),
-                                const SizedBox(
-                                  width: 2.0,
+                                    height: 14.0.h,
+                                    width: 14.0.w),
+                                SizedBox(
+                                  width: 2.0.w,
                                 ),
                                 Headingdescription(
                                     text: Strings.inProcess(Get.context!),
                                     centerAlign: false,
-                                    size: 12)
+                                    size: 12.sp)
                               ],
                             )
                           : job.status!.value == "in_progress"
@@ -1405,19 +1247,19 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                   children: [
                                     Lottie.asset(
                                       'lib/assets/icons/ActiveStatusRipple.json',
-                                      width: 14,
-                                      height: 14,
+                                      width: 14.w,
+                                      height: 14.h,
                                       fit: BoxFit.contain,
                                       repeat: true,
                                       animate: true,
                                     ),
-                                    const SizedBox(
-                                      width: 2.0,
+                                    SizedBox(
+                                      width: 2.0.w,
                                     ),
                                     Headingdescription(
                                         text: Strings.active(Get.context!),
                                         centerAlign: false,
-                                        size: 12)
+                                        size: 12.sp)
                                   ],
                                 )
                               : job.status!.value == "cancelled"
@@ -1426,16 +1268,16 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                       children: [
                                         SvgPicture.asset(
                                             "lib/assets/icons/jobCancelledIcon.svg",
-                                            height: 14.0,
-                                            width: 14.0),
-                                        const SizedBox(
-                                          width: 2.0,
+                                            height: 14.0.h,
+                                            width: 14.0.w),
+                                        SizedBox(
+                                          width: 2.0.w,
                                         ),
                                         Headingdescription(
                                             text: Strings.canceledText(
                                                 Get.context!),
                                             centerAlign: false,
-                                            size: 12)
+                                            size: 12.sp)
                                       ],
                                     )
                                   : Row(
@@ -1443,16 +1285,16 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                       children: [
                                         SvgPicture.asset(
                                             "lib/assets/icons/completedTickIcon.svg",
-                                            height: 14.0,
-                                            width: 14.0),
-                                        const SizedBox(
-                                          width: 2.0,
+                                            height: 14.0.h,
+                                            width: 14.0.w),
+                                        SizedBox(
+                                          width: 2.0.w,
                                         ),
                                         Headingdescription(
                                             text:
                                                 Strings.completed(Get.context!),
                                             centerAlign: false,
-                                            size: 12)
+                                            size: 12.sp)
                                       ],
                                     ),
                     ),
@@ -1461,14 +1303,14 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               }),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0),
+                    EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 12.0.h),
                 child: Text(job.desc ?? "N/A",
                     textAlign: TextAlign.start,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                         fontFamily: 'Poppins')),
               ),
@@ -1478,15 +1320,15 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                     : job.tradespersonApplicationsCount!.value == 0
                         ? const SizedBox()
                         : Padding(
-                            padding: const EdgeInsets.only(
-                                left: 6.0, right: 6.0, top: 4.0),
+                            padding: EdgeInsets.only(
+                                left: 6.0.w, right: 6.0.w, top: 4.0.h),
                             child: Card(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6)),
+                                  borderRadius: BorderRadius.circular(6.r)),
                               elevation: 0,
                               color: const Color(MyColors.colorNeutral100),
                               child: Padding(
-                                padding: const EdgeInsets.all(6.0),
+                                padding: EdgeInsets.all(6.0.r),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -1500,21 +1342,21 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                                     text:
                                                         '${job.tradespersonApplicationsCount!.value}',
                                                     centerAlign: false,
-                                                    size: 20)
+                                                    size: 20.sp)
                                                 : const SizedBox(),
                                             Headingdescription(
                                                 text: Strings.interested(
                                                     Get.context!),
                                                 centerAlign: false,
-                                                size: 14)
+                                                size: 14.sp)
                                           ],
                                         ),
                                       ),
                                     ),
                                     Center(
                                       child: SizedBox(
-                                        width: 1.0,
-                                        height: 40.0,
+                                        width: 1.0.w,
+                                        height: 40.0.h,
                                         child: Container(
                                             color: const Color(
                                                 MyColors.silverColor)),
@@ -1530,13 +1372,13 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                                     text:
                                                         '${job.inContactTradesmenCount!.value}',
                                                     centerAlign: false,
-                                                    size: 20)
+                                                    size: 20.sp)
                                                 : const SizedBox(),
                                             Headingdescription(
                                                 text: Strings.chatText(
                                                     Get.context!),
                                                 centerAlign: false,
-                                                size: 14)
+                                                size: 14.sp)
                                           ],
                                         ),
                                       ),
@@ -1549,8 +1391,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               }),
               job.status!.value == "open"
                   ? Padding(
-                      padding: const EdgeInsets.only(
-                          left: 4.0, right: 4.0, top: 6.0, bottom: 3.0),
+                      padding: EdgeInsets.only(
+                          left: 4.0.w, right: 4.0.w, top: 6.0.h, bottom: 3.0.h),
                       child: GestureDetector(
                         onTap: () async {
                           if (job.tradespersonRequestsCount!.value == "10") {
@@ -1578,29 +1420,56 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                           elevation: 0,
                           color: const Color(MyColors.lightSilverColor),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.r),
                             child: Obx(() {
                               return RichText(
                                 text: TextSpan(
                                   text: '',
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 13),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 13.sp),
                                   children: <TextSpan>[
                                     TextSpan(
                                       text:
                                           '${Strings.sendARequestText(context)} ',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
-                                          fontSize: 13,
+                                          fontSize: 13.sp,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(MyColors.themeRedColor)),
+                                          color: const Color(
+                                              MyColors.themeRedColor)),
                                     ),
                                     TextSpan(
-                                      text:
-                                          'to more ${controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value))} tradesman to get additional answers.',
-                                      style: const TextStyle(
+                                      text: controller.getRemainingTrademenRequests(
+                                                  int.parse(job
+                                                      .tradespersonRequestsCount!
+                                                      .value)) ==
+                                              1
+                                          ? Strings.toMore1TradesmenText(
+                                              Get.context!)
+                                          : controller.getRemainingTrademenRequests(
+                                                      int.parse(job
+                                                          .tradespersonRequestsCount!
+                                                          .value)) ==
+                                                  2
+                                              ? Strings.toMore2TradesmenText(Get.context!)
+                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 3
+                                                  ? Strings.toMore3TradesmenText(Get.context!)
+                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 4
+                                                      ? Strings.toMore4TradesmenText(Get.context!)
+                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 5
+                                                          ? Strings.toMore5TradesmenText(Get.context!)
+                                                          : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 6
+                                                              ? Strings.toMore6TradesmenText(Get.context!)
+                                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 7
+                                                                  ? Strings.toMore7TradesmenText(Get.context!)
+                                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 8
+                                                                      ? Strings.toMore8TradesmenText(Get.context!)
+                                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 9
+                                                                          ? Strings.toMore9TradesmenText(Get.context!)
+                                                                          : Strings.toMore10TradesmenText(Get.context!),
+                                      style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 13,
+                                          fontSize: 13.sp,
                                           fontWeight: FontWeight.w400,
                                           fontFamily: 'Poppins'),
                                     ),
@@ -1636,6 +1505,7 @@ class _ProfileSectionState extends State<ProfileSection> {
   final ImagePicker _picker = ImagePicker();
   late SharedPreferences _prefs;
   String imageUrl = "";
+  String userName = "";
   ProfileController controller = Get.put(ProfileController());
   File? _selectedImage;
 
@@ -1672,7 +1542,9 @@ class _ProfileSectionState extends State<ProfileSection> {
       setState(() {
         isLoading = false.obs();
       });
+      _prefs = await SharedPreferences.getInstance();
       getProfileImage();
+      updateNameValue();
     }
   }
 
@@ -1689,7 +1561,7 @@ class _ProfileSectionState extends State<ProfileSection> {
         resizeToAvoidBottomInset: true,
         backgroundColor: const Color(MyColors.lightSilverColor),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -1700,42 +1572,38 @@ class _ProfileSectionState extends State<ProfileSection> {
                     ? _buildImageView()
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
-                    ? const HeadingTextW600(
-                        text: "Haider", centerAlign: true, size: 18)
+                    ? HeadingTextW600(
+                        text: userName, centerAlign: true, size: 18.sp)
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
-                    ? const SizedBox(
-                        height: 20,
+                    ? SizedBox(
+                        height: 20.h,
                       )
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12.0, top: 8.0, bottom: 8.0),
+                          padding: EdgeInsets.only(
+                              left: 12.0.r, top: 8.0.h, bottom: 8.0.h),
                           child: HeadingTextW600(
                               text: Strings.account(context),
                               centerAlign: false,
-                              size: 16),
+                              size: 16.sp),
                         ))
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                         child: ProfileInfoCard(
                           icon: "lib/assets/icons/contactInfoIcon.svg",
                           text: Strings.contactInformation(context),
-                          onPressed: () {
+                          onPressed: () async {
                             try {
-                              Get.to(
+                              await Get.to(
                                 const ContactInformationScreen(),
-                                transition: Transition
-                                    .rightToLeft, // Left-to-right animation
-                                duration: const Duration(
-                                    milliseconds:
-                                        500), // Optional: animation duration
                               );
+                              updateNameValue();
                             } catch (e) {
                               throw Exception(e);
                             }
@@ -1745,7 +1613,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                         child: ProfileInfoCard(
                           icon: "lib/assets/icons/manageAccountIcon.svg",
                           text: Strings.manageAccount(context),
@@ -1769,16 +1637,16 @@ class _ProfileSectionState extends State<ProfileSection> {
                 Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12.0, top: 8.0, bottom: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 12.0.r, top: 8.0.h, bottom: 8.0.h),
                       child: HeadingTextW600(
                           text: Strings.settingsText(context),
                           centerAlign: false,
-                          size: 16),
+                          size: 16.sp),
                     )),
                 widget.isLoggedin != "loggedOut"
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                         child: ProfileInfoCard(
                           icon: "lib/assets/icons/bellIcon.svg",
                           text: Strings.notifications(context),
@@ -1793,9 +1661,9 @@ class _ProfileSectionState extends State<ProfileSection> {
                       )
                     : const SizedBox(),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
-                    icon: "lib/assets/icons/bellIcon.svg",
+                    icon: "lib/assets/icons/languageIcon.svg",
                     text: Strings.languageText(context),
                     onPressed: () {
                       try {
@@ -1816,17 +1684,17 @@ class _ProfileSectionState extends State<ProfileSection> {
                 Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12.0, top: 8.0, bottom: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 12.0.r, top: 8.0.h, bottom: 8.0.h),
                       child: HeadingTextW600(
                           text: Strings.help(context),
                           centerAlign: false,
-                          size: 16),
+                          size: 16.sp),
                     )),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
-                    icon: "lib/assets/icons/contactIcon.svg",
+                    icon: "lib/assets/icons/supportcentreIcon.svg",
                     text: Strings.supportCenter(context),
                     onPressed: () {
                       try {} catch (e) {
@@ -1836,7 +1704,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
                     icon: "lib/assets/icons/contactIcon.svg",
                     text: Strings.contact(context),
@@ -1850,15 +1718,15 @@ class _ProfileSectionState extends State<ProfileSection> {
                 Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12.0, top: 8.0, bottom: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 12.0.r, top: 8.0.h, bottom: 8.0.h),
                       child: HeadingTextW600(
                           text: Strings.auftragText(context),
                           centerAlign: false,
-                          size: 16),
+                          size: 16.sp),
                     )),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
                     icon: "lib/assets/icons/bookIcon.svg",
                     text: Strings.legalGuidelines(context),
@@ -1870,7 +1738,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
                     icon: "lib/assets/icons/eyeOffIcon.svg",
                     text: Strings.dataSafeguards(context),
@@ -1886,7 +1754,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                 widget.isLoggedin == "loggedOut"
                     ? const SizedBox()
                     : Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(12.0.r),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
@@ -1898,7 +1766,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: EdgeInsets.all(12.0.r),
                               elevation: 0,
                               backgroundColor: const Color(
                                   MyColors.themeRedColor), // Button color
@@ -1912,18 +1780,18 @@ class _ProfileSectionState extends State<ProfileSection> {
                               children: [
                                 SvgPicture.asset(
                                   "lib/assets/icons/logoutIcon.svg",
-                                  height: 22,
-                                  width: 22,
+                                  height: 22.h,
+                                  width: 22.w,
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: 8.r),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 6.0),
+                                  padding: EdgeInsets.only(left: 6.0.r),
                                   child: Text(
                                     Strings.logoutText(context),
-                                    style: const TextStyle(
-                                      fontSize:
-                                          16, // Adjust font size to fit inside
-                                      color: Color(
+                                    style: TextStyle(
+                                      fontSize: 16
+                                          .sp, // Adjust font size to fit inside
+                                      color: const Color(
                                           MyColors.whiteColor), // Text color
                                     ),
                                     textAlign: TextAlign.center,
@@ -1944,32 +1812,32 @@ class _ProfileSectionState extends State<ProfileSection> {
 
   Widget _buildNoLoginView() {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: EdgeInsets.all(12.0.r),
       child: Card(
         elevation: 0,
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(12.0.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               SvgPicture.asset(
                 "lib/assets/icons/noProfileIcon.svg",
                 fit: BoxFit.contain,
-                width: 50,
-                height: 50,
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: HeadingTextW500(
-                    text: "Please Login to See Your Profile",
-                    centerAlign: true,
-                    size: 16),
+                width: 50.w,
+                height: 50.h,
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(8.0.r),
+                child: HeadingTextW500(
+                    text: Strings.pleaseLoginToSeeprofileText(Get.context!),
+                    centerAlign: true,
+                    size: 16.sp),
+              ),
+              Padding(
+                padding: EdgeInsets.all(12.0.r),
                 child: FullWidthElevatedButton(
-                    text: "Login",
+                    text: Strings.loginText(Get.context!),
                     color: MyColors.themeRedColor,
                     onPressed: () {
                       Constants.fromWhere = "SelectServiceScreen";
@@ -1988,17 +1856,17 @@ class _ProfileSectionState extends State<ProfileSection> {
     return Stack(
       children: [
         Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: EdgeInsets.all(6.0.r),
             child: SizedBox(
-                height: 96,
-                width: 96,
+                height: 96.h,
+                width: 96.w,
                 child: Stack(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
-                        height: 90,
-                        width: 90,
+                        height: 90.h,
+                        width: 90.w,
                         child: imageUrl.isNotEmpty
                             ? Image.network(
                                 imageUrl,
@@ -2007,19 +1875,21 @@ class _ProfileSectionState extends State<ProfileSection> {
                                   return SvgPicture.asset(
                                     "lib/assets/images/tradesmenplaceholdericon.svg",
                                     fit: BoxFit.cover,
-                                    height: 100,
-                                    width: 110,
+                                    height: 100.h,
+                                    width: 110.w,
                                   );
                                 },
                               )
                             : _selectedImage != null
                                 ? Image.file(_selectedImage!,
-                                    width: 100, height: 110, fit: BoxFit.cover)
+                                    width: 100.w,
+                                    height: 110.h,
+                                    fit: BoxFit.cover)
                                 : SvgPicture.asset(
                                     "lib/assets/images/tradesmenplaceholdericon.svg",
                                     fit: BoxFit.cover,
-                                    height: 100,
-                                    width: 110,
+                                    height: 100.h,
+                                    width: 110.w,
                                   ),
                       ),
                     ),
@@ -2037,8 +1907,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                         child: SvgPicture.asset(
                           "lib/assets/icons/uploadImageicon.svg",
                           fit: BoxFit.cover,
-                          height: 22,
-                          width: 22,
+                          height: 22.h,
+                          width: 22.w,
                         ),
                       ),
                     )
@@ -2048,9 +1918,12 @@ class _ProfileSectionState extends State<ProfileSection> {
     );
   }
 
+  Future<void> updateNameValue() async {
+    userName = _prefs.getString('name') ?? "";
+    setState(() {});
+  }
+
   Future<void> getProfileImage() async {
-    imageUrl = "";
-    _prefs = await SharedPreferences.getInstance();
     imageUrl = _prefs.getString('profile_img') ?? "";
     _selectedImage = null;
     if (mounted) {
@@ -2062,6 +1935,8 @@ class _ProfileSectionState extends State<ProfileSection> {
     _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('isLogin', "loggedOut");
     Get.offAllNamed(AppLinks.select_service_screen);
+    Constants.unReadcount.value = 0;
+    Constants.unreadNotificationsCount.value = 0;
     // Get.to(
     //   const SelectServiceScreen(),
     //   transition: Transition.rightToLeft, // Left-to-right animation

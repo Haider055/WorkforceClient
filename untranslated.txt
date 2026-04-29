@@ -5,6 +5,7 @@
     "recommendedCraftsmenText",
     "leaveOrderText",
     "memberSinceText",
-    "addingPicturesHelpsBetterQuotesText"
+    "addingPicturesHelpsBetterQuotesText",
+    "confirmPasswordCannotBeEmptyText"
   ]
 }

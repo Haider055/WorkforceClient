@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_api_flutter/google_places_api_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
@@ -24,12 +26,12 @@ class PickAddressScreen extends GetView<PickAddressController> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text("Discard changes!"),
-            content: const Text("Are you sure to end Job Posting process?"),
-            contentTextStyle:
-                const TextStyle(fontSize: 15.5, color: Colors.black),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            title: Text(Strings.discardChangesText(Get.context!)),
+            content:
+                Text(Strings.areYouSureToEndJobPostingProcess(Get.context!)),
+            contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r)),
             backgroundColor: const Color(MyColors.colorRed200),
             actions: [
               Row(
@@ -37,10 +39,10 @@ class PickAddressScreen extends GetView<PickAddressController> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                       child: FullWidthOutlineButton(
                           text: Strings.noText(context),
-                          fontsize: 15.0,
+                          fontsize: 15.0.sp,
                           color: MyColors.themeRedColor,
                           onPressed: () {
                             Get.back();
@@ -49,10 +51,10 @@ class PickAddressScreen extends GetView<PickAddressController> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                       child: FullWidthButtonPrimary(
                           text: Strings.yesText(context),
-                          fontsize: 15.0,
+                          fontsize: 15.0.sp,
                           color: MyColors.themeRedColor,
                           onPressed: () {
                             Get.back();
@@ -82,14 +84,14 @@ class PickAddressScreen extends GetView<PickAddressController> {
                     style: BorderStyle.solid)),
             child: Center(
                 child: Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
               child: Text(Constants.selectedServiceName,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16.0,
+                      fontSize: 16.0.sp,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Poppins')),
             )),
@@ -104,8 +106,8 @@ class PickAddressScreen extends GetView<PickAddressController> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 0),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 0),
                       child: LinearProgressBar(
                         maxSteps: Constants.jobPostingSteps,
                         progressType: LinearProgressBar.progressTypeLinear,
@@ -113,18 +115,18 @@ class PickAddressScreen extends GetView<PickAddressController> {
                         currentStep: Constants.currentJobPostingStep,
                         progressColor: const Color(MyColors.themeRedColor),
                         backgroundColor: const Color(MyColors.lightSilverColor),
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: BorderRadius.circular(2.r),
                       ),
                     ),
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 5.0, right: 15),
+                        padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
                         child: Text(
-                          "Step ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
-                          style: const TextStyle(
-                              fontSize: 14.5,
-                              color: Color(MyColors.midGrayColor)),
+                          "${Strings.step(Get.context!)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
+                          style: TextStyle(
+                              fontSize: 14.5.sp,
+                              color: const Color(MyColors.midGrayColor)),
                         ),
                       ),
                     ),
@@ -137,7 +139,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
                   children: [
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0.r),
                       child: Card(
                         color: const Color(MyColors.cardGrayColor50),
                         child: Column(
@@ -145,60 +147,53 @@ class PickAddressScreen extends GetView<PickAddressController> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 19.0, left: 16.0),
+                                padding:
+                                    EdgeInsets.only(top: 19.0.h, left: 16.0.w),
                                 child: HeadingTextW500(
                                     text: Strings.findYourAddress(context),
                                     centerAlign: false,
-                                    size: 18.0),
+                                    size: 18.0.sp),
                               ),
                             ),
                             Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding: EdgeInsets.all(15.0.r),
                                 child: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 0),
-                                  child: GooglePlaceAutoCompleteTextField(
-                                    textEditingController:
-                                        controller.controllerTextField,
-                                    googleAPIKey:
-                                        "AIzaSyBZz4unF-wEdjkLUM6jOI8TSKu8E-CisnM",
-                                    inputDecoration: InputDecoration(
-                                      hintText: Strings.searchYourLocationText(
-                                          context),
-                                      border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color:
-                                                Color(MyColors.midGrayColor)),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color:
-                                                Color(MyColors.midGrayColor)),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color:
-                                                Color(MyColors.midGrayColor)),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    debounceTime: 400,
-                                    countries: const ["pk", "de"],
-                                    isLatLngRequired: true,
-                                    getPlaceDetailWithLatLng:
-                                        (Prediction prediction) {
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey, width: 1.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: PlaceSearchField(
+                                    apiKey: Constants.googleMapsAPIkey,
+                                    isLatLongRequired: true,
+                                    webCorsProxyUrl: "",
+                                    controller: controller.controllerTextField,
+                                    onPlaceSelected: (prediction, p1) async {
+                                      controller.controllerTextField.text =
+                                          prediction.description ?? "";
+                                      controller.controllerTextField.selection =
+                                          TextSelection.fromPosition(
+                                              TextPosition(
+                                                  offset: prediction.description
+                                                          ?.length ??
+                                                      0));
                                       try {
-                                        Constants.jobPostingLat =
-                                            prediction.lat ?? "";
-                                        Constants.jobPostingLng =
-                                            prediction.lng ?? "";
+                                        Constants.jobPostingLat = p1!
+                                                .result.geometry!.location.lat
+                                                .toString() ??
+                                            "";
+                                        Constants.jobPostingLng = p1!
+                                                .result.geometry!.location.lng
+                                                .toString() ??
+                                            "";
                                         controller.currentPosition.value =
                                             LatLng(
-                                                double.parse(prediction.lat!),
-                                                double.parse(prediction.lng!));
+                                                p1!.result.geometry!.location
+                                                    .lat,
+                                                p1!.result.geometry!.location
+                                                    .lng);
                                         controller.markers.add(
                                           Marker(
                                             markerId: const MarkerId(
@@ -218,60 +213,143 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                         e.printError();
                                       }
                                     },
-                                    itemClick: (Prediction prediction) {
-                                      controller.controllerTextField.text =
-                                          prediction.description ?? "";
-                                      controller.controllerTextField.selection =
-                                          TextSelection.fromPosition(
-                                              TextPosition(
-                                                  offset: prediction.description
-                                                          ?.length ??
-                                                      0));
-                                    },
-                                    seperatedBuilder: const Divider(),
-                                    // OPTIONAL// If you want to customize list view item builder
-                                    itemBuilder: (context, index,
-                                        Prediction prediction) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.location_on),
-                                            const SizedBox(
-                                              width: 7,
-                                            ),
-                                            Expanded(
-                                                child: Text(
-                                                    prediction.description ??
-                                                        ""))
-                                          ],
-                                        ),
+                                    decorationBuilder: (context, child) {
+                                      return Material(
+                                        type: MaterialType.card,
+                                        elevation: 4,
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: child,
                                       );
                                     },
-                                    isCrossBtnShown: true,
-                                    // default 600 ms ,
+                                    itemBuilder: (context, prediction) =>
+                                        ListTile(
+                                      leading: const Icon(Icons.location_on),
+                                      title: Text(
+                                        prediction.description,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                                   ),
+
+                                  // child: GooglePlaceAutoCompleteTextField(
+                                  //   textEditingController:
+                                  //       controller.controllerTextField,
+                                  //   googleAPIKey: Constants.googleMapsAPIkey,
+                                  //   inputDecoration: InputDecoration(
+                                  //     hintText: Strings.searchYourLocationText(
+                                  //         context),
+                                  //     border: OutlineInputBorder(
+                                  //       borderSide: const BorderSide(
+                                  //           color:
+                                  //               Color(MyColors.midGrayColor)),
+                                  //       borderRadius:
+                                  //           BorderRadius.circular(10.r),
+                                  //     ),
+                                  //     focusedBorder: OutlineInputBorder(
+                                  //       borderSide: const BorderSide(
+                                  //           color:
+                                  //               Color(MyColors.midGrayColor)),
+                                  //       borderRadius:
+                                  //           BorderRadius.circular(10.r),
+                                  //     ),
+                                  //     enabledBorder: OutlineInputBorder(
+                                  //       borderSide: const BorderSide(
+                                  //           color:
+                                  //               Color(MyColors.midGrayColor)),
+                                  //       borderRadius:
+                                  //           BorderRadius.circular(10.r),
+                                  //     ),
+                                  //   ),
+                                  //   debounceTime: 0,
+                                  //   countries: const ["pk", "de"],
+                                  //   isLatLngRequired: true,
+                                  //   getPlaceDetailWithLatLng:
+                                  //       (Prediction prediction) {
+                                  // try {
+                                  //   Constants.jobPostingLat =
+                                  //       prediction.lat ?? "";
+                                  //   Constants.jobPostingLng =
+                                  //       prediction.lng ?? "";
+                                  //   controller.currentPosition.value =
+                                  //       LatLng(
+                                  //           double.parse(prediction.lat!),
+                                  //           double.parse(prediction.lng!));
+                                  //   controller.markers.add(
+                                  //     Marker(
+                                  //       markerId: const MarkerId(
+                                  //           "current_location"),
+                                  //       position: controller
+                                  //           .currentPosition.value,
+                                  //       infoWindow: InfoWindow(
+                                  //           title: "You are here",
+                                  //           snippet:
+                                  //               controller.currentAddress),
+                                  //     ),
+                                  //   );
+                                  //   controller.mapController?.moveCamera(
+                                  //       CameraUpdate.newLatLng(controller
+                                  //           .currentPosition.value));
+                                  // } catch (e) {
+                                  //   e.printError();
+                                  // }
+                                  //   },
+                                  //   itemClick: (Prediction prediction) {
+                                  // FocusScope.of(context).unfocus();
+                                  // // controller.controllerTextField.text =
+                                  // //     prediction.description ?? "";
+                                  // // controller.controllerTextField.selection =
+                                  // //     TextSelection.fromPosition(
+                                  // //         TextPosition(
+                                  // //             offset: prediction.description
+                                  // //                     ?.length ??
+                                  // //                 0));
+                                  //   },
+                                  //   seperatedBuilder: const Divider(),
+                                  //   // OPTIONAL// If you want to customize list view item builder
+                                  //   itemBuilder: (context, index,
+                                  //       Prediction prediction) {
+                                  //     return Container(
+                                  //       padding: EdgeInsets.all(10.r),
+                                  //       child: Row(
+                                  //         children: [
+                                  //           const Icon(Icons.location_on),
+                                  //           const SizedBox(
+                                  //             width: 7,
+                                  //           ),
+                                  //           Expanded(
+                                  //               child: Text(
+                                  //                   prediction.description ??
+                                  //                       ""))
+                                  //         ],
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  //   isCrossBtnShown: true,
+                                  //   // default 600 ms ,
+                                  // ),
                                 )),
                           ],
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: EdgeInsets.all(18.0.r),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height / 2.2,
-                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height.h / 2.2,
+                        width: MediaQuery.of(context).size.width.w,
                         child: Card(
                           shape: RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(10), // Adjust roundness
+                                BorderRadius.circular(10.r), // Adjust roundness
                           ),
                           elevation: 2,
                           shadowColor: Colors.black,
                           child: Obx(() {
                             return ClipRRect(
                               // Ensures child respects rounded corners
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                               child: Stack(
                                 children: [
                                   GoogleMap(
@@ -300,7 +378,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                   Container(
                                     color: const Color(MyColors.blackColor80),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
+                                      padding: EdgeInsets.all(5.0.r),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -308,15 +386,17 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                           Image.asset(
                                               "lib/assets/icons/dragdropicon.png",
                                               fit: BoxFit.fill,
-                                              height: 12,
-                                              width: 12),
-                                          const SizedBox(width: 8),
-                                          const Text(
-                                              "Drag to move pin to exact location",
+                                              height: 12.h,
+                                              width: 12.w),
+                                          SizedBox(width: 8.w),
+                                          Text(
+                                              Strings
+                                                  .areYouSureToCompleteThisContractText(
+                                                      context),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 12.0,
+                                                  fontSize: 12.0.sp,
                                                   fontWeight: FontWeight.w400,
                                                   fontFamily: 'Poppins'))
                                         ],
@@ -337,17 +417,16 @@ class PickAddressScreen extends GetView<PickAddressController> {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0.r),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 25.0, right: 12.0),
+                          padding: EdgeInsets.only(left: 25.0.w, right: 12.0.w),
                           child: FullWidthOutlineButton(
                               text: Strings.back(context),
-                              fontsize: 15.0,
+                              fontsize: 15.0.sp,
                               color: MyColors.themeRedColor,
                               onPressed: () {
                                 print("object");
@@ -358,11 +437,10 @@ class PickAddressScreen extends GetView<PickAddressController> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 12.0, right: 25.0),
+                          padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
                           child: FullWidthButtonPrimary(
                               text: Strings.postJob(context),
-                              fontsize: 15.0,
+                              fontsize: 15.0.sp,
                               color: MyColors.themeRedColor,
                               onPressed: () {
                                 if (controller.controllerTextField.value.text
@@ -371,11 +449,9 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                     Constants.jobPostingLng.isNotEmpty) {
                                   Constants.jobPostingAddress =
                                       controller.controllerTextField.text;
-                                  Get.offAllNamed(
+                                  Get.toNamed(
                                       AppLinks.job_post_completed_screen);
-                                } else {
-                                  Fluttertoast.showToast(msg: "else");
-                                }
+                                } else {}
                               }),
                         ),
                       )

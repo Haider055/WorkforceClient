@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +32,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
+          leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
             color: const Color(MyColors.whiteColor),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
@@ -47,15 +48,15 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                       child: HeadingTextW600(
                     text: Strings.manageAccount(context),
                     centerAlign: false,
-                    size: 16.0,
+                    size: 16.0.sp,
                   )),
                   GestureDetector(
                     onTap: () {
                       Get.back();
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 12.0),
-                      child: Align(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12.0.w),
+                      child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(Icons.arrow_back_ios)),
                     ),
@@ -69,16 +70,16 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
+              padding: EdgeInsets.only(
+                  left: 16.0.w, right: 16.0.w, bottom: 16.0.h, top: 16.0.h),
               child: Card(
-                elevation: 1,
+                elevation: 0,
                 color: const Color(MyColors.cardGrayColor100),
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 16.0),
+                      padding: EdgeInsets.only(
+                          left: 16.0.w, right: 16.0.w, top: 16.0.h),
                       child: GestureDetector(
                         onTap: () {
                           Get.to(
@@ -94,7 +95,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                           elevation: 0,
                           color: const Color(MyColors.whiteColor),
                           child: Padding(
-                            padding: const EdgeInsets.all(14.0),
+                            padding: EdgeInsets.all(14.0.r),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
@@ -104,19 +105,19 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                   fit: BoxFit.contain,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding: EdgeInsets.only(left: 8.0.w),
                                   child: Headingdescription(
                                       text: Strings.managePassword(context),
                                       centerAlign: false,
-                                      size: 16),
+                                      size: 16.sp),
                                 ),
-                                const Expanded(
+                                Expanded(
                                   child: Align(
                                     alignment: Alignment.centerRight,
                                     child: Icon(
                                       Icons.arrow_forward_ios,
-                                      color: Color(MyColors.blackColor80),
-                                      size: 16,
+                                      color: const Color(MyColors.blackColor80),
+                                      size: 16.sp,
                                     ),
                                   ),
                                 ),
@@ -127,8 +128,11 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, right: 16.0, bottom: 16.0, top: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 16.0.w,
+                          right: 16.0.w,
+                          bottom: 16.0.h,
+                          top: 8.0.h),
                       child: GestureDetector(
                         onTap: () {
                           Get.toNamed(AppLinks.delete_account_screen);
@@ -137,32 +141,33 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                           elevation: 0,
                           color: const Color(MyColors.whiteColor),
                           child: Padding(
-                            padding: const EdgeInsets.all(14.0),
+                            padding: EdgeInsets.all(14.0.r),
                             child: Row(
                               children: [
                                 SvgPicture.asset(
                                   "lib/assets/icons/profile_deleteIcon.svg",
-                                  height: 20,
-                                  width: 20,
+                                  height: 20.h,
+                                  width: 20.w,
                                   fit: BoxFit.contain,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding: EdgeInsets.only(left: 8.0.w),
                                   child: Text(Strings.deleteAccount(context),
                                       textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                          color: Color(MyColors.themeRedColor),
-                                          fontSize: 16,
+                                      style: TextStyle(
+                                          color: const Color(
+                                              MyColors.themeRedColor),
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.w400,
                                           fontFamily: 'Poppins')),
                                 ),
-                                const Expanded(
+                                Expanded(
                                   child: Align(
                                     alignment: Alignment.centerRight,
                                     child: Icon(
                                       Icons.arrow_forward_ios,
-                                      color: Color(MyColors.blackColor80),
-                                      size: 16,
+                                      color: const Color(MyColors.blackColor80),
+                                      size: 16.sp,
                                     ),
                                   ),
                                 ),

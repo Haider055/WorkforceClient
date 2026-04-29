@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Models/CheckBoxQuestion.dart';
@@ -25,6 +26,9 @@ class JobPostCompleteController extends GetxController {
   RxList<Map<String, dynamic>> questionsList = Constants.questionsList.obs;
 
   RxBool isLoading = true.obs;
+  RxBool jobPostingFailed = false.obs;
+  RxBool showLoginDialog = false.obs;
+  RxString validationMessage = ''.obs;
 
   @override
   void onInit() {
@@ -60,7 +64,9 @@ class JobPostCompleteController extends GetxController {
       request.fields['country'] = Constants.jobPostingCountry;
       request.fields['postcode'] = Constants.jobPostingPostcode;
       request.fields['show_attachments'] = "1";
-
+      if (questionsList.isEmpty) {
+        request.fields['answers[]'] = '';
+      }
       for (var i = 0; i < questionsList.length; i++) {
         if (questionsList.elementAt(i).entries.first.key == "checkbox") {
           CheckBoxQuestion ques = questionsList.elementAt(i).values.first;
@@ -77,8 +83,9 @@ class JobPostCompleteController extends GetxController {
           request.fields['answers[$i][type]'] = 'radio';
           request.fields['answers[$i][answer]'] =
               ques.selectedOption.toString();
-          request.fields['answers[$i][option_id]'] =
-              ques.selectedOptionId.toString();
+          request.fields['answers[$i][option_id]'] = ques.selectedOptionId == 0
+              ? ''
+              : ques.selectedOptionId.toString();
         } else {
           TextQuestion ques = questionsList.elementAt(i).values.first;
           request.fields['answers[$i][question_id]'] = ques.id.toString();
@@ -100,14 +107,18 @@ class JobPostCompleteController extends GetxController {
         request.files.add(multipartFile);
       }
 
+      // debugPrint(request.fields.toString());
+      debugPrint(request.fields.toString(), wrapWidth: 1024);
+
       // Send request
       var response = await request.send();
+      print(response);
 
       // Get response
       var responseData = await response.stream.bytesToString();
       Map<String, dynamic> jsonData = jsonDecode(responseData);
 
-      // print("response:  " + responseData);
+      print("response:  $responseData");
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -172,6 +183,7 @@ class JobPostCompleteController extends GetxController {
           isLoading.value = false;
         } else {
           isLoading.value = false;
+          jobPostingFailed.value = true;
 
           Get.defaultDialog(
             titleStyle: null,
@@ -185,8 +197,8 @@ class JobPostCompleteController extends GetxController {
                       child: Image.asset(
                         dialogIconsUrl.value,
                         fit: BoxFit.contain,
-                        height: 136.92,
-                        width: 123.72,
+                        height: 136.92.h,
+                        width: 123.72.w,
                       )),
                 ),
                 HeadingText(
@@ -194,21 +206,21 @@ class JobPostCompleteController extends GetxController {
                 Headingdescription(
                     text: Strings.somethingWentWrong(Get.context!),
                     centerAlign: true,
-                    size: 15.0),
-                Headingdescription(text: res, centerAlign: true, size: 15.0),
+                    size: 15.0.sp),
+                Headingdescription(text: res, centerAlign: true, size: 15.0.sp),
                 Padding(
-                  padding: const EdgeInsets.only(top: 18.0),
+                  padding: EdgeInsets.only(top: 18.0.h),
                   child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: const WidgetStatePropertyAll(
                               Color(MyColors.themeRedColor)),
                           shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)))),
+                              borderRadius: BorderRadius.circular(12.r)))),
                       onPressed: () {
-                        Get.back();
+                        Get.offAllNamed(AppLinks.select_service_screen);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                        padding: EdgeInsets.only(left: 50.0.w, right: 50.0.w),
                         child: Center(
                             child: Text(
                           Strings.tryAgain(Get.context!),
@@ -216,9 +228,13 @@ class JobPostCompleteController extends GetxController {
                         )),
                       )),
                 ),
-                const SizedBox(height: 16.0)
+                SizedBox(height: 16.0.h)
               ],
             ),
+          ).then(
+            (value) {
+              Get.offAllNamed(AppLinks.select_service_screen);
+            },
           );
         }
       } else {
@@ -231,29 +247,31 @@ class JobPostCompleteController extends GetxController {
   }
 
   void showLoginDialogPlease() {
+    showLoginDialog.value = true;
+    jobPostingFailed.value = true;
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(12.0.r),
         ),
-        title: const Center(
+        title: Center(
           child: Text(
-            "Login Required",
+            Strings.loginRequiredText(Get.context!),
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
-              color: Color(MyColors.themeRedColor),
+              color: const Color(MyColors.themeRedColor),
             ),
           ),
         ),
-        content: const Text(
-          "You are not logged in. Please log in to post your job. Once logged in, your post will be published.",
+        content: Text(
+          Strings.pleaseLoginToPostJobDescText(Get.context!),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 14),
+          style: TextStyle(fontSize: 14.sp),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.symmetric(horizontal: 20.0.w),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -264,20 +282,25 @@ class JobPostCompleteController extends GetxController {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(MyColors.themeRedColor),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
                 ),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                child: Text(
+                  Strings.loginText(Get.context!),
+                  style: TextStyle(fontSize: 16.sp, color: Colors.white),
                 ),
               ),
             ),
           ),
         ],
       ),
-      barrierDismissible: false, // Prevent dismissing by tapping outside
+      barrierDismissible: false,
+      // Prevent dismissing by tapping outside
+    ).then(
+      (value) {
+        Get.offAllNamed(AppLinks.select_service_screen);
+      },
     );
   }
 }

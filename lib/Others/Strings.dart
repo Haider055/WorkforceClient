@@ -24,6 +24,18 @@ class Strings {
       AppLocalizations.of(context)!.languageText;
   static String changeLanguageText(BuildContext context) =>
       AppLocalizations.of(context)!.changeLanguageText;
+  static String loadMoreText(BuildContext context) =>
+      AppLocalizations.of(context)!.loadMoreText;
+  static String jobText(BuildContext context) =>
+      AppLocalizations.of(context)!.jobText;
+  static String newUserText(BuildContext context) =>
+      AppLocalizations.of(context)!.newUserText;
+  static String photosOfConstructionPlansOptional(BuildContext context) =>
+      AppLocalizations.of(context)!.photosOfConstructionPlansOptional;
+  static String max15MbFileText(BuildContext context) =>
+      AppLocalizations.of(context)!.max15MbFileText;
+  static String selectText(BuildContext context) =>
+      AppLocalizations.of(context)!.selectText;
 
   static String englishText(BuildContext context) =>
       AppLocalizations.of(context)!.englishText;
@@ -43,6 +55,8 @@ class Strings {
       AppLocalizations.of(context)!.phoneText;
   static String skipText(BuildContext context) =>
       AppLocalizations.of(context)!.skipText;
+  static String step(BuildContext context) =>
+      AppLocalizations.of(context)!.stepText;
   static String allText(BuildContext context) =>
       AppLocalizations.of(context)!.allText;
   static String chatText(BuildContext context) =>
@@ -89,6 +103,15 @@ class Strings {
       AppLocalizations.of(context)!.passwordUpdatedText;
   static String manageAccount(BuildContext context) =>
       AppLocalizations.of(context)!.manageAccountText;
+  static String markAsCompleteText(BuildContext context) =>
+      AppLocalizations.of(context)!.markAsCompleteText;
+  static String jobHasBeenDoneText(BuildContext context) =>
+      AppLocalizations.of(context)!.jobHasBeenDoneText;
+  static String markAllAsReadText(BuildContext context) =>
+      AppLocalizations.of(context)!.markAllAsReadText;
+  static String tradesman(BuildContext context) =>
+      AppLocalizations.of(context)!.tradesman;
+
   static String managePassword(BuildContext context) =>
       AppLocalizations.of(context)!.managePaswordText;
   static String deleteAccount(BuildContext context) =>
@@ -117,6 +140,15 @@ class Strings {
       AppLocalizations.of(context)!.notificationListEmptyText;
   static String hireNow(BuildContext context) =>
       AppLocalizations.of(context)!.orderNowText;
+  static String nowText(BuildContext context) =>
+      AppLocalizations.of(context)!.nowText;
+  static String goBackText(BuildContext context) =>
+      AppLocalizations.of(context)!.goBackText;
+
+  static String lowercaseText(BuildContext context) =>
+      AppLocalizations.of(context)!.lowercaseText;
+  static String uppercaseText(BuildContext context) =>
+      AppLocalizations.of(context)!.uppercaseText;
 
   static String myPostedOrders(BuildContext context) =>
       AppLocalizations.of(context)!.myPostedOrdersText;
@@ -126,10 +158,16 @@ class Strings {
       AppLocalizations.of(context)!.rejectedText;
   static String accept(BuildContext context) =>
       AppLocalizations.of(context)!.acceptText;
+  static String and(BuildContext context) =>
+      AppLocalizations.of(context)!.andText;
   static String reject(BuildContext context) =>
       AppLocalizations.of(context)!.rejectText;
   static String active(BuildContext context) =>
       AppLocalizations.of(context)!.activeText;
+  static String activeWithinText(BuildContext context) =>
+      AppLocalizations.of(context)!.activeWithinText;
+  static String activeWithinOfText(BuildContext context) =>
+      AppLocalizations.of(context)!.activeWithinOfText;
   static String account(BuildContext context) =>
       AppLocalizations.of(context)!.accountText;
   static String help(BuildContext context) =>
@@ -163,6 +201,14 @@ class Strings {
       AppLocalizations.of(context)!.noPortfolioFoundText;
   static String noReviewFound(BuildContext context) =>
       AppLocalizations.of(context)!.noReviewFoundText;
+  static String reviewedOn(BuildContext context) =>
+      AppLocalizations.of(context)!.reviewedOnText;
+
+  static String reviewCannotbeemptyText(BuildContext context) =>
+      AppLocalizations.of(context)!.reviewCannotbeemptyText;
+  static String pleaseGiveSomeRatingText(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseGiveSomeRatingText;
+
   static String noRequestsFound(BuildContext context) =>
       AppLocalizations.of(context)!.noRequestsFoundText;
   static String noDataFound(BuildContext context) =>
@@ -181,6 +227,13 @@ class Strings {
       AppLocalizations.of(context)!.getAnswersText;
   static String startConversation(BuildContext context) =>
       AppLocalizations.of(context)!.startConversationText;
+  static String startContractNowText(BuildContext context) =>
+      AppLocalizations.of(context)!.startContractNowText;
+  static String pleaseEnterYourEmailText(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseEnterYourEmailText;
+  static String passwordDoNotMatch(BuildContext context) =>
+      AppLocalizations.of(context)!.passwordDoNotMatchText;
+
   static String sendRequest(BuildContext context) =>
       AppLocalizations.of(context)!.sendRequestText;
   static String requestRejected(BuildContext context) =>
@@ -193,6 +246,10 @@ class Strings {
       AppLocalizations.of(context)!.photosText;
   static String notificationSetupError(BuildContext context) =>
       AppLocalizations.of(context)!.notificationSetupErrorText;
+  static String nameCannotBeEmptyText(BuildContext context) =>
+      AppLocalizations.of(context)!.nameCannotBeEmptyText;
+  static String requestHasSent(BuildContext context) =>
+      AppLocalizations.of(context)!.requestHasSentText;
 
   static String enterCode(BuildContext context) =>
       AppLocalizations.of(context)!.enterCodeText;
@@ -202,6 +259,9 @@ class Strings {
       AppLocalizations.of(context)!.failedText;
   static String tryAgain(BuildContext context) =>
       AppLocalizations.of(context)!.tryAgainText;
+  static String typeaMessageText(BuildContext context) =>
+      AppLocalizations.of(context)!.typeaMessageText;
+
   static String cancelOrder(BuildContext context) =>
       AppLocalizations.of(context)!.cancelOrderText;
   static String removeJob(BuildContext context) =>
@@ -212,6 +272,17 @@ class Strings {
       AppLocalizations.of(context)!.profileImageUpdatedText;
   static String pleaseEnterValidEmail(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseEnterValidEmailText;
+  static String pleaseEnterValidPhoneText(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseEnterValidPhoneText;
+  static String pleaseExplaininyourownWords(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseExplaininyourownWordsText;
+  static String areYouSureToCompleteThisContractText(BuildContext context) =>
+      AppLocalizations.of(context)!.areYouSureToCompleteThisContractText;
+  static String dragtomovePinText(BuildContext context) =>
+      AppLocalizations.of(context)!.dragtomovePinText;
+  static String updatesOnJobsText(BuildContext context) =>
+      AppLocalizations.of(context)!.updatesOnJobsText;
+
   static String pleaseSelectService(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseSelectSeviceText;
   static String overview(BuildContext context) =>
@@ -238,7 +309,32 @@ class Strings {
       AppLocalizations.of(context)!.chatBoxIsEmptyDesc;
   static String notificationIsEmptyDesc(BuildContext context) =>
       AppLocalizations.of(context)!.notificationIsEmptyDesc;
+  static String jobhasbeenCompletedText(BuildContext context) =>
+      AppLocalizations.of(context)!.jobhasbeenCompletedText;
+  static String jobhasbeenpostedsuccessfullyText(BuildContext context) =>
+      AppLocalizations.of(context)!.jobhasbeenpostedsuccessfullyText;
+  static String uploadFilesFromGallery(BuildContext context) =>
+      AppLocalizations.of(context)!.uploadFilesFromGalleryText;
+  static String pleaseLoginToSeeprofileText(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseLoginToSeeprofileText;
+  static String filesLargerThan2MBSkipped(BuildContext context) =>
+      AppLocalizations.of(context)!.filesLargerThan2MBSkippedText;
+  static String youCanOnlyUploadUpTo(BuildContext context) =>
+      AppLocalizations.of(context)!.youCanOnlyUploadUpTo;
+  static String ximages(BuildContext context) =>
+      AppLocalizations.of(context)!.ximages;
+  static String imagesCanBeAddMoreText(BuildContext context) =>
+      AppLocalizations.of(context)!.imagesCanBeAddMoreText;
+  static String onlyInfoText(BuildContext context) =>
+      AppLocalizations.of(context)!.onlyInfoText;
 
+  static String numbers(BuildContext context) =>
+      AppLocalizations.of(context)!.numbersText;
+  static String postingyourJobText(BuildContext context) =>
+      AppLocalizations.of(context)!.postingyourJobText;
+
+  static String thisQuestionIsCompulsToAns(BuildContext context) =>
+      AppLocalizations.of(context)!.thisQuestionIsCompulsToAnsText;
   static String startPostingYourOrders(BuildContext context) =>
       AppLocalizations.of(context)!.startPostingYourOrdersText;
   static String goodToKnow(BuildContext context) =>
@@ -249,10 +345,19 @@ class Strings {
       AppLocalizations.of(context)!.professionsText;
   static String portfolio(BuildContext context) =>
       AppLocalizations.of(context)!.portfolioText;
+  static String portfolios(BuildContext context) =>
+      AppLocalizations.of(context)!.portfoliosText;
   static String description(BuildContext context) =>
       AppLocalizations.of(context)!.descriptionText;
   static String jobDescription(BuildContext context) =>
       AppLocalizations.of(context)!.jobDescriptionText;
+  static String discardChangesText(BuildContext context) =>
+      AppLocalizations.of(context)!.discardChangesText;
+  static String areYouSureToEndJobPostingProcess(BuildContext context) =>
+      AppLocalizations.of(context)!.areYouSureToEndJobPostingProcessText;
+  static String tellUsMoreAboutYourNeed(BuildContext context) =>
+      AppLocalizations.of(context)!.tellUsMoreAboutYourNeed;
+
   static String jobTitleHint(BuildContext context) =>
       AppLocalizations.of(context)!.jobTitleHintText;
   static String jobTitleDesc(BuildContext context) =>
@@ -269,6 +374,24 @@ class Strings {
       AppLocalizations.of(context)!.jobTitleText;
   static String aboutThisCompany(BuildContext context) =>
       AppLocalizations.of(context)!.aboutThisCompanyText;
+  static String atLeast12CharactersText(BuildContext context) =>
+      AppLocalizations.of(context)!.atLeast12CharactersText;
+  static String pleaseFollowPasswordRules(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseFollowPasswordRulesText;
+  static String seeourPrivacyPlolicyText(BuildContext context) =>
+      AppLocalizations.of(context)!.seeourPrivacyPlolicyText;
+  static String youCanAdjustYourNotificationSettingText(BuildContext context) =>
+      AppLocalizations.of(context)!.youCanAdjustYourNotificationSettingText;
+
+  static String phoneCannotBeEmptyText(BuildContext context) =>
+      AppLocalizations.of(context)!.phoneCannotBeEmptyText;
+  static String passwordCannotBeEmptyText(BuildContext context) =>
+      AppLocalizations.of(context)!.passwordCannotBeEmptyText;
+  static String confirmPasswordCannotBeEmptyText(BuildContext context) =>
+      AppLocalizations.of(context)!.confirmPasswordCannotBeEmptyText;
+
+  static String chatIsClosedText(BuildContext context) =>
+      AppLocalizations.of(context)!.chatIsClosedText;
   static String info(BuildContext context) =>
       AppLocalizations.of(context)!.infoText;
   static String inProcess(BuildContext context) =>
@@ -289,6 +412,8 @@ class Strings {
       AppLocalizations.of(context)!.cookieManagementText;
   static String supportCenter(BuildContext context) =>
       AppLocalizations.of(context)!.supportCenterText;
+  static String specialSymbols(BuildContext context) =>
+      AppLocalizations.of(context)!.specialSymbolsText;
   static String contact(BuildContext context) =>
       AppLocalizations.of(context)!.contactText;
   static String memberSince(BuildContext context) =>
@@ -301,12 +426,20 @@ class Strings {
       AppLocalizations.of(context)!.jobhasRemovedText;
   static String jobHasRemovedAndNoActive(BuildContext context) =>
       AppLocalizations.of(context)!.jobhasRemovedandNoActiveText;
+  static String yourJobstartedActiveNowActiveText(BuildContext context) =>
+      AppLocalizations.of(context)!.yourJobstartedActiveNowActiveText;
+
   static String messageFailedToSend(BuildContext context) =>
       AppLocalizations.of(context)!.messageFailedToSendText;
   static String somethingWentWrong(BuildContext context) =>
       AppLocalizations.of(context)!.somethingWentWrongText;
+  static String messageNotSentText(BuildContext context) =>
+      AppLocalizations.of(context)!.messageNotSentText;
   static String youHaveReachedLimit(BuildContext context) =>
       AppLocalizations.of(context)!.youHaveReachedtoLlimitText;
+  static String youCanNowLoginText(BuildContext context) =>
+      AppLocalizations.of(context)!.youCanNowLoginText;
+
   static String somethingWentWrongRemovingJob(BuildContext context) =>
       AppLocalizations.of(context)!.somethingWentWrongWhileRemovingJobText;
   static String somethingWentWrongGettingResults(BuildContext context) =>
@@ -359,6 +492,8 @@ class Strings {
       AppLocalizations.of(context)!.viewOnMapText;
   static String cannotBeEmpty(BuildContext context) =>
       AppLocalizations.of(context)!.cannotBeEmptyText;
+  static String canYoutellusMore(BuildContext context) =>
+      AppLocalizations.of(context)!.canYoutellusMore;
 
   static String recommendationScreenHeading(BuildContext context) =>
       AppLocalizations.of(context)!.recommendationScreenHeadingText;
@@ -368,7 +503,48 @@ class Strings {
       AppLocalizations.of(context)!.interestedTradesmanText;
   static String interested(BuildContext context) =>
       AppLocalizations.of(context)!.interestedText;
+  static String nointerestedTradesmanText(BuildContext context) =>
+      AppLocalizations.of(context)!.nointerestedTradesmanText;
+  static String nointerestedTradesmanDescriptionText(BuildContext context) =>
+      AppLocalizations.of(context)!.nointerestedTradesmanDescriptionText;
+  static String noRecommendedText(BuildContext context) =>
+      AppLocalizations.of(context)!.noRecommendedText;
+  static String zeroAnswers(BuildContext context) =>
+      AppLocalizations.of(context)!.zeroAnswers;
+  static String addressText(BuildContext context) =>
+      AppLocalizations.of(context)!.addressText;
+  static String postcodeText(BuildContext context) =>
+      AppLocalizations.of(context)!.postcodeText;
+  static String cityText(BuildContext context) =>
+      AppLocalizations.of(context)!.cityText;
+  static String countryText(BuildContext context) =>
+      AppLocalizations.of(context)!.countryText;
+  static String appliedText(BuildContext context) =>
+      AppLocalizations.of(context)!.appliedText;
+  static String therequesthasbeenapproved(BuildContext context) =>
+      AppLocalizations.of(context)!.therequesthasbeenapproved;
+  static String therequesthasbeendeclined(BuildContext context) =>
+      AppLocalizations.of(context)!.therequesthasbeendeclined;
+  static String weakText(BuildContext context) =>
+      AppLocalizations.of(context)!.weakText;
+  static String moderateText(BuildContext context) =>
+      AppLocalizations.of(context)!.moderateText;
+  static String goodText(BuildContext context) =>
+      AppLocalizations.of(context)!.goodText;
+  static String strongText(BuildContext context) =>
+      AppLocalizations.of(context)!.strongText;
+  static String allNotificationsMarkedAsReadText(BuildContext context) =>
+      AppLocalizations.of(context)!.allNotificationsMarkedAsReadText;
 
+  static String loginRequiredText(BuildContext context) =>
+      AppLocalizations.of(context)!.loginRequiredText;
+  static String pleaseLoginToPostJobDescText(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseLoginToPostJobDescText;
+  static String customRequestMessageText(BuildContext context) =>
+      AppLocalizations.of(context)!.customRequestMessageText;
+
+  static String chatBoxIsEmptyDescription(BuildContext context) =>
+      AppLocalizations.of(context)!.chatBoxIsEmptyDescription;
   static String writeJobDescription(BuildContext context) =>
       AppLocalizations.of(context)!.writeJobDescriptionText;
   static String writeJobTitle(BuildContext context) =>
@@ -377,6 +553,12 @@ class Strings {
       AppLocalizations.of(context)!.photoShareAgreeText;
   static String pleaseAgreeToSharePhoto(BuildContext context) =>
       AppLocalizations.of(context)!.peaseAgreetoSharePhotoText;
+  static String taptoStartConversationText(BuildContext context) =>
+      AppLocalizations.of(context)!.taptoStartConversationText;
+  static String emailCannotBeEmptyText(BuildContext context) =>
+      AppLocalizations.of(context)!.emailCannotBeEmptyText;
+  static String bycreatingaccountyouAgreetoourText(BuildContext context) =>
+      AppLocalizations.of(context)!.bycreatingaccountyouAgreetoourText;
 
   static String recommendationScreenBubbleInfo1(BuildContext context) =>
       AppLocalizations.of(context)!.recommendationScreenBubbleInfoText1;
@@ -388,6 +570,8 @@ class Strings {
       AppLocalizations.of(context)!.addingPicturesHelpsBetterQuotesText;
   static String howwouldYourateTradesmenText(BuildContext context) =>
       AppLocalizations.of(context)!.howwouldYourateTradesmenText;
+  static String howyourExperiencewithtradesman(BuildContext context) =>
+      AppLocalizations.of(context)!.howyourExperiencewithtradesman;
 
   static String otpVerification(BuildContext context) =>
       AppLocalizations.of(context)!.otpVerificationText;
@@ -439,6 +623,26 @@ class Strings {
       AppLocalizations.of(context)!.searchYourLocationText;
   static String sendARequestText(BuildContext context) =>
       AppLocalizations.of(context)!.sendARequestText;
+  static String toMore10TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore10TradesmenText;
+  static String toMore9TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore9TradesmenText;
+  static String toMore8TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore8TradesmenText;
+  static String toMore7TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore7TradesmenText;
+  static String toMore6TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore6TradesmenText;
+  static String toMore5TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore5TradesmenText;
+  static String toMore4TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore4TradesmenText;
+  static String toMore3TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore3TradesmenText;
+  static String toMore2TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore2TradesmenText;
+  static String toMore1TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore1TradesmenText;
 
   static String deleteAccountDescText(BuildContext context) =>
       AppLocalizations.of(context)!.deleteAccountDescText;
@@ -492,272 +696,6 @@ class Strings {
       AppLocalizations.of(context)!.privacyPolicyPoint9Text;
   static String privacyPolicyPoint10Text(BuildContext context) =>
       AppLocalizations.of(context)!.privacyPolicyPoint10Text;
+  static String jobisnowliveandreadyText(BuildContext context) =>
+      AppLocalizations.of(context)!.jobisnowliveandreadyText;
 }
-// class Strings {
-//   static const String auftragNowText = "Auftrag Now";
-//   static const String yesText = "Yes";
-//   static const String noText = "No";
-//   static const String continueText = "Continue";
-
-//   static const String letsStartText = "Let's Start";
-//   static const String select_languageText = "Select Language";
-//   static const String englishText = "English";
-//   static const String germanText = "German";
-//   static const String cancelText = "Cancel";
-//   static const String canceledText = "Canceled";
-
-//   static const String loginText = "Login";
-//   static const String logoutText = "Logout";
-//   static const String registerText = "Register";
-//   static const String phoneText = "Phone";
-//   static const String skipText = "Skip";
-//   static const String allText = "All";
-//   static const String chatText = "Chat";
-//   static const String settingsText = "Settings";
-
-//   static const String createText = "Create";
-//   static const String signupText = "Sign up";
-//   static const String signInText = "Sign In";
-//   static const String loginDesc = "Please Sign in to Continue";
-//   static const String forgotPasswordText = "Forgot Password";
-//   static const String rememberPasswordText = "Remember Password";
-//   static const String incorrectPasswordText = "incorrect Password";
-//   static const String fullNameAddressText = "Full Name";
-//   static const String emailAddressText = "Email Address";
-//   static const String emailAddressNotFoundText = "Email Address not Found";
-//   static const String passwordText = "Password";
-//   static const String currentPasswordText = "Current Password";
-//   static const String newPasswordText = "New Password";
-//   static const String confirmPasswordErrorText = "Both Passwords did not match";
-//   static const String successText = "Success";
-//   static const String updateText = "Update";
-
-//   static const String confirmPasswordText = "Confirm Password";
-//   static const String createNewPasswordText = "Create a New Password";
-//   static const String passwordUpdatedText = "Password Updated";
-//   static const String manageAccountText = "Manage Account";
-//   static const String managePaswordText = "Manage Password";
-//   static const String deleteAccountText = "Delete Account";
-//   static const String deleteMyAaccountText = "Delete My Account";
-
-//   static const String updatePasswordText = "Update Password";
-//   static const String congratulationsText = "Congratulations";
-//   static const String painterText = "Painter";
-//   static const String completedText = "Completed";
-
-//   static const String ServicesText = "Services";
-//   static const String YouGotText = "You got";
-
-//   static const String orderNowText = "Order Now";
-//   static const String myOrdersText = "My Orders";
-//   static const String myPostedOrdersText = "My Posted Orders";
-//   static const String acceptedText = "Accepted";
-//   static const String rejectedText = "Rejected";
-//   static const String acceptText = "Accept";
-//   static const String rejectText = "Reject";
-//   static const String activeText = "Active";
-//   static const String accountText = "Account";
-//   static const String helpText = "Help";
-
-//   static const String postJobText = "Post Job";
-//   static const String noOrdersText = "No Orders";
-//   static const String postedAtText = "Posted at";
-//   static const String passwodisWrongText = "Passwod is Wrong";
-
-//   static const String noActiveOrdersText = "No Active orders yet";
-//   static const String noMaybeLaterText = "No, Maybe Later";
-
-//   static const String noInProcessOrdersText = "No In-Process Orders yet";
-//   static const String noCompleteOrdersText = "No Completed Orders yet";
-//   static const String noCancelOrdersText = "No Cancelled Orders yet";
-
-//   static const String showMoreText = "Show More";
-//   static const String showLessText = "Show Less";
-
-//   static const String noPortfolioFoundText = "No Portfolio Found!";
-//   static const String noReviewFoundText = "No Review Found!";
-//   static const String noRequestsFoundText = "No Requests Found!";
-//   static const String noDataFoundText = "No Data Found!";
-//   static const String noTradesmenText = "No Tradesmen Found!";
-
-//   static const String profileText = "Profile";
-//   static const String recommendationsText = "Recommendations";
-//   static const String assignmentText = "Assignment";
-//   static const String RecommendedCraftsmenText =
-//       "Recommended Craftmen/Agencies";
-//   static const String getAnswersText = "Get Answers";
-//   static const String startConversationText = "Start\nConversation";
-//   static const String sendRequestText = "Send Request";
-//   static const String requestRejectedText = "Request Rejected";
-//   static const String moreCraftmenText = "more craftmen.";
-//   static const String backText = "Back";
-//   static const String photosText = "Photos";
-
-//   static const String enterCodeText = "Enter Code";
-//   static const String pleaseVerifyText = "Please verify";
-//   static const String failedText = "Failed";
-//   static const String tryAgainText = "Try Again";
-//   static const String cancelOrderText = "Cancel Order";
-//   static const String removeJobText = "Remove Job";
-
-//   static const String agencyText = "Agency";
-
-//   static const String profileImageUpdatedText =
-//       "Profile image has been updated";
-
-//   static const String pleaseEnterValidEmailText = "Please enter valid email!";
-//   static const String pleaseSelectSeviceText = "Please Select Sevice!";
-//   static const String overviewText = "Overview";
-//   static const String detailsText = "Details";
-//   static const String orderDetailText = "Order Detail";
-//   static const String pleaseVerifyYourEmailText = "Please verify your Email";
-//   static const String requestUpto10TradesmenText = "Request upto 10 Tradesmen";
-//   static const String dataNotFoundText = "Data Not Found";
-//   static const String photosNotFoundText = "Photos Not Found";
-//   static const String noPhotosWereUploadText = "No Photos were Uploaded!";
-//   static const String pleaseLoginToSeeOrdersText =
-//       "Please Login to See Your Orders.";
-//   static const String startPostingYourOrdersText =
-//       "Start posting your orders to see them here.";
-
-//   static const String goodToknowText = "Good to know";
-//   static const String workForceText = "WorkForce";
-//   static const String professionsText = "Professions";
-//   static const String portfolioText = "Portfolio";
-//   static const String descriptionText = "Description";
-//   static const String jobDescriptionText = "Job Description";
-//   static const String jobTitleHintText = "e.g. I need painter for my House.";
-//   static const String jobTitleDescText =
-//       "Mention your work briefly, so that may help us find the best matched opportunities for you.";
-
-//   static const String nextText = "Next";
-//   static const String exploreRecommendedTradesmenText =
-//       "Explore Recommended Tradesmen";
-//   static const String viewPostedJobsText = "View Posted Jobs";
-//   static const String LeaveOrderText = "Leave order";
-//   static const String jobTitleText = "Job Title";
-//   static const String aboutThisCompanyText = "About this Company";
-//   static const String infoText = "Info";
-//   static const String inProcessText = "In Process";
-
-//   static const String notificationsText = "Notifications";
-//   static const String contactInformationText = "Contact Information";
-//   static const String legalGuidelinesText = "Legal Guidelines";
-//   static const String dataSafeguardsText = "Data Safeguards";
-//   static const String cookieManagementText = "Cookie Management";
-//   static const String supportCenterText = "Support Center";
-
-//   static const String contactText = "Contact";
-
-//   static const String MemberSinceText = "Member Since";
-//   static const String endingOrderPageHeadText =
-//       "Why are you ending this assignment?";
-//   static const String endingOrderPageDescText =
-//       "Your feedback help us to improve AuftragNow even further";
-//   static const String jobhasRemovedText =
-//       "Your Job has been removed Successfully";
-//   static const String jobhasRemovedandNoActiveText =
-//       "This Job has been Canceled and no longer Active.";
-
-//   static const String somethingWentWrongText = "Something Went Wrong!";
-//   static const String youHaveReachedtoLlimitText = "You have reached to limit!";
-//   static const String somethingWentWrongWhileRemovingJobText =
-//       "Something Went Wrong while removing Job!";
-//   static const String somethingWentWrongGettingResultsText =
-//       "Something went wrong while getting results!";
-//   static const String somethingWentWrongwhilePickImagesText =
-//       "Something Went Wrong while picking images!";
-//   static const String somethingWentWrongwhilePickImageText =
-//       "Something Went Wrong while picking image!";
-//   static const String somethingWentWrongwhileLoadingPortfolio =
-//       "Something Went Wrong while loading portfolio!";
-//   static const String somethingWentWrongwhileLoadingReviews =
-//       "Something Went Wrong while loading Reviews!";
-//   static const String pickTheBestAndStartWorkText =
-//       "tradesman requests! Let’s pick the best and start work";
-
-//   static const String wrongPinText = "You Entered Wrong PinCode!";
-//   static const String endOrderReason1 =
-//       "I did not find a tradesman on AuftragNow";
-//   static const String endOrderReason2 = "I found a tradesman elsewhere";
-//   static const String endOrderReason3 = "I will do the job myself";
-//   static const String endOrderReason4 = "The order was interrupted";
-//   static const String endOrderReason5 = "Other reason (Please Specify)";
-
-//   static const String nameMustbeAtleastText =
-//       "Name Must be Atleast 4 Characters";
-
-//   static const String passwordhasbeenupdatedText =
-//       "Your Password has been Updated.";
-//   static const String selectServiceHeadingText = "What kind of order is it?";
-//   static const String selectServiceDescText =
-//       "Find and hire certified tradesmen in your \narea for the services your need.";
-//   static const String selectServiceInfoText1 =
-//       "Create your order fee of charge and\nwithout obigations.";
-//   static const String selectServiceInfoText2 =
-//       "More than 1000 registered craftsmen.";
-//   static const String moreThanText = "More than";
-//   static const String independentReviewsText = "independent reviews.";
-//   static const String findYourAddressText = "Find your Address";
-//   static const String reviewsText = "Reviews";
-//   static const String yourAddressText = "Your Address";
-//   static const String viewOnMapText = "View on Map";
-//   static const String cannotBeEmptyText = "Cannot be Empty";
-
-//   static const String recommendationScreenHeadingText =
-//       "Discover the top Tradesmen near you!";
-//   static const String recommendationScreenDescText =
-//       "Send your request to 10 tradespeople and interested ones will get in touch with you directly.";
-//   static const String interestedTradesmanText = "Interested Tradesman";
-//   static const String interestedText = "Interested";
-
-//   static const String writeJobDescriptionText = "Please write job description!";
-//   static const String writeJobTitleText = "Please write job title!";
-//   static const String photoShareAgreeText =
-//       "I agree to share my provided images to tradesmen!";
-//   static const String peaseAgreetoSharePhotoText =
-//       "Please confirm to share the images";
-
-//   static const String recommendationScreenBubbleInfoText1 =
-//       "Send your request to 10 tradesmen. If they\naccept it, they will contact you to discuss the\njob.";
-//   static const String recommendationScreenBubbleInfoText2 =
-//       "Let’s find the best craftsmen\nin your area";
-//   static const String recommendationScreenBubbleInfoText3 =
-//       "Let’s find the best craftsmen\nin your area";
-//   static const String AddingPicturesHelpsBetterQuotesText =
-//       "Adding pictures helps tradesmen give better quotes";
-
-//   static const String otpVerificationText = "OTP Verification";
-//   static const String resendText = "Resend";
-//   static const String verifytext = "Verify";
-//   static const String did_not_recieve_codeText = "I did'nt recieve a code.";
-//   static const String otpVerificationScreentext =
-//       "Enter a Verification code we just sent \non your email address.";
-//   static const String createNewPasswordDescText =
-//       "Your new password must be different from \nprevious used password ";
-
-//   static const String forgotPasswordDescText =
-//       "Don't worry! it occurs, Please enter the \nemail address linked with your account.";
-//   static const String sendCodeText = "Send Code";
-
-//   static const String onBoardScreen1Heading = "Find the Right Help, Fast";
-//   static const String onBoardScreen2Heading = "Your Task, Our Experts";
-//   static const String onBoardScreen3Heading = "Get Your Tasks Done with \nEase";
-//   static const String onBoardScreen1Description =
-//       "Post your task and connect with skilled \nprofessionals nearby";
-//   static const String onBoardScreen2Description =
-//       "From plumbing to painting, find trusted \ncraftsmen for every job";
-//   static const String onBoardScreen3Description =
-//       "Simply upload, and let skilled professionals \nhandle the rest";
-//   static const String signupSuccessDialogText =
-//       "You have succesfully registered \nand login.";
-//   static const String tradesmenJobrequestMessageText =
-//       "I saw your profile and was impressed with your previous work. Would you be interested in helping with my kitchen renovation project?";
-//   static const String deleteAccountDescText =
-//       "Deleting your profile will erase all account details, and you won’t be able to log in again.";
-// }
-
-// class Strings {
-//   static String welcome(BuildContext context) => AppLocalizations.of(context)!.welcome;
-//   static String name(BuildContext context) => AppLocalizations.of(context)!.name;
-// }
