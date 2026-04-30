@@ -1213,7 +1213,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             ),
                             children: [
                               TextSpan(
-                                text: "${Strings.sendRequest(Get.context!)}",
+                                text: Strings.sendRequest(Get.context!),
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: const Color(MyColors.themeRedColor),

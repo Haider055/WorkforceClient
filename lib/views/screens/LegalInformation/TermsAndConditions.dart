@@ -60,10 +60,6 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
                     text: Strings.eULAText(Get.context!),
                     centerAlign: false,
                     size: 14.sp),
-                HeadingTextW600(
-                    text: Strings.lisenceText(Get.context!),
-                    centerAlign: true,
-                    size: 16.sp),
                 Headingdescription(
                     text: Strings.lisenceText(Get.context!),
                     centerAlign: false,

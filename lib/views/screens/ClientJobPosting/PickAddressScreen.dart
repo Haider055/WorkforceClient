@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_api_flutter/google_places_api_flutter.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:workforceclientapp/Controllers/PickAddressController.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
@@ -159,7 +156,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                 padding: EdgeInsets.all(15.0.r),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
+                                      horizontal: 12, vertical: 0),
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.grey, width: 1.2),
@@ -176,23 +173,23 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                       controller.controllerTextField.selection =
                                           TextSelection.fromPosition(
                                               TextPosition(
-                                                  offset: prediction.description
-                                                          ?.length ??
+                                                  offset: prediction
+                                                          .description.length ??
                                                       0));
                                       try {
                                         Constants.jobPostingLat = p1!
                                                 .result.geometry!.location.lat
                                                 .toString() ??
                                             "";
-                                        Constants.jobPostingLng = p1!
+                                        Constants.jobPostingLng = p1
                                                 .result.geometry!.location.lng
                                                 .toString() ??
                                             "";
                                         controller.currentPosition.value =
                                             LatLng(
-                                                p1!.result.geometry!.location
+                                                p1.result.geometry!.location
                                                     .lat,
-                                                p1!.result.geometry!.location
+                                                p1.result.geometry!.location
                                                     .lng);
                                         controller.markers.add(
                                           Marker(
@@ -390,9 +387,8 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                               width: 12.w),
                                           SizedBox(width: 8.w),
                                           Text(
-                                              Strings
-                                                  .areYouSureToCompleteThisContractText(
-                                                      context),
+                                              Strings.dragtomovePinText(
+                                                  Get.context!),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   color: Colors.white,

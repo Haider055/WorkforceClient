@@ -431,9 +431,9 @@ class SelectServiceController extends GetxController {
       allOptions = filteredOptions;
     } else {
       showServicesSuggestions.value = true;
-      filteredOptions = allOptions;
+      filteredOptions.value = allListOptions.toList();
       // filteredOptions.clear();
-      // allOptions = filteredOptions;
+      allOptions = filteredOptions;
     }
   }
 

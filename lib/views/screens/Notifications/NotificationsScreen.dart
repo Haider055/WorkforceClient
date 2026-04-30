@@ -80,8 +80,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                               Get.context!),
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
-                                              color:
-                                                  Color(MyColors.themeRedColor),
+                                              color: const Color(
+                                                  MyColors.themeRedColor),
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.w400,
                                               fontFamily: 'Poppins'))

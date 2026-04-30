@@ -54,7 +54,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
   late SharedPreferences _prefs;
   final ScrollController _scrollController = ScrollController();
   // final PusherChannelsFlutter _pusher = PusherChannelsFlutter.getInstance();
-  Chat? chat = null;
+  Chat? chat;
   // late PusherClient pusher;
   // late Channel channel;
   // final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
@@ -272,7 +272,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
                                                         : Colors.black54),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 2,
                                             ),
                                             message.sent
@@ -284,7 +284,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
                                                         ? Colors.white70
                                                         : Colors.black54,
                                                   )
-                                                : SizedBox(
+                                                : const SizedBox(
                                                     width: 7,
                                                   )
                                           ],
