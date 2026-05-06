@@ -1443,30 +1443,32 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                                   int.parse(job
                                                       .tradespersonRequestsCount!
                                                       .value)) ==
-                                              1
-                                          ? Strings.toMore1TradesmenText(
+                                              0
+                                          ? Strings.toMore0TradesmenText(
                                               Get.context!)
                                           : controller.getRemainingTrademenRequests(
                                                       int.parse(job
                                                           .tradespersonRequestsCount!
                                                           .value)) ==
-                                                  2
-                                              ? Strings.toMore2TradesmenText(Get.context!)
-                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 3
-                                                  ? Strings.toMore3TradesmenText(Get.context!)
-                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 4
-                                                      ? Strings.toMore4TradesmenText(Get.context!)
-                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 5
-                                                          ? Strings.toMore5TradesmenText(Get.context!)
-                                                          : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 6
-                                                              ? Strings.toMore6TradesmenText(Get.context!)
-                                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 7
-                                                                  ? Strings.toMore7TradesmenText(Get.context!)
-                                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 8
-                                                                      ? Strings.toMore8TradesmenText(Get.context!)
-                                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 9
-                                                                          ? Strings.toMore9TradesmenText(Get.context!)
-                                                                          : Strings.toMore10TradesmenText(Get.context!),
+                                                  1
+                                              ? Strings.toMore1TradesmenText(Get.context!)
+                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 2
+                                                  ? Strings.toMore2TradesmenText(Get.context!)
+                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 3
+                                                      ? Strings.toMore3TradesmenText(Get.context!)
+                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 4
+                                                          ? Strings.toMore4TradesmenText(Get.context!)
+                                                          : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 5
+                                                              ? Strings.toMore5TradesmenText(Get.context!)
+                                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 6
+                                                                  ? Strings.toMore6TradesmenText(Get.context!)
+                                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 7
+                                                                      ? Strings.toMore7TradesmenText(Get.context!)
+                                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 8
+                                                                          ? Strings.toMore8TradesmenText(Get.context!)
+                                                                          : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 9
+                                                                              ? Strings.toMore9TradesmenText(Get.context!)
+                                                                              : Strings.toMore10TradesmenText(Get.context!),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 13.sp,

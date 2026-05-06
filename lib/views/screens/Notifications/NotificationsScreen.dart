@@ -255,14 +255,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return GestureDetector(
       onTap: () async {
         try {
-          print(notification.actionText ?? "null");
-          if (notification.actionText == "View Job") {
+          // print(notification.id ?? "null");
+          if (notification.actionText == "View Job" ||
+              notification.actionText == "View Job Details") {
             int jobPostingId = notification.jobPostingId == null
                 ? -1
                 : int.parse(notification.jobPostingId!);
             Get.toNamed(AppLinks.orders_details_screen,
                 arguments: {'jobId': jobPostingId});
-          } else if (notification.actionText == "View Application") {
+          } else if (notification.actionText == "View Application" ||
+              notification.actionText == "View Job Application") {
             int jobPostingId = notification.jobPostingId == null
                 ? -1
                 : int.parse(notification.jobPostingId!);

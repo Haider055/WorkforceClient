@@ -103,75 +103,61 @@ class LoginContoller extends GetxController {
 
   Future<String> fCMSaveToken() async {
     try {
-      final notificationSettings =
-          await FirebaseMessaging.instance.requestPermission(provisional: true);
-
-      late final String? token;
-      late final String? deviceId;
-
       if (Platform.isAndroid) {
-        try {
-          token = await FirebaseMessaging.instance.getToken();
-        } catch (e) {
-          print(e.toString());
-          return "";
-        }
-        try {
-          deviceId = await getDeviceId();
-        } catch (e) {
-          print(e.toString());
-          return "";
-        }
-        if (token != null) {
-          print("token: $token");
-          print("deviceId: $deviceId");
-        } else {
-          Fluttertoast.showToast(
-              msg: Strings.notificationSetupError(Get.context!));
-          return "";
-        }
-      } else if (Platform.isIOS) {
-        final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        if (apnsToken != null) {
-          // APNS token is available, make FCM plugin API requests...
-          token = await FirebaseMessaging.instance.getToken();
-          deviceId = await getDeviceId();
-          if (token != null) {
-            print("token: $token");
-            print("deviceId: $deviceId");
-          } else {
-            Fluttertoast.showToast(
-                msg: Strings.notificationSetupError(Get.context!));
-            return "";
-          }
-        } else {
-          Fluttertoast.showToast(
-              msg: Strings.notificationSetupError(Get.context!));
-          return "";
-        }
+        final notificationSettings =
+            await FirebaseMessaging.instance.requestPermission();
+      } else {
+        final notificationSettings = await FirebaseMessaging.instance
+            .requestPermission(provisional: true);
+      }
+      await FirebaseMessaging.instance.subscribeToTopic("all");
+
+      String? token = "";
+      String? deviceId = "";
+
+      try {
+        token = await FirebaseMessaging.instance.getToken();
+      } catch (e) {
+        print(e.toString());
+        return "";
+      }
+      try {
+        deviceId = await getDeviceId();
+      } catch (e) {
+        print(e.toString());
+        return "";
+      }
+      if (token != null) {
+        print("token: $token");
+        print("deviceId: $deviceId");
+      } else {
+        Fluttertoast.showToast(
+            msg: Strings.notificationSetupError(Get.context!));
+        return "";
       }
 
-      // final response = await http.post(
-      //   Uri.parse('${Constants.baseUrl}/fcm-token'),
-      //   headers: await Commons.manageRequestHeader(),
-      //   body: jsonEncode(<String, String>{
-      //     "token": token.toString(),
-      //     "device_type": "android",
-      //     "device_id": deviceId.toString()
-      //   }),
-      // );
+      final response = await http.post(
+        Uri.parse('${Constants.baseUrl}/fcm-token'),
+        headers: await Commons.manageRequestHeader(),
+        body: jsonEncode(<String, String>{
+          "token": token.toString(),
+          "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
+          "device_id": deviceId.toString()
+        }),
+      );
       print("object");
-      // print(response.body);
+      print(response.body);
 
-      // Map<String, dynamic> jsonData = jsonDecode(response.body);
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
 
-      // if (response.statusCode == 200) {
-      //   return "";
-      // } else {
-      //   Fluttertoast.showToast(
-      //       msg: Strings.notificationSetupError(Get.context!));
-      //   return "";
-      // }
+      if (response.statusCode == 200) {
+        print("Token updated on server successfully");
+        return "";
+      } else {
+        Fluttertoast.showToast(
+            msg: Strings.notificationSetupError(Get.context!));
+        return "";
+      }
       return "";
     } catch (e) {
       throw Exception(e);

@@ -643,6 +643,8 @@ class Strings {
       AppLocalizations.of(context)!.toMore2TradesmenText;
   static String toMore1TradesmenText(BuildContext context) =>
       AppLocalizations.of(context)!.toMore1TradesmenText;
+  static String toMore0TradesmenText(BuildContext context) =>
+      AppLocalizations.of(context)!.toMore0TradesmenText;
 
   static String deleteAccountDescText(BuildContext context) =>
       AppLocalizations.of(context)!.deleteAccountDescText;

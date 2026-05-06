@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/JobRecommendationController.dart';
 import 'package:workforceclientapp/Models/Tradesmen.dart';
@@ -514,7 +515,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       ),
                       onPressed: () async {
                         try {
-                          if (tradesmen.status.value == "not sent") {
+                          if (tradesmen.status.value == "not sent" &&
+                              controller.remainingRequestsCount.value > 0) {
                             tradesmen.status.value = "loading";
                             String remainingRequests =
                                 await controller.pleaseSendRequestToTradesmen(
@@ -526,6 +528,9 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                             } else {
                               tradesmen.status.value = "not sent";
                             }
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: Strings.youHaveReachedLimit(Get.context!));
                           }
                           return;
                         } catch (e) {

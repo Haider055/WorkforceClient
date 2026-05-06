@@ -1,7 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/notification_service.dart';
 
 class SplashController extends GetxController {
   late SharedPreferences _prefs;
@@ -10,6 +12,20 @@ class SplashController extends GetxController {
     super.onInit();
     Future.delayed(const Duration(seconds: 3), () {
       _loadSavedValue();
+    });
+
+    // to listen notifications when the app is in foreground
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Foreground message received");
+
+      if (message.notification != null) {
+        print(message.notification!.title);
+        print(message.notification!.body);
+        NotificationService.showNotification(
+          message.notification!.title ?? "No Title",
+          message.notification!.body ?? "No Body",
+        );
+      }
     });
   }
 

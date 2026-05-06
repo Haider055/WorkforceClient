@@ -810,6 +810,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'to more 1 tradesmen to get additional asnwers';
 
   @override
+  String get toMore0TradesmenText =>
+      'to more 0 tradesmen to get additional asnwers';
+
+  @override
   String get messageNotSentText => 'Message not Sent';
 
   @override

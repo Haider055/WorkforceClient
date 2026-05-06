@@ -822,6 +822,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'an 1 weitere Handwerker, um zusätzliche Antworten zu erhalten';
 
   @override
+  String get toMore0TradesmenText =>
+      'an 0 weitere Handwerker, um zusätzliche Antworten zu erhalten';
+
+  @override
   String get messageNotSentText => 'Nachricht nicht gesendet';
 
   @override

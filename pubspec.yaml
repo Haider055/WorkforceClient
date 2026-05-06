@@ -1,7 +1,7 @@
 name: workforceclientapp
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.3.0+4
+version: 1.7.1+1
 
 environment:
   sdk: ^3.5.3
@@ -22,7 +22,6 @@ dependencies:
   image_picker: ^1.0.4
   flutter_rating_bar: ^4.0.1
   google_places_flutter: ^2.0.9
-  google_places_autocomplete_flutter: ^1.0.6
   google_maps_flutter: ^2.14.0
   geolocator: ^10.1.0
   geocoding: ^2.1.0
@@ -38,17 +37,13 @@ dependencies:
   firebase_messaging: ^14.7.10
   device_info_plus: ^10.1.0
   flutter_screenutil: ^5.9.3
-  audioplayers: ^6.6.0
+  # audioplayers: ^6.6.0
   google_places_api_flutter: ^2.0.0
+  change_app_package_name: ^1.5.0
+  flutter_local_notifications: ^21.0.0
   
 dependency_overrides:
   http: ^0.13.0
-
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "lib/assets/icons/app_Icon.png"
-  remove_alpha_ios: true
 
 dev_dependencies:
   flutter_test:
@@ -85,3 +80,9 @@ flutter:
     - lib/assets/icons/
     - lib/assets/fonts/
     - lib/assets/mp3/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/icons/app_Icon.png"
+  remove_alpha_ios: true

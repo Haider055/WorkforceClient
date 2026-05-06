@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:workforceclientapp/Others/LocaleProvider.dart';
@@ -9,7 +10,10 @@ import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:workforceclientapp/views/notification_service.dart';
 import 'firebase_options.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,11 +40,12 @@ void main() async {
 
     // Sudden disconnections (while sending API or uploading files)
   ]);
+  await NotificationService.init(_handleNotificationNavigation);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),
-      child: const MainApp(),
+      child: MainApp(),
     ),
   );
 }
@@ -56,6 +61,7 @@ class MainApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: GetMaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         locale: localeProvider.locale, // or dynamically loaded
         supportedLocales: AppLocalizations.supportedLocales,
@@ -76,4 +82,20 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
+}
+
+void _handleNotificationNavigation(Map<String, dynamic> data) {
+  print(data.toString());
+  // navigatorKey.currentState?.pushNamed(AppLinks.job_title_screen);
+  Get.toNamed(AppLinks.job_title_screen);
+  // final type = data["type"];
+
+  // if (type == "order") {
+  //   navigatorKey.currentState?.pushNamed(
+  //     "/orderDetails",
+  //     arguments: data["order_id"],
+  //   );
+  // } else if (type == "chat") {
+  //   navigatorKey.currentState?.pushNamed("/chat");
+  // }
 }

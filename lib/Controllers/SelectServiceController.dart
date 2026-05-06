@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -89,16 +88,16 @@ class SelectServiceController extends GetxController {
       print("New unread added: $value");
       if (isLoggedIn != "loggedOut") {
         unreadMessagesCount.value = value;
-        playSound();
+        // playSound();
       }
       updateUnredMessagesCount(value);
     });
   }
 
-  final player = AudioPlayer();
-  Future<void> playSound() async {
-    await player.play(AssetSource('mp3/comingmessagetune.mp3'));
-  }
+  // final player = AudioPlayer();
+  // Future<void> playSound() async {
+  //   await player.play(AssetSource('mp3/comingmessagetune.mp3'));
+  // }
 
   Future<String?> getDeviceId() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();

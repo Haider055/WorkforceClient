@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,9 +28,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -39,16 +48,6 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBzSVrcCm8RGbXBjlaN4YYyzbQAcAThWKI',
-    appId: '1:544124172877:web:e01981f64733836872fa04',
-    messagingSenderId: '544124172877',
-    projectId: 'workforce-65127',
-    authDomain: 'workforce-65127.firebaseapp.com',
-    storageBucket: 'workforce-65127.firebasestorage.app',
-    measurementId: 'G-T5RDJ2QP41',
-  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCss5zSPVf4hKNSvkznEI_HkAZidnbCsrE',
@@ -65,24 +64,5 @@ class DefaultFirebaseOptions {
     projectId: 'workforce-65127',
     storageBucket: 'workforce-65127.firebasestorage.app',
     iosBundleId: 'com.dmn.auftragnowclient',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD6f97GMyBd54XX7AqzN3Btec2qCt46z3w',
-    appId: '1:544124172877:ios:13d5fc300b5d303c72fa04',
-    messagingSenderId: '544124172877',
-    projectId: 'workforce-65127',
-    storageBucket: 'workforce-65127.firebasestorage.app',
-    iosBundleId: 'com.dmn.auftragnowclient',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBzSVrcCm8RGbXBjlaN4YYyzbQAcAThWKI',
-    appId: '1:544124172877:web:12c1c15076d6fbca72fa04',
-    messagingSenderId: '544124172877',
-    projectId: 'workforce-65127',
-    authDomain: 'workforce-65127.firebaseapp.com',
-    storageBucket: 'workforce-65127.firebasestorage.app',
-    measurementId: 'G-EGKFCM58WH',
   );
 }

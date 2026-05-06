@@ -1586,6 +1586,12 @@ abstract class AppLocalizations {
   /// **'to more 1 tradesmen to get additional asnwers'**
   String get toMore1TradesmenText;
 
+  /// No description provided for @toMore0TradesmenText.
+  ///
+  /// In en, this message translates to:
+  /// **'to more 0 tradesmen to get additional asnwers'**
+  String get toMore0TradesmenText;
+
   /// No description provided for @messageNotSentText.
   ///
   /// In en, this message translates to:
