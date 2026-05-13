@@ -176,7 +176,7 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                                 .addingPicturesHelpsBetterQuotes(
                                                     context),
                                             centerAlign: false,
-                                            size: 17.sp),
+                                            size: 15.sp),
                                       ),
                                       _buildRadioOption(
                                           Strings.yesText(context), 1),

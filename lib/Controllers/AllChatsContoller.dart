@@ -61,7 +61,7 @@ class AllChatsContoller extends GetxController {
     try {
       final chat = await pleaseGetChat(Get.context!, id);
       if (chat != null && index >= 0 && index < list.length) {
-        list.elementAt(index).jobStatus = chat.jobStatus;
+        list[index] = chat;
         print("Updated jobStatus: ${chat.jobStatus}");
       } else {
         print("go");

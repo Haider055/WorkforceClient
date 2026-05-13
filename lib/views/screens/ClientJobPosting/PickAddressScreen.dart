@@ -162,72 +162,89 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                         color: Colors.grey, width: 1.2),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: PlaceSearchField(
-                                    apiKey: Constants.googleMapsAPIkey,
-                                    isLatLongRequired: true,
-                                    webCorsProxyUrl: "",
-                                    controller: controller.controllerTextField,
-                                    onPlaceSelected: (prediction, p1) async {
-                                      controller.controllerTextField.text =
-                                          prediction.description ?? "";
-                                      controller.controllerTextField.selection =
-                                          TextSelection.fromPosition(
-                                              TextPosition(
-                                                  offset: prediction
-                                                          .description.length ??
-                                                      0));
-                                      try {
-                                        Constants.jobPostingLat = p1!
-                                                .result.geometry!.location.lat
-                                                .toString() ??
-                                            "";
-                                        Constants.jobPostingLng = p1
-                                                .result.geometry!.location.lng
-                                                .toString() ??
-                                            "";
-                                        controller.currentPosition.value =
-                                            LatLng(
-                                                p1.result.geometry!.location
-                                                    .lat,
-                                                p1.result.geometry!.location
-                                                    .lng);
-                                        controller.markers.add(
-                                          Marker(
-                                            markerId: const MarkerId(
-                                                "current_location"),
-                                            position: controller
-                                                .currentPosition.value,
-                                            infoWindow: InfoWindow(
-                                                title: "You are here",
-                                                snippet:
-                                                    controller.currentAddress),
+                                  child: Stack(
+                                    children: [
+                                      PlaceSearchField(
+                                        apiKey: Constants.googleMapsAPIkey,
+                                        isLatLongRequired: true,
+                                        webCorsProxyUrl: "",
+                                        hideOnSelect: false,
+                                        controller:
+                                            controller.controllerTextField,
+                                        onPlaceSelected:
+                                            (prediction, p1) async {
+                                          FocusScope.of(context)
+                                              .unfocus(); // Close keyboard
+
+                                          controller.controllerTextField.text =
+                                              prediction.description ?? "";
+                                          controller.controllerTextField
+                                                  .selection =
+                                              TextSelection.fromPosition(
+                                                  TextPosition(
+                                                      offset: prediction
+                                                              .description
+                                                              .length ??
+                                                          0));
+                                          try {
+                                            Constants.jobPostingLat = p1!.result
+                                                    .geometry!.location.lat
+                                                    .toString() ??
+                                                "";
+                                            Constants.jobPostingLng = p1.result
+                                                    .geometry!.location.lng
+                                                    .toString() ??
+                                                "";
+                                            controller.currentPosition.value =
+                                                LatLng(
+                                                    p1.result.geometry!.location
+                                                        .lat,
+                                                    p1.result.geometry!.location
+                                                        .lng);
+                                            controller.markers.add(
+                                              Marker(
+                                                markerId: const MarkerId(
+                                                    "current_location"),
+                                                position: controller
+                                                    .currentPosition.value,
+                                                infoWindow: InfoWindow(
+                                                    title: "You are here",
+                                                    snippet: controller
+                                                        .currentAddress),
+                                              ),
+                                            );
+                                            controller.mapController
+                                                ?.moveCamera(
+                                                    CameraUpdate.newLatLng(
+                                                        controller
+                                                            .currentPosition
+                                                            .value));
+                                          } catch (e) {
+                                            e.printError();
+                                          }
+                                        },
+                                        decorationBuilder: (context, child) {
+                                          return Material(
+                                            type: MaterialType.card,
+                                            elevation: 4,
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: child,
+                                          );
+                                        },
+                                        itemBuilder: (context, prediction) =>
+                                            ListTile(
+                                          leading:
+                                              const Icon(Icons.location_on),
+                                          title: Text(
+                                            prediction.description,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        );
-                                        controller.mapController?.moveCamera(
-                                            CameraUpdate.newLatLng(controller
-                                                .currentPosition.value));
-                                      } catch (e) {
-                                        e.printError();
-                                      }
-                                    },
-                                    decorationBuilder: (context, child) {
-                                      return Material(
-                                        type: MaterialType.card,
-                                        elevation: 4,
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: child,
-                                      );
-                                    },
-                                    itemBuilder: (context, prediction) =>
-                                        ListTile(
-                                      leading: const Icon(Icons.location_on),
-                                      title: Text(
-                                        prediction.description,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
 
                                   // child: GooglePlaceAutoCompleteTextField(

@@ -1827,11 +1827,6 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                           'chatId': tradesmen.chatId,
                                           'fromWhere': 'OrderDetail'
                                         },
-                                        transition: Transition
-                                            .rightToLeft, // Left-to-right animation
-                                        duration: const Duration(
-                                            milliseconds:
-                                                500), // Optional: animation duration
                                       );
                                       if (result != null) {
                                         // Update your UI
@@ -2266,11 +2261,6 @@ class _ChatSectionState extends State<ChatSection> {
                                           'chatId': tradesmen.chatId,
                                           'fromWhere': 'OrderDetail'
                                         },
-                                        transition: Transition
-                                            .rightToLeft, // Left-to-right animation
-                                        duration: const Duration(
-                                            milliseconds:
-                                                500), // Optional: animation duration
                                       );
                                       if (result != null) {
                                         // Update your UI

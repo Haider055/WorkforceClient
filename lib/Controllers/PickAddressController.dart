@@ -3,7 +3,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_place/google_place.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 
@@ -14,12 +13,10 @@ class PickAddressController extends GetxController {
   Rx<LatLng> currentPosition = const LatLng(43.413029, 34.299316).obs;
   final Set<Marker> markers = {};
   late Position position;
-  late GooglePlace googlePlace;
 
   @override
   void onInit() {
     super.onInit();
-    googlePlace = GooglePlace(Constants.googleMapsAPIkey);
     getCurrentLocation();
   }
 

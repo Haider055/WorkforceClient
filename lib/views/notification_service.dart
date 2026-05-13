@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
@@ -13,31 +12,21 @@ class NotificationService {
 
     const settings = InitializationSettings(android: android, iOS: ios);
 
-    await _notifications.initialize(
-      settings: settings,
-      onDidReceiveNotificationResponse: (response) {
-        if (response.payload != null) {
-          final data = jsonDecode(response.payload!);
-          onNotificationTap?.call(data);
-          // _handleNotificationNavigation(data);
-        }
-      },
-    );
+    await _notifications.initialize(settings: settings);
   }
 
   static Future<void> showNotification(String title, String body) async {
     NotificationDetails details = const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'fcm_channel',
-          'FCM Notifications',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-        iOS: DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ));
+        android: AndroidNotificationDetails('fcm_channel', 'FCM Notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: '@mipmap/ic_launcher')
+        // iOS: DarwinNotificationDetails(
+        //   presentAlert: true,
+        //   presentBadge: true,
+        //   presentSound: true,
+        // )
+        );
     await _notifications.show(
         id: 0, title: title, body: body, notificationDetails: details);
   }

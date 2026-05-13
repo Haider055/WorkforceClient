@@ -25,9 +25,12 @@ class FullWidthButtonPrimary extends StatelessWidget {
               shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r)))),
           child: Padding(
-            padding: EdgeInsets.all(6.r),
+            padding: EdgeInsets.all(5.r),
             child: Text(
               text,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: fontsize.sp,

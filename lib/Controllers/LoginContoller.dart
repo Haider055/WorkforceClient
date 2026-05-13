@@ -21,6 +21,7 @@ class LoginContoller extends GetxController {
   late SharedPreferences _prefs;
   RxString emailAddressErrorText = "".obs;
   RxString passwordErrorText = "".obs;
+  int tokenRetry = 0;
 
   Future<String> pleaseLoginUser() async {
     try {
@@ -57,7 +58,7 @@ class LoginContoller extends GetxController {
                     return "otherUser";
                   } else {
                     await saveUserInfo(dataObj['user']);
-                    await fCMSaveToken();
+                    fCMSaveToken();
                     Fluttertoast.showToast(msg: msg);
                     // TextInput.finishAutofillContext(shouldSave: true);
                     return "done";
@@ -101,17 +102,30 @@ class LoginContoller extends GetxController {
     }
   }
 
-  Future<String> fCMSaveToken() async {
+  Future<void> fCMSaveToken() async {
     try {
       if (Platform.isAndroid) {
-        final notificationSettings =
-            await FirebaseMessaging.instance.requestPermission();
+        final androidInfo = await DeviceInfoPlugin().androidInfo;
+        if (androidInfo.version.sdkInt >= 33) {
+          await FirebaseMessaging.instance.requestPermission(
+            sound: true,
+            alert: true,
+            badge: true,
+          );
+        }
       } else {
-        final notificationSettings = await FirebaseMessaging.instance
-            .requestPermission(provisional: true);
+        await FirebaseMessaging.instance.requestPermission(
+            provisional: true, sound: true, alert: true, badge: true);
       }
-      await FirebaseMessaging.instance.subscribeToTopic("all");
 
+      getTokenAndUpdate();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<String> getTokenAndUpdate() async {
+    try {
       String? token = "";
       String? deviceId = "";
 
@@ -130,38 +144,46 @@ class LoginContoller extends GetxController {
       if (token != null) {
         print("token: $token");
         print("deviceId: $deviceId");
+
+        final response = await http.post(
+          Uri.parse('${Constants.baseUrl}/fcm-token'),
+          headers: await Commons.manageRequestHeader(),
+          body: jsonEncode(<String, String>{
+            "token": token.toString(),
+            "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
+            "device_id": deviceId.toString()
+          }),
+        );
+        print("object");
+        print(response.body);
+
+        Map<String, dynamic> jsonData = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          print("Token updated on server successfully");
+          _prefs = await SharedPreferences.getInstance();
+          await _prefs.setString('fcm_token', token);
+          await _prefs.setString('device_id', deviceId.toString());
+
+          return "";
+        } else {
+          Fluttertoast.showToast(
+              msg: Strings.notificationSetupError(Get.context!));
+          return "";
+        }
       } else {
-        Fluttertoast.showToast(
-            msg: Strings.notificationSetupError(Get.context!));
-        return "";
+        tokenRetry++;
+        print("retry $tokenRetry");
+        if (tokenRetry <= 3) {
+          Future.delayed(Duration(seconds: 1), () {
+            getTokenAndUpdate();
+          });
+        }
       }
-
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/fcm-token'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          "token": token.toString(),
-          "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
-          "device_id": deviceId.toString()
-        }),
-      );
-      print("object");
-      print(response.body);
-
-      Map<String, dynamic> jsonData = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        print("Token updated on server successfully");
-        return "";
-      } else {
-        Fluttertoast.showToast(
-            msg: Strings.notificationSetupError(Get.context!));
-        return "";
-      }
-      return "";
     } catch (e) {
-      throw Exception(e);
+      print(e.toString());
     }
+    return "";
   }
 
   Future<String?> getDeviceId() async {
@@ -190,9 +212,9 @@ class LoginContoller extends GetxController {
     if (Commons.isValidEmail(emailTextField.value.text)) {
       Commons.showProgressDialog(Get.context!);
       String res = await pleaseLoginUser();
+      Commons.hideProgressDialog();
       if (res == "emailNotVerified") {
         try {
-          Commons.hideProgressDialog();
           Get.offAllNamed(
             AppLinks.otp_verification_screen,
             arguments: {"email": Constants.emailToVerify, "fromWhere": "login"},
@@ -202,7 +224,6 @@ class LoginContoller extends GetxController {
         }
       } else if (res == "done") {
         try {
-          Commons.hideProgressDialog();
           if (Constants.fromWhere == "JobPostCompletedScreen") {
             Get.offAllNamed(AppLinks.job_post_completed_screen);
           } else {
@@ -212,10 +233,8 @@ class LoginContoller extends GetxController {
           e.printError();
         }
       } else if (res == "otherUser") {
-        Commons.hideProgressDialog();
       } else {
         try {
-          Commons.hideProgressDialog();
           Get.defaultDialog(
             titleStyle: null,
             title: "",

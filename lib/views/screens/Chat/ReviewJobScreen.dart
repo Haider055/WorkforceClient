@@ -135,7 +135,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                                           const Color(MyColors.themeRedColor),
                                       decoration: InputDecoration(
                                           hintText:
-                                              Strings.pleaseEnterValidEmail(
+                                              Strings.pleaseExplaininyourownWords(
                                                   context),
                                           hintStyle: TextStyle(
                                               fontSize: 15.sp,
@@ -155,8 +155,8 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                                               borderRadius:
                                                   BorderRadius.circular(9.0.r),
                                               borderSide: const BorderSide(
-                                                  color: Color(
-                                                      MyColors.lightGrayColor)))),
+                                                  color:
+                                                      Color(MyColors.lightGrayColor)))),
                                     ),
                                   )
                                 ],

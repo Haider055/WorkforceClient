@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
@@ -1870,17 +1871,16 @@ class _ProfileSectionState extends State<ProfileSection> {
                         height: 90.h,
                         width: 90.w,
                         child: imageUrl.isNotEmpty
-                            ? Image.network(
-                                imageUrl,
+                            ? CachedNetworkImage(
+                                imageUrl: imageUrl,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return SvgPicture.asset(
-                                    "lib/assets/images/tradesmenplaceholdericon.svg",
-                                    fit: BoxFit.cover,
-                                    height: 100.h,
-                                    width: 110.w,
-                                  );
-                                },
+                                errorWidget: (context, url, error) =>
+                                    SvgPicture.asset(
+                                  "lib/assets/images/tradesmenplaceholdericon.svg",
+                                  fit: BoxFit.cover,
+                                  height: 100.h,
+                                  width: 110.w,
+                                ),
                               )
                             : _selectedImage != null
                                 ? Image.file(_selectedImage!,

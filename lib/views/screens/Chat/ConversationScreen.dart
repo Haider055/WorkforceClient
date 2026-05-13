@@ -143,198 +143,226 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
         return true;
       },
       child: SafeArea(
-        child: Obx(() {
-          return GestureDetector(
-            onTap: () {
-              FocusScope.of(Get.context!).unfocus();
-            },
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              resizeToAvoidBottomInset: true,
-              appBar: appBarWidget(),
-              body: isLoading.value || chat == null
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(MyColors.themeRedColor),
-                      ),
-                    )
-                  : Column(
-                      children: [
-                        Expanded(
-                          flex: 8,
-                          child: Obx(() {
-                            return ListView.builder(
-                              controller: _scrollController,
-                              reverse: true,
-                              padding: EdgeInsets.only(
-                                  left: 10.w, right: 10.w, bottom: 10.h),
-                              itemCount: chatObj!.pagination!.hasMore!
-                                  ? messagesList.length + 1
-                                  : messagesList.length,
-                              itemBuilder: (context, index) {
-                                if (index == messagesList.length) {
-                                  return Obx(() {
-                                    return Center(
-                                      child: isLoadMoreEnable.value
-                                          ? const CircularProgressIndicator(
-                                              color:
-                                                  Color(MyColors.grayColor300),
-                                            )
-                                          : DialogButton(
-                                              text: Strings.loadMoreText(
-                                                  Get.context!),
-                                              color: MyColors.midGrayColor,
-                                              onPressed: () {
-                                                isLoadMoreEnable.value = true;
-                                                getLastMessages(chatObj!
-                                                    .pagination!.nextCursor!);
-                                              },
-                                            ),
-                                    );
-                                  });
-                                }
+        child: chat == null
+            ? Container(
+                color: const Color(MyColors.whiteColor),
+                height: MediaQuery.of(context).size.height.h,
+                width: MediaQuery.of(context).size.width.w,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: Color(MyColors.themeRedColor),
+                  ),
+                ),
+              )
+            : GestureDetector(
+                onTap: () {
+                  FocusScope.of(Get.context!).unfocus();
+                },
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  resizeToAvoidBottomInset: true,
+                  appBar: appBarWidget(),
+                  body: isLoading.value || chat == null
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(MyColors.themeRedColor),
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: Obx(() {
+                                return ListView.builder(
+                                  controller: _scrollController,
+                                  reverse: true,
+                                  padding: EdgeInsets.only(
+                                      left: 10.w, right: 10.w, bottom: 10.h),
+                                  itemCount: chatObj!.pagination!.hasMore!
+                                      ? messagesList.length + 1
+                                      : messagesList.length,
+                                  itemBuilder: (context, index) {
+                                    if (index == messagesList.length) {
+                                      return Obx(() {
+                                        return Center(
+                                          child: isLoadMoreEnable.value
+                                              ? const CircularProgressIndicator(
+                                                  color: Color(
+                                                      MyColors.grayColor300),
+                                                )
+                                              : DialogButton(
+                                                  text: Strings.loadMoreText(
+                                                      Get.context!),
+                                                  color: MyColors.midGrayColor,
+                                                  onPressed: () {
+                                                    isLoadMoreEnable.value =
+                                                        true;
+                                                    getLastMessages(chatObj!
+                                                        .pagination!
+                                                        .nextCursor!);
+                                                  },
+                                                ),
+                                        );
+                                      });
+                                    }
 
-                                final message = messagesList[index];
+                                    final message = messagesList[index];
 
-                                return Align(
-                                  alignment: message.senderId == clientId
-                                      ? Alignment.centerRight
-                                      : Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 4.r),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.r, horizontal: 14.r),
-                                    constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width.w *
+                                    return Align(
+                                      alignment: message.senderId == clientId
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 4.r),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.r, horizontal: 14.r),
+                                        constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width
+                                                  .w *
                                               0.75,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: message.senderId == clientId
-                                          ? Colors.red[700]
-                                          : const Color(
-                                              MyColors.cardGrayColor100),
-                                      borderRadius: message.senderId == clientId
-                                          ? BorderRadius.only(
-                                              bottomLeft: Radius.circular(8.r),
-                                              topRight: Radius.circular(8.r),
-                                              topLeft: Radius.circular(8.r),
-                                              bottomRight: Radius.circular(0.r))
-                                          : BorderRadius.only(
-                                              bottomLeft: Radius.circular(0.r),
-                                              topRight: Radius.circular(8.r),
-                                              topLeft: Radius.circular(8.r),
-                                              bottomRight:
-                                                  Radius.circular(8.r)),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          message.senderId == clientId
-                                              ? CrossAxisAlignment.end
-                                              : CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          message.message ?? "",
-                                          style: TextStyle(
-                                              fontSize: 13.8,
-                                              color:
-                                                  message.senderId == clientId
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: message.senderId == clientId
+                                              ? Colors.red[700]
+                                              : const Color(
+                                                  MyColors.cardGrayColor100),
+                                          borderRadius: message.senderId ==
+                                                  clientId
+                                              ? BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(8.r),
+                                                  topRight:
+                                                      Radius.circular(8.r),
+                                                  topLeft: Radius.circular(8.r),
+                                                  bottomRight:
+                                                      Radius.circular(0.r))
+                                              : BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(0.r),
+                                                  topRight:
+                                                      Radius.circular(8.r),
+                                                  topLeft: Radius.circular(8.r),
+                                                  bottomRight:
+                                                      Radius.circular(8.r)),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              message.senderId == clientId
+                                                  ? CrossAxisAlignment.end
+                                                  : CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              message.message ?? "",
+                                              style: TextStyle(
+                                                  fontSize: 13.8,
+                                                  color: message.senderId ==
+                                                          clientId
                                                       ? Colors.white
                                                       : Colors.black),
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: Text(
-                                                message.humanReadableCreatedAt ==
-                                                        null
-                                                    ? ""
-                                                    : (message
-                                                                    .humanReadableCreatedAt ==
-                                                                "0s ago" ||
-                                                            message.humanReadableCreatedAt ==
-                                                                "1s ago" ||
-                                                            message.humanReadableCreatedAt ==
-                                                                "vor 0 Sek." ||
-                                                            message.humanReadableCreatedAt ==
-                                                                "vor 1 Sek.")
-                                                        ? Strings.nowText(
-                                                            Get.context!)
-                                                        : message
-                                                            .humanReadableCreatedAt!,
-                                                style: TextStyle(
-                                                    fontSize: 11,
-                                                    color: message.senderId ==
-                                                            clientId
-                                                        ? Colors.white70
-                                                        : Colors.black54),
-                                              ),
                                             ),
-                                            const SizedBox(
-                                              width: 2,
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Text(
+                                                    message.humanReadableCreatedAt ==
+                                                            null
+                                                        ? ""
+                                                        : (message
+                                                                        .humanReadableCreatedAt ==
+                                                                    "0s ago" ||
+                                                                message.humanReadableCreatedAt ==
+                                                                    "1s ago" ||
+                                                                message.humanReadableCreatedAt ==
+                                                                    "vor 0 Sek." ||
+                                                                message.humanReadableCreatedAt ==
+                                                                    "vor 1 Sek.")
+                                                            ? Strings.nowText(
+                                                                Get.context!)
+                                                            : message
+                                                                .humanReadableCreatedAt!,
+                                                    style: TextStyle(
+                                                        fontSize: 11,
+                                                        color: message
+                                                                    .senderId ==
+                                                                clientId
+                                                            ? Colors.white70
+                                                            : Colors.black54),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 2,
+                                                ),
+                                                message.sent
+                                                    ? Icon(
+                                                        Icons.done,
+                                                        size: 14,
+                                                        color: message
+                                                                    .senderId ==
+                                                                clientId
+                                                            ? Colors.white70
+                                                            : Colors.black54,
+                                                      )
+                                                    : const SizedBox(
+                                                        width: 7,
+                                                      )
+                                              ],
                                             ),
-                                            message.sent
-                                                ? Icon(
-                                                    Icons.done,
-                                                    size: 14,
-                                                    color: message.senderId ==
-                                                            clientId
-                                                        ? Colors.white70
-                                                        : Colors.black54,
-                                                  )
-                                                : const SizedBox(
-                                                    width: 7,
-                                                  )
                                           ],
                                         ),
-                                      ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(flex: 10, child: textfieldWidget()),
+                                Expanded(
+                                  flex: 2,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      try {
+                                        if (conversationContoller
+                                            .messageTextField
+                                            .value
+                                            .text
+                                            .isNotEmpty) {
+                                          sendMessage(
+                                            conversationContoller
+                                                .messageTextField.value.text,
+                                          );
+                                        }
+                                      } catch (e) {
+                                        throw Exception(e);
+                                      }
+                                    },
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        "lib/assets/icons/sendButton.svg",
+                                        fit: BoxFit.cover,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                10,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                8,
+                                      ),
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          }),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(flex: 10, child: textfieldWidget()),
-                            Expanded(
-                              flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  try {
-                                    if (conversationContoller.messageTextField
-                                        .value.text.isNotEmpty) {
-                                      sendMessage(
-                                        conversationContoller
-                                            .messageTextField.value.text,
-                                      );
-                                    }
-                                  } catch (e) {
-                                    throw Exception(e);
-                                  }
-                                },
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    "lib/assets/icons/sendButton.svg",
-                                    fit: BoxFit.cover,
-                                    height:
-                                        MediaQuery.of(context).size.height / 10,
-                                    width:
-                                        MediaQuery.of(context).size.width / 8,
-                                  ),
                                 ),
-                              ),
-                            ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-            ),
-          );
-        }),
+                        ),
+                ),
+              ),
       ),
     );
   }
@@ -489,6 +517,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
         messagesList.addAll(chatObj!.list!);
         isLoading.value = false;
         isLoadMoreEnable.value = false;
+        setState(() {});
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
       }
@@ -540,6 +569,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return;
       }
+      setState(() {});
 
       jobId = chat!.jobPostingId!;
       jobStatus = chat!.jobStatus!;
@@ -566,7 +596,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
   PreferredSizeWidget appBarWidget() {
     return AppBar(
       leadingWidth: MediaQuery.of(context).size.width.w,
-      toolbarHeight: 170,
+      toolbarHeight: 170.h,
       leading: Container(
         color: const Color(MyColors.whiteColor),
         child: Column(

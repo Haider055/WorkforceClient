@@ -1,9 +1,12 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
+import 'package:workforceclientapp/Models/Chat.dart';
 import 'package:workforceclientapp/Others/LocaleProvider.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/routes.dart';
@@ -11,6 +14,7 @@ import 'package:workforceclientapp/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:workforceclientapp/views/notification_service.dart';
+import 'package:workforceclientapp/views/screens/Chat/ConversationScreen.dart';
 import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -27,6 +31,14 @@ void main() async {
       ),
     );
   };
+  await Firebase.initializeApp();
+
+  // iOS foreground options
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
@@ -40,12 +52,12 @@ void main() async {
 
     // Sudden disconnections (while sending API or uploading files)
   ]);
-  await NotificationService.init(_handleNotificationNavigation);
+  // await NotificationService.init(_handleNotificationNavigation);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (_) => LocaleProvider(),
-      child: MainApp(),
+      child: const MainApp(),
     ),
   );
 }
@@ -71,7 +83,7 @@ class MainApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        title: "AuftragNow",
+        title: "Auftrag Now",
         theme: ThemeData(
           primaryColor: const Color(MyColors.themeRedColor),
           fontFamily: 'Poppins', // 👈 This applies the font globally
@@ -82,20 +94,4 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
-}
-
-void _handleNotificationNavigation(Map<String, dynamic> data) {
-  print(data.toString());
-  // navigatorKey.currentState?.pushNamed(AppLinks.job_title_screen);
-  Get.toNamed(AppLinks.job_title_screen);
-  // final type = data["type"];
-
-  // if (type == "order") {
-  //   navigatorKey.currentState?.pushNamed(
-  //     "/orderDetails",
-  //     arguments: data["order_id"],
-  //   );
-  // } else if (type == "chat") {
-  //   navigatorKey.currentState?.pushNamed("/chat");
-  // }
 }

@@ -24,6 +24,7 @@ import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/NewMessageController.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/screens/Chat/ConversationScreen.dart';
 
 class SelectServiceController extends GetxController {
   final searchController = TextEditingController().obs;
@@ -45,6 +46,7 @@ class SelectServiceController extends GetxController {
   int selectedServiceId = -1;
   String selectedServiceName = "";
   final RxInt currentIndex = 0.obs;
+  int chatLinstenerRetryCount = 0;
 
   @override
   void onInit() {
@@ -62,21 +64,10 @@ class SelectServiceController extends GetxController {
   void init() async {
     await getAllOptionsOfServices();
     await getNotificationsCount();
-    await manageFirebaseThings(Get.context!);
+    manageIfFcmTokenNotSaved();
     await checkIsLoggedIn();
     AllChatsContoller controller = Get.put(AllChatsContoller());
     controller.dispose();
-
-    final token = await FirebaseMessaging.instance.getToken();
-    final deviceId = await getDeviceId();
-    print(token);
-    print(deviceId);
-    if (token != null) {
-      print(token);
-      print(deviceId);
-    } else {
-      print("token");
-    }
 
     if (data != null) {
       toWhere = data['toWhere'] ?? "";
@@ -131,29 +122,82 @@ class SelectServiceController extends GetxController {
       startChatListener();
     }
     isLoading.value = false;
+    manageIfComesFromNotificationClick();
   }
 
-  Future<void> manageFirebaseThings(BuildContext context) async {
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-      // TODO: If necessary send token to application server.
-      LoginContoller loginContoller = Get.put(LoginContoller());
-      await loginContoller.fCMSaveToken();
-
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
-    }).onError((err) {
-      // Error getting token.
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      _handleNotificationClick(message);
-    });
+  Future<void> manageIfComesFromNotificationClick() async {
+    try {
+      if (isLoggedIn.value != "loggedOut") {
+        RemoteMessage? initialMessage =
+            await FirebaseMessaging.instance.getInitialMessage();
+        if (initialMessage != null) {
+          _handleNotificationTap(initialMessage.data);
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
-  void _handleNotificationClick(RemoteMessage message) {
-    if (message.data.containsKey('actionText')) {
-      final action = message.data['actionText'];
-      print(action);
+  void _handleNotificationTap(Map<String, dynamic> data) {
+    // Example: navigate based on type
+    final String? type = data['type'];
+    Fluttertoast.showToast(msg: "Notification tapped ${type.toString()}");
+    print(data.toString());
+    if (type != null) {
+      if (type == "job_posting_in_progress") {
+        int jobPostingId = data['job_posting_id'] == null
+            ? -1
+            : int.parse(data['job_posting_id']);
+        Get.toNamed(AppLinks.orders_details_screen,
+            arguments: {'jobId': jobPostingId});
+      } else if (type == "job_posted") {
+        int jobPostingId = data['job_posting_id'] == null
+            ? -1
+            : int.parse(data['job_posting_id']);
+        Get.toNamed(AppLinks.orders_details_screen,
+            arguments: {'jobId': jobPostingId});
+      } else if (type == "job_completed") {
+        int jobPostingId = data['job_posting_id'] == null
+            ? -1
+            : int.parse(data['job_posting_id']);
+        Get.toNamed(AppLinks.orders_details_screen,
+            arguments: {'jobId': jobPostingId});
+      } else if (type == "job_application_received") {
+        int jobPostingId = data['job_posting_id'] == null
+            ? -1
+            : int.parse(data['job_posting_id']);
+        Get.toNamed(AppLinks.orders_details_screen,
+            arguments: {'jobId': jobPostingId, 'section': "tradesmen"});
+      } else if (type == "message_received") {
+        int chatId = data['chat_id'] == null ? -1 : int.parse(data['chat_id']);
+        Get.to(
+          const ConversationScreen(),
+          arguments: {
+            'chat': null,
+            'chatId': chatId,
+            'fromWhere': 'notification'
+          },
+          transition: Transition.rightToLeft, // Left-to-right animation
+          duration:
+              const Duration(milliseconds: 500), // Optional: animation duration
+        );
+      }
+      print(type);
+    }
+  }
+
+  Future<void> manageIfFcmTokenNotSaved() async {
+    try {
+      _prefs = await SharedPreferences.getInstance();
+      String token = _prefs.getString('fcm_token') ?? "";
+      String isLogin = _prefs.getString('isLogin') ?? "";
+      if (isLogin == "loggedIn" && token.isEmpty) {
+        LoginContoller loginContoller = Get.put(LoginContoller());
+        loginContoller.fCMSaveToken();
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -490,6 +534,12 @@ class SelectServiceController extends GetxController {
       );
     } catch (e) {
       print('Failed to initialize Pusher: $e');
+      if (chatLinstenerRetryCount < 3) {
+        chatLinstenerRetryCount++;
+        Future.delayed(const Duration(seconds: 2), () {
+          startChatListener();
+        });
+      }
     }
   }
 }
