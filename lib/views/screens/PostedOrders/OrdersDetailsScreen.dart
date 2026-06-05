@@ -34,103 +34,101 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
         return true;
       },
       child: Obx(() {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              leadingWidth: MediaQuery.of(context).size.width.w,
-              leading: Card(
-                color: const Color(MyColors.appbackgroundColor),
-                shadowColor: const Color.fromARGB(158, 219, 219, 219),
-                elevation: 2,
-                shape: const Border(
-                    bottom: BorderSide(
-                        color: Color.fromARGB(147, 203, 203, 203),
-                        style: BorderStyle.solid)),
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Center(
-                          child: HeadingTextW600(
-                        text: Strings.orderDetail(context),
-                        centerAlign: false,
-                        size: 19.0.sp,
-                      )),
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 12.0.w),
-                          child: const Align(
-                              alignment: Alignment.centerLeft,
-                              child: Icon(Icons.arrow_back_ios)),
-                        ),
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            leadingWidth: MediaQuery.of(context).size.width.w,
+            leading: Card(
+              color: const Color(MyColors.appbackgroundColor),
+              shadowColor: const Color.fromARGB(158, 219, 219, 219),
+              elevation: 2,
+              shape: const Border(
+                  bottom: BorderSide(
+                      color: Color.fromARGB(147, 203, 203, 203),
+                      style: BorderStyle.solid)),
+              child: Center(
+                child: Stack(
+                  children: [
+                    Center(
+                        child: HeadingTextW600(
+                      text: Strings.orderDetail(context),
+                      centerAlign: false,
+                      size: 19.0.sp,
+                    )),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 12.0.w),
+                        child: const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Icon(Icons.arrow_back_ios)),
                       ),
-                      controller.isLoading.value
-                          ? const SizedBox()
-                          : controller.postedJobDetail.status == "cancelled" ||
-                                  controller.postedJobDetail.status ==
-                                      "completed"
-                              ? const SizedBox()
-                              : Positioned(
-                                  right: 0,
-                                  child: PopupMenuButton<int>(
-                                    color:
-                                        const Color(MyColors.cardBlueColor50),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12.r),
-                                    ),
-                                    onSelected: (value) {
-                                      if (value == 0) {
-                                        try {
-                                          Get.offNamed(
-                                            AppLinks.end_the_order_screen,
-                                            arguments: {
-                                              'jobId':
-                                                  controller.postedJobDetail.id,
-                                            },
-                                          );
-                                        } catch (e) {
-                                          throw Exception(e);
-                                        }
-                                      }
-                                    },
-                                    itemBuilder: (context) => [
-                                      PopupMenuItem(
-                                        value: 0,
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              "lib/assets/icons/cancelRedIcon.svg",
-                                              fit: BoxFit.contain,
-                                              height: 18.h,
-                                              width: 18.w,
-                                            ),
-                                            SizedBox(width: 10.w),
-                                            Text(Strings.removeJob(context),
-                                                style: const TextStyle(
-                                                    color: Color(MyColors
-                                                        .themeRedColor))),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                    icon: const Icon(Icons.more_vert),
+                    ),
+                    controller.isLoading.value
+                        ? const SizedBox()
+                        : controller.postedJobDetail.status == "cancelled" ||
+                                controller.postedJobDetail.status == "completed"
+                            ? const SizedBox()
+                            : Positioned(
+                                right: 0,
+                                child: PopupMenuButton<int>(
+                                  color: const Color(MyColors.cardBlueColor50),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
                                   ),
+                                  onSelected: (value) {
+                                    if (value == 0) {
+                                      try {
+                                        Get.offNamed(
+                                          AppLinks.end_the_order_screen,
+                                          arguments: {
+                                            'jobId':
+                                                controller.postedJobDetail.id,
+                                          },
+                                        );
+                                      } catch (e) {
+                                        throw Exception(e);
+                                      }
+                                    }
+                                  },
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 0,
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "lib/assets/icons/cancelRedIcon.svg",
+                                            fit: BoxFit.contain,
+                                            height: 18.h,
+                                            width: 18.w,
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          Text(Strings.removeJob(context),
+                                              style: const TextStyle(
+                                                  color: Color(
+                                                      MyColors.themeRedColor))),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                  icon: const Icon(Icons.more_vert),
                                 ),
-                    ],
-                  ),
+                              ),
+                  ],
                 ),
               ),
             ),
-            body: controller.isLoading.value
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(MyColors.themeRedColor),
-                    ),
-                  )
-                : SingleChildScrollView(
+          ),
+          body: controller.isLoading.value
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    color: Color(MyColors.themeRedColor),
+                  ),
+                )
+              : SafeArea(
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Padding(
@@ -311,7 +309,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                       ],
                     ),
                   ),
-          ),
+                ),
         );
       }),
     );

@@ -45,166 +45,163 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
           Get.back(result: '');
         }
       },
-      child: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(Get.context!).unfocus();
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              leadingWidth: MediaQuery.of(context).size.width.w,
-              leading: Card(
-                color: const Color(MyColors.whiteColor),
-                shadowColor: const Color.fromARGB(158, 219, 219, 219),
-                elevation: 2,
-                shape: const Border(
-                    bottom: BorderSide(
-                        color: Color.fromARGB(147, 203, 203, 203),
-                        style: BorderStyle.solid)),
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Center(
-                          child: HeadingTextW600(
-                        text: Strings.contactInformation(context),
-                        centerAlign: false,
-                        size: 16.0..sp,
-                      )),
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 12.0.w),
-                          child: const Align(
-                              alignment: Alignment.centerLeft,
-                              child: Icon(Icons.arrow_back_ios)),
-                        ),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(Get.context!).unfocus();
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leadingWidth: MediaQuery.of(context).size.width.w,
+            leading: Card(
+              color: const Color(MyColors.whiteColor),
+              shadowColor: const Color.fromARGB(158, 219, 219, 219),
+              elevation: 2,
+              shape: const Border(
+                  bottom: BorderSide(
+                      color: Color.fromARGB(147, 203, 203, 203),
+                      style: BorderStyle.solid)),
+              child: Center(
+                child: Stack(
+                  children: [
+                    Center(
+                        child: HeadingTextW600(
+                      text: Strings.contactInformation(context),
+                      centerAlign: false,
+                      size: 16.0..sp,
+                    )),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 12.0.w),
+                        child: const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Icon(Icons.arrow_back_ios)),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            backgroundColor: const Color(MyColors.whiteColor),
-            body: GestureDetector(
-              onTap: () {
-                FocusScope.of(Get.context!).unfocus();
-              },
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(12.0.r),
-                    child: Card(
-                      elevation: 0,
-                      color: const Color(MyColors.cardGrayColor100),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0.w, top: 12.h),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: HeadingTextW500(
-                                  text: Strings.fullNameAddressText(context),
-                                  centerAlign: false,
-                                  size: 16.sp),
-                            ),
+          ),
+          backgroundColor: const Color(MyColors.whiteColor),
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(Get.context!).unfocus();
+            },
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(12.0.r),
+                  child: Card(
+                    elevation: 0,
+                    color: const Color(MyColors.cardGrayColor100),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.0.w, top: 12.h),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: HeadingTextW500(
+                                text: Strings.fullNameAddressText(context),
+                                centerAlign: false,
+                                size: 16.sp),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 12.0.h),
-                            child: CommonTextFieldWhite(
-                                hint: Strings.fullNameAddressText(context),
-                                errorText: nameErrorText,
-                                controller: controller.nameTextField(),
-                                inputType: TextInputType.text,
-                                prefixIcon: const Icon(Icons.person),
-                                needPasswordSuffixIcon: false,
-                                needprefixIcon: false,
-                                onChanged: (value) {
-                                  // setState(() {
-                                  //   emailAddressErrorText = "";
-                                  // });
-                                }),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 12.0.h),
+                          child: CommonTextFieldWhite(
+                              hint: Strings.fullNameAddressText(context),
+                              errorText: nameErrorText,
+                              controller: controller.nameTextField(),
+                              inputType: TextInputType.text,
+                              prefixIcon: const Icon(Icons.person),
+                              needPasswordSuffixIcon: false,
+                              needprefixIcon: false,
+                              onChanged: (value) {
+                                // setState(() {
+                                //   emailAddressErrorText = "";
+                                // });
+                              }),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.0.w, top: 12.h),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: HeadingTextW500(
+                                text: Strings.phoneText(context),
+                                centerAlign: false,
+                                size: 16.sp),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0.w, top: 12.h),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: HeadingTextW500(
-                                  text: Strings.phoneText(context),
-                                  centerAlign: false,
-                                  size: 16.sp),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 12.0.h),
-                            child: CommonTextFieldWhite(
-                                hint: phoneErrorText,
-                                errorText: phoneErrorText,
-                                controller: controller.phoneTextField(),
-                                inputType: TextInputType.number,
-                                prefixIcon: const Icon(Icons.phone),
-                                needPasswordSuffixIcon: false,
-                                needprefixIcon: false,
-                                onChanged: (value) {
-                                  // setState(() {
-                                  //   emailAddressErrorText = "";
-                                  // });
-                                }),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(20.0.sp),
-                            child: FullWidthElevatedButton(
-                                text: "Save",
-                                color: MyColors.themeRedColor,
-                                onPressed: () async {
-                                  try {
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 12.0.h),
+                          child: CommonTextFieldWhite(
+                              hint: phoneErrorText,
+                              errorText: phoneErrorText,
+                              controller: controller.phoneTextField(),
+                              inputType: TextInputType.number,
+                              prefixIcon: const Icon(Icons.phone),
+                              needPasswordSuffixIcon: false,
+                              needprefixIcon: false,
+                              onChanged: (value) {
+                                // setState(() {
+                                //   emailAddressErrorText = "";
+                                // });
+                              }),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.0.sp),
+                          child: FullWidthElevatedButton(
+                              text: "Save",
+                              color: MyColors.themeRedColor,
+                              onPressed: () async {
+                                try {
+                                  if (controller.nameTextField.value.text
+                                          .isNotEmpty &&
+                                      controller.phoneTextField.value.text
+                                          .isNotEmpty) {
                                     if (controller.nameTextField.value.text
-                                            .isNotEmpty &&
-                                        controller.phoneTextField.value.text
-                                            .isNotEmpty) {
-                                      if (controller.nameTextField.value.text
-                                              .toString()
-                                              .length <
-                                          4) {
-                                        setState(() {
-                                          nameErrorText =
-                                              Strings.nameMustBeAtLeast(
-                                                  context);
-                                        });
-                                        return;
-                                      }
-
-                                      if (!controller.phoneTextField.value.text
-                                          .toString()
-                                          .isPhoneNumber) {
-                                        setState(() {
-                                          phoneErrorText =
-                                              Strings.pleaseEnterValidPhoneText(
-                                                  Get.context!);
-                                        });
-                                        return;
-                                      }
-                                      Commons.showProgressDialog(context);
-                                      var res = await controller
-                                          .pleaseUpdateNameAndPhone();
-                                      Commons.hideProgressDialog();
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: Strings.cannotBeEmpty(context));
+                                            .toString()
+                                            .length <
+                                        4) {
+                                      setState(() {
+                                        nameErrorText =
+                                            Strings.nameMustBeAtLeast(context);
+                                      });
+                                      return;
                                     }
-                                  } catch (e) {
-                                    throw Exception(e);
+
+                                    if (!controller.phoneTextField.value.text
+                                        .toString()
+                                        .isPhoneNumber) {
+                                      setState(() {
+                                        phoneErrorText =
+                                            Strings.pleaseEnterValidPhoneText(
+                                                Get.context!);
+                                      });
+                                      return;
+                                    }
+                                    Commons.showProgressDialog(context);
+                                    var res = await controller
+                                        .pleaseUpdateNameAndPhone();
+                                    Commons.hideProgressDialog();
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: Strings.cannotBeEmpty(context));
                                   }
-                                },
-                                textColor: MyColors.whiteColor),
-                          )
-                        ],
-                      ),
+                                } catch (e) {
+                                  throw Exception(e);
+                                }
+                              },
+                              textColor: MyColors.whiteColor),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),

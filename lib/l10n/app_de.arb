@@ -136,7 +136,7 @@
   "LeaveOrderText": "Auftrag verlassen",
   "jobTitleText": "Auftragstitel",
   "aboutThisCompanyText": "Geschäftsbedingungen",
-  "termsAndConditionText": "Terms And Conditions",
+  "termsAndConditionText": "Geschäftsbedingungen",
   "infoText": "Information",
   "inProcessText": "In Bearbeitung",
   "notificationsText": "Benachrichtigungen",
@@ -271,7 +271,7 @@
   "emailCannotBeEmptyText": "Die E-Mail-Adresse darf nicht leer sein.",
   "newUserText": "Neuer Benutzer",
   "youCanNowLoginText": "Sie können sich jetzt anmelden!",
-  "bycreatingaccountyouAgreetoourText": "Mit der Erstellung eines Kontos stimmen Sie unseren Bedingungen zu",
+  "bycreatingaccountyouAgreetoourText": "Durch die Erstellung eines Kontos stimmen Sie unseren Nutzungsbedingungen zu",
   "andText": "Und",
   "nameCannotBeEmptyText": "Der Name darf nicht leer sein.",
   "phoneCannotBeEmptyText": "Telefon kann nicht leer sein",
@@ -329,5 +329,7 @@
   "youCanOnlyUploadUpTo": "Sie können maximal",
   "ximages": "Bilder hochladen",
   "onlyInfoText": "Es können nur noch",
-  "imagesCanBeAddMoreText": "Es können weitere Bilder hinzugefügt werden"
+  "imagesCanBeAddMoreText": "Es können weitere Bilder hinzugefügt werden",
+  "requestAlreadySentText": "Anfrage bereits gesendet"
+
 }

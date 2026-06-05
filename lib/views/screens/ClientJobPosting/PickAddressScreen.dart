@@ -18,83 +18,36 @@ class PickAddressScreen extends GetView<PickAddressController> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(Strings.discardChangesText(Get.context!)),
-            content:
-                Text(Strings.areYouSureToEndJobPostingProcess(Get.context!)),
-            contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r)),
-            backgroundColor: const Color(MyColors.colorRed200),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthOutlineButton(
-                          text: Strings.noText(context),
-                          fontsize: 15.0.sp,
-                          color: MyColors.themeRedColor,
-                          onPressed: () {
-                            Get.back();
-                          }),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthButtonPrimary(
-                          text: Strings.yesText(context),
-                          fontsize: 15.0.sp,
-                          color: MyColors.themeRedColor,
-                          onPressed: () {
-                            Get.back();
-                            Get.offAllNamed(AppLinks.select_service_screen);
-                          }),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        );
-        return true;
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
-          leading: Card(
-            color: const Color(MyColors.appbackgroundColor),
-            shadowColor: const Color.fromARGB(158, 219, 219, 219),
-            elevation: 2,
-            shape: const Border(
-                bottom: BorderSide(
-                    color: Color.fromARGB(147, 203, 203, 203),
-                    style: BorderStyle.solid)),
-            child: Center(
-                child: Padding(
-              padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-              child: Text(Constants.selectedServiceName,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: true,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0.sp,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Poppins')),
-            )),
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leadingWidth: MediaQuery.of(context).size.width,
+        leading: Card(
+          color: const Color(MyColors.appbackgroundColor),
+          shadowColor: const Color.fromARGB(158, 219, 219, 219),
+          elevation: 2,
+          shape: const Border(
+              bottom: BorderSide(
+                  color: Color.fromARGB(147, 203, 203, 203),
+                  style: BorderStyle.solid)),
+          child: Center(
+              child: Padding(
+            padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+            child: Text(Constants.selectedServiceName,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins')),
+          )),
         ),
-        body: Center(
+      ),
+      body: SafeArea(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -246,103 +199,6 @@ class PickAddressScreen extends GetView<PickAddressController> {
                                       ),
                                     ],
                                   ),
-
-                                  // child: GooglePlaceAutoCompleteTextField(
-                                  //   textEditingController:
-                                  //       controller.controllerTextField,
-                                  //   googleAPIKey: Constants.googleMapsAPIkey,
-                                  //   inputDecoration: InputDecoration(
-                                  //     hintText: Strings.searchYourLocationText(
-                                  //         context),
-                                  //     border: OutlineInputBorder(
-                                  //       borderSide: const BorderSide(
-                                  //           color:
-                                  //               Color(MyColors.midGrayColor)),
-                                  //       borderRadius:
-                                  //           BorderRadius.circular(10.r),
-                                  //     ),
-                                  //     focusedBorder: OutlineInputBorder(
-                                  //       borderSide: const BorderSide(
-                                  //           color:
-                                  //               Color(MyColors.midGrayColor)),
-                                  //       borderRadius:
-                                  //           BorderRadius.circular(10.r),
-                                  //     ),
-                                  //     enabledBorder: OutlineInputBorder(
-                                  //       borderSide: const BorderSide(
-                                  //           color:
-                                  //               Color(MyColors.midGrayColor)),
-                                  //       borderRadius:
-                                  //           BorderRadius.circular(10.r),
-                                  //     ),
-                                  //   ),
-                                  //   debounceTime: 0,
-                                  //   countries: const ["pk", "de"],
-                                  //   isLatLngRequired: true,
-                                  //   getPlaceDetailWithLatLng:
-                                  //       (Prediction prediction) {
-                                  // try {
-                                  //   Constants.jobPostingLat =
-                                  //       prediction.lat ?? "";
-                                  //   Constants.jobPostingLng =
-                                  //       prediction.lng ?? "";
-                                  //   controller.currentPosition.value =
-                                  //       LatLng(
-                                  //           double.parse(prediction.lat!),
-                                  //           double.parse(prediction.lng!));
-                                  //   controller.markers.add(
-                                  //     Marker(
-                                  //       markerId: const MarkerId(
-                                  //           "current_location"),
-                                  //       position: controller
-                                  //           .currentPosition.value,
-                                  //       infoWindow: InfoWindow(
-                                  //           title: "You are here",
-                                  //           snippet:
-                                  //               controller.currentAddress),
-                                  //     ),
-                                  //   );
-                                  //   controller.mapController?.moveCamera(
-                                  //       CameraUpdate.newLatLng(controller
-                                  //           .currentPosition.value));
-                                  // } catch (e) {
-                                  //   e.printError();
-                                  // }
-                                  //   },
-                                  //   itemClick: (Prediction prediction) {
-                                  // FocusScope.of(context).unfocus();
-                                  // // controller.controllerTextField.text =
-                                  // //     prediction.description ?? "";
-                                  // // controller.controllerTextField.selection =
-                                  // //     TextSelection.fromPosition(
-                                  // //         TextPosition(
-                                  // //             offset: prediction.description
-                                  // //                     ?.length ??
-                                  // //                 0));
-                                  //   },
-                                  //   seperatedBuilder: const Divider(),
-                                  //   // OPTIONAL// If you want to customize list view item builder
-                                  //   itemBuilder: (context, index,
-                                  //       Prediction prediction) {
-                                  //     return Container(
-                                  //       padding: EdgeInsets.all(10.r),
-                                  //       child: Row(
-                                  //         children: [
-                                  //           const Icon(Icons.location_on),
-                                  //           const SizedBox(
-                                  //             width: 7,
-                                  //           ),
-                                  //           Expanded(
-                                  //               child: Text(
-                                  //                   prediction.description ??
-                                  //                       ""))
-                                  //         ],
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  //   isCrossBtnShown: true,
-                                  //   // default 600 ms ,
-                                  // ),
                                 )),
                           ],
                         ),
@@ -351,12 +207,11 @@ class PickAddressScreen extends GetView<PickAddressController> {
                     Padding(
                       padding: EdgeInsets.all(18.0.r),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height.h / 2.2,
+                        height: MediaQuery.of(context).size.height.h / 2.6,
                         width: MediaQuery.of(context).size.width.w,
                         child: Card(
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(10.r), // Adjust roundness
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                           elevation: 2,
                           shadowColor: Colors.black,

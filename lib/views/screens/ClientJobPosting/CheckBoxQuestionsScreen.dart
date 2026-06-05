@@ -98,54 +98,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(Strings.discardChangesText(Get.context!)),
-            content:
-                Text(Strings.areYouSureToEndJobPostingProcess(Get.context!)),
-            contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: const Color(MyColors.colorRed200),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthOutlineButton(
-                          text: Strings.noText(context),
-                          fontsize: 15.0.sp,
-                          color: MyColors.themeRedColor,
-                          onPressed: () {
-                            Get.back();
-                          }),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthButtonPrimary(
-                          text: Strings.yesText(context),
-                          fontsize: 15.0.sp,
-                          color: MyColors.themeRedColor,
-                          onPressed: () {
-                            Get.back();
-                            Get.offAllNamed(AppLinks.select_service_screen);
-                          }),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        );
-        return true;
-      },
+    return PopScope(
+      canPop: false,
       child: GestureDetector(
         onTap: () {
           if (FocusScope.of(Get.context!).hasFocus) {
@@ -186,127 +140,132 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
               ),
             ),
           ),
-          body: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 0),
-                      child: LinearProgressBar(
-                        maxSteps: Constants.jobPostingSteps,
-                        progressType: LinearProgressBar.progressTypeLinear,
-                        minHeight: 6,
-                        currentStep: Constants.currentJobPostingStep,
-                        progressColor: const Color(MyColors.themeRedColor),
-                        backgroundColor: const Color(MyColors.lightSilverColor),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
-                        child: Text(
-                          "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
-                          style: TextStyle(
-                              fontSize: 14.5.sp,
-                              color: const Color(MyColors.midGrayColor)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 16,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: questionsList.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.all(12.0.r),
-                      child: Column(
-                        children: [
-                          questionsList.elementAt(index).entries.first.key ==
-                                  "checkbox"
-                              ? _buildCheckboxQuestion(
-                                  questionsList
-                                      .elementAt(index)
-                                      .entries
-                                      .first
-                                      .value,
-                                  context)
-                              : questionsList
-                                          .elementAt(index)
-                                          .entries
-                                          .first
-                                          .key ==
-                                      "radio"
-                                  ? _buildMCQQuestion(
-                                      questionsList
-                                          .elementAt(index)
-                                          .entries
-                                          .first
-                                          .value,
-                                      context)
-                                  : _buildTextQuestion(
-                                      questionsList
-                                          .elementAt(index)
-                                          .entries
-                                          .first
-                                          .value,
-                                      context),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0.r),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 25.0.w, right: 12.0.w),
-                          child: FullWidthOutlineButton(
-                              text: Strings.back(context),
-                              fontsize: 15.0.sp,
-                              color: MyColors.themeRedColor,
-                              onPressed: () {
-                                _previousPage();
-                              }),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.0.w, vertical: 0),
+                        child: LinearProgressBar(
+                          maxSteps: Constants.jobPostingSteps,
+                          progressType: LinearProgressBar.progressTypeLinear,
+                          minHeight: 6,
+                          currentStep: Constants.currentJobPostingStep,
+                          progressColor: const Color(MyColors.themeRedColor),
+                          backgroundColor:
+                              const Color(MyColors.lightSilverColor),
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      Expanded(
+                      Align(
+                        alignment: Alignment.topRight,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
-                          child: FullWidthButtonPrimary(
-                              text: Strings.next(context),
-                              fontsize: 15.0.sp,
-                              color: MyColors.themeRedColor,
-                              onPressed: () {
-                                _nextPage();
-                              }),
+                          padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
+                          child: Text(
+                            "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
+                            style: TextStyle(
+                                fontSize: 14.5.sp,
+                                color: const Color(MyColors.midGrayColor)),
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 16,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: questionsList.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.all(12.0.r),
+                        child: Column(
+                          children: [
+                            questionsList.elementAt(index).entries.first.key ==
+                                    "checkbox"
+                                ? _buildCheckboxQuestion(
+                                    questionsList
+                                        .elementAt(index)
+                                        .entries
+                                        .first
+                                        .value,
+                                    context)
+                                : questionsList
+                                            .elementAt(index)
+                                            .entries
+                                            .first
+                                            .key ==
+                                        "radio"
+                                    ? _buildMCQQuestion(
+                                        questionsList
+                                            .elementAt(index)
+                                            .entries
+                                            .first
+                                            .value,
+                                        context)
+                                    : _buildTextQuestion(
+                                        questionsList
+                                            .elementAt(index)
+                                            .entries
+                                            .first
+                                            .value,
+                                        context),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 25.0.w, right: 12.0.w),
+                            child: FullWidthOutlineButton(
+                                text: Strings.back(context),
+                                fontsize: 15.0.sp,
+                                color: MyColors.themeRedColor,
+                                onPressed: () {
+                                  _previousPage();
+                                }),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 12.0.w, right: 25.0.w),
+                            child: FullWidthButtonPrimary(
+                                text: Strings.next(context),
+                                fontsize: 15.0.sp,
+                                color: MyColors.themeRedColor,
+                                onPressed: () {
+                                  _nextPage();
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

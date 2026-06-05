@@ -21,6 +21,7 @@ import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.
 import 'package:workforceclientapp/views/screens/LegalInformation/TermsAndConditions.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationSettingScreen.dart';
 import 'package:workforceclientapp/views/screens/PostedOrders/OrdersDetailsScreen.dart';
+import 'package:workforceclientapp/views/screens/Profile/ChangeLanguageScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/DeleteAccountScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/UpdatePasswordScreen.dart';
 import 'package:workforceclientapp/views/screens/SelectLanguage.dart';
@@ -48,6 +49,11 @@ class AppRoutes {
       name: AppLinks.select_language_screen,
       page: () => SelectLanguage(),
       binding: SelectLanguageBinding(),
+    ),
+    GetPage(
+      name: AppLinks.change_language_screen,
+      page: () => const ChangeLanguageScreen(),
+      binding: ChangeLanguageBinding(),
     ),
     GetPage(
       name: AppLinks.login_screen,
@@ -170,6 +176,7 @@ class AppRoutes {
 class AppLinks {
   static const splash_screen = '/splash';
   static const select_language_screen = '/select_language';
+  static const change_language_screen = '/change_language';
   static const onboard_screen = '/onboard_screen';
   static const select_service_screen = '/select_service';
   static const login_screen = '/login';

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
+import 'package:workforceclientapp/Controllers/ChangeLanguageController.dart';
 import 'package:workforceclientapp/Controllers/CreateNewPasswordController.dart';
 import 'package:workforceclientapp/Controllers/EndtheOrderController.dart';
 import 'package:workforceclientapp/Controllers/ForgotPasswordContoller.dart';
@@ -42,6 +43,13 @@ class SelectLanguageBinding implements Bindings {
   @override
   void dependencies() {
     Get.put<SelectLanguageController>(SelectLanguageController());
+  }
+}
+
+class ChangeLanguageBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<ChangeLanguageController>(ChangeLanguageController());
   }
 }
 

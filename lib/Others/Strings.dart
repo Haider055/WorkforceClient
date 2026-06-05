@@ -111,6 +111,8 @@ class Strings {
       AppLocalizations.of(context)!.markAllAsReadText;
   static String tradesman(BuildContext context) =>
       AppLocalizations.of(context)!.tradesman;
+  static String requestAlreadySentText(BuildContext context) =>
+      AppLocalizations.of(context)!.requestAlreadySentText;
 
   static String managePassword(BuildContext context) =>
       AppLocalizations.of(context)!.managePaswordText;

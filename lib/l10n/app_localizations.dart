@@ -1727,7 +1727,7 @@ abstract class AppLocalizations {
   /// No description provided for @bycreatingaccountyouAgreetoourText.
   ///
   /// In en, this message translates to:
-  /// **'By creating an account, you agree to Bitte geben Sie eine Bewertung abour'**
+  /// **'By creating an account, you agree to our'**
   String get bycreatingaccountyouAgreetoourText;
 
   /// No description provided for @andText.
@@ -2083,6 +2083,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'images can be add more'**
   String get imagesCanBeAddMoreText;
+
+  /// No description provided for @requestAlreadySentText.
+  ///
+  /// In en, this message translates to:
+  /// **'Request already sent'**
+  String get requestAlreadySentText;
 }
 
 class _AppLocalizationsDelegate

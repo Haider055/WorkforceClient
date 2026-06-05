@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCss5zSPVf4hKNSvkznEI_HkAZidnbCsrE',
-    appId: '1:544124172877:android:a8d84f7c419b04a972fa04',
+    appId: '1:544124172877:android:5597b981d7f3b45772fa04',
     messagingSenderId: '544124172877',
     projectId: 'workforce-65127',
     storageBucket: 'workforce-65127.firebasestorage.app',
@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'workforce-65127.firebasestorage.app',
     iosBundleId: 'com.dmn.auftragnowclient',
   );
+
 }

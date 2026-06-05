@@ -26,6 +26,8 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
+      bottom: true,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

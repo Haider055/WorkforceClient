@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -33,7 +34,8 @@ class ConversationScreen extends StatefulWidget {
   State<ConversationScreen> createState() => _TradesmenChatScreenState();
 }
 
-class _TradesmenChatScreenState extends State<ConversationScreen> {
+class _TradesmenChatScreenState extends State<ConversationScreen>
+    with WidgetsBindingObserver {
   late int jobId, requestId;
   late String status, jobStatus;
   String option = Strings.startContractNowText(Get.context!);
@@ -41,6 +43,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
   RxBool isLoading = true.obs;
   String backResults = "update";
   String fromWhere = "";
+  static const _channel = MethodChannel('app/lifecycle');
   final PostedOrderDetailsController postedOrderDetailsController = Get.put(
     PostedOrderDetailsController(),
   );
@@ -65,6 +68,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     if (data == null) {
       return;
     }
@@ -99,11 +103,30 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
         // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
       }
     }
+    _listenToiOSTerminate();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    conversationContoller.pleaseMarkAllasRead(context, chatId);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.detached ||
+        state == AppLifecycleState.paused) {
+      await conversationContoller.pleaseMarkAllasRead(context, chatId);
+    }
+  }
+
+  void _listenToiOSTerminate() {
+    _channel.setMethodCallHandler((call) async {
+      if (call.method == 'onAppTerminate') {
+        await conversationContoller.pleaseMarkAllasRead(context, chatId);
+      }
+    });
   }
 
   Future<void> getUserInfo() async {
@@ -116,9 +139,10 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (fromWhere == "OrderDetail") {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
           try {
             if (chat != null) {
               if (Constants.unReadcount.value >= chat!.unreadCount.value) {
@@ -130,45 +154,40 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
               chat!.unreadCount.value = 0;
             } else {
               Get.back();
-              return true;
             }
+            await conversationContoller.pleaseMarkAllasRead(context, chatId);
           } catch (e) {
             throw Exception(e);
           }
-        } else {
-          Get.back(result: backResults);
         }
-        // disconnectPusher();
-        // await Future.delayed(Duration(milliseconds: 100));
-        return true;
       },
-      child: SafeArea(
-        child: chat == null
-            ? Container(
-                color: const Color(MyColors.whiteColor),
-                height: MediaQuery.of(context).size.height.h,
-                width: MediaQuery.of(context).size.width.w,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(MyColors.themeRedColor),
-                  ),
+      child: chat == null
+          ? Container(
+              color: const Color(MyColors.whiteColor),
+              height: MediaQuery.of(context).size.height.h,
+              width: MediaQuery.of(context).size.width.w,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: Color(MyColors.themeRedColor),
                 ),
-              )
-            : GestureDetector(
-                onTap: () {
-                  FocusScope.of(Get.context!).unfocus();
-                },
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  resizeToAvoidBottomInset: true,
-                  appBar: appBarWidget(),
-                  body: isLoading.value || chat == null
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Color(MyColors.themeRedColor),
-                          ),
-                        )
-                      : Column(
+              ),
+            )
+          : GestureDetector(
+              onTap: () {
+                FocusScope.of(Get.context!).unfocus();
+              },
+              child: Scaffold(
+                backgroundColor: Colors.white,
+                resizeToAvoidBottomInset: true,
+                appBar: appBarWidget(),
+                body: isLoading.value || chat == null
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(MyColors.themeRedColor),
+                        ),
+                      )
+                    : SafeArea(
+                        child: Column(
                           children: [
                             Expanded(
                               flex: 8,
@@ -361,9 +380,9 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
                             )
                           ],
                         ),
-                ),
+                      ),
               ),
-      ),
+            ),
     );
   }
 
@@ -570,6 +589,9 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
         return;
       }
       setState(() {});
+      if (Constants.fromNotifications.value) {
+        Constants.unReadcount.value -= chat!.unreadCount.value;
+      }
 
       jobId = chat!.jobPostingId!;
       jobStatus = chat!.jobStatus!;
@@ -583,7 +605,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
       } else if (status == "rejected") {
         option = Strings.completed(Get.context!);
       } else {
-        option = Strings.startConversation(Get.context!);
+        option = Strings.startContractNowText(Get.context!);
       }
       getUserInfo();
       getLastMessages("");
@@ -609,6 +631,9 @@ class _TradesmenChatScreenState extends State<ConversationScreen> {
                     child: GestureDetector(
                       onTap: () async {
                         try {
+                          Commons.showProgressDialog(context);
+                          await conversationContoller.pleaseMarkAllasRead(
+                              context, chatId);
                           if (fromWhere == "OrderDetail") {
                             try {
                               if (chat != null) {

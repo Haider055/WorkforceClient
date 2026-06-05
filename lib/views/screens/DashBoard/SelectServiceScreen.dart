@@ -21,7 +21,6 @@ import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/AllChats.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationsScreen.dart';
-import 'package:workforceclientapp/views/screens/Profile/ChangeLanguageScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ContactInformationScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ManageAccountScreen.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
@@ -39,172 +38,166 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            leadingWidth: MediaQuery.of(context).size.width,
-            leading: Container(
-              color: const Color(MyColors.whiteColor),
-              child: const Card(
-                color: Color(MyColors.appbackgroundColor),
-                shadowColor: Color.fromARGB(158, 219, 219, 219),
-                elevation: 0.5,
-                shape: Border(
-                    bottom: BorderSide(
-                        color: Color(MyColors.cardGrayColor100),
-                        style: BorderStyle.solid)),
-                child: Center(
-                  child: LogoImage(),
-                ),
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          leadingWidth: MediaQuery.of(context).size.width,
+          leading: Container(
+            color: const Color(MyColors.whiteColor),
+            child: const Card(
+              color: Color(MyColors.appbackgroundColor),
+              shadowColor: Color.fromARGB(158, 219, 219, 219),
+              elevation: 0.5,
+              shape: Border(
+                  bottom: BorderSide(
+                      color: Color(MyColors.cardGrayColor100),
+                      style: BorderStyle.solid)),
+              child: Center(
+                child: LogoImage(),
               ),
             ),
           ),
-          backgroundColor: Colors.white,
-          bottomNavigationBar: Obx(() {
-            return BottomNavigationBar(
-              backgroundColor: Colors.white,
-              elevation: 7,
-              showUnselectedLabels: true,
-              currentIndex: controller.currentIndex.value,
-              onTap: (index) {
-                print(index);
-                if (controller.isLoading.value) {
-                  return;
-                }
-                changeTab(index);
-                controller.currentIndex.value = index;
-              },
-              items: [
-                BottomNavigationBarItem(
-                    icon: controller.currentIndex.value == 0
-                        ? SvgPicture.asset(
-                            "lib/assets/icons/postjobRedIcon.svg")
-                        : SvgPicture.asset(
-                            "lib/assets/icons/postjobBlackIcon.svg"),
-                    label: Strings.postJob(context),
-                    backgroundColor: const Color(MyColors.whiteColor)),
-                BottomNavigationBarItem(
-                    icon: controller.currentIndex.value == 1
-                        ? SvgPicture.asset(
-                            "lib/assets/icons/myordersRedIcon.svg")
-                        : SvgPicture.asset(
-                            "lib/assets/icons/myordersBlackIcon.svg"),
-                    label: Strings.myJobsText(context),
-                    backgroundColor: const Color(MyColors.whiteColor)),
-                BottomNavigationBarItem(
-                    icon: Obx(() {
-                      return Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          controller.currentIndex.value == 2
-                              ? SvgPicture.asset(
-                                  "lib/assets/icons/chatRedIcon.svg")
-                              : SvgPicture.asset(
-                                  "lib/assets/icons/chatBlackIcon.svg"),
-                          if (controller.unreadMessagesCount.value > 0)
-                            Positioned(
-                              right: -6,
-                              top: -4,
-                              child: Container(
-                                padding: EdgeInsets.all(2.r),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10.r),
+        ),
+        backgroundColor: Colors.white,
+        bottomNavigationBar: Obx(() {
+          return BottomNavigationBar(
+            backgroundColor: Colors.white,
+            elevation: 7,
+            showUnselectedLabels: true,
+            currentIndex: controller.currentIndex.value,
+            onTap: (index) {
+              print(index);
+              if (controller.isLoading.value) {
+                return;
+              }
+              changeTab(index);
+              controller.currentIndex.value = index;
+            },
+            items: [
+              BottomNavigationBarItem(
+                  icon: controller.currentIndex.value == 0
+                      ? SvgPicture.asset("lib/assets/icons/postjobRedIcon.svg")
+                      : SvgPicture.asset(
+                          "lib/assets/icons/postjobBlackIcon.svg"),
+                  label: Strings.postJob(context),
+                  backgroundColor: const Color(MyColors.whiteColor)),
+              BottomNavigationBarItem(
+                  icon: controller.currentIndex.value == 1
+                      ? SvgPicture.asset("lib/assets/icons/myordersRedIcon.svg")
+                      : SvgPicture.asset(
+                          "lib/assets/icons/myordersBlackIcon.svg"),
+                  label: Strings.myJobsText(context),
+                  backgroundColor: const Color(MyColors.whiteColor)),
+              BottomNavigationBarItem(
+                  icon: Obx(() {
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        controller.currentIndex.value == 2
+                            ? SvgPicture.asset(
+                                "lib/assets/icons/chatRedIcon.svg")
+                            : SvgPicture.asset(
+                                "lib/assets/icons/chatBlackIcon.svg"),
+                        if (controller.unreadMessagesCount.value > 0)
+                          Positioned(
+                            right: -6,
+                            top: -4,
+                            child: Container(
+                              padding: EdgeInsets.all(2.r),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: Text(
+                                '${controller.unreadMessagesCount.value}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
                                 ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 16,
-                                  minHeight: 16,
-                                ),
-                                child: Text(
-                                  '${controller.unreadMessagesCount.value}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                        ],
-                      );
-                    }),
-                    label: Strings.chatText(context),
-                    backgroundColor: const Color(MyColors.whiteColor)),
-                // BottomNavigationBarItem(
-                //     icon: _currentIndex == 2
-                //         ? SvgPicture.asset("lib/assets/icons/chatRedIcon.svg")
-                //         : SvgPicture.asset(
-                //             "lib/assets/icons/chatBlackIcon.svg"),
-                //     label: Strings.chatText(context),
-                //     backgroundColor: Color(MyColors.whiteColor)),
-                BottomNavigationBarItem(
-                    icon: Obx(() {
-                      return Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          controller.currentIndex.value == 3
-                              ? SvgPicture.asset(
-                                  "lib/assets/icons/notificationRedIcon.svg")
-                              : SvgPicture.asset(
-                                  "lib/assets/icons/bellblackIcon.svg"),
-                          if (Constants.unreadNotificationsCount.value > 0)
-                            Positioned(
-                              right: -6,
-                              top: -4,
-                              child: Container(
-                                padding: EdgeInsets.all(2.r),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10.r),
+                          ),
+                      ],
+                    );
+                  }),
+                  label: Strings.chatText(context),
+                  backgroundColor: const Color(MyColors.whiteColor)),
+              // BottomNavigationBarItem(
+              //     icon: _currentIndex == 2
+              //         ? SvgPicture.asset("lib/assets/icons/chatRedIcon.svg")
+              //         : SvgPicture.asset(
+              //             "lib/assets/icons/chatBlackIcon.svg"),
+              //     label: Strings.chatText(context),
+              //     backgroundColor: Color(MyColors.whiteColor)),
+              BottomNavigationBarItem(
+                  icon: Obx(() {
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        controller.currentIndex.value == 3
+                            ? SvgPicture.asset(
+                                "lib/assets/icons/notificationRedIcon.svg")
+                            : SvgPicture.asset(
+                                "lib/assets/icons/bellblackIcon.svg"),
+                        if (Constants.unreadNotificationsCount.value > 0)
+                          Positioned(
+                            right: -6,
+                            top: -4,
+                            child: Container(
+                              padding: EdgeInsets.all(2.r),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: 16.r,
+                                minHeight: 16.r,
+                              ),
+                              child: Text(
+                                '${Constants.unreadNotificationsCount.value}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
                                 ),
-                                constraints: BoxConstraints(
-                                  minWidth: 16.r,
-                                  minHeight: 16.r,
-                                ),
-                                child: Text(
-                                  '${Constants.unreadNotificationsCount.value}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                        ],
-                      );
-                    }),
-                    label: Strings.notification(context),
-                    backgroundColor: const Color(MyColors.whiteColor)),
-                BottomNavigationBarItem(
-                    icon: controller.currentIndex.value == 4
-                        ? SvgPicture.asset(
-                            "lib/assets/icons/profileRedicon.svg")
-                        : SvgPicture.asset(
-                            "lib/assets/icons/profileBlackicon.svg"),
-                    label: Strings.profile(context),
-                    backgroundColor: const Color(MyColors.whiteColor)),
-              ],
-              selectedItemColor:
-                  const Color(MyColors.themeRedColor), // Active tab color
-              unselectedItemColor:
-                  const Color(0x9C000000), // Inactive tab color
-            );
-          }),
-          body: Obx(() {
-            return controller.currentIndex.value == 0
-                ? mainScreenUI()
-                : controller.currentIndex.value == 1
-                    ? const PostedOrdersSection()
-                    : controller.currentIndex.value == 2
-                        ? const AllChats()
-                        : controller.currentIndex.value == 3
-                            ? const NotificationsScreen()
-                            : ProfileSection(
-                                isLoggedin: controller.isLoggedIn.value);
-          })),
-    );
+                          ),
+                      ],
+                    );
+                  }),
+                  label: Strings.notification(context),
+                  backgroundColor: const Color(MyColors.whiteColor)),
+              BottomNavigationBarItem(
+                  icon: controller.currentIndex.value == 4
+                      ? SvgPicture.asset("lib/assets/icons/profileRedicon.svg")
+                      : SvgPicture.asset(
+                          "lib/assets/icons/profileBlackicon.svg"),
+                  label: Strings.profile(context),
+                  backgroundColor: const Color(MyColors.whiteColor)),
+            ],
+            selectedItemColor:
+                const Color(MyColors.themeRedColor), // Active tab color
+            unselectedItemColor: const Color(0x9C000000), // Inactive tab color
+          );
+        }),
+        body: Obx(() {
+          return controller.currentIndex.value == 0
+              ? mainScreenUI()
+              : controller.currentIndex.value == 1
+                  ? const PostedOrdersSection()
+                  : controller.currentIndex.value == 2
+                      ? const AllChats()
+                      : controller.currentIndex.value == 3
+                          ? const NotificationsScreen()
+                          : ProfileSection(
+                              isLoggedin: controller.isLoggedIn.value);
+        }));
   }
 
   void changeTab(int index) {
@@ -496,78 +489,83 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(Get.context!).size.width,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 24.0.h, left: 25.0.w, right: 25.0.w),
-                          child: TextField(
-                            controller: controller.searchController(),
-                            onChanged: (value) {
-                              controller.searchInput.value = value;
-                              // searchMillis =
-                              //     DateTime.now().millisecondsSinceEpoch;
-                              controller.filterSearchResults(
-                                  controller.searchInput.value);
-                              // searchQuery();
-                            },
-                            cursorColor: const Color(MyColors.themeRedColor),
-                            decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.search, color: Colors.black),
-                              hintText: "e.g. ${Strings.painter(Get.context!)}",
-                              hintStyle: const TextStyle(
-                                  color: Color(MyColors.lightGrayColor)),
-                              suffixIcon: Padding(
-                                padding: EdgeInsets.only(right: 6.0.w),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (controller.searchController.value.text
-                                        .isNotEmpty) {
-                                      controller.searchController.value.text =
-                                          "";
-                                      controller.filteredOptions.value = [];
-                                      controller.showServicesSuggestions.value =
-                                          false;
-                                    }
-                                  },
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
-                                        width: 30.w, // Adjust width
-                                        height: 30.h, // Adjust height
-                                      ),
-                                      Image.asset(
-                                        'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
-                                        width: 12.w, // Adjust width
-                                        height: 12.h, // Adjust height
-                                      ),
-                                    ],
+                      Obx(() {
+                        return SizedBox(
+                          width: MediaQuery.of(Get.context!).size.width,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 24.0.h, left: 25.0.w, right: 25.0.w),
+                            child: TextField(
+                              autofocus: false,
+                              enabled: controller.isEnabled.value,
+                              controller: controller.searchController(),
+                              onChanged: (value) {
+                                controller.searchInput.value = value;
+                                // searchMillis =
+                                //     DateTime.now().millisecondsSinceEpoch;
+                                controller.filterSearchResults(
+                                    controller.searchInput.value);
+                                // searchQuery();
+                              },
+                              cursorColor: const Color(MyColors.themeRedColor),
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.search,
+                                    color: Colors.black),
+                                hintText:
+                                    "e.g. ${Strings.painter(Get.context!)}",
+                                hintStyle: const TextStyle(
+                                    color: Color(MyColors.lightGrayColor)),
+                                suffixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 6.0.w),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (controller.searchController.value.text
+                                          .isNotEmpty) {
+                                        controller.searchController.value.text =
+                                            "";
+                                        controller.filteredOptions.value = [];
+                                        controller.showServicesSuggestions
+                                            .value = false;
+                                      }
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
+                                          width: 30.w, // Adjust width
+                                          height: 30.h, // Adjust height
+                                        ),
+                                        Image.asset(
+                                          'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
+                                          width: 12.w, // Adjust width
+                                          height: 12.h, // Adjust height
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                ), // Search icon at start
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8.r)), // Border radius
+                                  borderSide: BorderSide(
+                                      color: Color(controller
+                                          .textFieldBorderColor.value),
+                                      width: 1.5.w), // Black border
                                 ),
-                              ), // Search icon at start
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(8.r)), // Border radius
-                                borderSide: BorderSide(
-                                    color: Color(
-                                        controller.textFieldBorderColor.value),
-                                    width: 1.5.w), // Black border
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.r)),
-                                borderSide: BorderSide(
-                                    color: Color(
-                                        controller.textFieldBorderColor.value),
-                                    width: 2.w),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.r)),
+                                  borderSide: BorderSide(
+                                      color: Color(controller
+                                          .textFieldBorderColor.value),
+                                      width: 2.w),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      }),
                       controller.showServicesSuggestions.value
                           ? controller.filteredOptions.isNotEmpty
                               ? SizedBox(
@@ -1670,14 +1668,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                     text: Strings.languageText(context),
                     onPressed: () {
                       try {
-                        Get.to(
-                          const ChangeLanguageScreen(),
-                          transition:
-                              Transition.rightToLeft, // Left-to-right animation
-                          duration: const Duration(
-                              milliseconds:
-                                  500), // Optional: animation duration
-                        );
+                        Get.toNamed(AppLinks.change_language_screen);
                       } catch (e) {
                         throw Exception(e);
                       }

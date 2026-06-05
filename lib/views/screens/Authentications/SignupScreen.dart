@@ -24,266 +24,262 @@ class SignupScreen extends GetView<SignUpContoller> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 32.0.h, left: 12.0.w),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            "lib/assets/icons/bckTwoarrows.svg",
-                            height: 14.h,
-                            width: 14.w,
-                            fit: BoxFit.contain,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 6.0.w),
-                            child: Headingdescription(
-                                text: Strings.goBackText(Get.context!),
-                                centerAlign: false,
-                                size: 12.sp),
-                          ),
-                        ],
-                      ),
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 40.0.h, left: 12.0.w),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          "lib/assets/icons/bckTwoarrows.svg",
+                          height: 14.h,
+                          width: 14.w,
+                          fit: BoxFit.contain,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 6.0.w),
+                          child: Headingdescription(
+                              text: Strings.goBackText(Get.context!),
+                              centerAlign: false,
+                              size: 12.sp),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.95.h,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Spacer(),
-                      Center(
-                        child: Image.asset(
-                          "lib/assets/icons/Logo_black_red.png",
-                          fit: BoxFit.fill,
-                          height: 27.27.h,
-                          width: 144.0.w,
-                        ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.95.h,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Center(
+                      child: Image.asset(
+                        "lib/assets/icons/Logo_black_red.png",
+                        fit: BoxFit.fill,
+                        height: 27.27.h,
+                        width: 144.0.w,
                       ),
-                      SizedBox(height: 60.0.h),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: HeadingText(
-                            text: Strings.registerText(context),
-                            centerAlign: true),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 22.0.h),
-                        child: CommonTextField(
-                            errorText: controller.nameErrorText.value,
-                            hint: Strings.fullNameAddressText(context),
-                            controller: controller.nameTextField(),
-                            inputType: TextInputType.name,
-                            prefixIcon: const Icon(Icons.person_2_outlined),
-                            needPasswordSuffixIcon: false,
-                            onChanged: (value) {
-                              controller.nameErrorText.value = "";
-                            },
-                            needprefixIcon: true),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16.0.h),
-                        child: CommonTextField(
-                            errorText: controller.emailAddressErrorText.value,
-                            hint: Strings.emailAddressText(context),
-                            controller: controller.emailTextField(),
-                            inputType: TextInputType.emailAddress,
-                            prefixIcon: const Icon(Icons.email_outlined),
-                            needPasswordSuffixIcon: false,
-                            onChanged: (value) {
-                              controller.emailAddressErrorText.value = "";
-                            },
-                            needprefixIcon: true),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16.0.h),
-                        child: CommonTextField(
-                            errorText: controller.phoneErrorText.value,
-                            hint:
-                                "${Strings.phoneText(context)} (e.g. +491234567891",
-                            controller: controller.phoneTextField(),
-                            prefixIcon: const Icon(Icons.phone),
-                            inputType: TextInputType.phone,
-                            needPasswordSuffixIcon: false,
-                            onChanged: (value) {
-                              controller.phoneErrorText.value = "";
-                            },
-                            needprefixIcon: true),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16.0.h),
-                        child: CommonTextField(
-                            errorText: controller.passErrorText.value,
-                            hint: Strings.passwordText(context),
-                            controller: controller.passwordTextField(),
-                            prefixIcon: const Icon(Icons.lock_outline),
-                            inputType: TextInputType.visiblePassword,
-                            needPasswordSuffixIcon: true,
-                            onChanged: (pass) {
-                              controller.passErrorText.value = "";
-                              controller.showPasswordRules.value = true;
-                              controller.checkPasswordStrength(pass);
-                            },
-                            needprefixIcon: true),
-                      ),
-                      Obx(() {
-                        return controller.showPasswordRules.value
-                            ? Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 23.0.w,
-                                        right: 23.0.w,
-                                        top: 12.0.h),
-                                    child: LinearProgressIndicator(
-                                      value: controller.passwordStrength.value,
-                                      color: controller.passwordStrength.value <
-                                              0.4
-                                          ? Colors.red
-                                          : controller.passwordStrength.value <
-                                                  0.8
-                                              ? Colors.orange
-                                              : Colors.green,
-                                      minHeight: 4,
-                                    ),
+                    ),
+                    SizedBox(height: 60.0.h),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: HeadingText(
+                          text: Strings.registerText(context),
+                          centerAlign: true),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 22.0.h),
+                      child: CommonTextField(
+                          errorText: controller.nameErrorText.value,
+                          hint: Strings.fullNameAddressText(context),
+                          controller: controller.nameTextField(),
+                          inputType: TextInputType.name,
+                          prefixIcon: const Icon(Icons.person_2_outlined),
+                          needPasswordSuffixIcon: false,
+                          onChanged: (value) {
+                            controller.nameErrorText.value = "";
+                          },
+                          needprefixIcon: true),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.0.h),
+                      child: CommonTextField(
+                          errorText: controller.emailAddressErrorText.value,
+                          hint: Strings.emailAddressText(context),
+                          controller: controller.emailTextField(),
+                          inputType: TextInputType.emailAddress,
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          needPasswordSuffixIcon: false,
+                          onChanged: (value) {
+                            controller.emailAddressErrorText.value = "";
+                          },
+                          needprefixIcon: true),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.0.h),
+                      child: CommonTextField(
+                          errorText: controller.phoneErrorText.value,
+                          hint:
+                              "${Strings.phoneText(context)} (e.g. +491234567891",
+                          controller: controller.phoneTextField(),
+                          prefixIcon: const Icon(Icons.phone),
+                          inputType: TextInputType.phone,
+                          needPasswordSuffixIcon: false,
+                          onChanged: (value) {
+                            controller.phoneErrorText.value = "";
+                          },
+                          needprefixIcon: true),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.0.h),
+                      child: CommonTextField(
+                          errorText: controller.passErrorText.value,
+                          hint: Strings.passwordText(context),
+                          controller: controller.passwordTextField(),
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          inputType: TextInputType.visiblePassword,
+                          needPasswordSuffixIcon: true,
+                          onChanged: (pass) {
+                            controller.passErrorText.value = "";
+                            controller.showPasswordRules.value = true;
+                            controller.checkPasswordStrength(pass);
+                          },
+                          needprefixIcon: true),
+                    ),
+                    Obx(() {
+                      return controller.showPasswordRules.value
+                          ? Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 23.0.w, right: 23.0.w, top: 12.0.h),
+                                  child: LinearProgressIndicator(
+                                    value: controller.passwordStrength.value,
+                                    color: controller.passwordStrength.value <
+                                            0.4
+                                        ? Colors.red
+                                        : controller.passwordStrength.value <
+                                                0.8
+                                            ? Colors.orange
+                                            : Colors.green,
+                                    minHeight: 4,
                                   ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: 20.0.w, top: 4.0.h),
-                                      child: Text(
-                                        controller.passwordStrengthText.value,
-                                        style: TextStyle(
-                                          color: controller
-                                                      .passwordStrength.value <
-                                                  0.4
-                                              ? Colors.red
-                                              : controller.passwordStrength
-                                                          .value <
-                                                      0.8
-                                                  ? Colors.orange
-                                                  : Colors.green,
-                                        ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: 20.0.w, top: 4.0.h),
+                                    child: Text(
+                                      controller.passwordStrengthText.value,
+                                      style: TextStyle(
+                                        color:
+                                            controller.passwordStrength.value <
+                                                    0.4
+                                                ? Colors.red
+                                                : controller.passwordStrength
+                                                            .value <
+                                                        0.8
+                                                    ? Colors.orange
+                                                    : Colors.green,
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 18.0.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        _passwordRule(
-                                            Strings.atLeast12CharactersText(
-                                                Get.context!),
-                                            controller.passwordTextField.value
-                                                    .text.length >=
-                                                12),
-                                        _passwordRule(
-                                            Strings.lowercaseText(Get.context!),
-                                            RegExp(r'[a-z]').hasMatch(controller
-                                                .passwordTextField.value.text)),
-                                        _passwordRule(
-                                            Strings.uppercaseText(Get.context!),
-                                            RegExp(r'[A-Z]').hasMatch(controller
-                                                .passwordTextField.value.text)),
-                                        _passwordRule(
-                                            "${Strings.specialSymbols(Get.context!)} (? # @ ...)",
-                                            RegExp(r'[!@#\$&*~]').hasMatch(
-                                                controller.passwordTextField
-                                                    .value.text)),
-                                        _passwordRule(
-                                            Strings.numbers(Get.context!),
-                                            RegExp(r'[0-9]').hasMatch(controller
-                                                .passwordTextField.value.text)),
-                                      ],
-                                    ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 18.0.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _passwordRule(
+                                          Strings.atLeast12CharactersText(
+                                              Get.context!),
+                                          controller.passwordTextField.value
+                                                  .text.length >=
+                                              12),
+                                      _passwordRule(
+                                          Strings.lowercaseText(Get.context!),
+                                          RegExp(r'[a-z]').hasMatch(controller
+                                              .passwordTextField.value.text)),
+                                      _passwordRule(
+                                          Strings.uppercaseText(Get.context!),
+                                          RegExp(r'[A-Z]').hasMatch(controller
+                                              .passwordTextField.value.text)),
+                                      _passwordRule(
+                                          "${Strings.specialSymbols(Get.context!)} (? # @ ...)",
+                                          RegExp(r'[!@#\$&*~]').hasMatch(
+                                              controller.passwordTextField.value
+                                                  .text)),
+                                      _passwordRule(
+                                          Strings.numbers(Get.context!),
+                                          RegExp(r'[0-9]').hasMatch(controller
+                                              .passwordTextField.value.text)),
+                                    ],
                                   ),
-                                ],
-                              )
-                            : const SizedBox();
-                      }),
-                      // Password Strength Rules
-                      Padding(
-                        padding: EdgeInsets.only(top: 16.0.h),
-                        child: CommonTextField(
-                            errorText: controller.confirmPassErrorText.value,
-                            hint: Strings.confirmPasswordText(context),
-                            controller: controller.confirmPasswordTextField(),
-                            prefixIcon: const Icon(Icons.lock_outline),
-                            inputType: TextInputType.visiblePassword,
-                            onChanged: (value) {
-                              controller.confirmPassErrorText.value = "";
-                            },
-                            needPasswordSuffixIcon: true,
-                            needprefixIcon: true),
+                                ),
+                              ],
+                            )
+                          : const SizedBox();
+                    }),
+                    // Password Strength Rules
+                    Padding(
+                      padding: EdgeInsets.only(top: 16.0.h),
+                      child: CommonTextField(
+                          errorText: controller.confirmPassErrorText.value,
+                          hint: Strings.confirmPasswordText(context),
+                          controller: controller.confirmPasswordTextField(),
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          inputType: TextInputType.visiblePassword,
+                          onChanged: (value) {
+                            controller.confirmPassErrorText.value = "";
+                          },
+                          needPasswordSuffixIcon: true,
+                          needprefixIcon: true),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 40.0.h),
+                      child: FullWidthButton(
+                        text: Strings.registerText(context),
+                        color: MyColors.themeRedColor,
+                        onPressed: () async {
+                          pleaseValidateData();
+                        },
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 40.0.h),
-                        child: FullWidthButton(
-                          text: Strings.registerText(context),
-                          color: MyColors.themeRedColor,
-                          onPressed: () async {
-                            pleaseValidateData();
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 18.0.h),
+                      child: Headingdescription(
+                          text: Strings.bycreatingaccountyouAgreetoourText(
+                              Get.context!),
+                          centerAlign: true,
+                          size: 13.0.sp),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RedClickableText(
+                          text: Strings.termsAndConditionText(Get.context!),
+                          size: 13.5.sp,
+                          callback: () {
+                            Get.toNamed(AppLinks.terms_and_conditions);
                           },
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 18.0.h),
-                        child: Headingdescription(
-                            text: Strings.bycreatingaccountyouAgreetoourText(
-                                Get.context!),
-                            centerAlign: true,
+                        const SizedBox(
+                          width: 4.0,
+                        ),
+                        Headingdescription(
+                            text: "${Strings.and(Get.context!)} ",
+                            centerAlign: false,
                             size: 13.0.sp),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RedClickableText(
-                            text: Strings.termsAndConditionText(Get.context!),
-                            size: 13.5.sp,
-                            callback: () {
-                              Get.toNamed(AppLinks.terms_and_conditions);
-                            },
-                          ),
-                          const SizedBox(
-                            width: 4.0,
-                          ),
-                          Headingdescription(
-                              text: "${Strings.and(Get.context!)} ",
-                              centerAlign: false,
-                              size: 13.0.sp),
-                          SizedBox(
-                            width: 4.0.w,
-                          ),
-                          RedClickableText(
-                            size: 13.5.sp,
-                            text: Strings.privacyPolicyText(Get.context!),
-                            callback: () {
-                              Get.toNamed(AppLinks.privacy_policy);
-                            },
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        SizedBox(
+                          width: 4.0.w,
+                        ),
+                        RedClickableText(
+                          size: 13.5.sp,
+                          text: Strings.privacyPolicy(Get.context!),
+                          callback: () {
+                            Get.toNamed(AppLinks.privacy_policy);
+                          },
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

@@ -21,9 +21,9 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
     return WillPopScope(
       onWillPop: () async {
         if (Platform.isAndroid) {
-          SystemNavigator.pop(); // Closes the app in Android
+          SystemNavigator.pop();
         } else if (Platform.isIOS) {
-          exit(0); // Closes the app in iOS
+          exit(0);
         }
         return false;
       },

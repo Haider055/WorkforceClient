@@ -8,7 +8,6 @@ import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
-import 'package:workforceclientapp/views/screens/DashBoard/SelectServiceScreen.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
@@ -18,98 +17,40 @@ class JobDescriptionScreen extends GetView<PasswordUpdatedController> {
   const JobDescriptionScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (FocusScope.of(context).hasFocus) {
-          FocusScope.of(context).unfocus(); // Close keyboard
-          return false; // DO NOT pop screen
-        }
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(Strings.discardChangesText(Get.context!)),
-            content:
-                Text(Strings.areYouSureToEndJobPostingProcess(Get.context!)),
-            contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0.r)),
-            backgroundColor: const Color(MyColors.colorRed200),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthOutlineButton(
-                          text: Strings.noText(context),
-                          fontsize: 15.0.sp,
-                          color: MyColors.themeRedColor,
-                          onPressed: () {
-                            Get.back();
-                          }),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthButtonPrimary(
-                          text: Strings.yesText(context),
-                          fontsize: 15.0.sp,
-                          color: MyColors.themeRedColor,
-                          onPressed: () {
-                            Get.back();
-                            Get.to(
-                              const SelectServiceScreen(),
-                              transition: Transition
-                                  .rightToLeft, // Left-to-right animation
-                              duration: const Duration(
-                                  milliseconds:
-                                      500), // Optional: animation duration
-                            );
-                          }),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        );
-        return true;
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(Get.context!).unfocus();
       },
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(Get.context!).unfocus();
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            leadingWidth: MediaQuery.of(context).size.width,
-            leading: Card(
-              color: const Color(MyColors.appbackgroundColor),
-              shadowColor: const Color.fromARGB(158, 219, 219, 219),
-              elevation: 2,
-              shape: const Border(
-                  bottom: BorderSide(
-                      color: Color.fromARGB(147, 203, 203, 203),
-                      style: BorderStyle.solid)),
-              child: Center(
-                  child: Padding(
-                padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                child: Text(Constants.selectedServiceName,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0.sp,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Poppins')),
-              )),
-            ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          leadingWidth: MediaQuery.of(context).size.width,
+          leading: Card(
+            color: const Color(MyColors.appbackgroundColor),
+            shadowColor: const Color.fromARGB(158, 219, 219, 219),
+            elevation: 2,
+            shape: const Border(
+                bottom: BorderSide(
+                    color: Color.fromARGB(147, 203, 203, 203),
+                    style: BorderStyle.solid)),
+            child: Center(
+                child: Padding(
+              padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+              child: Text(Constants.selectedServiceName,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Poppins')),
+            )),
           ),
-          body: Column(
+        ),
+        body: SafeArea(
+          child: Column(
             children: [
               Expanded(
                 flex: 1,
@@ -174,47 +115,48 @@ class JobDescriptionScreen extends GetView<PasswordUpdatedController> {
                                 size: 16.sp,
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(18.0.r),
-                              child: TextField(
-                                maxLines: 12,
-                                controller: TextEditingController(
-                                    text: Constants.jobDescription),
-                                onChanged: (value) {
-                                  Constants.jobDescription = value;
-                                },
-                                cursorColor:
-                                    const Color(MyColors.themeRedColor),
-                                decoration: InputDecoration(
-                                    hintText:
-                                        Strings.pleaseExplaininyourownWords(
-                                            Get.context!),
-                                    hintStyle: TextStyle(
-                                        fontSize: 15.sp,
-                                        color:
-                                            const Color(MyColors.darkGrayColor),
-                                        fontWeight: FontWeight.w400),
-                                    fillColor: const Color(MyColors.whiteColor),
-                                    filled: true,
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0.r),
-                                        borderSide: const BorderSide(
-                                            color: Color(
-                                                MyColors.lightGrayColor))),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0.r),
-                                        borderSide: const BorderSide(
-                                            color:
-                                                Color(MyColors.themeRedColor))),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0.r),
-                                        borderSide:
-                                            const BorderSide(color: Color(MyColors.lightGrayColor)))),
-                              ),
-                            ),
+                            Obx(() {
+                              return Padding(
+                                padding: EdgeInsets.all(18.0.r),
+                                child: TextField(
+                                  maxLines: 12,
+                                  autofocus: false,
+                                  enabled: controller.hasEnable.value,
+                                  controller: TextEditingController(
+                                      text: Constants.jobDescription),
+                                  onChanged: (value) {
+                                    Constants.jobDescription = value;
+                                  },
+                                  cursorColor:
+                                      const Color(MyColors.themeRedColor),
+                                  decoration: InputDecoration(
+                                      hintText:
+                                          Strings.pleaseExplaininyourownWords(
+                                              Get.context!),
+                                      hintStyle: TextStyle(
+                                          fontSize: 15.sp,
+                                          color: const Color(
+                                              MyColors.darkGrayColor),
+                                          fontWeight: FontWeight.w400),
+                                      fillColor:
+                                          const Color(MyColors.whiteColor),
+                                      filled: true,
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color: Color(
+                                                  MyColors.lightGrayColor))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color:
+                                                  Color(MyColors.themeRedColor))),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0.r), borderSide: const BorderSide(color: Color(MyColors.lightGrayColor)))),
+                                ),
+                              );
+                            }),
                           ],
                         ),
                       ),
@@ -252,8 +194,14 @@ class JobDescriptionScreen extends GetView<PasswordUpdatedController> {
                               color: MyColors.themeRedColor,
                               onPressed: () {
                                 if (Constants.jobDescription.isNotEmpty) {
+                                  controller.hasEnable.value = true;
+                                  // FocusScope.of(Get.context!).unfocus();
                                   Constants.currentJobPostingStep++;
                                   Get.toNamed(AppLinks.upload_job_image_screen);
+                                  // Future.delayed(
+                                  //     const Duration(milliseconds: 800), () {
+                                  //   controller.hasEnable.value = true;
+                                  // });
                                 } else {
                                   Fluttertoast.showToast(
                                       msg:

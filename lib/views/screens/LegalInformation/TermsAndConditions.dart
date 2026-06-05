@@ -11,6 +11,8 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
+      bottom: true,
       child: Scaffold(
         backgroundColor: const Color(MyColors.cardGrayColor100),
         appBar: AppBar(

@@ -191,4 +191,28 @@ class ConversationContoller extends GetxController {
       throw Exception(e);
     }
   }
+
+  Future<void> pleaseMarkAllasRead(BuildContext context, int chatId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${Constants.baseUrl}/chats/$chatId/read'),
+        headers: await Commons.manageRequestHeader(),
+      );
+      Commons.hideProgressDialog();
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonData['success']) {
+          return;
+        } else {
+          return;
+        }
+      } else {
+        return;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

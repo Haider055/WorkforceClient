@@ -18,7 +18,7 @@ class NotificationService {
   static Future<void> showNotification(String title, String body) async {
     NotificationDetails details = const NotificationDetails(
         android: AndroidNotificationDetails('fcm_channel', 'FCM Notifications',
-            importance: Importance.max,
+            importance: Importance.high,
             priority: Priority.high,
             icon: '@mipmap/ic_launcher')
         // iOS: DarwinNotificationDetails(

@@ -271,7 +271,7 @@
   "emailCannotBeEmptyText": "email Cannot Be Empty",
   "newUserText": "new user",
   "youCanNowLoginText": "you can now Login!",
-  "bycreatingaccountyouAgreetoourText": "By creating an account, you agree to Bitte geben Sie eine Bewertung abour",
+  "bycreatingaccountyouAgreetoourText": "By creating an account, you agree to our",
   "andText": "and",
   "nameCannotBeEmptyText": "name Cannot Be Empty",
   "phoneCannotBeEmptyText": "phone Cannot Be Empty",
@@ -330,6 +330,7 @@
   "youCanOnlyUploadUpTo": "you can only upload upto",
   "ximages": "images",
   "onlyInfoText": "Only",
-  "imagesCanBeAddMoreText": "images can be add more"
+  "imagesCanBeAddMoreText": "images can be add more",
+  "requestAlreadySentText": "Request already sent"
 
 }

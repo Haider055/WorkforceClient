@@ -27,63 +27,60 @@ class _AllChatsState extends State<AllChats> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(MyColors.whiteColor),
-      body: SafeArea(
-        child: Obx(() {
-          return !controller.isLoggedIn.value
-              ? _buildNoLoginView()
-              : Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 14.0.w),
-                        child: HeadingTextW600(
-                          text: Strings.chatText(context),
-                          centerAlign: false,
-                          size: 22.sp,
-                        ),
+      body: Obx(() {
+        return !controller.isLoggedIn.value
+            ? _buildNoLoginView()
+            : Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 14.0.w),
+                      child: HeadingTextW600(
+                        text: Strings.chatText(context),
+                        centerAlign: false,
+                        size: 22.sp,
                       ),
                     ),
-                    controller.isLoading.value
-                        ? const Expanded(
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: Color(MyColors.themeRedColor),
-                              ),
-                            ),
-                          )
-                        : Expanded(
-                            child: Column(
-                              children: [
-                                controller.list.isNotEmpty
-                                    ? Expanded(
-                                        child: ListView.builder(
-                                          itemCount: controller.list.length + 1,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            if (index ==
-                                                controller.list.length) {
-                                              if (controller.chatsList!
-                                                      .pagination!.hasMore ??
-                                                  false) {
-                                                return _buildLoadMoreButton();
-                                              } else {
-                                                return const SizedBox();
-                                              }
-                                            }
-                                            return _buildChatView(
-                                                controller.list[index], index);
-                                          },
-                                        ),
-                                      )
-                                    : _buildNoChatsView(),
-                              ],
+                  ),
+                  controller.isLoading.value
+                      ? const Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Color(MyColors.themeRedColor),
                             ),
                           ),
-                  ],
-                );
-        }),
-      ),
+                        )
+                      : Expanded(
+                          child: Column(
+                            children: [
+                              controller.list.isNotEmpty
+                                  ? Expanded(
+                                      child: ListView.builder(
+                                        itemCount: controller.list.length + 1,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          if (index == controller.list.length) {
+                                            if (controller.chatsList!
+                                                    .pagination!.hasMore ??
+                                                false) {
+                                              return _buildLoadMoreButton();
+                                            } else {
+                                              return const SizedBox();
+                                            }
+                                          }
+                                          return _buildChatView(
+                                              controller.list[index], index);
+                                        },
+                                      ),
+                                    )
+                                  : _buildNoChatsView(),
+                            ],
+                          ),
+                        ),
+                ],
+              );
+      }),
     );
   }
 

@@ -28,162 +28,161 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(MyColors.whiteColor),
-      body: SafeArea(
-        child: Obx(() {
-          return controller.isLoggedin.value == "loggedOut"
-              ? _buildNoLoginView()
-              : Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(left: 12.w, top: 12.h, bottom: 4.h),
-                        child: HeadingTextW600(
-                            text: Strings.notifications(context),
-                            centerAlign: false,
-                            size: 20.sp),
-                      ),
+      body: Obx(() {
+        return controller.isLoggedin.value == "loggedOut"
+            ? _buildNoLoginView()
+            : Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(left: 12.w, top: 12.h, bottom: 4.h),
+                      child: HeadingTextW600(
+                          text: Strings.notifications(context),
+                          centerAlign: false,
+                          size: 20.sp),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: !controller.isLoading.value &&
-                              controller.notiList.isNotEmpty
-                          ? GestureDetector(
-                              onTap: () async {
-                                try {
-                                  Commons.showProgressDialog(context);
-                                  await controller.pleaseMarkAllAsRead(context);
-                                  Commons.hideProgressDialog();
-                                } catch (e) {
-                                  throw Exception(e);
-                                }
-                              },
-                              child: Card(
-                                color: const Color(MyColors.cardGrayColor50),
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadiusGeometry.circular(12.r)),
-                                child: Padding(
-                                  padding: EdgeInsets.all(5.0.r),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SvgPicture.asset(
-                                          "lib/assets/icons/markAsReadIcon.svg"),
-                                      SizedBox(
-                                        width: 3.w,
-                                      ),
-                                      Text(
-                                          Strings.markAllAsReadText(
-                                              Get.context!),
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              color: const Color(
-                                                  MyColors.themeRedColor),
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: 'Poppins'))
-                                    ],
-                                  ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: !controller.isLoading.value &&
+                            controller.notiList.isNotEmpty
+                        ? GestureDetector(
+                            onTap: () async {
+                              try {
+                                Commons.showProgressDialog(context);
+                                await controller.pleaseMarkAllAsRead(context);
+                                Commons.hideProgressDialog();
+                              } catch (e) {
+                                throw Exception(e);
+                              }
+                            },
+                            child: Card(
+                              color: const Color(MyColors.cardGrayColor50),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadiusGeometry.circular(12.r)),
+                              child: Padding(
+                                padding: EdgeInsets.all(5.0.r),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(
+                                        "lib/assets/icons/markAsReadIcon.svg"),
+                                    SizedBox(
+                                      width: 3.w,
+                                    ),
+                                    Text(
+                                        Strings.markAllAsReadText(Get.context!),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: const Color(
+                                                MyColors.themeRedColor),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'Poppins'))
+                                  ],
                                 ),
                               ),
-                            )
-                          : const SizedBox(),
-                    ),
-                    Obx(() {
-                      return controller.isLoading.value
-                          ? const Expanded(
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(MyColors.themeRedColor),
-                                ),
+                            ),
+                          )
+                        : const SizedBox(),
+                  ),
+                  Obx(() {
+                    return controller.isLoading.value
+                        ? const Expanded(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Color(MyColors.themeRedColor),
                               ),
-                            )
-                          : controller.notiList.isEmpty
-                              ? _buildNoNotificationView()
-                              : Expanded(
-                                  child: ListView.builder(
-                                    itemCount: controller.notiList.length +
-                                        (controller.notificationList!
-                                                .pagination!.hasMore!
-                                            ? 1
-                                            : 0),
-                                    itemBuilder: (context, index) {
-                                      // Last item = Load More Button
-                                      if (index == controller.notiList.length) {
-                                        return _buildLoadMoreButton();
-                                      }
+                            ),
+                          )
+                        : controller.notiList.isEmpty
+                            ? _buildNoNotificationView()
+                            : Expanded(
+                                child: ListView.builder(
+                                  itemCount: controller.notiList.length +
+                                      (controller.notificationList!.pagination!
+                                              .hasMore!
+                                          ? 1
+                                          : 0),
+                                  itemBuilder: (context, index) {
+                                    // Last item = Load More Button
+                                    if (index == controller.notiList.length) {
+                                      return _buildLoadMoreButton();
+                                    }
 
-                                      return _buildNotificationView(
-                                          controller.notiList.elementAt(index),
-                                          index);
-                                    },
-                                  ),
-                                );
-                    })
-                  ],
-                );
-        }),
-      ),
+                                    return _buildNotificationView(
+                                        controller.notiList.elementAt(index),
+                                        index);
+                                  },
+                                ),
+                              );
+                  })
+                ],
+              );
+      }),
     );
   }
 
   Widget _buildLoadMoreButton() {
-    return controller.isLoadingMore.value
-        ? Center(
-            child: Padding(
-              padding: EdgeInsets.all(4.0.r),
-              child: const CircularProgressIndicator(
-                color: Color(MyColors.themeRedColor),
+    return Obx(() {
+      return controller.isLoadingMore.value
+          ? Center(
+              child: Padding(
+                padding: EdgeInsets.all(4.0.r),
+                child: const CircularProgressIndicator(
+                  color: Color(MyColors.themeRedColor),
+                ),
               ),
-            ),
-          )
-        : ElevatedButton(
-            style: ButtonStyle(
-                shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r))),
-                fixedSize: WidgetStatePropertyAll(
-                    Size.fromWidth(MediaQuery.of(context).size.width.w / 2)),
-                foregroundColor: const WidgetStatePropertyAll(
-                    Color(MyColors.infoPinkColor2)),
-                elevation: const WidgetStatePropertyAll(0)),
-            onPressed: () {
-              try {
-                if (controller.notificationList!.pagination != null) {
-                  if (controller.notificationList!.pagination!.hasMore ??
-                      false) {
-                    controller.isLoadingMore.value =
-                        controller.notificationList!.pagination!.hasMore!;
-                    controller.getNotificationList(
-                        controller.notificationList!.pagination!.nextCursor!);
+            )
+          : ElevatedButton(
+              style: ButtonStyle(
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r))),
+                  fixedSize: WidgetStatePropertyAll(
+                      Size.fromWidth(MediaQuery.of(context).size.width.w / 2)),
+                  foregroundColor: const WidgetStatePropertyAll(
+                      Color(MyColors.infoPinkColor2)),
+                  elevation: const WidgetStatePropertyAll(0)),
+              onPressed: () {
+                try {
+                  if (controller.notificationList!.pagination != null) {
+                    if (controller.notificationList!.pagination!.hasMore ??
+                        false) {
+                      controller.isLoadingMore.value =
+                          controller.notificationList!.pagination!.hasMore!;
+                      controller.getNotificationList(
+                          controller.notificationList!.pagination!.nextCursor!);
+                    }
                   }
+                } catch (e) {
+                  throw Exception(e);
                 }
-              } catch (e) {
-                throw Exception(e);
-              }
-            },
-            child: Padding(
-              padding: EdgeInsets.all(4.0.r),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Headingdescription(
-                      text: Strings.loadMoreText(Get.context!),
-                      centerAlign: false,
-                      size: 14.sp),
-                  SizedBox(
-                    width: 5.0.w,
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 20.sp,
-                  )
-                ],
+              },
+              child: Padding(
+                padding: EdgeInsets.all(4.0.r),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Headingdescription(
+                        text: Strings.loadMoreText(Get.context!),
+                        centerAlign: false,
+                        size: 14.sp),
+                    SizedBox(
+                      width: 5.0.w,
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 20.sp,
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+    });
   }
 
   Widget _buildNoLoginView() {
@@ -296,32 +295,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       flex: 2,
                       child: Padding(
                         padding: EdgeInsets.all(2.0.r),
-                        child: GestureDetector(
-                            onTap: () async {
-                              // try {
-                              //   if (notification.id != null &&
-                              //       !notification.isRead.value) {
-                              //     if (!notification.isRead.value) {
-                              //       Commons.showProgressDialog(context);
-                              // await controller.pleaseMarkAsRead(
-                              //     context, notification.id!);
-                              //       Commons.hideProgressDialog();
-                              //       notification.isRead.value = true;
-                              //     }
-                              //   }
-                              // } catch (e) {
-                              //   throw Exception(e);
-                              // }
-                            },
-                            child: Center(
-                              child: SvgPicture.asset(
-                                  "lib/assets/icons/readIconNotify.svg"),
-                              //  notification.isRead.value
-                              //     ? SvgPicture.asset(
-                              //         "lib/assets/icons/readIconNotify.svg")
-                              //     : SvgPicture.asset(
-                              //         "lib/assets/icons/unreadIcon.svg")),
-                            )),
+                        child: Center(
+                          child: SvgPicture.asset(notification.isRead.value
+                              ? "lib/assets/icons/readIconNotify.svg"
+                              : "lib/assets/icons/unreadIcon.svg"),
+                          //  notification.isRead.value
+                          //     ? SvgPicture.asset(
+                          //         "lib/assets/icons/readIconNotify.svg")
+                          //     : SvgPicture.asset(
+                          //         "lib/assets/icons/unreadIcon.svg")),
+                        ),
                       ),
                     ),
                     Expanded(

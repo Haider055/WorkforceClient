@@ -26,63 +26,61 @@ class PasswordUpdatedScreen extends GetView<PasswordUpdatedController> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 50.0.h),
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Image.asset(
-                          "lib/assets/images/passwordupdatedicon.png",
-                          fit: BoxFit.fill,
-                          height: 142.27.h,
-                          width: 109.0.w,
-                        )),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0.h),
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.asset(
+                        "lib/assets/images/passwordupdatedicon.png",
+                        fit: BoxFit.fill,
+                        height: 142.27.h,
+                        width: 109.0.w,
+                      )),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.0.h),
+                  child: Text(
+                    Strings.passwordUpdated(context),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 28.0.sp,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12.0.h),
-                    child: Text(
-                      Strings.passwordUpdated(context),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 28.0.sp,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600),
-                    ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16.0.h),
+                  child: Headingdescription(
+                    text: Strings.congratulations(context),
+                    centerAlign: true,
+                    size: 16.0.sp,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16.0.h),
-                    child: Headingdescription(
-                      text: Strings.congratulations(context),
-                      centerAlign: true,
-                      size: 16.0.sp,
-                    ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 4.0.h),
+                  child: Headingdescription(
+                    text: Strings.passwordHasBeenUpdated(context),
+                    centerAlign: true,
+                    size: 16.0.sp,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 4.0.h),
-                    child: Headingdescription(
-                      text: Strings.passwordHasBeenUpdated(context),
-                      centerAlign: true,
-                      size: 16.0.sp,
-                    ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 40.0.h),
+                  child: FullWidthButton(
+                    text: Strings.signInText(context),
+                    color: MyColors.themeRedColor,
+                    onPressed: () {
+                      Constants.fromWhere = "SelectServiceScreen";
+                      Get.toNamed(AppLinks.login_screen);
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 40.0.h),
-                    child: FullWidthButton(
-                      text: Strings.signInText(context),
-                      color: MyColors.themeRedColor,
-                      onPressed: () {
-                        Constants.fromWhere = "SelectServiceScreen";
-                        Get.toNamed(AppLinks.login_screen);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

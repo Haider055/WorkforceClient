@@ -108,14 +108,21 @@ class LoginContoller extends GetxController {
         final androidInfo = await DeviceInfoPlugin().androidInfo;
         if (androidInfo.version.sdkInt >= 33) {
           await FirebaseMessaging.instance.requestPermission(
-            sound: true,
             alert: true,
+            announcement: false,
             badge: true,
+            carPlay: false,
+            criticalAlert: false,
+            sound: true,
           );
         }
       } else {
         await FirebaseMessaging.instance.requestPermission(
-            provisional: true, sound: true, alert: true, badge: true);
+          provisional: false,
+          sound: true,
+          alert: true,
+          badge: true,
+        );
       }
 
       getTokenAndUpdate();
@@ -175,7 +182,7 @@ class LoginContoller extends GetxController {
         tokenRetry++;
         print("retry $tokenRetry");
         if (tokenRetry <= 3) {
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(const Duration(seconds: 1), () {
             getTokenAndUpdate();
           });
         }

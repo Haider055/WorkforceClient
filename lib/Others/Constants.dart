@@ -39,6 +39,7 @@ class Constants {
   static int remainingRequestsCount = 6;
   static RxInt unReadcount = 0.obs;
   static RxInt unreadNotificationsCount = 0.obs;
+  static RxBool fromNotifications = false.obs;
 
   static int lastPostedJobId = 0;
   static late final SimpleFlutterReverb reverb;

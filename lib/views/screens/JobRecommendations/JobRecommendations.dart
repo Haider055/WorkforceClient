@@ -19,17 +19,19 @@ class JobRecommendations extends GetView<JobRecommendationController> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (controller.fromWhere.value == "JobPostCompleted") {
-          Get.offAllNamed(
-            AppLinks.select_service_screen,
-            arguments: {},
-          ); // Optional: animation duration
-        } else if (controller.fromWhere.value == "MyOrders") {
-          Get.back(result: controller.remainingRequestsCount.value);
+    return PopScope(
+      canPop: controller.fromWhere.value == 'MyOrders' ? true : false,
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          if (controller.fromWhere.value == "JobPostCompleted") {
+            Get.offAllNamed(
+              AppLinks.select_service_screen,
+              arguments: {},
+            ); // Optional: animation duration
+          } else if (controller.fromWhere.value == "MyOrders") {
+            Get.back(result: controller.remainingRequestsCount.value);
+          }
         }
-        return false;
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -78,160 +80,163 @@ class JobRecommendations extends GetView<JobRecommendationController> {
           ),
         ),
         body: Obx(() {
-          return Column(
-            children: [
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 20.0.w, top: 12.0.h, right: 20.w),
-                      child: HeadingTextW600(
-                          text: Strings.recommendationScreenHeading(context),
-                          centerAlign: false,
-                          size: 18.sp),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 20.0.w, top: 10.0.h, right: 20.w),
-                      child: Headingdescription(
-                          text: Strings.recommendationScreenDesc(context),
-                          centerAlign: false,
-                          size: 14.sp),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0.w, top: 22.0.h, right: 20.w),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: HeadingTextW600(
-                          text: Strings.recommendedCraftsmen(context),
-                          centerAlign: false,
-                          size: 18.0.sp),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 20.0.w, top: 8.0.h, bottom: 12.0.h),
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(Strings.requestUpTo10Tradesmen(context),
-                            style: TextStyle(
-                                fontSize: 14.0.sp,
-                                fontFamily: 'Poppins',
-                                color: const Color(MyColors.midGrayColor)))),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: controller.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(MyColors.themeRedColor),
-                        ),
-                      )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.tradesmenList.length,
-                        itemBuilder: (context, index) {
-                          return _buildSuggestedCraftmenOptions(
-                              controller.tradesmenList[index]);
-                        },
-                      ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0.r),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          return SafeArea(
+            child: Column(
+              children: [
+                Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12.0.h, top: 6.0.h),
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                                color: Colors.black, fontSize: 16.0.sp),
-                            children: [
-                              WidgetSpan(
-                                child: Image.asset(
-                                  "lib/assets/icons/yellowinfo.png",
-                                  height: 18.h,
-                                  width: 18.w,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              TextSpan(
-                                  text:
-                                      ' ${Strings.selectText(Get.context!)} ${controller.remainingRequestsCount.value}',
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500)),
-                              TextSpan(
-                                  text:
-                                      ' ${Strings.moreCraftmen(Get.context!)}',
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400)),
-                            ],
-                          ),
-                        ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 20.0.w, top: 12.0.h, right: 20.w),
+                        child: HeadingTextW600(
+                            text: Strings.recommendationScreenHeading(context),
+                            centerAlign: false,
+                            size: 18.sp),
                       ),
                     ),
-                    controller.fromWhere.value == "MyOrders"
-                        ? const SizedBox()
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 20.0.w, right: 10.0.w),
-                                  child: FullWidthOutlineButton(
-                                      text: Strings.cancelText(context),
-                                      fontsize: 16.0.sp,
-                                      color: MyColors.themeRedColor,
-                                      onPressed: () {
-                                        if (controller.fromWhere.value ==
-                                            "JobPostCompleted") {
-                                          Get.offAllNamed(
-                                              AppLinks.select_service_screen);
-                                        } else if (controller.fromWhere.value ==
-                                            "MyOrders") {
-                                          Get.back();
-                                        }
-                                      }),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 10.0.w, right: 20.0.w),
-                                  child: FullWidthButtonPrimary(
-                                      text: Strings.orderDetail(context),
-                                      fontsize: 16.0.sp,
-                                      color: MyColors.themeRedColor,
-                                      onPressed: () {
-                                        Get.toNamed(
-                                          AppLinks.orders_details_screen,
-                                          arguments: {
-                                            'jobId': Constants.lastPostedJobId
-                                          },
-                                        );
-                                      }),
-                                ),
-                              )
-                            ],
-                          ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 20.0.w, top: 10.0.h, right: 20.w),
+                        child: Headingdescription(
+                            text: Strings.recommendationScreenDesc(context),
+                            centerAlign: false,
+                            size: 14.sp),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0.w, top: 22.0.h, right: 20.w),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: HeadingTextW600(
+                            text: Strings.recommendedCraftsmen(context),
+                            centerAlign: false,
+                            size: 18.0.sp),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0.w, top: 8.0.h, bottom: 12.0.h),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(Strings.requestUpTo10Tradesmen(context),
+                              style: TextStyle(
+                                  fontSize: 14.0.sp,
+                                  fontFamily: 'Poppins',
+                                  color: const Color(MyColors.midGrayColor)))),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                Expanded(
+                  child: controller.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(MyColors.themeRedColor),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.tradesmenList.length,
+                          itemBuilder: (context, index) {
+                            return _buildSuggestedCraftmenOptions(
+                                controller.tradesmenList[index]);
+                          },
+                        ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 12.0.h, top: 6.0.h),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0.sp),
+                              children: [
+                                WidgetSpan(
+                                  child: Image.asset(
+                                    "lib/assets/icons/yellowinfo.png",
+                                    height: 18.h,
+                                    width: 18.w,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                TextSpan(
+                                    text:
+                                        ' ${Strings.selectText(Get.context!)} ${controller.remainingRequestsCount.value}',
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500)),
+                                TextSpan(
+                                    text:
+                                        ' ${Strings.moreCraftmen(Get.context!)}',
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      controller.fromWhere.value == "MyOrders"
+                          ? const SizedBox()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 20.0.w, right: 10.0.w),
+                                    child: FullWidthOutlineButton(
+                                        text: Strings.cancelText(context),
+                                        fontsize: 16.0.sp,
+                                        color: MyColors.themeRedColor,
+                                        onPressed: () {
+                                          if (controller.fromWhere.value ==
+                                              "JobPostCompleted") {
+                                            Get.offAllNamed(
+                                                AppLinks.select_service_screen);
+                                          } else if (controller
+                                                  .fromWhere.value ==
+                                              "MyOrders") {
+                                            Get.back();
+                                          }
+                                        }),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 10.0.w, right: 20.0.w),
+                                    child: FullWidthButtonPrimary(
+                                        text: Strings.orderDetail(context),
+                                        fontsize: 16.0.sp,
+                                        color: MyColors.themeRedColor,
+                                        onPressed: () {
+                                          Get.toNamed(
+                                            AppLinks.orders_details_screen,
+                                            arguments: {
+                                              'jobId': Constants.lastPostedJobId
+                                            },
+                                          );
+                                        }),
+                                  ),
+                                )
+                              ],
+                            ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         }),
       ),
@@ -515,6 +520,12 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       ),
                       onPressed: () async {
                         try {
+                          if (tradesmen.status.value == "sent") {
+                            Fluttertoast.showToast(
+                                msg: Strings.requestAlreadySentText(
+                                    Get.context!));
+                            return;
+                          }
                           if (tradesmen.status.value == "not sent" &&
                               controller.remainingRequestsCount.value > 0) {
                             tradesmen.status.value = "loading";

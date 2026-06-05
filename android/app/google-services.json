@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:544124172877:android:f9fcb542ef2fe9da72fa04",
+        "mobilesdk_app_id": "1:544124172877:android:5597b981d7f3b45772fa04",
         "android_client_info": {
-          "package_name": "com.dmn.auftragnowtradesmen"
+          "package_name": "com.dmn.auftragnowclient"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:544124172877:android:a8d84f7c419b04a972fa04",
+        "mobilesdk_app_id": "1:544124172877:android:f9fcb542ef2fe9da72fa04",
         "android_client_info": {
-          "package_name": "com.dmn.workforceclientapp"
+          "package_name": "com.dmn.auftragnowtradesmen"
         }
       },
       "oauth_client": [],

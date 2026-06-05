@@ -47,6 +47,7 @@ class SelectServiceController extends GetxController {
   String selectedServiceName = "";
   final RxInt currentIndex = 0.obs;
   int chatLinstenerRetryCount = 0;
+  RxBool isEnabled = true.obs;
 
   @override
   void onInit() {
@@ -62,6 +63,7 @@ class SelectServiceController extends GetxController {
   }
 
   void init() async {
+    isEnabled.value = true;
     await getAllOptionsOfServices();
     await getNotificationsCount();
     manageIfFcmTokenNotSaved();
@@ -120,9 +122,10 @@ class SelectServiceController extends GetxController {
     if (isLoggedIn.value != "loggedOut") {
       await getUnredMessagesCount();
       startChatListener();
+      manageIfComesFromNotificationClick();
     }
     isLoading.value = false;
-    manageIfComesFromNotificationClick();
+    // manageIfComesFromNotificationClick();
   }
 
   Future<void> manageIfComesFromNotificationClick() async {
@@ -170,6 +173,7 @@ class SelectServiceController extends GetxController {
         Get.toNamed(AppLinks.orders_details_screen,
             arguments: {'jobId': jobPostingId, 'section': "tradesmen"});
       } else if (type == "message_received") {
+        Constants.fromNotifications.value = true;
         int chatId = data['chat_id'] == null ? -1 : int.parse(data['chat_id']);
         Get.to(
           const ConversationScreen(),
@@ -310,6 +314,7 @@ class SelectServiceController extends GetxController {
     List<QuestionOption> questionOptions = [];
     List<Map<String, dynamic>> qList = [];
     try {
+      isEnabled.value = false;
       final response = await http.get(
           Uri.parse('${Constants.baseUrl}/services/$id/questions'),
           headers: await Commons.manageRequestHeader());
@@ -372,6 +377,7 @@ class SelectServiceController extends GetxController {
           Constants.questionsList = qList;
 
           if (qList.isNotEmpty) {
+            isEnabled.value = false;
             Constants.jobPostingSteps = qList.length + 4;
             Constants.currentJobPostingStep = 1;
             Constants.jobTitle = "";
@@ -388,6 +394,7 @@ class SelectServiceController extends GetxController {
             Get.toNamed(AppLinks.job_title_screen);
             return "";
           } else {
+            isEnabled.value = false;
             Constants.jobPostingSteps = 4;
             Constants.currentJobPostingStep = 1;
             Commons.hideProgressDialog();
@@ -395,6 +402,7 @@ class SelectServiceController extends GetxController {
             return "error";
           }
         } else {
+          isEnabled.value = true;
           String msg = jsonData['message'];
           Fluttertoast.showToast(msg: msg);
           return "error";
@@ -402,11 +410,13 @@ class SelectServiceController extends GetxController {
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
+        isEnabled.value = true;
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
         return "error";
       }
     } catch (e) {
+      isEnabled.value = true;
       throw Exception(e);
     }
   }

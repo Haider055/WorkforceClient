@@ -49,275 +49,266 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(top: 32.0.h, left: 12.0.w),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        "lib/assets/icons/bckTwoarrows.svg",
-                        height: 14.h,
-                        width: 14.w,
-                        fit: BoxFit.contain,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 6.0.w),
-                        child: Headingdescription(
-                            text: Strings.goBackText(Get.context!),
-                            centerAlign: false,
-                            size: 12.sp),
-                      ),
-                    ],
-                  ),
+        body: Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Padding(
+                padding: EdgeInsets.only(top: 40.0.h, left: 12.0.w),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      "lib/assets/icons/bckTwoarrows.svg",
+                      height: 14.h,
+                      width: 14.w,
+                      fit: BoxFit.contain,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 6.0.w),
+                      child: Headingdescription(
+                          text: Strings.goBackText(Get.context!),
+                          centerAlign: false,
+                          size: 12.sp),
+                    ),
+                  ],
                 ),
               ),
-              Center(
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Align(
+            ),
+            Center(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 25.0.w),
+                            child: Text(
+                              Strings.otpVerification(context),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 28.0.sp,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.0.w, top: 6.0.h),
+                          child: Align(
                             alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 25.0.w),
-                              child: Text(
-                                Strings.otpVerification(context),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 28.0.sp,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600),
-                              ),
+                            child: Headingdescription(
+                              text: Strings.otpVerificationScreenText(context),
+                              centerAlign: false,
+                              size: 15.0.sp,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 25.0.w, top: 6.0.h),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Headingdescription(
-                                text:
-                                    Strings.otpVerificationScreenText(context),
-                                centerAlign: false,
-                                size: 15.0.sp,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(top: 25.0.h),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Form(
-                                    key: controller.formKey,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Directionality(
-                                          // Specify direction if desired
-                                          textDirection: TextDirection.ltr,
-                                          child: Pinput(
-                                            length: 6,
-                                            // You can pass your own SmsRetriever implementation based on any package
-                                            // in this example we are using the SmartAuth
-                                            // smsRetriever: smsRetriever,
-                                            controller:
-                                                controller.pinController,
-                                            focusNode: controller.focusNode,
-                                            defaultPinTheme: defaultPinTheme,
-                                            separatorBuilder: (index) =>
-                                                SizedBox(width: 8.w),
-                                            // validator: (value) {
-                                            //   return value == '2222'
-                                            //       ? null
-                                            //       : 'Pin is incorrect';
-                                            // },
-                                            hapticFeedbackType:
-                                                HapticFeedbackType.lightImpact,
-                                            onCompleted: (pin) {
-                                              controller.middleText.value =
-                                                  Strings.pleaseVerify(context)
-                                                      .obs();
-                                              controller
-                                                      .verifyButtonColor.value =
-                                                  MyColors.themeRedColor.obs();
-                                              controller.pinCode.value =
-                                                  pin.toString();
-                                              debugPrint('onCompleted: $pin');
-                                            },
-                                            onChanged: (value) {
-                                              controller.middleText.value =
-                                                  Strings.enterCode(context)
-                                                      .obs();
-                                              controller.verifyButtonColor
-                                                  .value = 0xffDDDDDD.obs();
-                                              debugPrint('onChanged: $value');
-                                            },
-                                            cursor: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 9.0.h),
-                                                  width: 22.0.w,
-                                                  height: 1.0.h,
-                                                  color: Color(controller
-                                                      .completeBorderColor
-                                                      .value),
-                                                ),
-                                              ],
-                                            ),
-                                            focusedPinTheme:
-                                                defaultPinTheme.copyWith(
-                                              decoration: defaultPinTheme
-                                                  .decoration!
-                                                  .copyWith(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.r),
-                                                      border: Border.all(
-                                                          color: Color(controller
-                                                              .completeBorderColor
-                                                              .value))),
-                                            ),
-                                            submittedPinTheme:
-                                                defaultPinTheme.copyWith(
-                                              decoration: defaultPinTheme
-                                                  .decoration!
-                                                  .copyWith(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(15.r),
-                                                border: Border.all(
-                                                    color: Color(controller
-                                                        .completeBorderColor
-                                                        .value)),
-                                              ),
-                                            ),
-                                            errorPinTheme:
-                                                defaultPinTheme.copyBorderWith(
-                                              border: Border.all(
-                                                  color: Colors.redAccent),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(top: 55.0.h),
-                            child: Text(controller.middleText.value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color:
-                                        Color(controller.middleTextCode.value),
-                                    fontSize: 16.0.sp,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Poppins')),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 50.0.h),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 25.0.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Headingdescription(
-                                    text: Strings.didNotReceiveCode(context),
-                                    centerAlign: false,
-                                    size: 16.0.sp),
-                                SizedBox(
-                                  width: 4.0.w,
-                                ),
-                                RedClickableText(
-                                  text: Strings.resend(context),
-                                  size: 16.0.sp,
-                                  callback: () {
-                                    Get.offAllNamed(AppLinks.login_screen);
-                                  },
+                                Form(
+                                  key: controller.formKey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Directionality(
+                                        // Specify direction if desired
+                                        textDirection: TextDirection.ltr,
+                                        child: Pinput(
+                                          length: 6,
+                                          // You can pass your own SmsRetriever implementation based on any package
+                                          // in this example we are using the SmartAuth
+                                          // smsRetriever: smsRetriever,
+                                          controller: controller.pinController,
+                                          focusNode: controller.focusNode,
+                                          defaultPinTheme: defaultPinTheme,
+                                          separatorBuilder: (index) =>
+                                              SizedBox(width: 8.w),
+                                          // validator: (value) {
+                                          //   return value == '2222'
+                                          //       ? null
+                                          //       : 'Pin is incorrect';
+                                          // },
+                                          hapticFeedbackType:
+                                              HapticFeedbackType.lightImpact,
+                                          onCompleted: (pin) {
+                                            controller.middleText.value =
+                                                Strings.pleaseVerify(context)
+                                                    .obs();
+                                            controller.verifyButtonColor.value =
+                                                MyColors.themeRedColor.obs();
+                                            controller.pinCode.value =
+                                                pin.toString();
+                                            debugPrint('onCompleted: $pin');
+                                          },
+                                          onChanged: (value) {
+                                            controller.middleText.value =
+                                                Strings.enterCode(context)
+                                                    .obs();
+                                            controller.verifyButtonColor.value =
+                                                0xffDDDDDD.obs();
+                                            debugPrint('onChanged: $value');
+                                          },
+                                          cursor: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: 9.0.h),
+                                                width: 22.0.w,
+                                                height: 1.0.h,
+                                                color: Color(controller
+                                                    .completeBorderColor.value),
+                                              ),
+                                            ],
+                                          ),
+                                          focusedPinTheme:
+                                              defaultPinTheme.copyWith(
+                                            decoration: defaultPinTheme
+                                                .decoration!
+                                                .copyWith(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.r),
+                                                    border: Border.all(
+                                                        color: Color(controller
+                                                            .completeBorderColor
+                                                            .value))),
+                                          ),
+                                          submittedPinTheme:
+                                              defaultPinTheme.copyWith(
+                                            decoration: defaultPinTheme
+                                                .decoration!
+                                                .copyWith(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15.r),
+                                              border: Border.all(
+                                                  color: Color(controller
+                                                      .completeBorderColor
+                                                      .value)),
+                                            ),
+                                          ),
+                                          errorPinTheme:
+                                              defaultPinTheme.copyBorderWith(
+                                            border: Border.all(
+                                                color: Colors.redAccent),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
-                            ),
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(top: 55.0.h),
+                          child: Text(controller.middleText.value,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Color(controller.middleTextCode.value),
+                                  fontSize: 16.0.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Poppins')),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 50.0.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Headingdescription(
+                                  text: Strings.didNotReceiveCode(context),
+                                  centerAlign: false,
+                                  size: 16.0.sp),
+                              SizedBox(
+                                width: 4.0.w,
+                              ),
+                              RedClickableText(
+                                text: Strings.resend(context),
+                                size: 16.0.sp,
+                                callback: () {
+                                  Get.offAllNamed(AppLinks.login_screen);
+                                },
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 25.0.h, left: 8.0.w, right: 8.0.w),
-                            child: FullWidthButton(
-                              text: Strings.verify(context),
-                              color: controller.verifyButtonColor.value,
-                              onPressed: () async {
-                                if (controller.middleText.value ==
-                                    Strings.pleaseVerify(context)) {
-                                  Commons.showProgressDialog(context);
-                                  String res = await controller.pleaseVerifyOTP(
-                                      controller.pinCode.value,
-                                      controller.email.value,
-                                      context);
-                                  Commons.hideProgressDialog();
-                                  if (res == "done") {
-                                    try {
-                                      if (Constants.fromWhere ==
-                                          "JobPostCompletedScreen") {
-                                        Get.toNamed(
-                                            AppLinks.job_post_completed_screen);
-                                        // Get.to(
-                                        //   const JobPostCompletedScreen(),
-                                        //   transition: Transition
-                                        //       .rightToLeft, // Left-to-right animation
-                                        //   duration: const Duration(
-                                        //       milliseconds:
-                                        //           500), // Optional: animation duration
-                                        // );
-                                      } else {
-                                        // Get.offAllNamed(
-                                        //     AppLinks.select_service_screen);
-                                      }
-                                    } catch (e) {
-                                      e.printError();
-                                    }
-                                  } else if (res == "success") {
-                                    // need to remove else if
-                                    Commons.hideProgressDialog();
-                                    if (controller.fromWhere.value ==
-                                            "signup" ||
-                                        controller.fromWhere.value == "login") {
-                                      Fluttertoast.showToast(
-                                          msg: Strings.youCanNowLoginText(
-                                              Get.context!));
-                                      Get.offAllNamed(AppLinks.login_screen);
-                                    } else {
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 25.0.h, left: 8.0.w, right: 8.0.w),
+                          child: FullWidthButton(
+                            text: Strings.verify(context),
+                            color: controller.verifyButtonColor.value,
+                            onPressed: () async {
+                              if (controller.middleText.value ==
+                                  Strings.pleaseVerify(context)) {
+                                Commons.showProgressDialog(context);
+                                String res = await controller.pleaseVerifyOTP(
+                                    controller.pinCode.value,
+                                    controller.email.value,
+                                    context);
+                                Commons.hideProgressDialog();
+                                if (res == "done") {
+                                  try {
+                                    if (Constants.fromWhere ==
+                                        "JobPostCompletedScreen") {
                                       Get.toNamed(
-                                          AppLinks.create_new_password_screen,
-                                          arguments: {
-                                            "email": controller.email.value
-                                                .toString()
-                                          });
+                                          AppLinks.job_post_completed_screen);
+                                      // Get.to(
+                                      //   const JobPostCompletedScreen(),
+                                      //   transition: Transition
+                                      //       .rightToLeft, // Left-to-right animation
+                                      //   duration: const Duration(
+                                      //       milliseconds:
+                                      //           500), // Optional: animation duration
+                                      // );
+                                    } else {
+                                      // Get.offAllNamed(
+                                      //     AppLinks.select_service_screen);
                                     }
-                                  } else {
-                                    pleaseShowDialog(res);
+                                  } catch (e) {
+                                    e.printError();
                                   }
+                                } else if (res == "success") {
+                                  // need to remove else if
+                                  Commons.hideProgressDialog();
+                                  if (controller.fromWhere.value == "signup" ||
+                                      controller.fromWhere.value == "login") {
+                                    Fluttertoast.showToast(
+                                        msg: Strings.youCanNowLoginText(
+                                            Get.context!));
+                                    Get.offAllNamed(AppLinks.login_screen);
+                                  } else {
+                                    Get.toNamed(
+                                        AppLinks.create_new_password_screen,
+                                        arguments: {
+                                          "email":
+                                              controller.email.value.toString()
+                                        });
+                                  }
+                                } else {
+                                  pleaseShowDialog(res);
                                 }
-                              },
-                            ),
+                              }
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

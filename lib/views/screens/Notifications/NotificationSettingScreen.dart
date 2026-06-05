@@ -14,106 +14,104 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
   const NotificationSettingScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(MyColors.cardGrayColor100),
-        appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width.w,
-          leading: Card(
-            color: const Color(MyColors.cardGrayColor100),
-            shadowColor: const Color.fromARGB(158, 219, 219, 219),
-            elevation: 0.5,
-            shape: const Border(
-                bottom: BorderSide(
-                    color: Color.fromARGB(147, 203, 203, 203),
-                    style: BorderStyle.solid)),
-            child: Center(
-              child: Stack(
-                children: [
-                  Center(
-                      child: HeadingTextW600(
-                    text: Strings.notification(context),
-                    centerAlign: false,
-                    size: 18.0.sp,
-                  )),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 12.0.w),
-                      child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Icon(Icons.arrow_back_ios)),
-                    ),
+    return Scaffold(
+      backgroundColor: const Color(MyColors.cardGrayColor100),
+      appBar: AppBar(
+        leadingWidth: MediaQuery.of(context).size.width.w,
+        leading: Card(
+          color: const Color(MyColors.cardGrayColor100),
+          shadowColor: const Color.fromARGB(158, 219, 219, 219),
+          elevation: 0.5,
+          shape: const Border(
+              bottom: BorderSide(
+                  color: Color.fromARGB(147, 203, 203, 203),
+                  style: BorderStyle.solid)),
+          child: Center(
+            child: Stack(
+              children: [
+                Center(
+                    child: HeadingTextW600(
+                  text: Strings.notification(context),
+                  centerAlign: false,
+                  size: 18.0.sp,
+                )),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12.0.w),
+                    child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Icon(Icons.arrow_back_ios)),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-        body: Obx(() {
-          return controller.isLoading.value
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(MyColors.themeRedColor),
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(14.0.w),
-                        child: RichText(
-                          text: TextSpan(
-                            text:
-                                "${Strings.youCanAdjustYourNotificationSettingText(Get.context!)} ",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14.5.sp,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: Strings.seeourPrivacyPlolicyText(
-                                    Get.context!),
-                                style: TextStyle(
-                                  color: const Color(MyColors.themeRedColor),
-                                  fontSize: 14.5.sp,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 14.0.w, top: 12.h, bottom: 12.h),
-                          child: HeadingTextW600(
-                              text: Strings.updatesOnJobsText(Get.context!),
-                              centerAlign: false,
-                              size: 20.sp),
-                        ),
-                      ),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: controller.list.length,
-                        itemBuilder: (context, index) {
-                          return _buildView(controller.list.elementAt(index));
-                        },
-                      )
-                    ],
-                  ),
-                );
-        }),
       ),
+      body: Obx(() {
+        return controller.isLoading.value
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Color(MyColors.themeRedColor),
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(14.0.w),
+                      child: RichText(
+                        text: TextSpan(
+                          text:
+                              "${Strings.youCanAdjustYourNotificationSettingText(Get.context!)} ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.5.sp,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: Strings.seeourPrivacyPlolicyText(
+                                  Get.context!),
+                              style: TextStyle(
+                                color: const Color(MyColors.themeRedColor),
+                                fontSize: 14.5.sp,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0.w, top: 12.h, bottom: 12.h),
+                        child: HeadingTextW600(
+                            text: Strings.updatesOnJobsText(Get.context!),
+                            centerAlign: false,
+                            size: 20.sp),
+                      ),
+                    ),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: controller.list.length,
+                      itemBuilder: (context, index) {
+                        return _buildView(controller.list.elementAt(index));
+                      },
+                    )
+                  ],
+                ),
+              );
+      }),
     );
   }
 

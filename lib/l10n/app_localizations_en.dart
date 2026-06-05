@@ -883,7 +883,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bycreatingaccountyouAgreetoourText =>
-      'By creating an account, you agree to Bitte geben Sie eine Bewertung abour';
+      'By creating an account, you agree to our';
 
   @override
   String get andText => 'and';
@@ -1075,4 +1075,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get imagesCanBeAddMoreText => 'images can be add more';
+
+  @override
+  String get requestAlreadySentText => 'Request already sent';
 }

@@ -425,7 +425,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get aboutThisCompanyText => 'Geschäftsbedingungen';
 
   @override
-  String get termsAndConditionText => 'Terms And Conditions';
+  String get termsAndConditionText => 'Geschäftsbedingungen';
 
   @override
   String get infoText => 'Information';
@@ -898,7 +898,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get bycreatingaccountyouAgreetoourText =>
-      'Mit der Erstellung eines Kontos stimmen Sie unseren Bedingungen zu';
+      'Durch die Erstellung eines Kontos stimmen Sie unseren Nutzungsbedingungen zu';
 
   @override
   String get andText => 'Und';
@@ -1097,4 +1097,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get imagesCanBeAddMoreText =>
       'Es können weitere Bilder hinzugefügt werden';
+
+  @override
+  String get requestAlreadySentText => 'Anfrage bereits gesendet';
 }

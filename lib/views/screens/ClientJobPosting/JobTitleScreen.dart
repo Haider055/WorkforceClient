@@ -56,175 +56,196 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
               )),
             ),
           ),
-          body: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 0),
-                      child: LinearProgressBar(
-                        maxSteps: Constants.jobPostingSteps,
-                        progressType: LinearProgressBar.progressTypeLinear,
-                        minHeight: 6,
-                        currentStep: Constants.currentJobPostingStep,
-                        progressColor: const Color(MyColors.themeRedColor),
-                        backgroundColor: const Color(MyColors.lightSilverColor),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
-                        child: Text(
-                          "${Strings.step(context)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
-                          style: TextStyle(
-                              fontSize: 14.5.sp,
-                              color: const Color(MyColors.midGrayColor)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 16,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0.r),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
                   child: Column(
                     children: [
-                      Card(
-                        color: const Color(MyColors.cardGrayColor50),
-                        elevation: 0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 18.0.w, top: 12.0.h, right: 18.0.w),
-                              child: HeadingTextW500(
-                                  text: Strings.jobTitle(context),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.0.w, vertical: 0),
+                        child: LinearProgressBar(
+                          maxSteps: Constants.jobPostingSteps,
+                          progressType: LinearProgressBar.progressTypeLinear,
+                          minHeight: 6,
+                          currentStep: Constants.currentJobPostingStep,
+                          progressColor: const Color(MyColors.themeRedColor),
+                          backgroundColor:
+                              const Color(MyColors.lightSilverColor),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
+                          child: Text(
+                            "${Strings.step(context)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
+                            style: TextStyle(
+                                fontSize: 14.5.sp,
+                                color: const Color(MyColors.midGrayColor)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 16,
+                  child: Padding(
+                    padding: EdgeInsets.all(12.0.r),
+                    child: Column(
+                      children: [
+                        Card(
+                          color: const Color(MyColors.cardGrayColor50),
+                          elevation: 0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 18.0.w, top: 12.0.h, right: 18.0.w),
+                                child: HeadingTextW500(
+                                    text: Strings.jobTitle(context),
+                                    centerAlign: false,
+                                    size: 20),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 18.0.w, top: 5.0.h, right: 18.0.w),
+                                child: Headingdescription(
+                                  text: Strings.jobTitleDesc(context),
                                   centerAlign: false,
-                                  size: 20),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 18.0.w, top: 5.0.h, right: 18.0.w),
-                              child: Headingdescription(
-                                text: Strings.jobTitleDesc(context),
-                                centerAlign: false,
-                                size: 16,
+                                  size: 16,
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(18.0.r),
-                              child: TextField(
-                                maxLines: 2,
-                                maxLength: 50,
-                                cursorColor:
-                                    const Color(MyColors.themeRedColor),
-                                controller: TextEditingController(
-                                    text: Constants.jobTitle),
-                                onChanged: (value) {
-                                  Constants.jobTitle = value;
-                                },
-                                decoration: InputDecoration(
-                                    hintText: Strings.jobTitleHint(context),
-                                    hintStyle: TextStyle(
-                                        fontSize: 15.sp,
-                                        color:
-                                            const Color(MyColors.darkGrayColor),
-                                        fontWeight: FontWeight.w400),
-                                    fillColor: const Color(MyColors.whiteColor),
-                                    filled: true,
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0.r),
-                                        borderSide: const BorderSide(
-                                            color: Color(
-                                                MyColors.lightGrayColor))),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0.r),
-                                        borderSide: const BorderSide(
-                                            color:
-                                                Color(MyColors.themeRedColor))),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9.0.r),
-                                        borderSide: const BorderSide(
-                                            color: Color(
-                                                MyColors.lightGrayColor)))),
+                              Padding(
+                                padding: EdgeInsets.all(18.0.r),
+                                child: TextField(
+                                  maxLines: 2,
+                                  autofocus: false,
+                                  enabled: controller.hasEnable.value,
+                                  maxLength: 50,
+                                  cursorColor:
+                                      const Color(MyColors.themeRedColor),
+                                  controller: TextEditingController(
+                                      text: Constants.jobTitle),
+                                  onChanged: (value) {
+                                    Constants.jobTitle = value;
+                                  },
+                                  decoration: InputDecoration(
+                                      hintText: Strings.jobTitleHint(context),
+                                      hintStyle: TextStyle(
+                                          fontSize: 15.sp,
+                                          color: const Color(
+                                              MyColors.darkGrayColor),
+                                          fontWeight: FontWeight.w400),
+                                      fillColor:
+                                          const Color(MyColors.whiteColor),
+                                      filled: true,
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color: Color(
+                                                  MyColors.lightGrayColor))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color: Color(
+                                                  MyColors.themeRedColor))),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color: Color(MyColors.lightGrayColor)))),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                    ],
+                        const Spacer(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0.r),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 25.0.w, right: 12.0.w),
-                          child: FullWidthOutlineButton(
-                              text: Strings.back(context),
-                              fontsize: 15.0.sp,
-                              color: MyColors.themeRedColor,
-                              onPressed: () {
-                                Get.offAllNamed(AppLinks.select_service_screen);
-                              }),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 25.0.w, right: 12.0.w),
+                            child: FullWidthOutlineButton(
+                                text: Strings.back(context),
+                                fontsize: 15.0.sp,
+                                color: MyColors.themeRedColor,
+                                onPressed: () {
+                                  Get.offAllNamed(
+                                      AppLinks.select_service_screen);
+                                }),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
-                          child: FullWidthButtonPrimary(
-                              text: Strings.next(context),
-                              fontsize: 15.0.sp,
-                              color: MyColors.themeRedColor,
-                              onPressed: () {
-                                if (Constants.jobTitle.isNotEmpty) {
-                                  if (Constants.jobPostingSteps == 4) {
-                                    Constants.currentJobPostingStep++;
-                                    Get.toNamed(
-                                        AppLinks.job_description_screen);
-                                  } else {
-                                    if (Constants.jobTitle.length > 3) {
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 12.0.w, right: 25.0.w),
+                            child: FullWidthButtonPrimary(
+                                text: Strings.next(context),
+                                fontsize: 15.0.sp,
+                                color: MyColors.themeRedColor,
+                                onPressed: () {
+                                  if (Constants.jobTitle.isNotEmpty) {
+                                    if (Constants.jobPostingSteps == 4) {
                                       Constants.currentJobPostingStep++;
-                                      Get.to(
-                                        const CheckBoxQuestionsScreen(),
-                                      );
+                                      FocusScope.of(Get.context!).unfocus();
+                                      controller.hasEnable.value = false;
+                                      Future.delayed(
+                                          const Duration(milliseconds: 300),
+                                          () {
+                                        Get.to(
+                                          const CheckBoxQuestionsScreen(),
+                                        );
+                                      });
                                     } else {
-                                      Fluttertoast.showToast(
-                                          msg: Strings.nameMustBeAtLeast(
-                                              context));
+                                      if (Constants.jobTitle.length > 3) {
+                                        Constants.currentJobPostingStep++;
+                                        FocusScope.of(Get.context!).unfocus();
+                                        controller.hasEnable.value = false;
+                                        Future.delayed(
+                                            const Duration(milliseconds: 300),
+                                            () {
+                                          Get.to(
+                                            const CheckBoxQuestionsScreen(),
+                                          );
+                                        });
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: Strings.nameMustBeAtLeast(
+                                                context));
+                                      }
                                     }
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: Strings.writeJobTitle(context));
                                   }
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg: Strings.writeJobTitle(context));
-                                }
-                              }),
-                        ),
-                      )
-                    ],
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
