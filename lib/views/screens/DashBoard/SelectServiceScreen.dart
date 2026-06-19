@@ -127,13 +127,6 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                   }),
                   label: Strings.chatText(context),
                   backgroundColor: const Color(MyColors.whiteColor)),
-              // BottomNavigationBarItem(
-              //     icon: _currentIndex == 2
-              //         ? SvgPicture.asset("lib/assets/icons/chatRedIcon.svg")
-              //         : SvgPicture.asset(
-              //             "lib/assets/icons/chatBlackIcon.svg"),
-              //     label: Strings.chatText(context),
-              //     backgroundColor: Color(MyColors.whiteColor)),
               BottomNavigationBarItem(
                   icon: Obx(() {
                     return Stack(
@@ -499,6 +492,12 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                               autofocus: false,
                               enabled: controller.isEnabled.value,
                               controller: controller.searchController(),
+                              onTap: () {
+                                if (controller.searchInput.value.isEmpty) {
+                                  controller.filterSearchResults(
+                                      controller.searchInput.value);
+                                }
+                              },
                               onChanged: (value) {
                                 controller.searchInput.value = value;
                                 // searchMillis =
@@ -830,7 +829,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
             ),
             GestureDetector(
               onTap: () {
-                controller.selectedTabName.value = "inprocess";
+                controller.selectedTabName.value = "open";
                 controller.isLoading.value = true;
                 controller.status.value = "open";
                 controller.getPostedOrdersList(1, controller.status.value);
@@ -839,7 +838,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                 children: [
                   Card(
                     elevation: 0,
-                    color: controller.selectedTabName.value == "inprocess"
+                    color: controller.selectedTabName.value == "open"
                         ? const Color(MyColors.themeRedColor)
                         : const Color(MyColors.whiteColor),
                     child: Padding(
@@ -848,11 +847,10 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                           right: 10.0.w,
                           top: 2.0.h,
                           bottom: 2.0.h),
-                      child: Text(Strings.inProcess(Get.context!),
+                      child: Text(Strings.openText(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              color: controller.selectedTabName.value ==
-                                      "inprocess"
+                              color: controller.selectedTabName.value == "open"
                                   ? const Color(MyColors.whiteColor)
                                   : const Color(MyColors.blackColor),
                               fontSize: 14.sp,
@@ -1084,8 +1082,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               child: HeadingTextW700(
                 text: controller.selectedTabName == "Active"
                     ? Strings.noActiveOrders(Get.context!)
-                    : controller.selectedTabName == "inprocess"
-                        ? Strings.noInProcessOrders(Get.context!)
+                    : controller.selectedTabName == "open"
+                        ? Strings.noOpenOrders(Get.context!)
                         : controller.selectedTabName == "completed"
                             ? Strings.noCompleteOrders(Get.context!)
                             : Strings.noCancelOrders(Get.context!),
@@ -1235,7 +1233,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                   width: 2.0.w,
                                 ),
                                 Headingdescription(
-                                    text: Strings.inProcess(Get.context!),
+                                    text: Strings.openText(Get.context!),
                                     centerAlign: false,
                                     size: 12.sp)
                               ],
@@ -1507,12 +1505,49 @@ class _ProfileSectionState extends State<ProfileSection> {
   late SharedPreferences _prefs;
   String imageUrl = "";
   String userName = "";
+  String userEmail = "";
   ProfileController controller = Get.put(ProfileController());
   File? _selectedImage;
 
   Future<void> _pickImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+    // ✅ Show options bottom sheet first
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt,
+                    color: Color(MyColors.themeRedColor)),
+                title: Text(Strings.cameraText(context)),
+                onTap: () {
+                  Get.back(); // close bottom sheet
+                  _pickImageFromSource(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library,
+                    color: Color(MyColors.themeRedColor)),
+                title: Text(Strings.galleryText(context)), // add this string
+                onTap: () {
+                  Get.back(); // close bottom sheet
+                  _pickImageFromSource(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImageFromSource(ImageSource source) async {
+    final XFile? pickedFile = await _picker.pickImage(source: source);
 
     if (pickedFile == null) {
       Fluttertoast.showToast(
@@ -1574,7 +1609,11 @@ class _ProfileSectionState extends State<ProfileSection> {
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? HeadingTextW600(
-                        text: userName, centerAlign: true, size: 18.sp)
+                        text: userName, centerAlign: true, size: 16.sp)
+                    : const SizedBox(),
+                widget.isLoggedin != "loggedOut"
+                    ? HeadingTextW500(
+                        text: userEmail, centerAlign: true, size: 13.sp)
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? SizedBox(
@@ -1691,7 +1730,9 @@ class _ProfileSectionState extends State<ProfileSection> {
                     icon: "lib/assets/icons/supportcentreIcon.svg",
                     text: Strings.supportCenter(context),
                     onPressed: () {
-                      try {} catch (e) {
+                      try {
+                        Fluttertoast.showToast(msg: "Coming soon...");
+                      } catch (e) {
                         throw Exception(e);
                       }
                     },
@@ -1703,7 +1744,9 @@ class _ProfileSectionState extends State<ProfileSection> {
                     icon: "lib/assets/icons/contactIcon.svg",
                     text: Strings.contact(context),
                     onPressed: () {
-                      try {} catch (e) {
+                      try {
+                        Fluttertoast.showToast(msg: "Coming soon...");
+                      } catch (e) {
                         throw Exception(e);
                       }
                     },
@@ -1725,7 +1768,9 @@ class _ProfileSectionState extends State<ProfileSection> {
                     icon: "lib/assets/icons/bookIcon.svg",
                     text: Strings.legalGuidelines(context),
                     onPressed: () {
-                      try {} catch (e) {
+                      try {
+                        Fluttertoast.showToast(msg: "Coming soon...");
+                      } catch (e) {
                         throw Exception(e);
                       }
                     },
@@ -1862,7 +1907,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                         height: 90.h,
                         width: 90.w,
                         child: imageUrl.isNotEmpty
-                            ? CachedNetworkImage(
+                            ? ClipOval(
+                                child: CachedNetworkImage(
                                 imageUrl: imageUrl,
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
@@ -1872,7 +1918,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                                   height: 100.h,
                                   width: 110.w,
                                 ),
-                              )
+                              ))
                             : _selectedImage != null
                                 ? Image.file(_selectedImage!,
                                     width: 100.w,
@@ -1913,6 +1959,7 @@ class _ProfileSectionState extends State<ProfileSection> {
 
   Future<void> updateNameValue() async {
     userName = _prefs.getString('name') ?? "";
+    userEmail = _prefs.getString('email') ?? "";
     setState(() {});
   }
 

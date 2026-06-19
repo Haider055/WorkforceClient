@@ -114,6 +114,7 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
                                 Get.toNamed(AppLinks.update_password_screen,
                                     arguments: {'password': pass});
                               } else {
+                                FocusScope.of(Get.context!).unfocus();
                                 Fluttertoast.showToast(
                                     msg: Strings.passwordIsWrong(context));
                               }

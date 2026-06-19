@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,17 +23,18 @@ class JobRecommendations extends GetView<JobRecommendationController> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: controller.fromWhere.value == 'MyOrders' ? true : false,
+      canPop: false,
       onPopInvoked: (didPop) {
-        if (didPop) {
-          if (controller.fromWhere.value == "JobPostCompleted") {
-            Get.offAllNamed(
-              AppLinks.select_service_screen,
-              arguments: {},
-            ); // Optional: animation duration
-          } else if (controller.fromWhere.value == "MyOrders") {
-            Get.back(result: controller.remainingRequestsCount.value);
-          }
+        if (controller.fromWhere.value == "JobPostCompleted") {
+          Get.offAllNamed(
+            AppLinks.select_service_screen,
+            arguments: {},
+          );
+        } else if (controller.fromWhere.value == "MyOrders") {
+          // print(controller.remainingRequestsCount.value);
+          Get.back(result: controller.remainingRequestsCount.value);
+        } else {
+          Get.back();
         }
       },
       child: Scaffold(
@@ -109,17 +113,6 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: 20.0.w, top: 22.0.h, right: 20.w),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: HeadingTextW600(
-                            text: Strings.recommendedCraftsmen(context),
-                            centerAlign: false,
-                            size: 18.0.sp),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
                           left: 20.0.w, top: 8.0.h, bottom: 12.0.h),
                       child: Align(
                           alignment: Alignment.topLeft,
@@ -140,8 +133,77 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                         )
                       : ListView.builder(
                           shrinkWrap: true,
-                          itemCount: controller.tradesmenList.length,
+                          itemCount: controller.tradesmenList.length + 1,
                           itemBuilder: (context, index) {
+                            if (index == controller.tradesmenList.length &&
+                                controller.pagination != null &&
+                                controller.pagination!.hasMore!) {
+                              return Obx(() {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 17.0.w, vertical: 5.0.h),
+                                  child: controller.isLoadingMore.value
+                                      ? const Center(
+                                          child: CircularProgressIndicator(
+                                            color:
+                                                Color(MyColors.themeRedColor),
+                                          ),
+                                        )
+                                      : ElevatedButton(
+                                          style: ButtonStyle(
+                                              shape: WidgetStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.r))),
+                                              fixedSize: WidgetStatePropertyAll(
+                                                  Size.fromWidth(
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .w /
+                                                          2)),
+                                              foregroundColor:
+                                                  const WidgetStatePropertyAll(
+                                                      Color(
+                                                          MyColors.infoPinkColor2)),
+                                              elevation: const WidgetStatePropertyAll(0)),
+                                          onPressed: () {
+                                            try {
+                                              controller.loadMore();
+                                            } catch (e) {
+                                              throw Exception(e);
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.all(4.0.r),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Headingdescription(
+                                                    text: Strings.loadMoreText(
+                                                        Get.context!),
+                                                    centerAlign: false,
+                                                    size: 14.sp),
+                                                SizedBox(
+                                                  width: 5.0.w,
+                                                ),
+                                                Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  size: 20.sp,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                );
+                              });
+                            }
+                            if (index == controller.tradesmenList.length &&
+                                !controller.pagination!.hasMore!) {
+                              return const SizedBox();
+                            }
                             return _buildSuggestedCraftmenOptions(
                                 controller.tradesmenList[index]);
                           },
@@ -268,127 +330,191 @@ class JobRecommendations extends GetView<JobRecommendationController> {
   }
 
   Widget _buildSuggestedCraftmenOptions(Tradesmen tradesmen) {
-    return Obx(() {
-      return Padding(
-        padding: EdgeInsets.only(left: 17.0.w, right: 17.0.w, top: 5.0.h),
-        child: GestureDetector(
-          onTap: () {
-            try {
-              Get.toNamed(AppLinks.tradesmen_detail_screen,
-                  arguments: {'tradesmenId': tradesmen.id ?? -1});
-            } catch (e) {
-              e.printError();
-            }
-          },
-          child: Card(
-            color: const Color(MyColors.cardGrayColor100),
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color:
-                      const Color(MyColors.cardGrayColor300).withOpacity(0.4),
-                  width: 1.0.w),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    tradesmen.tradesmenProfile != null
-                        ? tradesmen.tradesmenProfile!.companyType != null
-                            ? tradesmen.tradesmenProfile!.companyType ==
-                                    "Company"
-                                ? Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 12.0.w),
-                                      child: Card(
-                                        color: const Color(
-                                            MyColors.infoYellowColor),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(9.r),
-                                              bottomRight:
-                                                  Radius.circular(9.r)),
+    return Padding(
+      padding: EdgeInsets.only(left: 17.0.w, right: 17.0.w, top: 5.0.h),
+      child: GestureDetector(
+        onTap: () {
+          try {
+            Get.toNamed(AppLinks.tradesmen_detail_screen,
+                arguments: {'tradesmenId': tradesmen.id ?? -1});
+          } catch (e) {
+            e.printError();
+          }
+        },
+        child: Card(
+          color: const Color(MyColors.cardGrayColor100),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+                color: const Color(MyColors.cardGrayColor300).withOpacity(0.4),
+                width: 1.0.w),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  tradesmen.tradesmenProfile != null
+                      ? tradesmen.tradesmenProfile!.companyType != null
+                          ? tradesmen.tradesmenProfile!.companyType
+                                      ?.toLowerCase() ==
+                                  "company"
+                              ? Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 12.0.w),
+                                    child: Card(
+                                      color:
+                                          const Color(MyColors.infoYellowColor),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(9.r),
+                                            bottomRight: Radius.circular(9.r)),
+                                      ),
+                                      elevation: 0,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 7.0.w, vertical: 2.5.h),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SvgPicture.asset(
+                                              "lib/assets/icons/AgencyIconsvg.svg",
+                                              fit: BoxFit.contain,
+                                              height: 13.h,
+                                              width: 13.w,
+                                            ),
+                                            SizedBox(width: 4.w),
+                                            Headingdescription(
+                                              text:
+                                                  Strings.agency(Get.context!),
+                                              centerAlign: false,
+                                              size: 10.0.sp,
+                                            ),
+                                          ],
                                         ),
-                                        elevation: 0,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 7.0.w,
-                                              vertical: 2.5.h),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox()
+                          : const SizedBox()
+                      : const SizedBox(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.0.h, right: 8.0.w),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: const Color(MyColors.blackColor80),
+                      size: 16.sp,
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 6.0.h),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.0.w),
+                      child: tradesmen.profileImg != null
+                          ? ClipOval(
+                              child: CachedNetworkImage(
+                                height: 44.h,
+                                width: 44.w,
+                                imageUrl: tradesmen.profileImg.toString(),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Image.asset(
+                              "lib/assets/icons/placeholder_tradesmen.png"),
+                    ),
+                    SizedBox(width: 8.0.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        tradesmen.name ?? "N/A",
+                                        softWrap: false,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                            fontSize: 14.0.sp),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Flexible(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: 10.0.w),
+                                        child: RichText(
+                                          maxLines: 1,
+                                          softWrap: false,
+                                          overflow: TextOverflow.ellipsis,
+                                          text: TextSpan(
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 13.sp,
+                                            ),
                                             children: [
-                                              SvgPicture.asset(
-                                                "lib/assets/icons/AgencyIconsvg.svg",
-                                                fit: BoxFit.contain,
-                                                height: 13.h,
-                                                width: 13.w,
+                                              TextSpan(
+                                                text:
+                                                    "${tradesmen.serviceArea?.radius ?? "N/A"} KM",
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
-                                              SizedBox(width: 4.w),
-                                              Headingdescription(
-                                                text: Strings.agency(
-                                                    Get.context!),
-                                                centerAlign: false,
-                                                size: 10.0.sp,
+                                              const TextSpan(
+                                                text: ", ",
+                                              ),
+                                              TextSpan(
+                                                text: tradesmen
+                                                        .serviceArea?.city ??
+                                                    "N/A",
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
                                     ),
-                                  )
-                                : const SizedBox()
-                            : const SizedBox()
-                        : const SizedBox(),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8.0.h, right: 8.0.w),
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: const Color(MyColors.blackColor80),
-                        size: 16.sp,
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 6.0.h),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 10.0.w),
-                        child: tradesmen.profileImg != null
-                            ? CircleAvatar(
-                                radius: 24,
-                                backgroundImage: NetworkImage(tradesmen
-                                    .profileImg
-                                    .toString()), // Replace with actual image
-                              )
-                            : Image.asset(
-                                "lib/assets/icons/placeholder_tradesmen.png"),
-                      ),
-                      SizedBox(width: 8.0.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 2.0.h),
+                            child: Row(
                               children: [
                                 Expanded(
-                                  flex: 6,
+                                  flex: 5,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          tradesmen.name ?? "N/A",
-                                          softWrap: false,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
+                                          "${tradesmen.reviewsCount ?? "0"} ${Strings.reviews(Get.context!)}",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
+                                              color: const Color(
+                                                  MyColors.midGrayColor),
                                               fontSize: 14.0.sp),
                                         ),
                                       ),
@@ -396,42 +522,32 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 4,
+                                  flex: 5,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
+                                      Icon(
+                                        Icons.star,
+                                        size: 16.0.sp,
+                                        color:
+                                            const Color(MyColors.themeRedColor),
+                                      ),
+                                      SizedBox(
+                                        width: 2.0.w,
+                                      ),
                                       Flexible(
                                         child: Padding(
                                           padding:
                                               EdgeInsets.only(right: 10.0.w),
-                                          child: RichText(
-                                            maxLines: 1,
-                                            softWrap: false,
-                                            overflow: TextOverflow.ellipsis,
-                                            text: TextSpan(
-                                              style: TextStyle(
-                                                color: Colors.black,
+                                          child: Text(
+                                            tradesmen.rating != null &&
+                                                    tradesmen.rating!.length > 3
+                                                ? tradesmen.rating!
+                                                    .substring(0, 3)
+                                                : tradesmen.rating ?? "0",
+                                            style: TextStyle(
                                                 fontSize: 13.sp,
-                                              ),
-                                              children: [
-                                                TextSpan(
-                                                  text:
-                                                      "${tradesmen.serviceArea?.radius ?? "N/A"} KM",
-                                                  style: const TextStyle(
-                                                    color: Colors.red,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const TextSpan(
-                                                  text: ", ",
-                                                ),
-                                                TextSpan(
-                                                  text: tradesmen
-                                                          .serviceArea?.city ??
-                                                      "N/A",
-                                                ),
-                                              ],
-                                            ),
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ),
@@ -440,69 +556,16 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 2.0.h),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 5,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            "${tradesmen.reviewsCount ?? "0"} ${Strings.reviews(Get.context!)}",
-                                            style: TextStyle(
-                                                color: const Color(
-                                                    MyColors.midGrayColor),
-                                                fontSize: 14.0.sp),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 5,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          size: 16.0.sp,
-                                          color: const Color(
-                                              MyColors.themeRedColor),
-                                        ),
-                                        SizedBox(
-                                          width: 2.0.w,
-                                        ),
-                                        Flexible(
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.only(right: 10.0.w),
-                                            child: Text(
-                                              "${tradesmen.rating!.length > 3 ? tradesmen.rating!.substring(0, 3) : tradesmen.rating! ?? "0"}/5",
-                                              style: TextStyle(
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 12.0.h),
-                // Send Request Button
-                Padding(
+              ),
+              SizedBox(height: 12.0.h),
+              Obx(() {
+                return Padding(
                   padding: EdgeInsets.only(
                       left: 8.0.w, right: 8.0.w, bottom: 10.0.h),
                   child: SizedBox(
@@ -584,13 +647,13 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                );
+              })
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }
 

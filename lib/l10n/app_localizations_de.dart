@@ -209,6 +209,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get accountText => 'Konto';
 
   @override
+  String get galleryText => 'Galerie';
+
+  @override
+  String get cameraText => 'Kamera';
+
+  @override
   String get helpText => 'Hilfe';
 
   @override
@@ -216,6 +222,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noOrdersText => 'Keine Bestellungen';
+
+  @override
+  String get todayText => 'Heute';
+
+  @override
+  String get yesterdayText => 'Gestern';
 
   @override
   String get postedAtText => 'Veröffentlicht am';
@@ -231,6 +243,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noInProcessOrdersText => 'Noch keine laufenden Bestellungen';
+
+  @override
+  String get noOpenOrdersText => 'Noch keine offenen Bestellungen';
 
   @override
   String get noCompleteOrdersText => 'Noch keine abgeschlossenen Bestellungen';
@@ -432,6 +447,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get inProcessText => 'In Bearbeitung';
+
+  @override
+  String get openText => 'offen';
 
   @override
   String get notificationsText => 'Benachrichtigungen';

@@ -494,6 +494,18 @@ abstract class AppLocalizations {
   /// **'Account'**
   String get accountText;
 
+  /// No description provided for @galleryText.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get galleryText;
+
+  /// No description provided for @cameraText.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get cameraText;
+
   /// No description provided for @helpText.
   ///
   /// In en, this message translates to:
@@ -511,6 +523,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Orders'**
   String get noOrdersText;
+
+  /// No description provided for @todayText.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayText;
+
+  /// No description provided for @yesterdayText.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterdayText;
 
   /// No description provided for @postedAtText.
   ///
@@ -541,6 +565,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No In-Process Orders yet'**
   String get noInProcessOrdersText;
+
+  /// No description provided for @noOpenOrdersText.
+  ///
+  /// In en, this message translates to:
+  /// **'No Open Orders yet'**
+  String get noOpenOrdersText;
 
   /// No description provided for @noCompleteOrdersText.
   ///
@@ -931,6 +961,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'In Process'**
   String get inProcessText;
+
+  /// No description provided for @openText.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openText;
 
   /// No description provided for @notificationsText.
   ///

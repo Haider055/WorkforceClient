@@ -31,9 +31,10 @@ class MyColors {
   static const int colorRed200 = 0xFFFECACA;
   static const int cardColorSky200 = 0xFFBAE6FD;
   static const int cardcolorOrange200 = 0xFFFED7AA;
+  static const int grey600 = 0xFF757575;
 
   static const int cardColorGreen700 = 0xFF15803D;
-    static const int cardColorGreen200 = 0xFFBBF7D0;
+  static const int cardColorGreen200 = 0xFFBBF7D0;
 
   static const int cardColorGreenLight = 0xFFB2FFA7;
 }

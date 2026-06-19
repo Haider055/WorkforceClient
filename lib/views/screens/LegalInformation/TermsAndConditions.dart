@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
+import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
@@ -57,8 +58,8 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                HeadingTextW600(text: "EULA", centerAlign: true, size: 16.sp),
-                Headingdescription(
+                HeadingTextW600(text: "EULA", centerAlign: true, size: 18.sp),
+                HeadingTextW500(
                     text: Strings.eULAText(Get.context!),
                     centerAlign: false,
                     size: 14.sp),

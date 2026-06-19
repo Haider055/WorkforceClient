@@ -495,7 +495,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             width: 6.0.w,
                           ),
                           Headingdescription(
-                              text: Strings.inProcess(Get.context!),
+                              text: Strings.openText(Get.context!),
                               centerAlign: false,
                               size: 12.sp)
                         ],

@@ -379,7 +379,7 @@ class SelectServiceController extends GetxController {
           if (qList.isNotEmpty) {
             isEnabled.value = false;
             Constants.jobPostingSteps = qList.length + 4;
-            Constants.currentJobPostingStep = 1;
+            Constants.currentJobPostingStep.value = 1;
             Constants.jobTitle = "";
             Constants.jobDescription = "";
             Constants.jobPostingCity = "";
@@ -396,7 +396,7 @@ class SelectServiceController extends GetxController {
           } else {
             isEnabled.value = false;
             Constants.jobPostingSteps = 4;
-            Constants.currentJobPostingStep = 1;
+            Constants.currentJobPostingStep.value = 1;
             Commons.hideProgressDialog();
             Get.toNamed(AppLinks.job_title_screen);
             return "error";

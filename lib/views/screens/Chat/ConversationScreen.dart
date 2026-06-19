@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Controllers/ConversationContoller.dart';
@@ -64,6 +65,37 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   // late PusherConfig pusherConfig;
   // PusherService pusherService = PusherService();
   late final SimpleFlutterReverb reverb;
+  bool shouldShowDateSeparator(int index) {
+    if (index >= messagesList.length) return false;
+
+    final current = messagesList[index].createdAt;
+    if (current == null) return false;
+
+    final currentDay = _dateOnly(current);
+
+    if (index == messagesList.length - 1) return true;
+
+    final next = messagesList[index + 1].createdAt;
+    if (next == null) return false;
+
+    return _dateOnly(next) != currentDay;
+  }
+
+  String dateLabelFor(int index) {
+    final dt = messagesList[index].createdAt;
+    if (dt == null) return '';
+
+    final day = _dateOnly(dt);
+    final today = _dateOnly(DateTime.now());
+    final yesterday = today.subtract(const Duration(days: 1));
+
+    if (day == today) return Strings.today(Get.context!);
+    if (day == yesterday) return Strings.yesterday(Get.context!);
+
+    return DateFormat('d MMMM yyyy', Get.locale?.toString()).format(dt);
+  }
+
+  DateTime _dateOnly(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
   @override
   void initState() {
@@ -226,8 +258,11 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                     }
 
                                     final message = messagesList[index];
+                                    final showSeparator =
+                                        shouldShowDateSeparator(
+                                            index); // ✅ store result
 
-                                    return Align(
+                                    final messageBubble = Align(
                                       alignment: message.senderId == clientId
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
@@ -314,9 +349,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                             : Colors.black54),
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  width: 2,
-                                                ),
+                                                const SizedBox(width: 2),
                                                 message.sent
                                                     ? Icon(
                                                         Icons.done,
@@ -327,15 +360,25 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                             ? Colors.white70
                                                             : Colors.black54,
                                                       )
-                                                    : const SizedBox(
-                                                        width: 7,
-                                                      )
+                                                    : const SizedBox(width: 7)
                                               ],
                                             ),
                                           ],
                                         ),
                                       ),
                                     );
+
+                                    if (showSeparator) {
+                                      return Column(
+                                        children: [
+                                          _DateSeparator(
+                                              label: dateLabelFor(index)),
+                                          messageBubble,
+                                        ],
+                                      );
+                                    }
+
+                                    return messageBubble;
                                   },
                                 );
                               }),
@@ -448,71 +491,76 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     return Padding(
       padding: EdgeInsets.only(
           bottom: 14.0.h, right: 6.0.w, left: 14.0.w, top: 8.0.h),
-      child: TextFormField(
-        controller: conversationContoller.messageTextField(),
-        keyboardType: TextInputType.text,
-        // enabled: option == "Chat is closed"
-        //     ? false
-        //     : option == "Job has been done"
-        //         ? false
-        //         : true,
-        enabled: true,
-        onChanged: (value) {},
-        obscuringCharacter: "*",
-        validator: (value) {
-          return null;
-        },
-        decoration: InputDecoration(
-          hintText: Strings.typeaMessageText(Get.context!),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0.r),
-            borderSide: BorderSide(
-              width: 2.0.w,
-              color: Colors.red.withOpacity(0.7),
+      child: ConstrainedBox(
+        // 🛠️ FIX 1: Caps the maximum height of the input field to a reasonable scale (e.g., 120 pixels)
+        constraints: BoxConstraints(
+          maxHeight: 150.0.h,
+        ),
+        child: TextFormField(
+          controller: conversationContoller.messageTextField(),
+          keyboardType: TextInputType.multiline,
+          minLines: 1,
+          maxLines: null, // Keeps the inner text multi-line scrollable
+          scrollPhysics:
+              const BouncingScrollPhysics(), // 🛠️ FIX 2: Ensures text scrolls inside the constrained area
+          enabled: true,
+          onChanged: (value) {},
+          obscuringCharacter: "*",
+          validator: (value) {
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: Strings.typeaMessageText(Get.context!),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0.r),
+              borderSide: BorderSide(
+                width: 2.0.w,
+                color: Colors.red.withOpacity(0.7),
+              ),
             ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0.r),
-            borderSide: BorderSide(
-              width: 2.0.w,
-              color: Colors.red.withOpacity(0.7),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0.r),
+              borderSide: BorderSide(
+                width: 2.0.w,
+                color: Colors.red.withOpacity(0.7),
+              ),
             ),
-          ),
-          filled: true,
-          fillColor: const Color(MyColors.lightSilverColor).withOpacity(0.8),
-          hintStyle: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 14.0.sp,
-            color: const Color(0x66000000),
-            fontWeight: FontWeight.w400,
-          ),
-          prefixIcon: null,
-          prefixIconColor: const Color(0x66000000),
-          suffixIcon: null,
-          suffixIconColor: const Color(0x66000000),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.0.w,
-            vertical: 14.0.h,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(26.0),
-            borderSide: BorderSide(
-              width: 1.5.w,
-              color: const Color(MyColors.fieldBorderColor),
+            filled: true,
+            fillColor: const Color(MyColors.lightSilverColor).withOpacity(0.8),
+            hintStyle: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14.0.sp,
+              color: const Color(0x66000000),
+              fontWeight: FontWeight.w400,
             ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(26.0.r),
-            borderSide: BorderSide(
-              width: 1.5.w,
-              color: const Color(MyColors.themeRedColor),
+            prefixIcon: null,
+            prefixIconColor: const Color(0x66000000),
+            suffixIcon: null,
+            suffixIconColor: const Color(0x66000000),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.0.w,
+              vertical: 14.0.h,
             ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(26.0),
-            borderSide: BorderSide(
-              width: 1.5.w,
-              color: const Color(MyColors.fieldBorderColor),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(26.0.r),
+              borderSide: BorderSide(
+                width: 1.5.w,
+                color: const Color(MyColors.fieldBorderColor),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(26.0.r),
+              borderSide: BorderSide(
+                width: 1.5.w,
+                color: const Color(MyColors.themeRedColor),
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(26.0.r),
+              borderSide: BorderSide(
+                width: 1.5.w,
+                color: const Color(MyColors.fieldBorderColor),
+              ),
             ),
           ),
         ),
@@ -939,6 +987,48 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DateSeparator extends StatelessWidget {
+  final String label;
+
+  const _DateSeparator({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+              child: Divider(
+                  color: Color(MyColors.appbackgroundColor), thickness: 1)),
+          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: Color(MyColors.colorNeutral100),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Color(MyColors.appbackgroundColor)),
+            ),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: Color(MyColors.grey600),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+              child: Divider(
+                  color: Color(MyColors.appbackgroundColor), thickness: 1)),
+        ],
       ),
     );
   }

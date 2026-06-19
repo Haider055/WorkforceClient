@@ -10,6 +10,10 @@ class Strings {
       AppLocalizations.of(context)!.jobPostText;
   static String myJobsText(BuildContext context) =>
       AppLocalizations.of(context)!.myJobsText;
+  static String galleryText(BuildContext context) =>
+      AppLocalizations.of(context)!.galleryText;
+  static String cameraText(BuildContext context) =>
+      AppLocalizations.of(context)!.cameraText;
   static String yesText(BuildContext context) =>
       AppLocalizations.of(context)!.yesText;
   static String noText(BuildContext context) =>
@@ -162,6 +166,10 @@ class Strings {
       AppLocalizations.of(context)!.acceptText;
   static String and(BuildContext context) =>
       AppLocalizations.of(context)!.andText;
+  static String today(BuildContext context) =>
+      AppLocalizations.of(context)!.todayText;
+  static String yesterday(BuildContext context) =>
+      AppLocalizations.of(context)!.yesterdayText;
   static String reject(BuildContext context) =>
       AppLocalizations.of(context)!.rejectText;
   static String active(BuildContext context) =>
@@ -188,6 +196,8 @@ class Strings {
       AppLocalizations.of(context)!.noMaybeLaterText;
   static String noInProcessOrders(BuildContext context) =>
       AppLocalizations.of(context)!.noInProcessOrdersText;
+  static String noOpenOrders(BuildContext context) =>
+      AppLocalizations.of(context)!.noOpenOrdersText;
   static String noCompleteOrders(BuildContext context) =>
       AppLocalizations.of(context)!.noCompleteOrdersText;
   static String orderCompleted(BuildContext context) =>
@@ -398,6 +408,8 @@ class Strings {
       AppLocalizations.of(context)!.infoText;
   static String inProcess(BuildContext context) =>
       AppLocalizations.of(context)!.inProcessText;
+  static String openText(BuildContext context) =>
+      AppLocalizations.of(context)!.openText;
   static String notifications(BuildContext context) =>
       AppLocalizations.of(context)!.notificationsText;
   static String notification(BuildContext context) =>

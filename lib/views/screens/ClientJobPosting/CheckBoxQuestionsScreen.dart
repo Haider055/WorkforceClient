@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
+import 'package:workforceclientapp/Controllers/PasswordUpdatedController.dart';
 import 'package:workforceclientapp/Models/CheckBoxQuestion.dart';
 import 'package:workforceclientapp/Models/QuestionOption.dart';
 import 'package:workforceclientapp/Models/RadioQuestion.dart';
 import 'package:workforceclientapp/Models/TextQuestion.dart';
+import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
@@ -34,6 +36,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
   late List<Map<String, dynamic>> questionsList = [];
   Map<String, List<int>> radioAddedSubQues = {};
   Map<String, List<int>> checkBoxAddedSubQues = {};
+  PasswordUpdatedController passwordUpdatedController =
+      Get.find<PasswordUpdatedController>();
 
   void _nextPage() {
     if (questionsList.elementAt(_currentIndex).entries.first.key ==
@@ -67,24 +71,24 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
     //
     if (_currentIndex < questionsList.length - 1) {
       FocusScope.of(context).unfocus();
-      Constants.currentJobPostingStep++;
+      Constants.currentJobPostingStep.value++;
       _pageController.nextPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     } else {
       Constants.questionsList = questionsList;
-      Constants.currentJobPostingStep++;
+      Constants.currentJobPostingStep.value++;
       Get.toNamed(AppLinks.job_description_screen);
     }
   }
 
   void _previousPage() {
     if (_currentIndex > 0) {
-      Constants.currentJobPostingStep--;
+      Constants.currentJobPostingStep.value--;
       _pageController.previousPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
       FocusScope.of(context).unfocus();
     } else {
-      Constants.currentJobPostingStep--;
+      Constants.currentJobPostingStep.value--;
       Get.offNamed(AppLinks.job_title_screen);
     }
   }
@@ -94,6 +98,9 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
     super.initState();
     header = Constants.selectedServiceName;
     questionsList = Constants.questionsList;
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Constants.titleTVFocus.value = true;
+    });
   }
 
   @override
@@ -135,6 +142,15 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Poppins')),
                     )),
+                    Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 12.w,
+                        child: GestureDetector(
+                            onTap: () {
+                              Commons.showExitJobPostingDialog(Get.context!);
+                            },
+                            child: Icon(Icons.close)))
                   ],
                 ),
               ),
@@ -147,26 +163,28 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                   flex: 1,
                   child: Column(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.0.w, vertical: 0),
-                        child: LinearProgressBar(
-                          maxSteps: Constants.jobPostingSteps,
-                          progressType: LinearProgressBar.progressTypeLinear,
-                          minHeight: 6,
-                          currentStep: Constants.currentJobPostingStep,
-                          progressColor: const Color(MyColors.themeRedColor),
-                          backgroundColor:
-                              const Color(MyColors.lightSilverColor),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
+                      Obx(() {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.0.w, vertical: 0),
+                          child: LinearProgressBar(
+                            maxSteps: Constants.jobPostingSteps,
+                            progressType: LinearProgressBar.progressTypeLinear,
+                            minHeight: 6,
+                            currentStep: Constants.currentJobPostingStep.value,
+                            progressColor: const Color(MyColors.themeRedColor),
+                            backgroundColor:
+                                const Color(MyColors.lightSilverColor),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        );
+                      }),
                       Align(
                         alignment: Alignment.topRight,
                         child: Padding(
                           padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
                           child: Text(
-                            "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep}/${Constants.jobPostingSteps}",
+                            "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
                             style: TextStyle(
                                 fontSize: 14.5.sp,
                                 color: const Color(MyColors.midGrayColor)),

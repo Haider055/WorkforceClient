@@ -24,7 +24,7 @@ class Constants {
   static String jobTitle = "";
   static int selectedServiceId = 0;
   static int jobPostingSteps = 0;
-  static int currentJobPostingStep = 0;
+  static RxInt currentJobPostingStep = 0.obs;
   static String jobPostingAddress = "";
   static String jobPostingCountry = "";
   static String jobPostingCity = "";
@@ -40,6 +40,8 @@ class Constants {
   static RxInt unReadcount = 0.obs;
   static RxInt unreadNotificationsCount = 0.obs;
   static RxBool fromNotifications = false.obs;
+  static RxBool titleTVFocus = true.obs;
+  static RxBool descTVFocus = true.obs;
 
   static int lastPostedJobId = 0;
   static late final SimpleFlutterReverb reverb;

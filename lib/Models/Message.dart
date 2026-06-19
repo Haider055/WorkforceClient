@@ -7,6 +7,7 @@ class Message {
   // String? read;
   String? message;
   bool sent = true;
+  final DateTime? createdAt;
 
   Message(
       {required this.id,
@@ -15,9 +16,11 @@ class Message {
       required this.receiverId,
       required this.humanReadableCreatedAt,
       // required this.read,
-      required this.message});
+      required this.message,
+      this.createdAt});
 
   factory Message.fromJson(Map<String, dynamic> json) {
+    final createdAtStr = json['created_at'] as String?;
     return Message(
       id: json['id'],
       chatId: json['chat_id'],
@@ -26,6 +29,9 @@ class Message {
       humanReadableCreatedAt: json['human_readable_created_at'],
       // read: json['read'],
       message: json['message'],
+      createdAt: createdAtStr != null
+          ? DateTime.tryParse(createdAtStr)?.toLocal()
+          : null,
     );
   }
 }

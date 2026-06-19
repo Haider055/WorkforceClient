@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/CupertinoProgressDialog.dart';
+import 'package:workforceclientapp/Others/MyColors.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
+import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
+import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 
 class Commons {
   static bool isValidEmail(String email) {
@@ -80,6 +86,52 @@ class Commons {
     if (Get.isDialogOpen!) {
       Get.back();
     }
+  }
+
+  static void showExitJobPostingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(Strings.discardChangesText(context)),
+        content: Text(Strings.areYouSureToEndJobPostingProcess(context)),
+        contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        backgroundColor: const Color(MyColors.colorRed200),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                  child: FullWidthOutlineButton(
+                    text: Strings.noText(context),
+                    fontsize: 15.0.sp,
+                    color: MyColors.themeRedColor,
+                    onPressed: () => Get.back(), // close dialog only
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                  child: FullWidthButtonPrimary(
+                    text: Strings.yesText(context),
+                    fontsize: 15.0.sp,
+                    color: MyColors.themeRedColor,
+                    onPressed: () {
+                      Get.back(); // close dialog
+                      Get.offAllNamed(AppLinks.select_service_screen);
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   // static Widget showLottiePlayer(BuildContext context) {

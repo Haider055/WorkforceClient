@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 
 class UploadJobImagesController extends GetxController {
@@ -12,6 +13,18 @@ class UploadJobImagesController extends GetxController {
   final RxList<File> selectedImages = <File>[].obs;
   static const int maxFiles = 15;
   RxBool isChecked = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Constants.descTVFocus.value = true;
+    });
+    if (Constants.selectedImages.isNotEmpty) {
+      selectedImages.addAll(Constants.selectedImages);
+      selectedValue!.value = "Yes";
+    }
+  }
 
   Future<void> pickImage() async {
     final List<XFile> pickedFiles = await picker.pickMultiImage();

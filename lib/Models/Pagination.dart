@@ -19,7 +19,7 @@ class Pagination {
       lastPage: json['last_page'],
       perPage: json['per_page'],
       total: json['total'],
-      hasMore: json['has_more'],
+      hasMore: json['has_more'] ?? false,
     );
   }
 }

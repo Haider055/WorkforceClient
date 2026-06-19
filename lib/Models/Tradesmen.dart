@@ -9,7 +9,7 @@ class Tradesmen {
   String? profileImg;
   String? memberSince;
   int? reviewsCount;
-  String? rating; // check this please
+  String? rating;
   TradesmenProfile? tradesmenProfile;
   ServiceArea? serviceArea;
   List<Services>? servicesList;
