@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -22,29 +23,40 @@ class LoginContoller extends GetxController {
   RxString emailAddressErrorText = "".obs;
   RxString passwordErrorText = "".obs;
   int tokenRetry = 0;
+  String preAuthToken = "";
 
   Future<String> pleaseLoginUser() async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/login'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'email': emailTextField.value.text.toString(),
-          'password': passwordTextField.value.text.toString(),
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/login'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'email': emailTextField.value.text.toString(),
+              'password': passwordTextField.value.text.toString(),
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
         _prefs = await SharedPreferences.getInstance();
         String msg = jsonData['message'];
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
+            if (dataObj.keys.contains('requires_2fa')) {
+              if (dataObj['requires_2fa'] == true) {
+                if (dataObj['pre_auth_token'] != null) {
+                  preAuthToken = dataObj['pre_auth_token'];
+                  Commons.hideProgressDialog();
+                  return "pre_auth";
+                }
+              }
+            }
+
             if (dataObj.keys.contains('token')) {
               String tokenString = dataObj['token'];
               await _prefs.setString('token', tokenString);
@@ -54,31 +66,25 @@ class LoginContoller extends GetxController {
                 if (dataObj['user']['role'] != null) {
                   if (dataObj['user']['role'] == "tradeperson") {
                     Fluttertoast.showToast(msg: "Only Users allowed to login");
-                    // Get.to(const SelectServiceScreen());
                     return "otherUser";
                   } else {
                     await saveUserInfo(dataObj['user']);
                     fCMSaveToken();
                     Fluttertoast.showToast(msg: msg);
-                    // TextInput.finishAutofillContext(shouldSave: true);
                     return "done";
                   }
                 }
               } else {
-                // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
                 return Strings.somethingWentWrong(Get.context!);
               }
             } else {
-              // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
               return Strings.somethingWentWrong(Get.context!);
             }
             return Strings.somethingWentWrong(Get.context!);
           } else {
-            // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
             return Strings.somethingWentWrong(Get.context!);
           }
         } else {
-          // Fluttertoast.showToast(msg: Strings.somethingWentWrongText);
           return Strings.somethingWentWrong(Get.context!);
         }
       } else {
@@ -97,6 +103,8 @@ class LoginContoller extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return msg;
       }
+    } on TimeoutException {
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }
@@ -148,44 +156,36 @@ class LoginContoller extends GetxController {
         print(e.toString());
         return "";
       }
-      if (token != null) {
-        print("token: $token");
-        print("deviceId: $deviceId");
+      print("token: $token");
+      print("deviceId: $deviceId");
 
-        final response = await http.post(
-          Uri.parse('${Constants.baseUrl}/fcm-token'),
-          headers: await Commons.manageRequestHeader(),
-          body: jsonEncode(<String, String>{
-            "token": token.toString(),
-            "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
-            "device_id": deviceId.toString()
-          }),
-        );
-        print("object");
-        print(response.body);
+      final response = await http.post(
+        Uri.parse('${Constants.baseUrl}/fcm-token'),
+        headers: await Commons.manageRequestHeader(),
+        body: jsonEncode(<String, String>{
+          "token": token.toString(),
+          "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
+          "device_id": deviceId.toString()
+        }),
+      );
+      print("object");
+      print(response.body);
 
-        Map<String, dynamic> jsonData = jsonDecode(response.body);
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
 
-        if (response.statusCode == 200) {
-          print("Token updated on server successfully");
-          _prefs = await SharedPreferences.getInstance();
+      if (response.statusCode == 200) {
+        print("Token updated on server successfully");
+        _prefs = await SharedPreferences.getInstance();
+        if (token != null) {
           await _prefs.setString('fcm_token', token);
           await _prefs.setString('device_id', deviceId.toString());
+        }
 
-          return "";
-        } else {
-          Fluttertoast.showToast(
-              msg: Strings.notificationSetupError(Get.context!));
-          return "";
-        }
+        return "";
       } else {
-        tokenRetry++;
-        print("retry $tokenRetry");
-        if (tokenRetry <= 3) {
-          Future.delayed(const Duration(seconds: 1), () {
-            getTokenAndUpdate();
-          });
-        }
+        Fluttertoast.showToast(
+            msg: Strings.notificationSetupError(Get.context!));
+        return "";
       }
     } catch (e) {
       print(e.toString());
@@ -222,7 +222,7 @@ class LoginContoller extends GetxController {
       Commons.hideProgressDialog();
       if (res == "emailNotVerified") {
         try {
-          Get.offAllNamed(
+          Get.toNamed(
             AppLinks.otp_verification_screen,
             arguments: {"email": Constants.emailToVerify, "fromWhere": "login"},
           );
@@ -240,6 +240,17 @@ class LoginContoller extends GetxController {
           e.printError();
         }
       } else if (res == "otherUser") {
+      } else if (res == "pre_auth") {
+        try {
+          Get.toNamed(AppLinks.otp_verification_screen, arguments: {
+            "password": passwordTextField.value.text.toString(),
+            "fromWhere": "login",
+            "email": emailTextField.value.text.toString(),
+            "pre_auth_token": preAuthToken
+          });
+        } catch (e) {
+          e.printError();
+        }
       } else {
         try {
           Get.defaultDialog(
@@ -312,5 +323,7 @@ class LoginContoller extends GetxController {
         'password', passwordTextField.value.text.toString() ?? "");
     await _prefs.setString('phone', userObj['phone'] ?? "");
     await _prefs.setString('profile_img', userObj['profile_img'] ?? "");
+    await _prefs.setBool(
+        'two_factor_enabled', userObj['two_factor_enabled'] ?? false);
   }
 }

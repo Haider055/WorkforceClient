@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -35,22 +36,24 @@ class SignUpContoller extends GetxController {
   Future<String> pleaseRegisterUser() async {
     try {
       String lang = await Commons.getPrefLanguageValue();
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/register'),
-        headers: <String, String>{
-          'Accept-Language': lang,
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(<String, String>{
-          'name': nameTextField.value.text.toString(),
-          'email': emailTextField.value.text.toString(),
-          'phone': phoneTextField.value.text.toString(),
-          'password': passwordTextField.value.text.toString(),
-          'password_confirmation':
-              confirmPasswordTextField.value.text.toString(),
-          'user_type': 'user',
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/register'),
+            headers: <String, String>{
+              'Accept-Language': lang,
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(<String, String>{
+              'name': nameTextField.value.text.toString(),
+              'email': emailTextField.value.text.toString(),
+              'phone': phoneTextField.value.text.toString(),
+              'password': passwordTextField.value.text.toString(),
+              'password_confirmation':
+                  confirmPasswordTextField.value.text.toString(),
+              'user_type': 'user',
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
@@ -62,7 +65,7 @@ class SignUpContoller extends GetxController {
           Constants.signupEmail = emailTextField.value.text;
           Constants.signupPassword = passwordTextField.value.text;
           Commons.hideProgressDialog();
-          Get.offAllNamed(
+          Get.toNamed(
             AppLinks.otp_verification_screen,
             arguments: {
               "email": emailTextField.value.text.toString(),
@@ -85,6 +88,9 @@ class SignUpContoller extends GetxController {
         return "";
       }
       return "";
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }

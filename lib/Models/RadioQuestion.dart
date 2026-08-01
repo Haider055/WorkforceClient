@@ -27,7 +27,7 @@ class RadioQuestion {
         question: json['question'],
         type: json['type'],
         isRequired: json['is_required'],
-        hasIcon: json['hasIcon'],
+        hasIcon: json['has_icon'],
         description: json['description'],
         options: options);
   }

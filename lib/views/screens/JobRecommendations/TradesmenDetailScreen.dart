@@ -168,19 +168,13 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                         SizedBox(width: 6.w),
                                         Text.rich(
                                           TextSpan(
-                                            text: "Recommended ",
+                                            text: "Total Jobs ",
                                             style: TextStyle(fontSize: 14.sp),
-                                            children: const [
+                                            children: [
                                               TextSpan(
-                                                text: "many ",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: "Times",
-                                                style: TextStyle(
+                                                text:
+                                                    "${controller.tradesmen!.jobsCompleted}",
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
                                                 ),
@@ -244,7 +238,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                         null
                                                     ? TextSpan(
                                                         text:
-                                                            "${controller.tradesmen?.serviceArea?.radius ?? 'N/A'} KM ${Strings.activeWithinOfText(Get.context!)} ${controller.tradesmen?.serviceArea?.city ?? 'N/A'}",
+                                                            " ${controller.tradesmen?.serviceArea?.radius ?? 'N/A'} KM ${Strings.activeWithinOfText(Get.context!)} ${controller.tradesmen?.serviceArea?.city ?? 'N/A'}",
                                                         style: const TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,64 +23,72 @@ class ProfileController extends GetxController {
 
   Future<void> pleaseResetPassword(String email, BuildContext context) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/reset-password'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'email': email,
-          'password': passwordTextField.value.text.toString(),
-          'password_confirmation':
-              confirmPasswordTextField.value.text.toString(),
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/reset-password'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'email': email,
+              'password': passwordTextField.value.text.toString(),
+              'password_confirmation':
+                  confirmPasswordTextField.value.text.toString(),
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
         _prefs = await SharedPreferences.getInstance();
         String msg = jsonData['message'];
 
         Fluttertoast.showToast(msg: msg);
         Get.to(
           const PasswordUpdatedScreen(),
-          transition: Transition.rightToLeft, // Left-to-right animation
-          duration:
-              const Duration(milliseconds: 500), // Optional: animation duration
+          transition: Transition.rightToLeft,
+          duration: const Duration(milliseconds: 500),
         );
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
       }
+    } on TimeoutException {
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> pleaseDeleteAccount(BuildContext context) async {
+  Future<bool> pleaseDeleteAccount(BuildContext context) async {
     try {
-      final response = await http.delete(
-        Uri.parse('${Constants.baseUrl}/delete-account'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .delete(
+            Uri.parse('${Constants.baseUrl}/delete-account'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       print(response.body);
+      Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
+// If the server did return a 200 CREATED response,
+// then parse the JSON.
         _prefs = await SharedPreferences.getInstance();
         String msg = jsonData['message'];
 
         Fluttertoast.showToast(msg: msg);
-        Get.offAllNamed(AppLinks.login_screen);
+        return true;
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
+        return false;
       }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }
@@ -92,7 +101,7 @@ class ProfileController extends GetxController {
 
       var request = http.MultipartRequest("POST", url);
 
-      // Add headers
+// Add headers
       request.headers.addAll({
         'Accept-Language': await Commons.getPrefLanguageValue(),
         'Authorization': 'Bearer ${await Commons.getUserToken()}',
@@ -109,9 +118,9 @@ class ProfileController extends GetxController {
       );
       request.files.add(multipartFile);
 
-      var response = await request.send();
+      var response = await request.send().timeout(const Duration(seconds: 5));
 
-      // Get response
+// Get response
       var responseData = await response.stream.bytesToString();
       Map<String, dynamic> jsonData = jsonDecode(responseData);
 
@@ -142,6 +151,9 @@ class ProfileController extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return false;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return false;
     } catch (e) {
       throw Exception(e);
     }

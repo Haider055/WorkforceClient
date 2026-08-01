@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -29,14 +30,16 @@ class EndtheOrderController extends GetxController {
   Future<void> pleaseCancelTheOrder(
       int jobId, String reason, BuildContext context) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/jobs/cancel'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode({'job_posting_id': jobId, 'reason': reason}),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/jobs/cancel'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode({'job_posting_id': jobId, 'reason': reason}),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      // print(response.body);
+// print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -51,11 +54,14 @@ class EndtheOrderController extends GetxController {
           }
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
+// If the server did not return a 200 CREATED response,
+// then throw an exception.
         Fluttertoast.showToast(
             msg: Strings.somethingWentWrongRemovingJob(context));
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(
+          msg: Strings.somethingWentWrongRemovingJob(context));
     } catch (e) {
       throw Exception(e);
     }

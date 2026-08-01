@@ -45,7 +45,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
               children: [
                 Center(
                     child: Padding(
-                  padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                  padding: EdgeInsets.only(left: 8.0.w, right: 40.0.w),
                   child: Text(Constants.selectedServiceName,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
@@ -64,7 +64,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
                         onTap: () {
                           Commons.showExitJobPostingDialog(Get.context!);
                         },
-                        child: Icon(Icons.close)))
+                        child: const Icon(Icons.close)))
               ],
             ),
           ),

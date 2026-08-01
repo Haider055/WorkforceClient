@@ -56,7 +56,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                 Get.back();
               },
               child: Padding(
-                padding: EdgeInsets.only(top: 40.0.h, left: 12.0.w),
+                padding: EdgeInsets.only(top: 44.0.h, left: 12.0.w),
                 child: Row(
                   children: [
                     SvgPicture.asset(
@@ -89,7 +89,9 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 25.0.w),
                             child: Text(
-                              Strings.otpVerification(context),
+                              controller.preAuthToken.value.isNotEmpty
+                                  ? "2FA Verification"
+                                  : Strings.otpVerification(context),
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 28.0.sp,
@@ -222,25 +224,42 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 50.0.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Headingdescription(
-                                  text: Strings.didNotReceiveCode(context),
-                                  centerAlign: false,
-                                  size: 16.0.sp),
-                              SizedBox(
-                                width: 4.0.w,
-                              ),
-                              RedClickableText(
-                                text: Strings.resend(context),
-                                size: 16.0.sp,
-                                callback: () {
-                                  Get.offAllNamed(AppLinks.login_screen);
-                                },
-                              ),
-                            ],
-                          ),
+                          child: Obx(() {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Headingdescription(
+                                    text: Strings.didNotReceiveCode(context),
+                                    centerAlign: false,
+                                    size: 16.0.sp),
+                                SizedBox(width: 4.0.w),
+                                controller.canResend.value
+                                    ? RedClickableText(
+                                        text: Strings.resend(context),
+                                        size: 16.0.sp,
+                                        callback: () async {
+                                          var res =
+                                              await controller.sendOtpAgain(
+                                                  controller.email.value,
+                                                  context);
+                                          if (res) {
+                                            controller
+                                                .startTimer(); // restart countdown after resend
+                                          }
+                                        },
+                                      )
+                                    : Text(
+                                        controller.formattedTime,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.0.sp,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'Poppins',
+                                        ),
+                                      ),
+                              ],
+                            );
+                          }),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -251,52 +270,59 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                             onPressed: () async {
                               if (controller.middleText.value ==
                                   Strings.pleaseVerify(context)) {
-                                Commons.showProgressDialog(context);
-                                String res = await controller.pleaseVerifyOTP(
-                                    controller.pinCode.value,
-                                    controller.email.value,
-                                    context);
-                                Commons.hideProgressDialog();
-                                if (res == "done") {
-                                  try {
-                                    if (Constants.fromWhere ==
-                                        "JobPostCompletedScreen") {
-                                      Get.toNamed(
-                                          AppLinks.job_post_completed_screen);
-                                      // Get.to(
-                                      //   const JobPostCompletedScreen(),
-                                      //   transition: Transition
-                                      //       .rightToLeft, // Left-to-right animation
-                                      //   duration: const Duration(
-                                      //       milliseconds:
-                                      //           500), // Optional: animation duration
-                                      // );
-                                    } else {
-                                      // Get.offAllNamed(
-                                      //     AppLinks.select_service_screen);
-                                    }
-                                  } catch (e) {
-                                    e.printError();
+                                if (controller.fromWhere.value == "login" &&
+                                    controller.preAuthToken.value.isNotEmpty) {
+                                  print("object1");
+                                  Commons.showProgressDialog(context);
+                                  String res = await controller.verify2FA(
+                                      controller.preAuthToken.value,
+                                      controller.pinCode.value,
+                                      context);
+                                  if (res == 'done') {
+                                    Get.offAllNamed(
+                                        AppLinks.select_service_screen);
                                   }
-                                } else if (res == "success") {
-                                  // need to remove else if
-                                  Commons.hideProgressDialog();
-                                  if (controller.fromWhere.value == "signup" ||
-                                      controller.fromWhere.value == "login") {
-                                    Fluttertoast.showToast(
-                                        msg: Strings.youCanNowLoginText(
-                                            Get.context!));
-                                    Get.offAllNamed(AppLinks.login_screen);
-                                  } else {
-                                    Get.toNamed(
-                                        AppLinks.create_new_password_screen,
-                                        arguments: {
-                                          "email":
-                                              controller.email.value.toString()
-                                        });
-                                  }
+
+                                  return;
                                 } else {
-                                  pleaseShowDialog(res);
+                                  print("object2");
+                                  Commons.showProgressDialog(context);
+                                  String res = await controller.pleaseVerifyOTP(
+                                      controller.pinCode.value,
+                                      controller.email.value,
+                                      context);
+                                  Commons.hideProgressDialog();
+                                  if (res == "done") {
+                                    try {
+                                      if (Constants.fromWhere ==
+                                          "JobPostCompletedScreen") {
+                                        Get.toNamed(
+                                            AppLinks.job_post_completed_screen);
+                                      } else {}
+                                    } catch (e) {
+                                      e.printError();
+                                    }
+                                  } else if (res == "success") {
+                                    // need to remove else if
+                                    Commons.hideProgressDialog();
+                                    if (controller.fromWhere.value ==
+                                            "signup" ||
+                                        controller.fromWhere.value == "login") {
+                                      Fluttertoast.showToast(
+                                          msg: Strings.youCanNowLoginText(
+                                              Get.context!));
+                                      Get.offAllNamed(AppLinks.login_screen);
+                                    } else {
+                                      Get.toNamed(
+                                          AppLinks.create_new_password_screen,
+                                          arguments: {
+                                            "email": controller.email.value
+                                                .toString()
+                                          });
+                                    }
+                                  } else {
+                                    pleaseShowDialog(res);
+                                  }
                                 }
                               }
                             },

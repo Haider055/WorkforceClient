@@ -26,7 +26,7 @@ class CheckBoxQuestion {
         id: json['id'],
         question: json['question'],
         type: json['type'],
-        hasIcon: json['hasIcon'],
+        hasIcon: json['has_icon'],
         isRequired: json['is_required'],
         description: json['description'],
         options: checkBoxoptions);

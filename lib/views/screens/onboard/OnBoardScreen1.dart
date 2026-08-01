@@ -8,6 +8,8 @@ import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
+import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
+import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/RectangleIndicator.dart';
 import 'package:workforceclientapp/views/widgets/SkipandNextText.dart';
@@ -110,13 +112,21 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
                   path: "lib/assets/images/splashscreenimage1.png"),
             ),
             Column(children: [
-              HeadingText(
+              HeadingTextW600(
+                  text: Strings.postJob(Get.context!),
+                  centerAlign: true,
+                  size: 22.0.sp),
+              const SizedBox(
+                height: 12,
+              ),
+              HeadingTextW500(
                   text: Strings.onBoardScreen1Heading(Get.context!),
+                  size: 18.0.sp,
                   centerAlign: true),
               Headingdescription(
                 text: Strings.onBoardScreen1Description(Get.context!),
                 centerAlign: true,
-                size: 13.0.sp,
+                size: 14.0.sp,
               ),
             ]),
           ],
@@ -134,13 +144,21 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
                   path: "lib/assets/images/splashscreenimage2.png"),
             ),
             Column(children: [
-              HeadingText(
+              HeadingTextW600(
+                  text: Strings.reviewApplicants(Get.context!),
+                  centerAlign: true,
+                  size: 22.0.sp),
+              const SizedBox(
+                height: 12,
+              ),
+              HeadingTextW500(
                   text: Strings.onBoardScreen2Heading(Get.context!),
-                  centerAlign: true),
+                  centerAlign: true,
+                  size: 18.0.sp),
               Headingdescription(
                 text: Strings.onBoardScreen2Description(Get.context!),
                 centerAlign: true,
-                size: 13.0,
+                size: 14.0,
               ),
             ]),
           ],
@@ -158,13 +176,21 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
                   path: "lib/assets/images/splashscreenimage3.png"),
             ),
             Column(children: [
-              HeadingText(
+              HeadingTextW600(
+                  text: Strings.chatAndAssign(Get.context!),
+                  centerAlign: true,
+                  size: 22.0.sp),
+              const SizedBox(
+                height: 12,
+              ),
+              HeadingTextW500(
                   text: Strings.onBoardScreen3Heading(Get.context!),
-                  centerAlign: true),
+                  centerAlign: true,
+                  size: 18.0.sp),
               Headingdescription(
                 text: Strings.onBoardScreen3Description(Get.context!),
                 centerAlign: true,
-                size: 13.0.sp,
+                size: 14.0.sp,
               ),
             ]),
           ],

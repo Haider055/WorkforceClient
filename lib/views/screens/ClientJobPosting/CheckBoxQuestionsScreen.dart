@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
@@ -114,7 +115,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
           }
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           backgroundColor: Colors.white,
           appBar: AppBar(
             leadingWidth: MediaQuery.of(context).size.width,
@@ -131,7 +132,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                   children: [
                     Center(
                         child: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                      padding: EdgeInsets.only(left: 8.0.w, right: 32.0.w),
                       child: Text(Constants.selectedServiceName,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
@@ -150,7 +151,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                             onTap: () {
                               Commons.showExitJobPostingDialog(Get.context!);
                             },
-                            child: Icon(Icons.close)))
+                            child: const Icon(Icons.close)))
                   ],
                 ),
               ),
@@ -159,43 +160,39 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
           body: SafeArea(
             child: Column(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Obx(() {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.0.w, vertical: 0),
-                          child: LinearProgressBar(
-                            maxSteps: Constants.jobPostingSteps,
-                            progressType: LinearProgressBar.progressTypeLinear,
-                            minHeight: 6,
-                            currentStep: Constants.currentJobPostingStep.value,
-                            progressColor: const Color(MyColors.themeRedColor),
-                            backgroundColor:
-                                const Color(MyColors.lightSilverColor),
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        );
-                      }),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
-                          child: Text(
-                            "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
-                            style: TextStyle(
-                                fontSize: 14.5.sp,
-                                color: const Color(MyColors.midGrayColor)),
-                          ),
+                Column(
+                  children: [
+                    Obx(() {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.0.w, vertical: 0),
+                        child: LinearProgressBar(
+                          maxSteps: Constants.jobPostingSteps,
+                          progressType: LinearProgressBar.progressTypeLinear,
+                          minHeight: 6,
+                          currentStep: Constants.currentJobPostingStep.value,
+                          progressColor: const Color(MyColors.themeRedColor),
+                          backgroundColor:
+                              const Color(MyColors.lightSilverColor),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      );
+                    }),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
+                        child: Text(
+                          "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
+                          style: TextStyle(
+                              fontSize: 14.5.sp,
+                              color: const Color(MyColors.midGrayColor)),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 Expanded(
-                  flex: 16,
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: questionsList.length,
@@ -245,41 +242,36 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                     },
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0.r),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(left: 25.0.w, right: 12.0.w),
-                            child: FullWidthOutlineButton(
-                                text: Strings.back(context),
-                                fontsize: 15.0.sp,
-                                color: MyColors.themeRedColor,
-                                onPressed: () {
-                                  _previousPage();
-                                }),
-                          ),
+                Padding(
+                  padding: EdgeInsets.all(8.0.r),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 25.0.w, right: 12.0.w),
+                          child: FullWidthOutlineButton(
+                              text: Strings.back(context),
+                              fontsize: 15.0.sp,
+                              color: MyColors.themeRedColor,
+                              onPressed: () {
+                                _previousPage();
+                              }),
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(left: 12.0.w, right: 25.0.w),
-                            child: FullWidthButtonPrimary(
-                                text: Strings.next(context),
-                                fontsize: 15.0.sp,
-                                color: MyColors.themeRedColor,
-                                onPressed: () {
-                                  _nextPage();
-                                }),
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
+                          child: FullWidthButtonPrimary(
+                              text: Strings.next(context),
+                              fontsize: 15.0.sp,
+                              color: MyColors.themeRedColor,
+                              onPressed: () {
+                                _nextPage();
+                              }),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -397,12 +389,17 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    option.icon != null
-                        ? CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(option.icon!, scale: 50.0.r),
+                    question.hasIcon == 1 &&
+                            option.icon != null &&
+                            option.icon!.url != null
+                        ? SvgPicture.network(
+                            option.icon!.url!,
+                            width: 40.w,
+                            height: 40.h,
                           )
-                        : const Center(),
+                        : const Center(
+                            child: SizedBox(),
+                          ),
                     SizedBox(height: 5.h),
                     Padding(
                       padding: EdgeInsets.only(
@@ -506,6 +503,15 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
             value: option.optionText,
             groupValue: selectAnswer,
             activeColor: const Color(MyColors.themeRedColor),
+            secondary: question.hasIcon == 1 &&
+                    option.icon != null &&
+                    option.icon!.url != null
+                ? SvgPicture.network(
+                    option.icon!.url!,
+                    width: 28.w,
+                    height: 28.h,
+                  )
+                : const SizedBox(),
             onChanged: (value) {
               setState(() {
                 selectAnswer = value!;
@@ -593,54 +599,61 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
   }
 
   Widget _buildTextQuestion(TextQuestion question, BuildContext context) {
-    return Card(
-      elevation: 0,
-      color: const Color(MyColors.cardGrayColor50),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: 12.0.h, left: 20.0.w, right: 20.0.w),
-              child: HeadingTextW500(
-                  text: question.question!, centerAlign: false, size: 20.0.sp),
-            ),
+    return Expanded(
+      child: Card(
+        elevation: 0,
+        color: const Color(MyColors.cardGrayColor50),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(top: 12.0.h, left: 20.0.w, right: 20.0.w),
+                  child: HeadingTextW500(
+                      text: question.question!,
+                      centerAlign: false,
+                      size: 20.0.sp),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 20.0.w, top: 15.0.h, right: 20.0.w),
+                  child: Headingdescription(
+                      text: question.description == null
+                          ? ""
+                          : question.description!,
+                      centerAlign: false,
+                      size: 16.0.sp),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(20.0.w),
+                child: TextField(
+                  controller: TextEditingController(text: question.answer),
+                  onChanged: (value) {
+                    question.answer = value;
+                  },
+                  cursorColor: const Color(MyColors.themeRedColor),
+                  decoration: InputDecoration(
+                      fillColor: const Color(MyColors.whiteColor),
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9.0.r),
+                          borderSide: const BorderSide(
+                              color: Color(MyColors.themeRedColor))),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9.0.r),
+                          borderSide: const BorderSide(
+                              color: Color(MyColors.themeRedColor)))),
+                ),
+              )
+            ],
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding:
-                  EdgeInsets.only(left: 20.0.w, top: 15.0.h, right: 20.0.w),
-              child: Headingdescription(
-                  text:
-                      question.description == null ? "" : question.description!,
-                  centerAlign: false,
-                  size: 16.0.sp),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(20.0.w),
-            child: TextField(
-              controller: TextEditingController(text: question.answer),
-              onChanged: (value) {
-                question.answer = value;
-              },
-              cursorColor: const Color(MyColors.themeRedColor),
-              decoration: InputDecoration(
-                  fillColor: const Color(MyColors.whiteColor),
-                  filled: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9.0.r),
-                      borderSide: const BorderSide(
-                          color: Color(MyColors.themeRedColor))),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9.0.r),
-                      borderSide: const BorderSide(
-                          color: Color(MyColors.themeRedColor)))),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

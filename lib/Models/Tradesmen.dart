@@ -9,6 +9,7 @@ class Tradesmen {
   String? profileImg;
   String? memberSince;
   int? reviewsCount;
+  int? jobsCompleted;
   String? rating;
   TradesmenProfile? tradesmenProfile;
   ServiceArea? serviceArea;
@@ -24,6 +25,7 @@ class Tradesmen {
       this.serviceArea,
       this.memberSince,
       this.servicesList,
+      this.jobsCompleted,
       this.reviewsCount});
 
   factory Tradesmen.fromJson(Map<String, dynamic> json) {
@@ -48,6 +50,7 @@ class Tradesmen {
             : TradesmenProfile.fromJson(json['trade_person_profile']),
         rating: json['rating'],
         reviewsCount: json['reviews_count'],
+        jobsCompleted: json['jobs_completed'] ?? 0,
         servicesList: servicesList1);
   }
 }

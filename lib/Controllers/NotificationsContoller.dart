@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,12 @@ class NotificationsContoller extends GetxController {
     try {
       List<NotificationPreference> list = [];
 
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/notification-preferences'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/notification-preferences'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -74,6 +77,9 @@ class NotificationsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return list;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return list;
     } catch (e) {
       throw Exception(e);
     }
@@ -82,16 +88,18 @@ class NotificationsContoller extends GetxController {
   Future<bool> pleaseUpdatePref(
       BuildContext context, NotificationPreference pref) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/notification-preferences/update'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, dynamic>{
-          'id': pref.id,
-          'push_enabled': pref.pushEnabled.value,
-          'email_enabled': pref.emailEnabled.value,
-          'type': pref.type
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/notification-preferences/update'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, dynamic>{
+              'id': pref.id,
+              'push_enabled': pref.pushEnabled.value,
+              'email_enabled': pref.emailEnabled.value,
+              'type': pref.type
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -109,6 +117,9 @@ class NotificationsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return false;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return false;
     } catch (e) {
       throw Exception(e);
     }
@@ -128,10 +139,12 @@ class NotificationsContoller extends GetxController {
         url = "${Constants.baseUrl}/notifications?cursor=$cursor";
       }
 
-      final response = await http.get(
-        Uri.parse(url),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -157,6 +170,9 @@ class NotificationsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return notificationsList;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return null;
     } catch (e) {
       throw Exception(e);
     }
@@ -164,10 +180,12 @@ class NotificationsContoller extends GetxController {
 
   Future<bool> pleaseMarkAllAsRead(BuildContext context) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/notifications/mark-all-as-seen'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/notifications/mark-all-as-seen'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -184,6 +202,9 @@ class NotificationsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return false;
     } catch (e) {
       throw Exception(e);
     }
@@ -191,16 +212,18 @@ class NotificationsContoller extends GetxController {
 
   Future<bool> pleaseMarkAsRead(BuildContext context, String id) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/notifications/mark-as-seen/$id'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/notifications/mark-as-seen/$id'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
-          // Fluttertoast.showToast(msg: "Notifications marked as read");
+// Fluttertoast.showToast(msg: "Notifications marked as read");
           return true;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
@@ -210,6 +233,9 @@ class NotificationsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return false;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return false;
     } catch (e) {
       throw Exception(e);
     }

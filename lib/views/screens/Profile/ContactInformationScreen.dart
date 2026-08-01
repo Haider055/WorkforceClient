@@ -120,9 +120,9 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                               needPasswordSuffixIcon: false,
                               needprefixIcon: false,
                               onChanged: (value) {
-                                // setState(() {
-                                //   emailAddressErrorText = "";
-                                // });
+                                setState(() {
+                                  phoneErrorText = '';
+                                });
                               }),
                         ),
                         Padding(
@@ -136,21 +136,117 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 12.0.h),
-                          child: CommonTextFieldWhite(
-                              hint: phoneErrorText,
-                              errorText: phoneErrorText,
-                              controller: controller.phoneTextField(),
-                              inputType: TextInputType.number,
-                              prefixIcon: const Icon(Icons.phone),
-                              needPasswordSuffixIcon: false,
-                              needprefixIcon: false,
-                              onChanged: (value) {
-                                // setState(() {
-                                //   emailAddressErrorText = "";
-                                // });
-                              }),
-                        ),
+                            padding: EdgeInsets.only(top: 12.0.h),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 19.w),
+                              child: TextFormField(
+                                controller: controller.phoneTextField(),
+                                keyboardType: TextInputType.phone,
+                                maxLines: 1,
+                                maxLength: 13,
+                                onChanged: (value) {
+                                  setState(() {
+                                    phoneErrorText = '';
+                                  });
+                                },
+                                obscureText: false,
+                                obscuringCharacter: "*",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Field cannot be empty!";
+                                  } else if (value.length < 3) {
+                                    return "Must be at least 3 characters long!";
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "e.g. +490123456789",
+                                  errorText: phoneErrorText,
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
+                                      width: 2.w,
+                                      color: phoneErrorText.isEmpty
+                                          ? const Color(MyColors.fieldBorderColor)
+                                          : Colors.red.withOpacity(0.7),
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
+                                      width: 2.w,
+                                      color: phoneErrorText.isEmpty
+                                          ? const Color(MyColors.fieldBorderColor)
+                                          : Colors.red.withOpacity(0.7),
+                                    ),
+                                  ),
+
+                                  filled: true,
+                                  fillColor: phoneErrorText.isEmpty
+                                      ? const Color(MyColors.whiteColor)
+                                      : Colors.red.withOpacity(0.12),
+
+                                  hintStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16.sp,
+                                    color: const Color(0x66000000),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+
+                                  prefixIcon: null,
+                                  prefixIconColor: const Color(0x66000000),
+
+                                  suffixIcon: null,
+                                  suffixIconColor: const Color(0x66000000),
+
+                                  // INNER PADDING
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 16.w,
+                                    vertical: 14.h,
+                                  ),
+
+                                  // NORMAL BORDER
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
+                                      width: 2.w,
+                                      color: const Color(
+                                          MyColors.fieldBorderColor),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
+                                      width: 2.w,
+                                      color: const Color(
+                                          MyColors.fieldBorderColor),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
+                                      width: 2.w,
+                                      color: const Color(
+                                          MyColors.fieldBorderColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            //  CommonTextFieldWhite(
+                            //                           hint: phoneErrorText,
+                            //                           errorText: phoneErrorText,
+                            //                           controller: controller.phoneTextField(),
+                            //                           inputType: TextInputType.number,
+                            //                           prefixIcon: const Icon(Icons.phone),
+                            //                           needPasswordSuffixIcon: false,
+                            //                           needprefixIcon: false,
+                            //                           onChanged: (value) {
+                            // setState(() {
+                            //   emailAddressErrorText = "";
+                            // });
+                            //                           }),
+                            ),
                         Padding(
                           padding: EdgeInsets.all(20.0.sp),
                           child: FullWidthElevatedButton(
@@ -183,10 +279,20 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                                       });
                                       return;
                                     }
+                                    if (controller.phoneTextField.value.text
+                                            .toString()
+                                            .length >
+                                        13) {
+                                      setState(() {
+                                        phoneErrorText = Strings
+                                            .phoneNumberCannotbemorethan13digit(
+                                                Get.context!);
+                                      });
+                                      return;
+                                    }
                                     Commons.showProgressDialog(context);
                                     var res = await controller
                                         .pleaseUpdateNameAndPhone();
-                                    Commons.hideProgressDialog();
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: Strings.cannotBeEmpty(context));

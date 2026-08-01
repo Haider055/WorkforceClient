@@ -150,6 +150,10 @@ class Strings {
       AppLocalizations.of(context)!.nowText;
   static String goBackText(BuildContext context) =>
       AppLocalizations.of(context)!.goBackText;
+  static String otpSentText(BuildContext context) =>
+      AppLocalizations.of(context)!.otpSentText;
+  static String otpFailedToSentText(BuildContext context) =>
+      AppLocalizations.of(context)!.otpFailedToSentText;
 
   static String lowercaseText(BuildContext context) =>
       AppLocalizations.of(context)!.lowercaseText;
@@ -286,6 +290,9 @@ class Strings {
       AppLocalizations.of(context)!.pleaseEnterValidEmailText;
   static String pleaseEnterValidPhoneText(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseEnterValidPhoneText;
+  static String phoneNumberCannotbemorethan13digit(BuildContext context) =>
+      AppLocalizations.of(context)!.phoneNumberCannotbemorethan13digitText;
+
   static String pleaseExplaininyourownWords(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseExplaininyourownWordsText;
   static String areYouSureToCompleteThisContractText(BuildContext context) =>
@@ -386,6 +393,11 @@ class Strings {
       AppLocalizations.of(context)!.jobTitleText;
   static String aboutThisCompany(BuildContext context) =>
       AppLocalizations.of(context)!.aboutThisCompanyText;
+  static String chatAndAssign(BuildContext context) =>
+      AppLocalizations.of(context)!.chatAndAssignText;
+  static String reviewApplicants(BuildContext context) =>
+      AppLocalizations.of(context)!.reviewApplicantsText;
+
   static String atLeast12CharactersText(BuildContext context) =>
       AppLocalizations.of(context)!.atLeast12CharactersText;
   static String pleaseFollowPasswordRules(BuildContext context) =>

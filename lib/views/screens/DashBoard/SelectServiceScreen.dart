@@ -22,7 +22,6 @@ import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/AllChats.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationsScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ContactInformationScreen.dart';
-import 'package:workforceclientapp/views/screens/Profile/ManageAccountScreen.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
@@ -231,7 +230,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
 
   Widget buildServiceOptions(int index) {
     return SizedBox(
-      height: 54.0.h,
+      height: 70.h,
       child: GestureDetector(
         onTap: () async {
           try {
@@ -266,41 +265,41 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
             child: Row(
               children: [
                 Padding(
-                    padding: EdgeInsets.only(left: 14.0.w),
+                    padding: EdgeInsets.only(left: 11.0.w),
                     child:
                         controller.filteredOptions.elementAt(index).icon != null
-                            ? Image.network(
+                            ? SvgPicture.network(
                                 controller.filteredOptions
                                     .elementAt(index)
                                     .icon!
                                     .url!,
-                                height: 24.h,
-                                width: 24.w,
+                                height: 36.h,
+                                width: 36.w,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) {
                                   return SizedBox(
-                                      height: 24.h,
-                                      width: 24.w,
+                                      height: 36.h,
+                                      width: 36.w,
                                       child: SvgPicture.asset(
                                         "lib/assets/images/tradesmenplaceholdericon.svg",
                                         fit: BoxFit.contain,
-                                        height: 24.h,
-                                        width: 24.w,
+                                        height: 36.h,
+                                        width: 36.w,
                                       ));
                                 },
                               )
                             : SizedBox(
-                                height: 24.h,
-                                width: 24.w,
+                                height: 36.h,
+                                width: 36.w,
                                 child: SvgPicture.asset(
                                   "lib/assets/icons/bookIcon.svg",
                                   fit: BoxFit.contain,
-                                  height: 24.h,
-                                  width: 24.w,
+                                  height: 36.h,
+                                  width: 36.w,
                                 ))),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10.0.w, right: 8.0.w),
+                    padding: EdgeInsets.only(left: 7.0.w, right: 8.0.w),
                     child: Text(
                         controller.filteredOptions
                             .elementAt(index)
@@ -308,10 +307,10 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                             .toString(),
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                        maxLines: 3,
                         softWrap: true,
                         style: TextStyle(
-                            fontSize: 15.5.sp,
+                            fontSize: 14.5.sp,
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Poppins')),
                   ),
@@ -527,21 +526,24 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                             .value = false;
                                       }
                                     },
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
-                                          width: 30.w, // Adjust width
-                                          height: 30.h, // Adjust height
-                                        ),
-                                        Image.asset(
-                                          'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
-                                          width: 12.w, // Adjust width
-                                          height: 12.h, // Adjust height
-                                        ),
-                                      ],
-                                    ),
+                                    child: controller.searchController.value
+                                            .text.isNotEmpty
+                                        ? Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
+                                                width: 30.w, // Adjust width
+                                                height: 30.h, // Adjust height
+                                              ),
+                                              Image.asset(
+                                                'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
+                                                width: 12.w, // Adjust width
+                                                height: 12.h, // Adjust height
+                                              ),
+                                            ],
+                                          )
+                                        : const SizedBox(),
                                   ),
                                 ), // Search icon at start
                                 border: OutlineInputBorder(
@@ -1039,8 +1041,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Spacer(),
-            Image.asset(
-              "lib/assets/images/noorderspostedicon.png",
+            SvgPicture.asset(
+              "lib/assets/icons/noordersicon.svg",
               width: MediaQuery.of(Get.context!).size.width.w,
               height: MediaQuery.of(Get.context!).size.height.h / 5,
               fit: BoxFit.contain,
@@ -1547,7 +1549,8 @@ class _ProfileSectionState extends State<ProfileSection> {
   }
 
   Future<void> _pickImageFromSource(ImageSource source) async {
-    final XFile? pickedFile = await _picker.pickImage(source: source);
+    final XFile? pickedFile = await _picker.pickImage(
+        source: source, maxHeight: 1024, maxWidth: 1024, imageQuality: 70);
 
     if (pickedFile == null) {
       Fluttertoast.showToast(
@@ -1659,14 +1662,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                           text: Strings.manageAccount(context),
                           onPressed: () {
                             try {
-                              Get.to(
-                                const ManageAccountScreen(),
-                                transition: Transition
-                                    .rightToLeft, // Left-to-right animation
-                                duration: const Duration(
-                                    milliseconds:
-                                        500), // Optional: animation duration
-                              );
+                              Get.toNamed(AppLinks.manage_account_screen);
                             } catch (e) {
                               throw Exception(e);
                             }
@@ -1731,7 +1727,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                     text: Strings.supportCenter(context),
                     onPressed: () {
                       try {
-                        Fluttertoast.showToast(msg: "Coming soon...");
+                        Get.toNamed(AppLinks.support_centre);
                       } catch (e) {
                         throw Exception(e);
                       }
@@ -1766,10 +1762,10 @@ class _ProfileSectionState extends State<ProfileSection> {
                   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
                     icon: "lib/assets/icons/bookIcon.svg",
-                    text: Strings.legalGuidelines(context),
+                    text: Strings.termsAndConditionText(context),
                     onPressed: () {
                       try {
-                        Fluttertoast.showToast(msg: "Coming soon...");
+                        Get.toNamed(AppLinks.terms_and_conditions);
                       } catch (e) {
                         throw Exception(e);
                       }
@@ -1780,10 +1776,10 @@ class _ProfileSectionState extends State<ProfileSection> {
                   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
                     icon: "lib/assets/icons/eyeOffIcon.svg",
-                    text: Strings.dataSafeguards(context),
+                    text: Strings.privacyPolicy(context),
                     onPressed: () {
                       try {
-                        Get.toNamed(AppLinks.terms_and_conditions);
+                        Get.toNamed(AppLinks.privacy_policy);
                       } catch (e) {
                         throw Exception(e);
                       }

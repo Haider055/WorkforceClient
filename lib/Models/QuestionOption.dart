@@ -1,11 +1,12 @@
 import 'package:workforceclientapp/Models/CheckBoxQuestion.dart';
+import 'package:workforceclientapp/Models/IconObj.dart';
 import 'package:workforceclientapp/Models/RadioQuestion.dart';
 import 'package:workforceclientapp/Models/TextQuestion.dart';
 
 class QuestionOption {
   int? id;
   String? optionText;
-  String? icon;
+  IconObj? icon;
   List<Map<String, dynamic>> questionsList;
   bool selected;
 
@@ -47,7 +48,7 @@ class QuestionOption {
     return QuestionOption(
       id: json['id'],
       optionText: json['option_text'],
-      icon: json['icon'],
+      icon: json['icon'] != null ? IconObj.fromJson(json['icon']) : null,
       questionsList: parsedQuestionsList, // Assign parsed questions list
     );
   }

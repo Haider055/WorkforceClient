@@ -9,38 +9,48 @@ import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 
-class ChangeLanguageController extends GetxController {
+class ManageAccountController extends GetxController {
+  RxString pass = "".obs;
+  late SharedPreferences _prefs;
+  final passwordTextField = TextEditingController().obs;
+
+  RxBool isTwoFAEnabled = false.obs;
+
   @override
   void onInit() {
     super.onInit();
-    getSelecedLang();
+    _loadTwoFAStatus();
   }
 
-  void getSelecedLang() async {
+  Future<void> _loadTwoFAStatus() async {
     _prefs = await SharedPreferences.getInstance();
-    selectedLang.value = _prefs.getString("language") ?? "en";
+    isTwoFAEnabled.value = _prefs.getBool('two_factor_enabled') ?? false;
+    pass.value = _prefs.getString('password') ?? "";
   }
 
-  RxString selectedLang = 'en'.obs;
-  late SharedPreferences _prefs;
-
-  Future<bool> pleaseChangeLanguage(String lang) async {
+  Future<bool> pleaseChange2FAStatus(bool val) async {
+    String url = '';
+    if (val) {
+      url = '${Constants.baseUrl}/2fa/enable';
+    } else {
+      url = '${Constants.baseUrl}/2fa/disable';
+    }
     try {
       final response = await http
           .post(
-            Uri.parse('${Constants.baseUrl}/locale'),
+            Uri.parse(url),
             headers: await Commons.manageRequestHeader(),
-            body: jsonEncode(<String, dynamic>{'language': lang}),
+            body: jsonEncode(<String, dynamic>{'password': pass.value}),
           )
           .timeout(const Duration(seconds: 5));
+      Commons.hideProgressDialog();
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        if (jsonData['success'] &&
-            (jsonData['message'] == 'Updated successfully' ||
-                jsonData['message'] == 'Erfolgreich aktualisiert')) {
+        if (jsonData['success']) {
+          _prefs.setBool('two_factor_enabled', val);
           return true;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -51,29 +61,9 @@ class ChangeLanguageController extends GetxController {
         return false;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  void setLanguage(String lang) async {
-    try {
-      Commons.showProgressDialog(Get.context!);
-      var res = await pleaseChangeLanguage(lang);
-      if (res) {
-        if (lang == "en") {
-          selectedLang.value = 'en';
-          await _prefs.setString("language", "en");
-          Get.updateLocale(const Locale('en'));
-        } else {
-          selectedLang.value = 'de';
-          await _prefs.setString("language", "de");
-          Get.updateLocale(const Locale('de'));
-        }
-        Commons.hideProgressDialog();
-      }
     } catch (e) {
       throw Exception(e);
     }

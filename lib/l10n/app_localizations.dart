@@ -1139,7 +1139,7 @@ abstract class AppLocalizations {
   /// No description provided for @endOrderReason5.
   ///
   /// In en, this message translates to:
-  /// **'Other reason (Please Specify)'**
+  /// **'Other'**
   String get endOrderReason5;
 
   /// No description provided for @nameMustbeAtleastText.
@@ -1429,6 +1429,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get privacyPolicy;
+
+  /// No description provided for @reviewApplicantsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Applicants'**
+  String get reviewApplicantsText;
+
+  /// No description provided for @chatAndAssignText.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat & Assign'**
+  String get chatAndAssignText;
 
   /// No description provided for @privacyPolicyText.
   ///
@@ -2114,6 +2126,18 @@ abstract class AppLocalizations {
   /// **'Only'**
   String get onlyInfoText;
 
+  /// No description provided for @otpSentText.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP Sent'**
+  String get otpSentText;
+
+  /// No description provided for @otpFailedToSentText.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP failed to Sent'**
+  String get otpFailedToSentText;
+
   /// No description provided for @imagesCanBeAddMoreText.
   ///
   /// In en, this message translates to:
@@ -2125,6 +2149,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Request already sent'**
   String get requestAlreadySentText;
+
+  /// No description provided for @phoneNumberCannotbemorethan13digitText.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number Cannot be more than 13 digits'**
+  String get phoneNumberCannotbemorethan13digitText;
 }
 
 class _AppLocalizationsDelegate

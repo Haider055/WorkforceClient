@@ -547,7 +547,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get endOrderReason4 => 'Der Auftrag wurde unterbrochen';
 
   @override
-  String get endOrderReason5 => 'Anderer Grund (bitte angeben)';
+  String get endOrderReason5 => 'Andere';
 
   @override
   String get nameMustbeAtleastText =>
@@ -718,6 +718,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacyPolicy => 'Datenschutzrichtlinie';
+
+  @override
+  String get reviewApplicantsText => 'Bewerber prüfen';
+
+  @override
+  String get chatAndAssignText => 'Chat & Zuweisen';
 
   @override
   String get privacyPolicyText =>
@@ -1113,9 +1119,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get onlyInfoText => 'Es können nur noch';
 
   @override
+  String get otpSentText => 'OTP gesendet';
+
+  @override
+  String get otpFailedToSentText => 'OTP-Versand fehlgeschlagen';
+
+  @override
   String get imagesCanBeAddMoreText =>
       'Es können weitere Bilder hinzugefügt werden';
 
   @override
   String get requestAlreadySentText => 'Anfrage bereits gesendet';
+
+  @override
+  String get phoneNumberCannotbemorethan13digitText =>
+      'Die Telefonnummer darf nicht mehr als 13 Ziffern haben.';
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -53,11 +54,13 @@ class JobRecommendationController extends GetxController {
   Future<RecommendedTradesman> pleaseGetRecommendedTradesmen(
       int id, int page) async {
     try {
-      final response = await http.get(
-        Uri.parse(
-            '${Constants.baseUrl}/tradeperson/recommended?job_posting_id=$id&page=$page'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse(
+                '${Constants.baseUrl}/tradeperson/recommended?job_posting_id=$id&page=$page'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -81,6 +84,9 @@ class JobRecommendationController extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return RecommendedTradesman(tradesmenList: [], pagination: null);
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return RecommendedTradesman(tradesmenList: [], pagination: null);
     } catch (e) {
       throw Exception(e);
     }
@@ -96,15 +102,17 @@ class JobRecommendationController extends GetxController {
   Future<String> pleaseSendRequestToTradesmen(
       int tradespersonId, int jobId) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/tradesperson-requests'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'tradeperson_id': tradespersonId.toString(),
-          'job_posting_id': jobId.toString(),
-          'message': Strings.customRequestMessageText(Get.context!),
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/tradesperson-requests'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'tradeperson_id': tradespersonId.toString(),
+              'job_posting_id': jobId.toString(),
+              'message': Strings.customRequestMessageText(Get.context!),
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
       String msg = "";
@@ -127,6 +135,9 @@ class JobRecommendationController extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return "";
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return "";
     } catch (e) {
       throw Exception(e);
     }

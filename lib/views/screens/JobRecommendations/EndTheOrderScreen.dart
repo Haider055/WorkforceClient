@@ -50,14 +50,19 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                     centerAlign: false,
                     size: 19.0.sp,
                   )),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.0.w),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Icon(
-                          Icons.arrow_back_ios_new,
-                          size: 20.sp,
-                        )),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10.0.w),
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 20.sp,
+                          )),
+                    ),
                   )
                 ],
               ),
@@ -80,7 +85,8 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: EdgeInsets.only(left: 25.0.w, top: 15.0.h),
+                padding:
+                    EdgeInsets.only(left: 25.0.w, top: 15.0.h, right: 15.0.w),
                 child: HeadingTextW500(
                     text: Strings.endingOrderPageDesc(context),
                     centerAlign: false,

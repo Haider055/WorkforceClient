@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,23 +42,23 @@ class CreateNewPasswordController extends GetxController {
   Future<void> pleaseResetPassword(String email) async {
     try {
       Commons.showProgressDialog(Get.context!);
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/reset-password'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'email': email,
-          'password': passwordTextField.value.text.toString(),
-          'password_confirmation':
-              confirmPasswordTextField.value.text.toString(),
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/reset-password'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'email': email,
+              'password': passwordTextField.value.text.toString(),
+              'password_confirmation':
+                  confirmPasswordTextField.value.text.toString(),
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
         Get.toNamed(
@@ -66,6 +68,9 @@ class CreateNewPasswordController extends GetxController {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
       }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }
@@ -74,23 +79,23 @@ class CreateNewPasswordController extends GetxController {
   Future<bool> pleaseUpdatePassword(String currentPassword) async {
     try {
       Commons.showProgressDialog(Get.context!);
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/update-password'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'current_password': currentPassword,
-          'password': passwordTextField.value.text.toString(),
-          'password_confirmation':
-              confirmPasswordTextField.value.text.toString(),
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/update-password'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'current_password': currentPassword,
+              'password': passwordTextField.value.text.toString(),
+              'password_confirmation':
+                  confirmPasswordTextField.value.text.toString(),
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
         updatePassword();
@@ -102,6 +107,9 @@ class CreateNewPasswordController extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return false;
       }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      return false;
     } catch (e) {
       return false;
     }

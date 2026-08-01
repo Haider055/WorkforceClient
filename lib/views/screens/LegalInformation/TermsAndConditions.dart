@@ -3,12 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
-import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
-import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
 class TermsAndConditions extends GetView<TermsandconditionController> {
   const TermsAndConditions({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,14 +58,26 @@ class TermsAndConditions extends GetView<TermsandconditionController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 HeadingTextW600(text: "EULA", centerAlign: true, size: 18.sp),
-                HeadingTextW500(
-                    text: Strings.eULAText(Get.context!),
-                    centerAlign: false,
-                    size: 14.sp),
-                Headingdescription(
-                    text: Strings.lisenceText(Get.context!),
-                    centerAlign: false,
-                    size: 14.sp),
+                SizedBox(height: 8.h),
+                Text(
+                  Strings.eULAText(Get.context!),
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  Strings.lisenceText(Get.context!),
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.normal,
+                    height: 1.4,
+                  ),
+                ),
               ],
             ),
           ),

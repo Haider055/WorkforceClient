@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,16 +27,18 @@ class ReviewScreenController extends GetxController {
   Future<bool> pleaseSubmitReview(BuildContext context, String review,
       int rating, int jobPostingId, int tradesmenId) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/reviews'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, dynamic>{
-          'job_posting_id': jobPostingId,
-          'reviewee_id': tradesmenId,
-          'rating': rating,
-          'comment': review
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/reviews'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, dynamic>{
+              'job_posting_id': jobPostingId,
+              'reviewee_id': tradesmenId,
+              'rating': rating,
+              'comment': review
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -57,6 +60,9 @@ class ReviewScreenController extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return false;
     } catch (e) {
       throw Exception(e);
     }
@@ -67,10 +73,12 @@ class ReviewScreenController extends GetxController {
       Chat? chat;
 
       Pagination pagination = Pagination();
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/chats/$id'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/chats/$id'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -97,6 +105,10 @@ class ReviewScreenController extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return chat;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      Chat? chat;
+      return chat;
     } catch (e) {
       throw Exception(e);
     }

@@ -1,7 +1,7 @@
 name: workforceclientapp
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.7.9+25
+version: 1.7.13+29
 
 environment:
   sdk: ^3.5.3
@@ -40,6 +40,7 @@ dependencies:
   flutter_local_notifications: ^21.0.0
   firebase_core: ^4.7.0
   cached_network_image: ^3.4.1
+  url_launcher: ^6.3.2
   
 dependency_overrides:
   http: ^0.13.0

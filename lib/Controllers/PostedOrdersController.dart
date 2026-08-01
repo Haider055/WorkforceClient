@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -112,27 +113,23 @@ class PostedOrdersController extends GetxController {
       } else {
         url = "${Constants.baseUrl}/jobs/my-jobs?page=$page&status=$status";
       }
-      final response = await http.get(
-        Uri.parse(url),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success'] == true) {
           if (jsonData.keys.contains('data')) {
             List<dynamic> dataList = jsonData['data'];
             for (var item in dataList) {
               jobsList.add(PostedJobDetail.fromJson(item));
             }
-            // Iterable l = jsonData['data'];
-            // list = List<PostedJobDetail>.from(
-            //     l.map((model) => PostedJobDetail.fromJson(model)));
             if (jsonData.keys.contains('pagination')) {
               pagination = Pagination.fromJson(jsonData['pagination']);
             }
@@ -150,6 +147,9 @@ class PostedOrdersController extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedOrders;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return postedOrders;
     } catch (e) {
       throw Exception(e);
     }
@@ -162,10 +162,12 @@ class PostedOrdersController extends GetxController {
     url = "${Constants.baseUrl}/jobs/$id";
 
     try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -189,6 +191,9 @@ class PostedOrdersController extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedJobDetail;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return postedJobDetail;
     } catch (e) {
       throw Exception(e);
     }

@@ -18,11 +18,13 @@ import 'package:workforceclientapp/views/screens/JobRecommendations/EndTheOrderS
 import 'package:workforceclientapp/views/screens/JobRecommendations/JobRecommendations.dart';
 import 'package:workforceclientapp/views/screens/JobRecommendations/TradesmenDetailScreen.dart';
 import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
+import 'package:workforceclientapp/views/screens/Profile/SupportCentre.dart';
 import 'package:workforceclientapp/views/screens/LegalInformation/TermsAndConditions.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationSettingScreen.dart';
 import 'package:workforceclientapp/views/screens/PostedOrders/OrdersDetailsScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ChangeLanguageScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/DeleteAccountScreen.dart';
+import 'package:workforceclientapp/views/screens/Profile/ManageAccountScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/UpdatePasswordScreen.dart';
 import 'package:workforceclientapp/views/screens/SelectLanguage.dart';
 import 'package:workforceclientapp/views/screens/SplashScreen.dart';
@@ -101,6 +103,11 @@ class AppRoutes {
       binding: JobPostCompletedBinding(),
     ),
     GetPage(
+      name: AppLinks.manage_account_screen,
+      page: () => const ManageAccountScreen(),
+      binding: ManageAccountScreenBindings(),
+    ),
+    GetPage(
       name: AppLinks.pick_address_screen,
       page: () => const PickAddressScreen(),
       binding: PickAddressBinding(),
@@ -170,6 +177,11 @@ class AppRoutes {
       page: () => const PrivacyPolicy(),
       binding: PrivacyPolicyBindings(),
     ),
+    GetPage(
+      name: AppLinks.support_centre,
+      page: () => const SupportCentre(),
+      binding: SupportCentreBindings(),
+    ),
   ];
 }
 
@@ -202,4 +214,6 @@ class AppLinks {
   static const notification_setting_screen = '/notification_setting_screen';
   static const terms_and_conditions = '/terms_and_conditions';
   static const privacy_policy = '/privacy_policy';
+  static const manage_account_screen = '/manage_account_screen';
+  static const support_centre = '/support_centre';
 }

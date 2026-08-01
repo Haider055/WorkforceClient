@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,10 +23,12 @@ class ConversationContoller extends GetxController {
       ChatsList? chatsList;
 
       Pagination pagination = Pagination();
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/chats?page=$page'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/chats?page=$page'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -55,6 +58,9 @@ class ConversationContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chatsList;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return null;
     } catch (e) {
       throw Exception(e);
     }
@@ -65,13 +71,14 @@ class ConversationContoller extends GetxController {
     try {
       Message? messageObj;
       messageTextField.value.text = "";
-      final response =
-          await http.post(Uri.parse('${Constants.baseUrl}/chats/send-message'),
+      final response = await http
+          .post(Uri.parse('${Constants.baseUrl}/chats/send-message'),
               headers: await Commons.manageRequestHeader(),
               body: jsonEncode({
                 'message': message,
                 'chat_id': chatId,
-              }));
+              }))
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -96,6 +103,9 @@ class ConversationContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.messageFailedToSend(context));
         return messageObj;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.messageFailedToSend(context));
+      return null;
     } catch (e) {
       throw Exception(e);
     }
@@ -114,11 +124,13 @@ class ConversationContoller extends GetxController {
         url = '${Constants.baseUrl}/chats/$chatId/messages?cursor=$cursor';
       }
 
-      // Pagination pagination = Pagination();
-      final response = await http.get(
-        Uri.parse(url),
-        headers: await Commons.manageRequestHeader(),
-      );
+// Pagination pagination = Pagination();
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -148,6 +160,9 @@ class ConversationContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chatObj;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return null;
     } catch (e) {
       throw Exception(e);
     }
@@ -157,11 +172,13 @@ class ConversationContoller extends GetxController {
     try {
       Chat? chat;
 
-      // Pagination pagination = Pagination();
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/chats/$chatId'),
-        headers: await Commons.manageRequestHeader(),
-      );
+// Pagination pagination = Pagination();
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/chats/$chatId'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -187,6 +204,9 @@ class ConversationContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chat;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return null;
     } catch (e) {
       throw Exception(e);
     }
@@ -194,10 +214,12 @@ class ConversationContoller extends GetxController {
 
   Future<void> pleaseMarkAllasRead(BuildContext context, int chatId) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/chats/$chatId/read'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/chats/$chatId/read'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
       Commons.hideProgressDialog();
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
@@ -211,6 +233,9 @@ class ConversationContoller extends GetxController {
       } else {
         return;
       }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      return;
     } catch (e) {
       throw Exception(e);
     }

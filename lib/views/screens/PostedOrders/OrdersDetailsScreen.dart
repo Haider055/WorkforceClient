@@ -81,7 +81,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                   onSelected: (value) {
                                     if (value == 0) {
                                       try {
-                                        Get.offNamed(
+                                        Get.toNamed(
                                           AppLinks.end_the_order_screen,
                                           arguments: {
                                             'jobId':
@@ -413,7 +413,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
       children: [
         SizedBox(height: 12.0.h),
         HeadingTextW500(
-            text: postedJobAnswers.question ?? "N/A",
+            text: postedJobAnswers.question!.question ?? "N/A",
             centerAlign: false,
             size: 14.0.sp),
         SizedBox(height: 10.0.h),
@@ -1174,65 +1174,94 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             width: 24.0.w)),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          try {
-                            if (controller.postedJobDetail
-                                    .tradespersonRequestsCount ==
-                                null) {
-                              Fluttertoast.showToast(
-                                  msg:
-                                      Strings.somethingWentWrong(Get.context!));
-                              return;
+                          onTap: () {
+                            try {
+                              // if (controller.postedJobDetail
+                              //         .tradespersonRequestsCount ==
+                              //     null) {
+                              //   Fluttertoast.showToast(
+                              //       msg: Strings.somethingWentWrong(
+                              //           Get.context!));
+                              //   return;
+                              // }
+                              // int remainingReqCount =
+                              //     controller.getRemainingTrademenRequests(
+                              //         int.parse(controller.postedJobDetail
+                              //             .tradespersonRequestsCount!.value));
+                              // Get.toNamed(
+                              //   AppLinks.job_recommendations,
+                              //   arguments: {
+                              //     'jobId': controller.postedJobDetail.id,
+                              //     'remainingRequeststoSend': remainingReqCount,
+                              //     'fromWhere': 'MyOrders'
+                              //   },
+                              // );
+                              Get.toNamed(AppLinks.review_screen, arguments: {
+                                'jobPostingId': 1,
+                                'tradesmenId': 2
+                              });
+                            } catch (e) {
+                              throw Exception(e);
                             }
-                            int remainingReqCount =
-                                controller.getRemainingTrademenRequests(
-                                    int.parse(controller.postedJobDetail
-                                        .tradespersonRequestsCount!.value));
-                            Get.toNamed(
-                              AppLinks.job_recommendations,
-                              arguments: {
-                                'jobId': controller.postedJobDetail.id,
-                                'remainingRequeststoSend': remainingReqCount,
-                                'fromWhere': 'MyOrders'
-                              },
-                            );
-                          } catch (e) {
-                            throw Exception(e);
-                          }
-                        },
-                        child: RichText(
-                          maxLines: 2,
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13.sp,
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: '',
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 13.sp),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text:
+                                      '${Strings.sendARequestText(Get.context!)} ',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          const Color(MyColors.themeRedColor)),
+                                ),
+                                TextSpan(
+                                  text: controller.getRemainingTrademenRequests(
+                                              int.parse(controller
+                                                  .postedJobDetail
+                                                  .tradespersonRequestsCount!
+                                                  .value)) ==
+                                          0
+                                      ? Strings.toMore0TradesmenText(
+                                          Get.context!)
+                                      : controller.getRemainingTrademenRequests(
+                                                  int.parse(controller
+                                                      .postedJobDetail
+                                                      .tradespersonRequestsCount!
+                                                      .value)) ==
+                                              1
+                                          ? Strings.toMore1TradesmenText(Get.context!)
+                                          : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 2
+                                              ? Strings.toMore2TradesmenText(Get.context!)
+                                              : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 3
+                                                  ? Strings.toMore3TradesmenText(Get.context!)
+                                                  : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 4
+                                                      ? Strings.toMore4TradesmenText(Get.context!)
+                                                      : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 5
+                                                          ? Strings.toMore5TradesmenText(Get.context!)
+                                                          : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 6
+                                                              ? Strings.toMore6TradesmenText(Get.context!)
+                                                              : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 7
+                                                                  ? Strings.toMore7TradesmenText(Get.context!)
+                                                                  : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 8
+                                                                      ? Strings.toMore8TradesmenText(Get.context!)
+                                                                      : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 9
+                                                                          ? Strings.toMore9TradesmenText(Get.context!)
+                                                                          : Strings.toMore10TradesmenText(Get.context!),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Poppins'),
+                                ),
+                              ],
                             ),
-                            children: [
-                              TextSpan(
-                                text: Strings.sendRequest(Get.context!),
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: const Color(MyColors.themeRedColor),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text:
-                                    " to ${controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value))} more tradesman to get more answers.",
-                                style: TextStyle(
-                                  color: const Color(MyColors.blackColor),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                          )),
                     ),
                   ],
                 ),

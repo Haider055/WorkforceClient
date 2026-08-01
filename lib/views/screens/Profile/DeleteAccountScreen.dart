@@ -73,12 +73,14 @@ class DeleteAccountScreen extends GetView<ProfileController> {
                     child: FullWidthElevatedButton(
                         text: Strings.deleteMyAccount(context),
                         color: MyColors.themeRedColor,
-                        onPressed: () {
+                        onPressed: () async {
                           try {
                             Commons.showProgressDialog(context);
-                            controller.pleaseDeleteAccount(context);
-                            controller.logoutUser();
-                            Commons.hideProgressDialog();
+                            var res =
+                                await controller.pleaseDeleteAccount(context);
+                            if (res) {
+                              controller.logoutUser();
+                            }
                           } catch (e) {
                             throw Exception(e);
                           }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -126,10 +127,13 @@ class AllChatsContoller extends GetxController {
       ChatsList? chatsList;
 
       Pagination pagination = Pagination();
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/chats?page=$page&per_page=15'),
-        headers: await Commons.manageRequestHeader(),
-      );
+
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/chats?page=$page&per_page=15'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       print(response.body);
@@ -160,8 +164,13 @@ class AllChatsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chatsList;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return null;
     } catch (e) {
-      throw Exception(e);
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      debugPrint('pleaseGetAllChats error: $e');
+      return null;
     }
   }
 
@@ -170,10 +179,12 @@ class AllChatsContoller extends GetxController {
       Chat? chat;
 
       Pagination pagination = Pagination();
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/chats/$id'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/chats/$id'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
@@ -200,6 +211,9 @@ class AllChatsContoller extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chat;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return null;
     } catch (e) {
       throw Exception(e);
     }

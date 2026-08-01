@@ -43,18 +43,19 @@ class LoginScreen extends GetView<LoginContoller> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: SvgPicture.asset(
-                        "lib/assets/icons/auftragnowRedBalck.svg",
-                        fit: BoxFit.contain,
-                      ),
+                    SvgPicture.asset(
+                      "lib/assets/icons/auftragnowRedBalck.svg",
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(
+                      height: 70.h,
                     ),
                     Center(
-                      child: Image.asset(
-                        "lib/assets/images/loginScreenImage.png",
+                      child: SvgPicture.asset(
+                        "lib/assets/icons/Frame.svg",
                         fit: BoxFit.contain,
-                        height: 305.0.h,
-                        width: 227.0.w,
+                        height: 180.0.h,
+                        width: 180.0.w,
                       ),
                     ),
                     Align(

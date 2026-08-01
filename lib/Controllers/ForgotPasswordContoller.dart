@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -23,13 +25,15 @@ class ForgotPasswordContoller extends GetxController {
 
   Future<String> pleaseSendOTP(String email) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/send-otp'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'email': email,
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/send-otp'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'email': email,
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -41,6 +45,8 @@ class ForgotPasswordContoller extends GetxController {
         String msg = jsonData['message'];
         return msg;
       }
+    } on TimeoutException {
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }

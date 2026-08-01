@@ -228,8 +228,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Widget _buildNoNotificationView() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height.h / 1.4,
+    return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -256,13 +255,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         try {
           print(notification.actionText ?? "null");
           if (notification.actionText == "View Job Details" ||
-              notification.actionText == "View Job Posting") {
+              notification.actionText == "View Job Posting" ||
+              notification.actionText == "View Request Details" ||
+              notification.actionText == "Jobdetails anzeigen" ||
+              notification.actionText == "Anfragedetails anzeigen") {
             int jobPostingId = notification.jobPostingId == null
                 ? -1
                 : int.parse(notification.jobPostingId!);
             Get.toNamed(AppLinks.orders_details_screen,
                 arguments: {'jobId': jobPostingId});
-          } else if (notification.actionText == "View Job Application") {
+          } else if (notification.actionText == "View Job Application" ||
+              notification.actionText == "Bewerbung anzeigen") {
             int jobPostingId = notification.jobPostingId == null
                 ? -1
                 : int.parse(notification.jobPostingId!);

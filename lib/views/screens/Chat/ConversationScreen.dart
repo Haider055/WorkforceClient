@@ -1003,20 +1003,21 @@ class _DateSeparator extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
-          Expanded(
+          const Expanded(
               child: Divider(
                   color: Color(MyColors.appbackgroundColor), thickness: 1)),
           const SizedBox(width: 10),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: Color(MyColors.colorNeutral100),
+              color: const Color(MyColors.colorNeutral100),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Color(MyColors.appbackgroundColor)),
+              border:
+                  Border.all(color: const Color(MyColors.appbackgroundColor)),
             ),
             child: Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
@@ -1025,7 +1026,7 @@ class _DateSeparator extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Expanded(
+          const Expanded(
               child: Divider(
                   color: Color(MyColors.appbackgroundColor), thickness: 1)),
         ],

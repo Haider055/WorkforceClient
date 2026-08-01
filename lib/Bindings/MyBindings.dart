@@ -7,6 +7,7 @@ import 'package:workforceclientapp/Controllers/ForgotPasswordContoller.dart';
 import 'package:workforceclientapp/Controllers/JobPostCompleteController.dart';
 import 'package:workforceclientapp/Controllers/JobRecommendationController.dart';
 import 'package:workforceclientapp/Controllers/LoginContoller.dart';
+import 'package:workforceclientapp/Controllers/ManageAccountController.dart';
 import 'package:workforceclientapp/Controllers/NotificationsContoller.dart';
 import 'package:workforceclientapp/Controllers/OPTVerificationController.dart';
 import 'package:workforceclientapp/Controllers/OnboardingScreenController.dart';
@@ -20,6 +21,7 @@ import 'package:workforceclientapp/Controllers/SelectLanguageController.dart';
 import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
 import 'package:workforceclientapp/Controllers/SignupContoller.dart';
 import 'package:workforceclientapp/Controllers/SplashController.dart';
+import 'package:workforceclientapp/Controllers/SupportCentreController.dart';
 import 'package:workforceclientapp/Controllers/TradesmenDetailController.dart';
 import 'package:workforceclientapp/Controllers/UploadJobImagesController.dart';
 import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
@@ -218,5 +220,19 @@ class PrivacyPolicyBindings implements Bindings {
   @override
   void dependencies() {
     Get.put<PrivacyPolicyController>(PrivacyPolicyController());
+  }
+}
+
+class ManageAccountScreenBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<ManageAccountController>(ManageAccountController());
+  }
+}
+
+class SupportCentreBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<SupportCentreController>(SupportCentreController());
   }
 }

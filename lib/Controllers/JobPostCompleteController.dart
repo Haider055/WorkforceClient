@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -110,15 +111,13 @@ class JobPostCompleteController extends GetxController {
       // debugPrint(request.fields.toString());
       debugPrint(request.fields.toString(), wrapWidth: 1024);
 
-      // Send request
-      var response = await request.send();
-      print(response);
+      var response = await request.send().timeout(const Duration(seconds: 7));
+      // print(response);
 
-      // Get response
       var responseData = await response.stream.bytesToString();
       Map<String, dynamic> jsonData = jsonDecode(responseData);
 
-      print("response:  $responseData");
+      // print("response:  $responseData");
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -157,6 +156,9 @@ class JobPostCompleteController extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return msg;
       }
+    } on TimeoutException {
+      print("Error: request timed out");
+      throw Exception('Request timed out');
     } catch (e) {
       print("Error: $e");
       throw Exception(e);

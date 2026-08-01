@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -145,51 +146,46 @@ class SelectServiceController extends GetxController {
   void _handleNotificationTap(Map<String, dynamic> data) {
     // Example: navigate based on type
     final String? type = data['type'];
+    Fluttertoast.showToast(msg: type!);
     Fluttertoast.showToast(msg: "Notification tapped ${type.toString()}");
     print(data.toString());
-    if (type != null) {
-      if (type == "job_posting_in_progress") {
-        int jobPostingId = data['job_posting_id'] == null
-            ? -1
-            : int.parse(data['job_posting_id']);
-        Get.toNamed(AppLinks.orders_details_screen,
-            arguments: {'jobId': jobPostingId});
-      } else if (type == "job_posted") {
-        int jobPostingId = data['job_posting_id'] == null
-            ? -1
-            : int.parse(data['job_posting_id']);
-        Get.toNamed(AppLinks.orders_details_screen,
-            arguments: {'jobId': jobPostingId});
-      } else if (type == "job_completed") {
-        int jobPostingId = data['job_posting_id'] == null
-            ? -1
-            : int.parse(data['job_posting_id']);
-        Get.toNamed(AppLinks.orders_details_screen,
-            arguments: {'jobId': jobPostingId});
-      } else if (type == "job_application_received") {
-        int jobPostingId = data['job_posting_id'] == null
-            ? -1
-            : int.parse(data['job_posting_id']);
-        Get.toNamed(AppLinks.orders_details_screen,
-            arguments: {'jobId': jobPostingId, 'section': "tradesmen"});
-      } else if (type == "message_received") {
-        Constants.fromNotifications.value = true;
-        int chatId = data['chat_id'] == null ? -1 : int.parse(data['chat_id']);
-        Get.to(
-          const ConversationScreen(),
-          arguments: {
-            'chat': null,
-            'chatId': chatId,
-            'fromWhere': 'notification'
-          },
-          transition: Transition.rightToLeft, // Left-to-right animation
-          duration:
-              const Duration(milliseconds: 500), // Optional: animation duration
-        );
-      }
-      print(type);
+    if (type == "View Job Details" ||
+        type == "View Job Posting" ||
+        type == "View Request Details" ||
+        type == "Jobdetails anzeigen" ||
+        type == "Anfragedetails anzeigen" ||
+        type == "job_posted") {
+      int jobPostingId = data['job_posting_id'] == null
+          ? -1
+          : int.parse(data['job_posting_id']);
+      Get.toNamed(AppLinks.orders_details_screen,
+          arguments: {'jobId': jobPostingId});
+    } else if (type == "View Job Application" ||
+        type == "Bewerbung anzeigen" ||
+        type == "request_approved" ||
+        type == "anfrage_genehmigt") {
+      int jobPostingId = data['job_posting_id'] == null
+          ? -1
+          : int.parse(data['job_posting_id']);
+      Get.toNamed(AppLinks.orders_details_screen,
+          arguments: {'jobId': jobPostingId, 'section': "tradesmen"});
+    } else if (type == "message_received") {
+      Constants.fromNotifications.value = true;
+      int chatId = data['chat_id'] == null ? -1 : int.parse(data['chat_id']);
+      Get.to(
+        const ConversationScreen(),
+        arguments: {
+          'chat': null,
+          'chatId': chatId,
+          'fromWhere': 'notification'
+        },
+        transition: Transition.rightToLeft, // Left-to-right animation
+        duration:
+            const Duration(milliseconds: 500), // Optional: animation duration
+      );
     }
-  }
+    print(type);
+    }
 
   Future<void> manageIfFcmTokenNotSaved() async {
     try {
@@ -228,16 +224,14 @@ class SelectServiceController extends GetxController {
     List<Services> list = [];
 
     try {
-      final response = await http.get(
-          Uri.parse('${Constants.baseUrl}/services?search=$query'),
-          headers: await Commons.manageRequestHeader());
+      final response = await http
+          .get(Uri.parse('${Constants.baseUrl}/services?search=$query'),
+              headers: await Commons.manageRequestHeader())
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
@@ -255,11 +249,12 @@ class SelectServiceController extends GetxController {
           return list;
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return list;
     } catch (e) {
       throw Exception(e);
     }
@@ -269,9 +264,10 @@ class SelectServiceController extends GetxController {
     List<Services> list = [];
 
     try {
-      final response = await http.get(
-          Uri.parse('${Constants.baseUrl}/services'),
-          headers: await Commons.manageRequestHeader());
+      final response = await http
+          .get(Uri.parse('${Constants.baseUrl}/services'),
+              headers: await Commons.manageRequestHeader())
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
@@ -284,7 +280,6 @@ class SelectServiceController extends GetxController {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('services')) {
-              // List<dynamic> servicesList = jsonData['services'];
               Iterable l = dataObj['services'];
               list = List<Services>.from(
                   l.map((model) => Services.fromJson(model)));
@@ -302,6 +297,9 @@ class SelectServiceController extends GetxController {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return list;
     } catch (e) {
       throw Exception(e);
     }
@@ -315,9 +313,12 @@ class SelectServiceController extends GetxController {
     List<Map<String, dynamic>> qList = [];
     try {
       isEnabled.value = false;
-      final response = await http.get(
-          Uri.parse('${Constants.baseUrl}/services/$id/questions'),
-          headers: await Commons.manageRequestHeader());
+      final response = await http
+          .get(Uri.parse('${Constants.baseUrl}/services/$id/questions'),
+              headers: await Commons.manageRequestHeader())
+          .timeout(const Duration(seconds: 7));
+
+      print(response.body.toString());
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -415,15 +416,16 @@ class SelectServiceController extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return "error";
       }
+    } on TimeoutException {
+      isEnabled.value = true;
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return "error";
     } catch (e) {
       isEnabled.value = true;
       throw Exception(e);
     }
   }
-
-  // Future<void> playMessageSound() async {
-  //   await _player.play(AssetSource('mp3/comingmessagetune.mp3'));
-  // }
 
   Future<void> updateUnredMessagesCount(int count) async {
     try {
@@ -438,17 +440,15 @@ class SelectServiceController extends GetxController {
     int count = 0;
 
     try {
-      final response = await http.get(
-          Uri.parse('${Constants.baseUrl}/chats/unread-count'),
-          headers: await Commons.manageRequestHeader());
+      final response = await http
+          .get(Uri.parse('${Constants.baseUrl}/chats/unread-count'),
+              headers: await Commons.manageRequestHeader())
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
@@ -463,11 +463,12 @@ class SelectServiceController extends GetxController {
           return count;
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return count;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return count;
     } catch (e) {
       throw Exception(e);
     }

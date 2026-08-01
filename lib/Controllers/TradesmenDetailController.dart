@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -52,23 +53,21 @@ class TradesmenDetailController extends GetxController {
   Future<Tradesmen?> pleaseGetTradesmenDetail(int id) async {
     Tradesmen? tradesmen;
     try {
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/tradeperson/$id'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/tradeperson/$id'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('trade_person')) {
-              // List<dynamic> servicesList = jsonData['services'];
               tradesmen = Tradesmen.fromJson(dataObj['trade_person']);
             }
           }
@@ -79,11 +78,12 @@ class TradesmenDetailController extends GetxController {
           return tradesmen;
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmen;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return tradesmen;
     } catch (e) {
       throw Exception(e);
     }
@@ -94,18 +94,18 @@ class TradesmenDetailController extends GetxController {
     List<Reviews> list = [];
     Pagination pagination = Pagination();
     try {
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/tradeperson/reviews/$id?page=$page'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse(
+                '${Constants.baseUrl}/tradeperson/reviews/$id?page=$page'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success'] == true) {
           if (jsonData.keys.contains('data')) {
             Iterable l = jsonData['data'];
@@ -124,11 +124,12 @@ class TradesmenDetailController extends GetxController {
           return tradesmenReview;
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmenReview;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return tradesmenReview;
     } catch (e) {
       throw Exception(e);
     }
@@ -137,18 +138,17 @@ class TradesmenDetailController extends GetxController {
   Future<List<Portfolio>> pleaseGetTradesmenPortfolio(int id) async {
     List<Portfolio> list = [];
     try {
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/tradeperson/portfolio/$id'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/tradeperson/portfolio/$id'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
@@ -167,11 +167,12 @@ class TradesmenDetailController extends GetxController {
           return list;
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return list;
     } catch (e) {
       throw Exception(e);
     }

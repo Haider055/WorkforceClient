@@ -73,19 +73,7 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: Strings.seeourPrivacyPlolicyText(
-                                  Get.context!),
-                              style: TextStyle(
-                                color: const Color(MyColors.themeRedColor),
-                                fontSize: 14.5.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
+                          children: const <TextSpan>[],
                         ),
                       ),
                     ),

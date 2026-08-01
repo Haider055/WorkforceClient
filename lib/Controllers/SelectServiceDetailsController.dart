@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,23 +17,21 @@ class SelectServiceDetailsController extends GetxController {
 
     try {
       String lang = await Commons.getPrefLanguageValue();
-      final response = await http.get(
-        Uri.parse('${Constants.baseUrl}/service-questions/$id'),
-        headers: await Commons.manageRequestHeader(),
-      );
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/service-questions/$id'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       // print(response.body);
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 CREATED response,
-        // then parse the JSON.
-
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
             if (dataObj.keys.contains('services')) {
-              // List<dynamic> servicesList = jsonData['services'];
               Iterable l = dataObj['services'];
               list = List<Services>.from(
                   l.map((model) => Services.fromJson(model)));
@@ -45,11 +44,12 @@ class SelectServiceDetailsController extends GetxController {
           return list;
         }
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return list;
     } catch (e) {
       throw Exception(e);
     }

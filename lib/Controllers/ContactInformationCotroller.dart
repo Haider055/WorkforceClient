@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,13 +17,15 @@ class ContactInformationCotroller extends GetxController {
 
   Future<String> pleaseSendOTP(String email) async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/send-otp'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'email': email,
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/send-otp'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'email': email,
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -33,6 +37,8 @@ class ContactInformationCotroller extends GetxController {
         String msg = jsonData['message'];
         return msg;
       }
+    } on TimeoutException {
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }
@@ -40,14 +46,17 @@ class ContactInformationCotroller extends GetxController {
 
   Future<String> pleaseUpdateNameAndPhone() async {
     try {
-      final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/basic'),
-        headers: await Commons.manageRequestHeader(),
-        body: jsonEncode(<String, String>{
-          'name': nameTextField.value.text,
-          'phone': phoneTextField.value.text,
-        }),
-      );
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/basic'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{
+              'name': nameTextField.value.text,
+              'phone': phoneTextField.value.text,
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
+      Commons.hideProgressDialog();
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.body);
@@ -62,6 +71,8 @@ class ContactInformationCotroller extends GetxController {
         Fluttertoast.showToast(msg: msg);
         return msg;
       }
+    } on TimeoutException {
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }
