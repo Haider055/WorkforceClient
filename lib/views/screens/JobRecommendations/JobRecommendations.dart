@@ -1,10 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:photo_viewer/photo_viewer.dart';
 import 'package:workforceclientapp/Controllers/JobRecommendationController.dart';
+import 'package:workforceclientapp/Controllers/PostedOrderDetailsController.dart';
+import 'package:workforceclientapp/Controllers/PostedOrdersController.dart';
 import 'package:workforceclientapp/Models/Tradesmen.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
@@ -21,19 +25,24 @@ class JobRecommendations extends GetView<JobRecommendationController> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (controller.fromWhere.value == "JobPostCompleted") {
-          Get.offAllNamed(
-            AppLinks.select_service_screen,
-            arguments: {},
-          );
-        } else if (controller.fromWhere.value == "MyOrders") {
-          // print(controller.remainingRequestsCount.value);
-          Get.back(result: controller.remainingRequestsCount.value);
-        } else {
-          Get.back();
-        }
+      canPop: Platform.isAndroid ? true : false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) return;
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (controller.fromWhere.value == "JobPostCompleted") {
+            // This case needs different navigation (offAllNamed instead of
+            // a simple pop), so even though the system already popped this
+            // route, we redirect immediately after.
+            Get.offAllNamed(
+              AppLinks.select_service_screen,
+              arguments: {},
+            );
+          }
+          // For "orderDetail" and "MyOrders": the system pop already handled
+          // going back. No extra Get.back() call needed here — calling it
+          // again would pop an *additional*, unrelated route.
+        });
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -64,6 +73,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       } else if (controller.fromWhere.value == "MyOrders") {
                         Get.back(
                             result: controller.remainingRequestsCount.value);
+                      } else if (controller.fromWhere.value == "orderDetail") {
+                        Get.back();
                       }
                     },
                     child: Padding(
@@ -246,7 +257,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                           ),
                         ),
                       ),
-                      controller.fromWhere.value == "MyOrders"
+                      controller.fromWhere.value == "MyOrders" ||
+                              controller.fromWhere.value == "orderDetail"
                           ? const SizedBox()
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -417,15 +429,22 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       padding: EdgeInsets.only(left: 10.0.w),
                       child: tradesmen.profileImg != null
                           ? ClipOval(
-                              child: CachedNetworkImage(
-                                height: 44.h,
-                                width: 44.w,
-                                imageUrl: tradesmen.profileImg.toString(),
-                                fit: BoxFit.cover,
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: PhotoViewerImage(
+                                  imageUrl: tradesmen.profileImg!.toString(),
+                                  borderRadius: 22.r,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (p0, p1, p2) {
+                                    return Center(
+                                        child: Icon(Icons.person,
+                                            size: 41.sp, color: Colors.grey));
+                                  },
+                                ),
                               ),
                             )
-                          : Image.asset(
-                              "lib/assets/icons/placeholder_tradesmen.png"),
+                          : Icon(Icons.person, size: 44.sp, color: Colors.grey),
                     ),
                     SizedBox(width: 8.0.w),
                     Expanded(
@@ -596,6 +615,31 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                             if (remainingRequests.isNotEmpty) {
                               controller.remainingRequestsCount.value =
                                   int.parse(remainingRequests);
+                              if (controller.fromWhere.value == "orderDetail") {
+                                //update the tradespersonRequestsCount in PostedOrderDetailsController and PostedOrdersController
+                                Get.find<PostedOrderDetailsController>()
+                                        .postedJobDetail
+                                        .tradespersonRequestsCount!
+                                        .value =
+                                    (10 - int.parse(remainingRequests))
+                                        .toString();
+                                Get.find<PostedOrdersController>()
+                                        .postedOrdersList
+                                        .elementAt(controller.jobIndex)
+                                        .tradespersonRequestsCount!
+                                        .value =
+                                    (10 - int.parse(remainingRequests))
+                                        .toString();
+                              } else if (controller.fromWhere.value ==
+                                  "MyOrders") {
+                                Get.find<PostedOrdersController>()
+                                        .postedOrdersList
+                                        .elementAt(controller.jobIndex)
+                                        .tradespersonRequestsCount!
+                                        .value =
+                                    (10 - int.parse(remainingRequests))
+                                        .toString();
+                              }
                               tradesmen.status.value = "sent";
                             } else {
                               tradesmen.status.value = "not sent";

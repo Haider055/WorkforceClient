@@ -1154,11 +1154,9 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
       onTap: () async {
         try {
           var res = await Get.toNamed(AppLinks.orders_details_screen,
-              arguments: {'jobId': job.id ?? -1});
-          if (res == "back") {
-            Commons.showProgressDialog(Get.context!);
-            controller.updateJobObject(job.id!, index);
-          }
+              arguments: {'jobId': job.id ?? -1, 'index': index});
+          Commons.showProgressDialog(Get.context!);
+          controller.updateJobObject(job.id!, index);
         } catch (e) {
           throw Exception(e);
         }
@@ -1407,7 +1405,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                             arguments: {
                               'jobId': job.id,
                               'remainingRequeststoSend': remainingReqCount,
-                              'fromWhere': 'MyOrders'
+                              'fromWhere': 'MyOrders',
+                              'index': index,
                             },
                           );
                           if (result != null) {
@@ -1795,7 +1794,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                           child: ElevatedButton(
                             onPressed: () async {
                               try {
-                                logoutUser();
+                                Commons.logoutUser();
                               } catch (e) {
                                 throw Exception(e);
                               }
@@ -1803,8 +1802,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.all(12.0.r),
                               elevation: 0,
-                              backgroundColor: const Color(
-                                  MyColors.themeRedColor), // Button color
+                              backgroundColor:
+                                  const Color(MyColors.themeRedColor),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     8), // Optional rounded corners
@@ -1965,19 +1964,5 @@ class _ProfileSectionState extends State<ProfileSection> {
     if (mounted) {
       setState(() {});
     }
-  }
-
-  void logoutUser() async {
-    _prefs = await SharedPreferences.getInstance();
-    await _prefs.setString('isLogin', "loggedOut");
-    Get.offAllNamed(AppLinks.select_service_screen);
-    Constants.unReadcount.value = 0;
-    Constants.unreadNotificationsCount.value = 0;
-    // Get.to(
-    //   const SelectServiceScreen(),
-    //   transition: Transition.rightToLeft, // Left-to-right animation
-    //   duration:
-    //       const Duration(milliseconds: 500), // Optional: animation duration
-    // );
   }
 }

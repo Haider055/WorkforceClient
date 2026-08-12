@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 
 class ContactInformationCotroller extends GetxController {
   final nameTextField = TextEditingController().obs;
@@ -33,6 +34,11 @@ class ContactInformationCotroller extends GetxController {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
         return "success";
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         String msg = jsonData['message'];
         return msg;
@@ -66,6 +72,11 @@ class ContactInformationCotroller extends GetxController {
         Fluttertoast.showToast(msg: msg);
         updateUserInfo();
         return "success";
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);

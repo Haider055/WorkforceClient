@@ -49,6 +49,10 @@ class ProfileController extends GetxController {
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 500),
         );
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
@@ -74,13 +78,16 @@ class ProfileController extends GetxController {
       Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
-// If the server did return a 200 CREATED response,
-// then parse the JSON.
         _prefs = await SharedPreferences.getInstance();
         String msg = jsonData['message'];
 
         Fluttertoast.showToast(msg: msg);
         return true;
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return false;
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
@@ -101,7 +108,6 @@ class ProfileController extends GetxController {
 
       var request = http.MultipartRequest("POST", url);
 
-// Add headers
       request.headers.addAll({
         'Accept-Language': await Commons.getPrefLanguageValue(),
         'Authorization': 'Bearer ${await Commons.getUserToken()}',
@@ -120,7 +126,6 @@ class ProfileController extends GetxController {
 
       var response = await request.send().timeout(const Duration(seconds: 5));
 
-// Get response
       var responseData = await response.stream.bytesToString();
       Map<String, dynamic> jsonData = jsonDecode(responseData);
 
@@ -146,6 +151,11 @@ class ProfileController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return false;
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
@@ -154,6 +164,40 @@ class ProfileController extends GetxController {
     } on TimeoutException {
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> pleaseLogoutAccount(BuildContext context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String email = prefs.getString('email') ?? '';
+
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/logout'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, String>{'email': email}),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      Commons.hideProgressDialog();
+
+      if (response.statusCode == 200 && jsonData['success'] == true) {
+        return true;
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return false;
+      } else {
+        return false;
+      }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      throw Exception('Request timed out');
     } catch (e) {
       throw Exception(e);
     }

@@ -141,6 +141,11 @@ class PostedOrdersController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedOrders;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return null;
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
@@ -187,6 +192,11 @@ class PostedOrdersController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedJobDetail;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedJobDetail;

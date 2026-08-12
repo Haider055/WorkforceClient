@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Controllers/ProfileController.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/CupertinoProgressDialog.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
@@ -46,31 +48,6 @@ class Commons {
 
     return request;
   }
-
-  // static void showProgressDialog(BuildContext context) {
-  //   Get.dialog(
-  //     WillPopScope(
-  //       onWillPop: () async => false,
-  //       child: AlertDialog(
-  //         backgroundColor: Color(MyColors.whiteColor),
-  //         content: SizedBox(
-  //           height: MediaQuery.of(context).size.height / 10,
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: [
-  //               CircularProgressIndicator(color: Color(MyColors.themeRedColor)),
-  //               SizedBox(
-  //                 height: 4,
-  //               ),
-  //               Text("Please wait..")
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //     barrierDismissible: false,
-  //   );
-  // }
 
   static void showProgressDialog(BuildContext context) {
     Get.dialog(
@@ -134,11 +111,24 @@ class Commons {
     );
   }
 
-  // static Widget showLottiePlayer(BuildContext context) {
-  //   return const LottiePlayer(
-  //     networkUrl: 'https://assets5.lottiefiles.com/packages/lf20_i9mtrven.json',
-  //     width: 200,
-  //     height: 200,
-  //   );
-  // }
+  static void logoutUser() async {
+    Commons.showProgressDialog(Get.context!);
+    bool res =
+        await Get.find<ProfileController>().pleaseLogoutAccount(Get.context!);
+    if (res) {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      await _prefs.setString('isLogin', "loggedOut");
+      await _prefs.remove('token');
+      Constants.unReadcount.value = 0;
+      Constants.unreadNotificationsCount.value = 0;
+      Get.offAllNamed(AppLinks.account_suspended_screen);
+    }
+
+    // Get.to(
+    //   const SelectServiceScreen(),
+    //   transition: Transition.rightToLeft, // Left-to-right animation
+    //   duration:
+    //       const Duration(milliseconds: 500), // Optional: animation duration
+    // );
+  }
 }

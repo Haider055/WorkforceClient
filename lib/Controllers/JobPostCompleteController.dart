@@ -151,6 +151,11 @@ class JobPostCompleteController extends GetxController {
           String msg = jsonData['message'];
           return msg;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);

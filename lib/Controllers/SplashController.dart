@@ -30,8 +30,15 @@ class SplashController extends GetxController {
   }
 
   Future<void> _loadSavedValue() async {
-    String value = "";
+    // EULA must be accepted before anything else, and only ever shown once.
     _prefs = await SharedPreferences.getInstance();
+    bool eulaAccepted = _prefs.getBool('eula_accepted') ?? false;
+    if (!eulaAccepted) {
+      Get.offAllNamed(AppLinks.eula_screen);
+      return;
+    }
+
+    String value = "";
     value = _prefs.getString("isLogin") ?? "loggedOut";
     if (value == "loggedIn") {
       Get.offAllNamed(

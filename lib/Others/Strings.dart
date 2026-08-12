@@ -117,6 +117,8 @@ class Strings {
       AppLocalizations.of(context)!.tradesman;
   static String requestAlreadySentText(BuildContext context) =>
       AppLocalizations.of(context)!.requestAlreadySentText;
+  static String submitReportText(BuildContext context) =>
+      AppLocalizations.of(context)!.submitReportText;
 
   static String managePassword(BuildContext context) =>
       AppLocalizations.of(context)!.managePaswordText;
@@ -224,6 +226,8 @@ class Strings {
       AppLocalizations.of(context)!.reviewCannotbeemptyText;
   static String pleaseGiveSomeRatingText(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseGiveSomeRatingText;
+  static String accountBlockedMessage(BuildContext context) =>
+      AppLocalizations.of(context)!.accountBlockedMessage;
 
   static String noRequestsFound(BuildContext context) =>
       AppLocalizations.of(context)!.noRequestsFoundText;
@@ -346,6 +350,8 @@ class Strings {
       AppLocalizations.of(context)!.imagesCanBeAddMoreText;
   static String onlyInfoText(BuildContext context) =>
       AppLocalizations.of(context)!.onlyInfoText;
+  static String reportText(BuildContext context) =>
+      AppLocalizations.of(context)!.reportText;
 
   static String numbers(BuildContext context) =>
       AppLocalizations.of(context)!.numbersText;
@@ -413,6 +419,8 @@ class Strings {
       AppLocalizations.of(context)!.passwordCannotBeEmptyText;
   static String confirmPasswordCannotBeEmptyText(BuildContext context) =>
       AppLocalizations.of(context)!.confirmPasswordCannotBeEmptyText;
+  static String reportSubmittedText(BuildContext context) =>
+      AppLocalizations.of(context)!.reportSubmittedText;
 
   static String chatIsClosedText(BuildContext context) =>
       AppLocalizations.of(context)!.chatIsClosedText;

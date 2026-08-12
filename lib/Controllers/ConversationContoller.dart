@@ -54,6 +54,10 @@ class ConversationContoller extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return chatsList;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chatsList;
@@ -99,6 +103,10 @@ class ConversationContoller extends GetxController {
           Fluttertoast.showToast(msg: Strings.messageFailedToSend(context));
           return messageObj;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.messageFailedToSend(context));
         return messageObj;
@@ -108,6 +116,60 @@ class ConversationContoller extends GetxController {
       return null;
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<bool> pleaseSubmitReport({
+    required BuildContext context,
+    required String
+        reportableType, // e.g. "portfolio", "message", "user", "job_posting"
+    required int reportableId,
+    required String
+        reason, // e.g. "harassment", "spam", "inappropriate_content"
+    String? details,
+  }) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/reports'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, dynamic>{
+              'reportable_type': reportableType,
+              'reportable_id': reportableId,
+              'reason': reason,
+              if (details != null && details.isNotEmpty) 'details': details,
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
+      Commons.hideProgressDialog();
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (jsonData['success'] == true) {
+          Fluttertoast.showToast(
+              msg: jsonData['message'] ?? Strings.reportSubmittedText(context));
+          return true;
+        } else {
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          return false;
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return false;
+      } else {
+        String msg = jsonData['message'] ?? Strings.somethingWentWrong(context);
+        Fluttertoast.showToast(msg: msg);
+        return false;
+      }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return false;
+    } catch (e) {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      debugPrint('pleaseSubmitReport error: $e');
+      return false;
     }
   }
 
@@ -156,6 +218,10 @@ class ConversationContoller extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return chatObj;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chatObj;
@@ -200,6 +266,10 @@ class ConversationContoller extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return chat;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chat;
@@ -230,6 +300,10 @@ class ConversationContoller extends GetxController {
         } else {
           return;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return;
       } else {
         return;
       }

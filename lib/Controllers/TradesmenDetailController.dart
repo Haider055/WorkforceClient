@@ -77,6 +77,11 @@ class TradesmenDetailController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return tradesmen;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmen;
@@ -123,6 +128,11 @@ class TradesmenDetailController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return tradesmenReview;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmenReview;
@@ -166,6 +176,11 @@ class TradesmenDetailController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;

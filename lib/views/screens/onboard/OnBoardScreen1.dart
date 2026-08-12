@@ -7,7 +7,6 @@ import 'package:workforceclientapp/Controllers/OnboardingScreenController.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
-import 'package:workforceclientapp/views/widgets/HeadingText.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';

@@ -87,6 +87,11 @@ class LoginContoller extends GetxController {
         } else {
           return Strings.somethingWentWrong(Get.context!);
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         if (jsonData.keys.contains('errors')) {
           Map<String, dynamic> errorObj = jsonData['errors'];
@@ -176,10 +181,8 @@ class LoginContoller extends GetxController {
       if (response.statusCode == 200) {
         print("Token updated on server successfully");
         _prefs = await SharedPreferences.getInstance();
-        if (token != null) {
-          await _prefs.setString('fcm_token', token);
-          await _prefs.setString('device_id', deviceId.toString());
-        }
+        await _prefs.setString('fcm_token', token!);
+        await _prefs.setString('device_id', deviceId.toString());
 
         return "";
       } else {

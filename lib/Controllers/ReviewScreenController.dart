@@ -56,6 +56,11 @@ class ReviewScreenController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return false;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
@@ -101,6 +106,11 @@ class ReviewScreenController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return chat;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return chat;

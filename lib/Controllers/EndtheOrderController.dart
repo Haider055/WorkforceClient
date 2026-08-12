@@ -53,9 +53,11 @@ class EndtheOrderController extends GetxController {
                 msg: Strings.somethingWentWrongRemovingJob(context));
           }
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
       } else {
-// If the server did not return a 200 CREATED response,
-// then throw an exception.
         Fluttertoast.showToast(
             msg: Strings.somethingWentWrongRemovingJob(context));
       }

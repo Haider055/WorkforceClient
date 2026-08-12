@@ -185,7 +185,7 @@ class SelectServiceController extends GetxController {
       );
     }
     print(type);
-    }
+  }
 
   Future<void> manageIfFcmTokenNotSaved() async {
     try {
@@ -248,6 +248,11 @@ class SelectServiceController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
@@ -291,6 +296,11 @@ class SelectServiceController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return list;
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
@@ -408,6 +418,11 @@ class SelectServiceController extends GetxController {
           Fluttertoast.showToast(msg: msg);
           return "error";
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
@@ -462,6 +477,11 @@ class SelectServiceController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return count;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return 0;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return count;

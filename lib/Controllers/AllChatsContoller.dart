@@ -160,6 +160,10 @@ class AllChatsContoller extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return chatsList;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chatsList;
@@ -207,6 +211,10 @@ class AllChatsContoller extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return chat;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Commons.logoutUser();
+        return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
         return chat;

@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:workforceclientapp/Controllers/AccountSuspendedController.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
 import 'package:workforceclientapp/Controllers/ChangeLanguageController.dart';
 import 'package:workforceclientapp/Controllers/CreateNewPasswordController.dart';
 import 'package:workforceclientapp/Controllers/EndtheOrderController.dart';
+import 'package:workforceclientapp/Controllers/EulaController.dart';
 import 'package:workforceclientapp/Controllers/ForgotPasswordContoller.dart';
 import 'package:workforceclientapp/Controllers/JobPostCompleteController.dart';
 import 'package:workforceclientapp/Controllers/JobRecommendationController.dart';
@@ -16,6 +18,7 @@ import 'package:workforceclientapp/Controllers/PickAddressController.dart';
 import 'package:workforceclientapp/Controllers/PostedOrderDetailsController.dart';
 import 'package:workforceclientapp/Controllers/PostedOrdersController.dart';
 import 'package:workforceclientapp/Controllers/ProfileController.dart';
+import 'package:workforceclientapp/Controllers/ReportController.dart';
 import 'package:workforceclientapp/Controllers/ReviewScreenController.dart';
 import 'package:workforceclientapp/Controllers/SelectLanguageController.dart';
 import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
@@ -234,5 +237,26 @@ class SupportCentreBindings implements Bindings {
   @override
   void dependencies() {
     Get.put<SupportCentreController>(SupportCentreController());
+  }
+}
+
+class EulaBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<EulaController>(EulaController());
+  }
+}
+
+class ReportScreenBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<ReportController>(ReportController());
+  }
+}
+
+class AccountSuspendedBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<AccountSuspendedController>(AccountSuspendedController());
   }
 }

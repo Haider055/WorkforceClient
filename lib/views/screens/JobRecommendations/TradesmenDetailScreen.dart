@@ -9,6 +9,7 @@ import 'package:workforceclientapp/Models/Portfolio.dart';
 import 'package:workforceclientapp/Models/Reviews.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
+import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
@@ -49,7 +50,45 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                         alignment: Alignment.centerLeft,
                         child: Icon(Icons.arrow_back_ios)),
                   ),
-                )
+                ),
+                // Right-side menu
+                Positioned(
+                  right: 0,
+                  child: PopupMenuButton<String>(
+                    color: Colors.white,
+                    icon: const Icon(Icons.more_vert, color: Colors.black),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    onSelected: (value) {
+                      if (value == "report") {
+                        Get.toNamed(
+                          AppLinks.report_screen,
+                          arguments: {
+                            'reportableType': "user",
+                            'reportableId': controller.tradesmenId.value,
+                          },
+                        );
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: "report",
+                        child: Row(
+                          children: [
+                            const Icon(Icons.flag_outlined,
+                                size: 18, color: Colors.black87),
+                            const SizedBox(width: 8),
+                            Headingdescription(
+                                text: Strings.reportText(Get.context!),
+                                centerAlign: false,
+                                size: 13),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -400,15 +439,15 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                                   .icon!
                                                                   .url !=
                                                               null
-                                                          ? Image.network(
+                                                          ? SvgPicture.network(
                                                               controller
                                                                   .professionsList
                                                                   .elementAt(
                                                                       index)
                                                                   .icon!
                                                                   .url!,
-                                                              height: 16.h,
-                                                              width: 16.w,
+                                                              height: 24.h,
+                                                              width: 24.w,
                                                               fit: BoxFit.fill)
                                                           : const SizedBox()
                                                       : const SizedBox(),
@@ -422,7 +461,7 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                                                               .name ??
                                                           "N/A",
                                                       centerAlign: false,
-                                                      size: 16.sp),
+                                                      size: 14.5.sp),
                                                 ],
                                               ),
                                             ),

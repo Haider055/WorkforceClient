@@ -21,6 +21,7 @@ class JobRecommendationController extends GetxController {
   RxInt remainingRequestsCount = 0.obs;
   RxString fromWhere = "".obs;
   RxBool isLoadingMore = false.obs;
+  int jobIndex = 0;
 
   @override
   void onInit() async {
@@ -28,6 +29,9 @@ class JobRecommendationController extends GetxController {
     jobId.value = data['jobId'];
     remainingRequestsCount.value = data['remainingRequeststoSend'];
     fromWhere.value = data['fromWhere'];
+    if (data.containsKey('index')) {
+      jobIndex = data['index'];
+    }
     await loadTradesmen(jobId.value, 1);
   }
 
@@ -61,6 +65,7 @@ class JobRecommendationController extends GetxController {
             headers: await Commons.manageRequestHeader(),
           )
           .timeout(const Duration(seconds: 5));
+      print(response.body);
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -80,6 +85,11 @@ class JobRecommendationController extends GetxController {
 
         return RecommendedTradesman(
             tradesmenList: list, pagination: pagination);
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return RecommendedTradesman(tradesmenList: [], pagination: null);
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return RecommendedTradesman(tradesmenList: [], pagination: null);
@@ -130,6 +140,11 @@ class JobRecommendationController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return "";
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);

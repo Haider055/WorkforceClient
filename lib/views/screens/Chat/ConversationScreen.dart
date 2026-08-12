@@ -773,6 +773,49 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                             ],
                           ),
                         ),
+                        // Right-side menu (replaces the empty spacer)
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: PopupMenuButton<String>(
+                              color: Colors.white,
+                              icon: const Icon(Icons.more_vert,
+                                  color: Colors.black),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              onSelected: (value) async {
+                                if (value == "report") {
+                                  Get.toNamed(AppLinks.report_screen,
+                                      arguments: {
+                                        'reportableType': "user",
+                                        'reportableId': chat!.tradesmenId ?? 0,
+                                        'conversationContoller':
+                                            conversationContoller,
+                                      });
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: "report",
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.flag_outlined,
+                                          size: 18, color: Colors.black87),
+                                      const SizedBox(width: 8),
+                                      Headingdescription(
+                                          text:
+                                              Strings.reportText(Get.context!),
+                                          centerAlign: false,
+                                          size: 13),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

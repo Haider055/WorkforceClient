@@ -33,6 +33,7 @@ class PostedOrderDetailsController extends GetxController {
   Rx<LatLng> currentPosition = const LatLng(43.413029, 34.299316).obs;
   RxBool loadingInterestedTradesmen = true.obs;
   RxList<String> tradesmenImages = <String>[].obs;
+  int jobIndex = 0;
 
   @override
   void onInit() {
@@ -44,6 +45,9 @@ class PostedOrderDetailsController extends GetxController {
         tradesmenTabColor.value = MyColors.themeRedColor;
         orderDetailTabColor.value = MyColors.silverColor;
         selectedTabName.value = "tradesmen";
+      }
+      if (data.containsKey('index')) {
+        jobIndex = data['index'];
       }
       jobId.value = data['jobId'];
       if (jobId == -1) {
@@ -91,6 +95,11 @@ class PostedOrderDetailsController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedJobDetail;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return postedJobDetail;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedJobDetail;
@@ -145,6 +154,11 @@ class PostedOrderDetailsController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return requestedTradesmen;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return requestedTradesmen;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return requestedTradesmen;
@@ -188,6 +202,11 @@ class PostedOrderDetailsController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
@@ -253,6 +272,11 @@ class PostedOrderDetailsController extends GetxController {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return chatid;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return chatid;
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
@@ -298,6 +322,10 @@ class PostedOrderDetailsController extends GetxController {
                 msg: Strings.somethingWentWrongRemovingJob(Get.context!));
           }
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.

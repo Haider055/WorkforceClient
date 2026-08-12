@@ -17,7 +17,10 @@ import 'package:workforceclientapp/views/screens/Chat/AllChats.dart';
 import 'package:workforceclientapp/views/screens/JobRecommendations/EndTheOrderScreen.dart';
 import 'package:workforceclientapp/views/screens/JobRecommendations/JobRecommendations.dart';
 import 'package:workforceclientapp/views/screens/JobRecommendations/TradesmenDetailScreen.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/AccountSuspendedScreen.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/EulaScreen.dart';
 import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/ReportScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/SupportCentre.dart';
 import 'package:workforceclientapp/views/screens/LegalInformation/TermsAndConditions.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationSettingScreen.dart';
@@ -182,14 +185,31 @@ class AppRoutes {
       page: () => const SupportCentre(),
       binding: SupportCentreBindings(),
     ),
+    GetPage(
+      name: AppLinks.eula_screen,
+      page: () => const EulaScreen(),
+      binding: EulaBindings(),
+    ),
+    GetPage(
+      name: AppLinks.report_screen,
+      page: () => const ReportScreen(),
+      binding: ReportScreenBindings(),
+    ),
+    GetPage(
+      name: AppLinks.account_suspended_screen,
+      page: () => const AccountSuspendedScreen(),
+      binding: AccountSuspendedBindings(),
+    ),
   ];
 }
 
 class AppLinks {
   static const splash_screen = '/splash';
+  static const eula_screen = '/eula_screen';
   static const select_language_screen = '/select_language';
   static const change_language_screen = '/change_language';
   static const onboard_screen = '/onboard_screen';
+  static const report_screen = '/report_screen';
   static const select_service_screen = '/select_service';
   static const login_screen = '/login';
   static const forgot_password_screen = '/forgot_password';
@@ -215,5 +235,6 @@ class AppLinks {
   static const terms_and_conditions = '/terms_and_conditions';
   static const privacy_policy = '/privacy_policy';
   static const manage_account_screen = '/manage_account_screen';
+  static const account_suspended_screen = '/account_suspended_screen';
   static const support_centre = '/support_centre';
 }

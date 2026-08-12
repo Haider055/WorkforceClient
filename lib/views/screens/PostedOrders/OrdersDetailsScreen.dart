@@ -28,10 +28,12 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Get.back(result: "back");
-        return true;
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          // Get.back(result: "back");
+        }
       },
       child: Obx(() {
         return Scaffold(
@@ -1156,119 +1158,123 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.all(14.0.r),
-          child: Card(
-            elevation: 0,
-            color: const Color(MyColors.cardGrayColor200),
-            child: Padding(
-              padding: EdgeInsets.all(16.0.r),
-              child: Center(
-                child: Row(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 4.0.w, right: 12.0.w),
-                        child: SvgPicture.asset(
-                            "lib/assets/icons/informationLogo.svg",
-                            height: 24.0.h,
-                            width: 24.0.w)),
-                    Expanded(
-                      child: GestureDetector(
-                          onTap: () {
-                            try {
-                              // if (controller.postedJobDetail
-                              //         .tradespersonRequestsCount ==
-                              //     null) {
-                              //   Fluttertoast.showToast(
-                              //       msg: Strings.somethingWentWrong(
-                              //           Get.context!));
-                              //   return;
-                              // }
-                              // int remainingReqCount =
-                              //     controller.getRemainingTrademenRequests(
-                              //         int.parse(controller.postedJobDetail
-                              //             .tradespersonRequestsCount!.value));
-                              // Get.toNamed(
-                              //   AppLinks.job_recommendations,
-                              //   arguments: {
-                              //     'jobId': controller.postedJobDetail.id,
-                              //     'remainingRequeststoSend': remainingReqCount,
-                              //     'fromWhere': 'MyOrders'
-                              //   },
-                              // );
-                              Get.toNamed(AppLinks.review_screen, arguments: {
-                                'jobPostingId': 1,
-                                'tradesmenId': 2
-                              });
-                            } catch (e) {
-                              throw Exception(e);
-                            }
-                          },
-                          child: RichText(
-                            text: TextSpan(
-                              text: '',
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 13.sp),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text:
-                                      '${Strings.sendARequestText(Get.context!)} ',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          const Color(MyColors.themeRedColor)),
-                                ),
-                                TextSpan(
-                                  text: controller.getRemainingTrademenRequests(
-                                              int.parse(controller
-                                                  .postedJobDetail
-                                                  .tradespersonRequestsCount!
-                                                  .value)) ==
-                                          0
-                                      ? Strings.toMore0TradesmenText(
-                                          Get.context!)
-                                      : controller.getRemainingTrademenRequests(
-                                                  int.parse(controller
-                                                      .postedJobDetail
-                                                      .tradespersonRequestsCount!
-                                                      .value)) ==
-                                              1
-                                          ? Strings.toMore1TradesmenText(Get.context!)
-                                          : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 2
-                                              ? Strings.toMore2TradesmenText(Get.context!)
-                                              : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 3
-                                                  ? Strings.toMore3TradesmenText(Get.context!)
-                                                  : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 4
-                                                      ? Strings.toMore4TradesmenText(Get.context!)
-                                                      : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 5
-                                                          ? Strings.toMore5TradesmenText(Get.context!)
-                                                          : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 6
-                                                              ? Strings.toMore6TradesmenText(Get.context!)
-                                                              : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 7
-                                                                  ? Strings.toMore7TradesmenText(Get.context!)
-                                                                  : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 8
-                                                                      ? Strings.toMore8TradesmenText(Get.context!)
-                                                                      : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 9
-                                                                          ? Strings.toMore9TradesmenText(Get.context!)
-                                                                          : Strings.toMore10TradesmenText(Get.context!),
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'Poppins'),
-                                ),
-                              ],
-                            ),
-                          )),
-                    ),
-                  ],
+        Obx(() {
+          return Padding(
+            padding: EdgeInsets.all(14.0.r),
+            child: Card(
+              elevation: 0,
+              color: const Color(MyColors.cardGrayColor200),
+              child: Padding(
+                padding: EdgeInsets.all(16.0.r),
+                child: Center(
+                  child: Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(left: 4.0.w, right: 12.0.w),
+                          child: SvgPicture.asset(
+                              "lib/assets/icons/informationLogo.svg",
+                              height: 24.0.h,
+                              width: 24.0.w)),
+                      Expanded(
+                        child: GestureDetector(
+                            onTap: () async {
+                              try {
+                                if (controller.postedJobDetail
+                                        .tradespersonRequestsCount ==
+                                    null) {
+                                  Fluttertoast.showToast(
+                                      msg: Strings.somethingWentWrong(
+                                          Get.context!));
+                                  return;
+                                }
+                                int remainingReqCount =
+                                    controller.getRemainingTrademenRequests(
+                                        int.parse(controller.postedJobDetail
+                                            .tradespersonRequestsCount!.value));
+                                await Get.toNamed(
+                                  AppLinks.job_recommendations,
+                                  arguments: {
+                                    'jobId': controller.postedJobDetail.id,
+                                    'remainingRequeststoSend':
+                                        remainingReqCount,
+                                    'fromWhere': 'orderDetail',
+                                    'index': controller.jobIndex
+                                  },
+                                );
+                                // controller.postedJobDetail
+                                //         .tradespersonRequestsCount!.value =
+                                //     Constants.remainingRequestsCount.toString();
+                                // Constants.remainingRequestsCount = 0;
+                              } catch (e) {
+                                throw Exception(e);
+                              }
+                            },
+                            child: RichText(
+                              text: TextSpan(
+                                text: '',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 13.sp),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text:
+                                        '${Strings.sendARequestText(Get.context!)} ',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(
+                                            MyColors.themeRedColor)),
+                                  ),
+                                  TextSpan(
+                                    text: controller.getRemainingTrademenRequests(
+                                                int.parse(controller
+                                                    .postedJobDetail
+                                                    .tradespersonRequestsCount!
+                                                    .value)) ==
+                                            0
+                                        ? Strings.toMore0TradesmenText(
+                                            Get.context!)
+                                        : controller.getRemainingTrademenRequests(
+                                                    int.parse(controller
+                                                        .postedJobDetail
+                                                        .tradespersonRequestsCount!
+                                                        .value)) ==
+                                                1
+                                            ? Strings.toMore1TradesmenText(Get.context!)
+                                            : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 2
+                                                ? Strings.toMore2TradesmenText(Get.context!)
+                                                : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 3
+                                                    ? Strings.toMore3TradesmenText(Get.context!)
+                                                    : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 4
+                                                        ? Strings.toMore4TradesmenText(Get.context!)
+                                                        : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 5
+                                                            ? Strings.toMore5TradesmenText(Get.context!)
+                                                            : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 6
+                                                                ? Strings.toMore6TradesmenText(Get.context!)
+                                                                : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 7
+                                                                    ? Strings.toMore7TradesmenText(Get.context!)
+                                                                    : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 8
+                                                                        ? Strings.toMore8TradesmenText(Get.context!)
+                                                                        : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 9
+                                                                            ? Strings.toMore9TradesmenText(Get.context!)
+                                                                            : Strings.toMore10TradesmenText(Get.context!),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Poppins'),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

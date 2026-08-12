@@ -167,6 +167,11 @@ class OTPVerificationController extends GetxController {
           print("object1");
           return false;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return false;
       } else {
         Fluttertoast.showToast(msg: Strings.otpFailedToSentText(Get.context!));
         print("object2");
@@ -209,6 +214,11 @@ class OTPVerificationController extends GetxController {
           String msg = jsonData['message'];
           return msg;
         }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser();
+        return '';
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
@@ -362,10 +372,8 @@ class OTPVerificationController extends GetxController {
       if (response.statusCode == 200) {
         print("Token updated on server successfully");
         _prefs = await SharedPreferences.getInstance();
-        if (token != null) {
-          await _prefs.setString('fcm_token', token);
-          await _prefs.setString('device_id', deviceId.toString());
-        }
+        await _prefs.setString('fcm_token', token!);
+        await _prefs.setString('device_id', deviceId.toString());
 
         return "";
       } else {

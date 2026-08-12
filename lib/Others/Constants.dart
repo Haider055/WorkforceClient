@@ -36,7 +36,7 @@ class Constants {
   static List<File> selectedImages = [];
   static String fromWhere = "";
   static String emailToVerify = "";
-  static int remainingRequestsCount = 6;
+  static int remainingRequestsCount = 0;
   static RxInt unReadcount = 0.obs;
   static RxInt unreadNotificationsCount = 0.obs;
   static RxBool fromNotifications = false.obs;
