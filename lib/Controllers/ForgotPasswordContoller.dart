@@ -44,7 +44,7 @@ class ForgotPasswordContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return '';
       } else {
         String msg = jsonData['message'];

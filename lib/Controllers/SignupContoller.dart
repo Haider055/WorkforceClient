@@ -77,7 +77,7 @@ class SignUpContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return '';
       } else {
         Map<String, dynamic> jsonDataError = jsonData['errors'];

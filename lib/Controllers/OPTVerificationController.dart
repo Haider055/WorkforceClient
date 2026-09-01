@@ -34,7 +34,7 @@ class OTPVerificationController extends GetxController {
   RxInt verifyButtonColor = 0xffDDDDDD.obs;
   int tokenRetry = 0;
 
-  RxInt remainingSeconds = 300.obs; // 5 minutes = 300 seconds
+  RxInt remainingSeconds = 120.obs;
   Timer? _countdownTimer;
   RxBool canResend = false.obs;
 
@@ -73,8 +73,8 @@ class OTPVerificationController extends GetxController {
 
   void startTimer() {
     canResend.value = false;
-    remainingSeconds.value = 300;
-    _countdownTimer?.cancel(); // cancel any existing timer first
+    remainingSeconds.value = 120;
+    _countdownTimer?.cancel();
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds.value > 0) {
         remainingSeconds.value--;
@@ -170,7 +170,7 @@ class OTPVerificationController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return false;
       } else {
         Fluttertoast.showToast(msg: Strings.otpFailedToSentText(Get.context!));
@@ -217,7 +217,7 @@ class OTPVerificationController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return '';
       } else {
         // If the server did not return a 200 CREATED response,

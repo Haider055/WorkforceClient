@@ -32,16 +32,47 @@ class _AllChatsState extends State<AllChats> {
             ? _buildNoLoginView()
             : Column(
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 14.0.w),
-                      child: HeadingTextW600(
-                        text: Strings.chatText(context),
-                        centerAlign: false,
-                        size: 22.sp,
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 14.0.w),
+                          child: HeadingTextW600(
+                            text: Strings.chatText(context),
+                            centerAlign: false,
+                            size: 22.sp,
+                          ),
+                        ),
                       ),
-                    ),
+                      const Spacer(),
+                      PopupMenuButton<String>(
+                        icon: const Icon(Icons.more_vert, color: Colors.black),
+                        color: const Color(MyColors.whiteColor),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        onSelected: (value) {
+                          if (value == "view_blocked") {
+                            Get.toNamed(AppLinks.blocked_people_screen);
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: "view_blocked",
+                            child: Row(
+                              children: [
+                                const Icon(Icons.block,
+                                    size: 18, color: Colors.redAccent),
+                                SizedBox(width: 8.w),
+                                Text(Strings.blockusersText(context)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 8.w),
+                    ],
                   ),
                   controller.isLoading.value
                       ? const Expanded(
@@ -52,35 +83,64 @@ class _AllChatsState extends State<AllChats> {
                           ),
                         )
                       : Expanded(
-                          child: Column(
-                            children: [
-                              controller.list.isNotEmpty
-                                  ? Expanded(
-                                      child: ListView.builder(
-                                        itemCount: controller.list.length + 1,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          if (index == controller.list.length) {
-                                            if (controller.chatsList!
-                                                    .pagination!.hasMore ??
-                                                false) {
-                                              return _buildLoadMoreButton();
-                                            } else {
-                                              return const SizedBox();
-                                            }
-                                          }
-                                          return _buildChatView(
-                                              controller.list[index], index);
-                                        },
-                                      ),
-                                    )
-                                  : _buildNoChatsView(),
-                            ],
-                          ),
+                          child: (controller.list.isEmpty &&
+                                  controller.blockedList.isEmpty)
+                              ? _buildNoChatsView()
+                              : _buildCombinedList(),
                         ),
                 ],
               );
       }),
+    );
+  }
+
+  Widget _buildCombinedList() {
+    final bool hasMoreChats =
+        controller.chatsList?.pagination?.hasMore ?? false;
+
+    final int chatsCount = controller.list.length;
+    final int loadMoreSlot = hasMoreChats ? 1 : 0;
+    final int blockedHeaderSlot = controller.blockedList.isNotEmpty ? 1 : 0;
+    final int blockedCount = controller.blockedList.length;
+    final int totalCount =
+        chatsCount + loadMoreSlot + blockedHeaderSlot + blockedCount;
+
+    return ListView.builder(
+      itemCount: totalCount,
+      itemBuilder: (context, index) {
+        // 1. Normal chats section — always first
+        if (index < chatsCount) {
+          return _buildChatView(controller.list[index], index);
+        }
+
+        // 2. Load-more button — right after normal chats, before blocked
+        if (hasMoreChats && index == chatsCount) {
+          return _buildLoadMoreButton();
+        }
+
+        final afterChatsAndLoadMore = index - chatsCount - loadMoreSlot;
+
+        // 3. Blocked section header — appears once, right before blocked items
+        if (blockedHeaderSlot == 1 && afterChatsAndLoadMore == 0) {
+          return Padding(
+            padding: EdgeInsets.only(left: 14.0.w, top: 12.h, bottom: 6.h),
+            child: Text(
+              "Blocked",
+              style: TextStyle(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[600],
+                fontFamily: 'Poppins',
+              ),
+            ),
+          );
+        }
+
+        // 4. Blocked chats — always last, no matter what
+        final blockedIndex = afterChatsAndLoadMore - blockedHeaderSlot;
+        return _buildChatView(
+            controller.blockedList[blockedIndex], blockedIndex);
+      },
     );
   }
 
@@ -226,9 +286,11 @@ class _AllChatsState extends State<AllChats> {
     return GestureDetector(
       onTap: () async {
         try {
+          controller.blockedList.add(controller.list.elementAt(index));
           var result = await Get.to(
             const ConversationScreen(),
             arguments: {
+              'index': index,
               'chat': chat,
               'fromWhere': 'AllChats',
             },
@@ -249,23 +311,9 @@ class _AllChatsState extends State<AllChats> {
               if (Constants.unReadcount.value >= chat.unreadCount.value) {
                 Constants.unReadcount.value =
                     Constants.unReadcount.value - chat.unreadCount.value;
-              } else {
-                // Constants.unReadcount.value -= chat.unreadCount.value;
-              }
+              } else {}
               chat.unreadCount.value = 0;
-              // Constants.unReadcount.value -= chat.unreadCount.value;
-              // getTradesmenList();
             }
-            // if (result == "update") {
-            //   if (Constants.unReadcount.value >= chat.unreadCount.value) {
-            //     Constants.unReadcount.value =
-            //         Constants.unReadcount.value - chat.unreadCount.value;
-            //   } else {
-            //     // Constants.unReadcount.value -= chat.unreadCount.value;
-            //   }
-            //   chat.unreadCount.value = 0;
-            //   // getTradesmenList();
-            // }
           }
         } catch (e) {
           throw Exception(e);

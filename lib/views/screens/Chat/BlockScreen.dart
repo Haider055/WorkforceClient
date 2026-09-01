@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:workforceclientapp/Controllers/ReportController.dart';
+import 'package:workforceclientapp/Controllers/BlockController.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 
-class ReportScreen extends GetView<ReportController> {
-  const ReportScreen({super.key});
+class BlockScreen extends GetView<BlockController> {
+  const BlockScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,11 @@ class ReportScreen extends GetView<ReportController> {
       top: false,
       bottom: true,
       child: Scaffold(
-        backgroundColor: const Color(MyColors.cardGrayColor100),
+        backgroundColor: const Color(MyColors.whiteColor),
         appBar: AppBar(
           leadingWidth: MediaQuery.of(context).size.width.w,
           leading: Card(
-            color: const Color(MyColors.cardGrayColor100),
+            color: const Color(MyColors.whiteColor),
             shadowColor: const Color.fromARGB(158, 219, 219, 219),
             elevation: 0.5,
             shape: const Border(
@@ -32,7 +32,7 @@ class ReportScreen extends GetView<ReportController> {
                 children: [
                   Center(
                       child: HeadingTextW600(
-                    text: "Report",
+                    text: Strings.blockText(context),
                     centerAlign: false,
                     size: 18.0.sp,
                   )),
@@ -64,7 +64,7 @@ class ReportScreen extends GetView<ReportController> {
           if (controller.options.value == null) {
             return Center(
               child: Text(
-                "Failed to load report options",
+                Strings.failedText(context),
                 style: TextStyle(fontSize: 14.sp),
               ),
             );
@@ -79,7 +79,7 @@ class ReportScreen extends GetView<ReportController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Why are you reporting this?",
+                        Strings.whyareyoublockinghim(context),
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: Colors.grey[600],
@@ -109,33 +109,31 @@ class ReportScreen extends GetView<ReportController> {
                           },
                         );
                       }),
-                      if (controller.showDetailsField) ...[
-                        SizedBox(height: 12.h),
-                        TextField(
-                          controller: controller.otherDetailsController,
-                          maxLines: 4,
-                          maxLength: controller.options.value!.detailsMaxLength,
-                          style: TextStyle(fontSize: 14.sp),
-                          decoration: InputDecoration(
-                            hintText: "Tell us more...",
-                            hintStyle: TextStyle(
-                              fontSize: 13.sp,
-                            ),
-                            fillColor: Colors.white,
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(9.r),
-                              borderSide: const BorderSide(
-                                  color: Color(MyColors.lightGrayColor)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(9.r),
-                              borderSide: const BorderSide(
-                                  color: Color(MyColors.lightGrayColor)),
-                            ),
+                      SizedBox(height: 12.h),
+                      TextField(
+                        controller: controller.otherDetailsController,
+                        maxLines: 4,
+                        maxLength: controller.options.value!.detailsMaxLength,
+                        style: TextStyle(fontSize: 14.sp),
+                        decoration: InputDecoration(
+                          hintText: Strings.tellUsMore(context),
+                          hintStyle: TextStyle(
+                            fontSize: 13.sp,
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(9.r),
+                            borderSide: const BorderSide(
+                                color: Color(MyColors.lightGrayColor)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(9.r),
+                            borderSide: const BorderSide(
+                                color: Color(MyColors.lightGrayColor)),
                           ),
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
@@ -158,7 +156,7 @@ class ReportScreen extends GetView<ReportController> {
                         fontsize: 15.0.sp,
                         color: MyColors.themeRedColor,
                         onPressed: () {
-                          controller.submitReport();
+                          controller.submitBlock();
                         },
                       ),
               ),

@@ -878,11 +878,29 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get descriptionText;
 
+  /// No description provided for @blockText.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get blockText;
+
+  /// No description provided for @unblockText.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblockText;
+
   /// No description provided for @jobDescriptionText.
   ///
   /// In en, this message translates to:
   /// **'Job Description'**
   String get jobDescriptionText;
+
+  /// No description provided for @accountSuspendedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Suspended'**
+  String get accountSuspendedMessage;
 
   /// No description provided for @jobTitleHintText.
   ///
@@ -895,6 +913,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Account has blocked by Admin'**
   String get accountBlockedMessage;
+
+  /// No description provided for @accountBlockedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been suspended due to a violation of our terms of service. If you believe this is a mistake, please contact our support team.'**
+  String get accountBlockedDesc;
 
   /// No description provided for @jobTitleDescText.
   ///
@@ -1460,6 +1484,18 @@ abstract class AppLocalizations {
   /// **'Review Applicants'**
   String get reviewApplicantsText;
 
+  /// No description provided for @pleaseselectareason.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a reason'**
+  String get pleaseselectareason;
+
+  /// No description provided for @pleasedescribetheissue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please describe the issue'**
+  String get pleasedescribetheissue;
+
   /// No description provided for @chatAndAssignText.
   ///
   /// In en, this message translates to:
@@ -1682,6 +1718,12 @@ abstract class AppLocalizations {
   /// **'now'**
   String get nowText;
 
+  /// No description provided for @noteText.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get noteText;
+
   /// No description provided for @startContractNowText.
   ///
   /// In en, this message translates to:
@@ -1742,11 +1784,41 @@ abstract class AppLocalizations {
   /// **'Go Back'**
   String get goBackText;
 
+  /// No description provided for @blockedonText.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked on'**
+  String get blockedonText;
+
+  /// No description provided for @taptounblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to unblock'**
+  String get taptounblock;
+
+  /// No description provided for @tellUsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us more...'**
+  String get tellUsMore;
+
   /// No description provided for @atLeast12CharactersText.
   ///
   /// In en, this message translates to:
   /// **'at least 12 characters'**
   String get atLeast12CharactersText;
+
+  /// No description provided for @whyareyoublockinghim.
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you Blocking him?'**
+  String get whyareyoublockinghim;
+
+  /// No description provided for @whyareyoureportinghim.
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you reporting him?'**
+  String get whyareyoureportinghim;
 
   /// No description provided for @lowercaseText.
   ///
@@ -1790,6 +1862,36 @@ abstract class AppLocalizations {
   /// **'new user'**
   String get newUserText;
 
+  /// No description provided for @userText.
+  ///
+  /// In en, this message translates to:
+  /// **'user'**
+  String get userText;
+
+  /// No description provided for @blockusersText.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Users'**
+  String get blockusersText;
+
+  /// No description provided for @unBlockMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'They will be able to message you and see your content again.'**
+  String get unBlockMsg;
+
+  /// No description provided for @blocktradesmanwouldnotbeableto.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked tradesman would not be able to see your posted content.'**
+  String get blocktradesmanwouldnotbeableto;
+
+  /// No description provided for @blockedbyUser.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been blocked by the tradesman.'**
+  String get blockedbyUser;
+
   /// No description provided for @youCanNowLoginText.
   ///
   /// In en, this message translates to:
@@ -1801,6 +1903,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By creating an account, you agree to our'**
   String get bycreatingaccountyouAgreetoourText;
+
+  /// No description provided for @youhavebeenblockedbyUser.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been blocked by User'**
+  String get youhavebeenblockedbyUser;
 
   /// No description provided for @andText.
   ///
@@ -1825,6 +1933,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'password Cannot Be Empty'**
   String get passwordCannotBeEmptyText;
+
+  /// No description provided for @youhavenotblockeduser.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t blocked any users yet.'**
+  String get youhavenotblockeduser;
 
   /// No description provided for @confirmPasswordCannotBeEmptyText.
   ///

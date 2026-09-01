@@ -44,6 +44,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   RxBool isLoading = true.obs;
   String backResults = "update";
   String fromWhere = "";
+  int index = 0;
   static const _channel = MethodChannel('app/lifecycle');
   final PostedOrderDetailsController postedOrderDetailsController = Get.put(
     PostedOrderDetailsController(),
@@ -105,8 +106,12 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       return;
     }
     fromWhere = data['fromWhere'];
+    if (data['index'] != null) {
+      index = data['index'];
+    }
     if (data['chat'] != null) {
       chat = data['chat'];
+
       jobId = chat!.jobPostingId!;
       jobStatus = chat!.jobStatus!;
       requestId = chat!.jobApplicationId!;
@@ -142,6 +147,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     conversationContoller.pleaseMarkAllasRead(context, chatId);
+    conversationContoller.dispose();
     super.dispose();
   }
 
@@ -177,6 +183,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
         if (didPop) {
           try {
             if (chat != null) {
+              print("object1");
               if (Constants.unReadcount.value >= chat!.unreadCount.value) {
                 Constants.unReadcount.value -= chat!.unreadCount.value;
               } else {
@@ -185,7 +192,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
               Constants.unReadcount.value = 0;
               chat!.unreadCount.value = 0;
             } else {
-              Get.back();
+              print("object2");
+              Get.back(result: backResults);
             }
             await conversationContoller.pleaseMarkAllasRead(context, chatId);
           } catch (e) {
@@ -386,39 +394,45 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                             Row(
                               children: [
                                 Expanded(flex: 10, child: textfieldWidget()),
-                                Expanded(
-                                  flex: 2,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      try {
-                                        if (conversationContoller
-                                            .messageTextField
-                                            .value
-                                            .text
-                                            .isNotEmpty) {
-                                          sendMessage(
-                                            conversationContoller
-                                                .messageTextField.value.text,
-                                          );
-                                        }
-                                      } catch (e) {
-                                        throw Exception(e);
-                                      }
-                                    },
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        "lib/assets/icons/sendButton.svg",
-                                        fit: BoxFit.cover,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                10,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                8,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                conversationContoller.enable.value
+                                    ? Expanded(
+                                        flex: 2,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            try {
+                                              if (conversationContoller
+                                                  .messageTextField
+                                                  .value
+                                                  .text
+                                                  .isNotEmpty) {
+                                                sendMessage(
+                                                  conversationContoller
+                                                      .messageTextField
+                                                      .value
+                                                      .text,
+                                                );
+                                              }
+                                            } catch (e) {
+                                              throw Exception(e);
+                                            }
+                                          },
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              "lib/assets/icons/sendButton.svg",
+                                              fit: BoxFit.cover,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  10,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  8,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
                               ],
                             )
                           ],
@@ -482,6 +496,11 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       if (messageObj != null) {
         _scrollToBottom();
       }
+      // Chat chat = Get.find<AllChatsContoller>().list.elementAt(12);
+      // Get.find<AllChatsContoller>().list.removeAt(12);
+      // Get.find<AllChatsContoller>().list.insert(0, chat);
+      // Get.find<AllChatsContoller>().list.elementAt(0).lastMessage = messageObj;
+      // print("yessssss");
     } catch (e) {
       throw Exception(e);
     }
@@ -491,80 +510,91 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     return Padding(
       padding: EdgeInsets.only(
           bottom: 14.0.h, right: 6.0.w, left: 14.0.w, top: 8.0.h),
-      child: ConstrainedBox(
-        // 🛠️ FIX 1: Caps the maximum height of the input field to a reasonable scale (e.g., 120 pixels)
-        constraints: BoxConstraints(
-          maxHeight: 150.0.h,
-        ),
-        child: TextFormField(
-          controller: conversationContoller.messageTextField(),
-          keyboardType: TextInputType.multiline,
-          minLines: 1,
-          maxLines: null, // Keeps the inner text multi-line scrollable
-          scrollPhysics:
-              const BouncingScrollPhysics(), // 🛠️ FIX 2: Ensures text scrolls inside the constrained area
-          enabled: true,
-          onChanged: (value) {},
-          obscuringCharacter: "*",
-          validator: (value) {
-            return null;
-          },
-          decoration: InputDecoration(
-            hintText: Strings.typeaMessageText(Get.context!),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0.r),
-              borderSide: BorderSide(
-                width: 2.0.w,
-                color: Colors.red.withOpacity(0.7),
+      child: !conversationContoller.enable.value
+          ? Center(
+              child: Text(Strings.youhavebeenblockedby(context),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Poppins')),
+            )
+          : ConstrainedBox(
+              // 🛠️ FIX 1: Caps the maximum height of the input field to a reasonable scale (e.g., 120 pixels)
+              constraints: BoxConstraints(
+                maxHeight: 150.0.h,
+              ),
+              child: TextFormField(
+                controller: conversationContoller.messageTextField(),
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: null, // Keeps the inner text multi-line scrollable
+                scrollPhysics:
+                    const BouncingScrollPhysics(), // 🛠️ FIX 2: Ensures text scrolls inside the constrained area
+                enabled: conversationContoller.enable.value,
+                onChanged: (value) {},
+                obscuringCharacter: "*",
+                validator: (value) {
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: Strings.typeaMessageText(Get.context!),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0.r),
+                    borderSide: BorderSide(
+                      width: 2.0.w,
+                      color: Colors.red.withOpacity(0.7),
+                    ),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0.r),
+                    borderSide: BorderSide(
+                      width: 2.0.w,
+                      color: Colors.red.withOpacity(0.7),
+                    ),
+                  ),
+                  filled: true,
+                  fillColor:
+                      const Color(MyColors.lightSilverColor).withOpacity(0.8),
+                  hintStyle: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14.0.sp,
+                    color: const Color(0x66000000),
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: null,
+                  prefixIconColor: const Color(0x66000000),
+                  suffixIcon: null,
+                  suffixIconColor: const Color(0x66000000),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16.0.w,
+                    vertical: 14.0.h,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(26.0.r),
+                    borderSide: BorderSide(
+                      width: 1.5.w,
+                      color: const Color(MyColors.fieldBorderColor),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(26.0.r),
+                    borderSide: BorderSide(
+                      width: 1.5.w,
+                      color: const Color(MyColors.themeRedColor),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(26.0.r),
+                    borderSide: BorderSide(
+                      width: 1.5.w,
+                      color: const Color(MyColors.fieldBorderColor),
+                    ),
+                  ),
+                ),
               ),
             ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0.r),
-              borderSide: BorderSide(
-                width: 2.0.w,
-                color: Colors.red.withOpacity(0.7),
-              ),
-            ),
-            filled: true,
-            fillColor: const Color(MyColors.lightSilverColor).withOpacity(0.8),
-            hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14.0.sp,
-              color: const Color(0x66000000),
-              fontWeight: FontWeight.w400,
-            ),
-            prefixIcon: null,
-            prefixIconColor: const Color(0x66000000),
-            suffixIcon: null,
-            suffixIconColor: const Color(0x66000000),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.0.w,
-              vertical: 14.0.h,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(26.0.r),
-              borderSide: BorderSide(
-                width: 1.5.w,
-                color: const Color(MyColors.fieldBorderColor),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(26.0.r),
-              borderSide: BorderSide(
-                width: 1.5.w,
-                color: const Color(MyColors.themeRedColor),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(26.0.r),
-              borderSide: BorderSide(
-                width: 1.5.w,
-                color: const Color(MyColors.fieldBorderColor),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -679,7 +709,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                     child: GestureDetector(
                       onTap: () async {
                         try {
-                          Commons.showProgressDialog(context);
+                          // Commons.showProgressDialog(context);
                           await conversationContoller.pleaseMarkAllasRead(
                               context, chatId);
                           if (fromWhere == "OrderDetail") {
@@ -786,7 +816,14 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               onSelected: (value) async {
-                                if (value == "report") {
+                                if (value == "block") {
+                                  Get.toNamed(AppLinks.block_screen,
+                                      arguments: {
+                                        'user_id': chat!.tradesmenId ?? 0,
+                                        'conversationContoller':
+                                            conversationContoller,
+                                      });
+                                } else if (value == 'report') {
                                   Get.toNamed(AppLinks.report_screen,
                                       arguments: {
                                         'reportableType': "user",
@@ -807,6 +844,20 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                       Headingdescription(
                                           text:
                                               Strings.reportText(Get.context!),
+                                          centerAlign: false,
+                                          size: 13),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: "block",
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.block,
+                                          size: 18, color: Colors.black87),
+                                      const SizedBox(width: 8),
+                                      Headingdescription(
+                                          text: Strings.blockText(Get.context!),
                                           centerAlign: false,
                                           size: 13),
                                     ],

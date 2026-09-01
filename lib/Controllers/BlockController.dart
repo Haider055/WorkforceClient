@@ -4,23 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
 import 'package:workforceclientapp/Models/ReportOption.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 
-class ReportController extends GetxController {
+class BlockController extends GetxController {
   final data = Get.arguments;
 
-  RxString reportableType = "".obs;
-  RxInt reportableId = 0.obs;
+  RxInt userId = 0.obs;
 
   RxBool isLoading = true.obs;
   RxBool isSubmitting = false.obs;
   Rx<ReportOptions?> options = Rx<ReportOptions?>(null);
   RxString selectedReason = "".obs;
   TextEditingController otherDetailsController = TextEditingController();
-  ReportOptions? reportOptions;
 
   @override
   void onInit() {
@@ -35,9 +34,9 @@ class ReportController extends GetxController {
         isLoading.value = false;
         return;
       }
-      reportableType.value = data['reportableType'] ?? "";
-      reportableId.value = data['reportableId'] ?? 0;
+      userId.value = data['user_id'] ?? 0;
 
+      // Block reasons are the same 9 values used for reports.
       final result = await pleaseGetReportOptions(Get.context!);
       options.value = result;
     } catch (e) {
@@ -55,38 +54,23 @@ class ReportController extends GetxController {
     return isLastItem || labelSuggestsOther;
   }
 
-  bool get showDetailsField {
-    if (selectedReason.value.isEmpty || options.value == null) return false;
-    final index = options.value!.reasons
-        .indexWhere((r) => r.value == selectedReason.value);
-    if (index == -1) return false;
-    return isOtherOption(options.value!.reasons[index], index);
-  }
-
-  Future<void> submitReport() async {
+  Future<void> submitBlock() async {
     if (selectedReason.value.isEmpty) {
       Fluttertoast.showToast(msg: Strings.pleaseselectareason(Get.context!));
       return;
     }
-    if (showDetailsField && otherDetailsController.text.trim().isEmpty) {
-      Fluttertoast.showToast(msg: Strings.pleasedescribetheissue(Get.context!));
-      return;
-    }
 
     isSubmitting.value = true;
-    final success = await pleaseSubmitReport(
+    final result = await pleaseBlockUser(
       context: Get.context!,
-      reportableType: reportableType.value,
-      reportableId: reportableId.value,
-      reason: selectedReason.value,
-      details: showDetailsField ? otherDetailsController.text.trim() : null,
     );
     isSubmitting.value = false;
 
-    if (success) {
-      Fluttertoast.showToast(msg: Strings.reportSubmittedText(Get.context!));
-      Get.back();
+    Get.back(result: result);
+    if (result) {
+      Get.find<AllChatsContoller>().refreshData();
     }
+    Get.back();
   }
 
   Future<ReportOptions?> pleaseGetReportOptions(BuildContext context) async {
@@ -131,31 +115,29 @@ class ReportController extends GetxController {
     }
   }
 
-  Future<bool> pleaseSubmitReport({
-    required BuildContext context,
-    required String reportableType,
-    required int reportableId,
-    required String reason,
-    String? details,
-  }) async {
+  Future<bool> pleaseBlockUser({required BuildContext context}) async {
     try {
       final response = await http
           .post(
-            Uri.parse('${Constants.baseUrl}/reports'),
+            Uri.parse('${Constants.baseUrl}/blocks'),
             headers: await Commons.manageRequestHeader(),
             body: jsonEncode(<String, dynamic>{
-              'reportable_type': reportableType,
-              'reportable_id': reportableId,
-              'reason': reason,
-              if (details != null && details.isNotEmpty) 'details': details,
+              'user_id': userId.value,
+              'reason': selectedReason.value,
+              'details': otherDetailsController.value.text.isEmpty
+                  ? ''
+                  : otherDetailsController.value.text.trim(),
             }),
           )
           .timeout(const Duration(seconds: 5));
 
+      print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (jsonData['success'] == true) {
+          Fluttertoast.showToast(
+              msg: jsonData['message'] ?? "User blocked successfully");
           return true;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
@@ -176,7 +158,7 @@ class ReportController extends GetxController {
       return false;
     } catch (e) {
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
-      debugPrint('pleaseSubmitReport error: $e');
+      debugPrint('pleaseBlockUser error: $e');
       return false;
     }
   }

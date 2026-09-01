@@ -17,6 +17,7 @@ import 'package:workforceclientapp/Others/Strings.dart';
 class AllChatsContoller extends GetxController {
   ChatsList? chatsList;
   RxList<Chat> list = <Chat>[].obs;
+  RxList<Chat> blockedList = <Chat>[].obs;
   RxBool isLoading = false.obs;
   RxInt totalChats = 0.obs;
   RxBool isLoadingMore = false.obs;
@@ -96,7 +97,7 @@ class AllChatsContoller extends GetxController {
           print("New message added: ${messages.last.message}");
           bool found = false;
           for (var i = 0; i < list.length; i++) {
-            if (list[i].lastMessage!.chatId == messages.last.chatId) {
+            if (list[i].id == messages.last.chatId) {
               Chat chat = list[i];
               chat.unreadCount.value += 1;
               chat.lastMessage = messages.last;
@@ -162,7 +163,7 @@ class AllChatsContoller extends GetxController {
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
@@ -213,7 +214,7 @@ class AllChatsContoller extends GetxController {
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));

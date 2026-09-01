@@ -6,6 +6,7 @@
     "leaveOrderText",
     "memberSinceText",
     "addingPicturesHelpsBetterQuotesText",
+    "whyareyoureportinghim",
     "confirmPasswordCannotBeEmptyText"
   ]
 }

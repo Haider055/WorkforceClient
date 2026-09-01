@@ -46,7 +46,7 @@ class SelectServiceDetailsController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));

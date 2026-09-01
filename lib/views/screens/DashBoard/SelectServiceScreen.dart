@@ -1794,7 +1794,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                           child: ElevatedButton(
                             onPressed: () async {
                               try {
-                                Commons.logoutUser();
+                                Commons.logoutUser(false);
                               } catch (e) {
                                 throw Exception(e);
                               }

@@ -67,7 +67,7 @@ class CreateNewPasswordController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
       } else {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
@@ -109,7 +109,7 @@ class CreateNewPasswordController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return false;
       } else {
         String msg = jsonData['message'];

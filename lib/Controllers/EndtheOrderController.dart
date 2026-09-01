@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
-import 'package:workforceclientapp/Others/routes.dart';
 
 class EndtheOrderController extends GetxController {
   final searchController = TextEditingController().obs;
@@ -27,7 +26,7 @@ class EndtheOrderController extends GetxController {
     reasons.add(Strings.endOrderReason5(Get.context!));
   }
 
-  Future<void> pleaseCancelTheOrder(
+  Future<bool> pleaseCancelTheOrder(
       int jobId, String reason, BuildContext context) async {
     try {
       final response = await http
@@ -39,31 +38,35 @@ class EndtheOrderController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-// print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
           Fluttertoast.showToast(msg: Strings.jobHasRemoved(context));
-          Get.offAllNamed(AppLinks.select_service_screen);
+          return true;
         } else {
           if (jsonData['message'] != null) {
             Fluttertoast.showToast(msg: jsonData['message']);
+            return false;
           } else {
             Fluttertoast.showToast(
                 msg: Strings.somethingWentWrongRemovingJob(context));
+            return false;
           }
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
+        return false;
       } else {
         Fluttertoast.showToast(
             msg: Strings.somethingWentWrongRemovingJob(context));
+        return false;
       }
     } on TimeoutException {
       Fluttertoast.showToast(
           msg: Strings.somethingWentWrongRemovingJob(context));
+      return false;
     } catch (e) {
       throw Exception(e);
     }

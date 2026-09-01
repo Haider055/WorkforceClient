@@ -34,14 +34,13 @@ class AccountSuspendedScreen extends GetView<AccountSuspendedController> {
                 ),
                 SizedBox(height: 24.h),
                 HeadingTextW600(
-                  text: "Account Suspended",
+                  text: Strings.accountSuspendedMessage(context),
                   centerAlign: true,
                   size: 20.sp,
                 ),
                 SizedBox(height: 12.h),
                 Headingdescription(
-                  text:
-                      "Your account has been suspended due to a violation of our terms of service. If you believe this is a mistake, please contact our support team.",
+                  text: Strings.accountBlockedDesc(context),
                   centerAlign: true,
                   size: 14.sp,
                 ),
@@ -49,7 +48,19 @@ class AccountSuspendedScreen extends GetView<AccountSuspendedController> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0.h),
                   child: FullWidthButtonPrimary(
-                    text: "Login",
+                    text:
+                        "${Strings.contact(context)} ${Strings.supportCenter(context)}",
+                    fontsize: 15.0.sp,
+                    color: MyColors.themeRedColor,
+                    onPressed: () {
+                      controller.goToSupport();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20.0.h),
+                  child: FullWidthButtonPrimary(
+                    text: Strings.loginText(context),
                     fontsize: 15.0.sp,
                     color: MyColors.themeRedColor,
                     onPressed: () {

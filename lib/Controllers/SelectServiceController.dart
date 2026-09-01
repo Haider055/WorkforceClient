@@ -251,7 +251,7 @@ class SelectServiceController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -299,7 +299,7 @@ class SelectServiceController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return list;
       } else {
         // If the server did not return a 200 CREATED response,
@@ -421,7 +421,7 @@ class SelectServiceController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return '';
       } else {
         // If the server did not return a 200 CREATED response,
@@ -480,7 +480,7 @@ class SelectServiceController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return 0;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -526,18 +526,16 @@ class SelectServiceController extends GetxController {
         scheme: "wss",
         host: "auftragnow.com",
         port: "443",
-        appKey: Constants.pusherAPIkey, // Reverb app key
-        authUrl:
-            "${Constants.baseUrl}/broadcasting/auth", // optional, needed for private channels
-        authToken: token, // optional
-        privatePrefix: "private-", // default: "private-"
+        appKey: Constants.pusherAPIkey,
+        authUrl: "${Constants.baseUrl}/broadcasting/auth",
+        authToken: token,
+        privatePrefix: "private-",
         usePrefix: true,
       );
 
       reverb = SimpleFlutterReverb(options: options);
       Constants.reverb = reverb;
 
-      // Private channel
       reverb.listen(
         (message) {
           if (message != null && message.event == "message.sent") {

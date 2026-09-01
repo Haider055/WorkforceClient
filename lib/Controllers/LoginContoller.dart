@@ -90,7 +90,7 @@ class LoginContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return '';
       } else {
         if (jsonData.keys.contains('errors')) {
@@ -319,6 +319,7 @@ class LoginContoller extends GetxController {
   Future<void> saveUserInfo(Map<String, dynamic> userObj) async {
     _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('isLogin', "loggedIn");
+    await _prefs.setBool('isSuspended', false);
     await _prefs.setInt('id', userObj['id'] ?? -1);
     await _prefs.setString('name', userObj['name'] ?? "");
     await _prefs.setString('email', userObj['email'] ?? "");

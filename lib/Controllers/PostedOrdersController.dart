@@ -121,6 +121,7 @@ class PostedOrdersController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
+      print(response.statusCode);
       print(response.body);
 
       if (response.statusCode == 200) {
@@ -144,7 +145,7 @@ class PostedOrdersController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return null;
       } else {
         // If the server did not return a 200 CREATED response,
@@ -195,7 +196,7 @@ class PostedOrdersController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));

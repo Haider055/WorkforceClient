@@ -401,13 +401,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get descriptionText => 'Description';
 
   @override
+  String get blockText => 'Block';
+
+  @override
+  String get unblockText => 'Unblock';
+
+  @override
   String get jobDescriptionText => 'Job Description';
+
+  @override
+  String get accountSuspendedMessage => 'Account Suspended';
 
   @override
   String get jobTitleHintText => 'e.g. I need painter for my House.';
 
   @override
   String get accountBlockedMessage => 'Your Account has blocked by Admin';
+
+  @override
+  String get accountBlockedDesc =>
+      'Your account has been suspended due to a violation of our terms of service. If you believe this is a mistake, please contact our support team.';
 
   @override
   String get jobTitleDescText =>
@@ -725,6 +738,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewApplicantsText => 'Review Applicants';
 
   @override
+  String get pleaseselectareason => 'Please select a reason';
+
+  @override
+  String get pleasedescribetheissue => 'Please describe the issue';
+
+  @override
   String get chatAndAssignText => 'Chat & Assign';
 
   @override
@@ -859,6 +878,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nowText => 'now';
 
   @override
+  String get noteText => 'Note';
+
+  @override
   String get startContractNowText => 'Start Contract Now';
 
   @override
@@ -891,7 +913,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goBackText => 'Go Back';
 
   @override
+  String get blockedonText => 'Blocked on';
+
+  @override
+  String get taptounblock => 'Tap to unblock';
+
+  @override
+  String get tellUsMore => 'Tell us more...';
+
+  @override
   String get atLeast12CharactersText => 'at least 12 characters';
+
+  @override
+  String get whyareyoublockinghim => 'Why are you Blocking him?';
+
+  @override
+  String get whyareyoureportinghim => 'Why are you reporting him?';
 
   @override
   String get lowercaseText => 'lowercase';
@@ -915,11 +952,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newUserText => 'new user';
 
   @override
+  String get userText => 'user';
+
+  @override
+  String get blockusersText => 'Blocked Users';
+
+  @override
+  String get unBlockMsg =>
+      'They will be able to message you and see your content again.';
+
+  @override
+  String get blocktradesmanwouldnotbeableto =>
+      'Blocked tradesman would not be able to see your posted content.';
+
+  @override
+  String get blockedbyUser => 'You have been blocked by the tradesman.';
+
+  @override
   String get youCanNowLoginText => 'you can now Login!';
 
   @override
   String get bycreatingaccountyouAgreetoourText =>
       'By creating an account, you agree to our';
+
+  @override
+  String get youhavebeenblockedbyUser => 'You have been blocked by User';
 
   @override
   String get andText => 'and';
@@ -932,6 +989,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordCannotBeEmptyText => 'password Cannot Be Empty';
+
+  @override
+  String get youhavenotblockeduser => 'You haven\'t blocked any users yet.';
 
   @override
   String get confirmPasswordCannotBeEmptyText =>

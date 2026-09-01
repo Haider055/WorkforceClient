@@ -111,24 +111,23 @@ class Commons {
     );
   }
 
-  static void logoutUser() async {
+  static void logoutUser(bool suspended) async {
+    if (suspended) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isSuspended', true);
+      Get.offAllNamed(AppLinks.account_suspended_screen);
+      return;
+    }
     Commons.showProgressDialog(Get.context!);
     bool res =
         await Get.find<ProfileController>().pleaseLogoutAccount(Get.context!);
     if (res) {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      await _prefs.setString('isLogin', "loggedOut");
-      await _prefs.remove('token');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('isLogin', "loggedOut");
+      await prefs.remove('token');
       Constants.unReadcount.value = 0;
       Constants.unreadNotificationsCount.value = 0;
-      Get.offAllNamed(AppLinks.account_suspended_screen);
+      Get.offAllNamed(AppLinks.select_service_screen);
     }
-
-    // Get.to(
-    //   const SelectServiceScreen(),
-    //   transition: Transition.rightToLeft, // Left-to-right animation
-    //   duration:
-    //       const Duration(milliseconds: 500), // Optional: animation duration
-    // );
   }
 }

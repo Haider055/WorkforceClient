@@ -88,7 +88,7 @@ class JobRecommendationController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return RecommendedTradesman(tradesmenList: [], pagination: null);
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -143,7 +143,7 @@ class JobRecommendationController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return '';
       } else {
         msg = jsonData['message'];

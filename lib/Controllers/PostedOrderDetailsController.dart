@@ -98,7 +98,7 @@ class PostedOrderDetailsController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return postedJobDetail;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -157,7 +157,7 @@ class PostedOrderDetailsController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return requestedTradesmen;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -205,7 +205,7 @@ class PostedOrderDetailsController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -275,7 +275,7 @@ class PostedOrderDetailsController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return chatid;
       } else {
         // If the server did not return a 200 CREATED response,
@@ -325,7 +325,7 @@ class PostedOrderDetailsController extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.

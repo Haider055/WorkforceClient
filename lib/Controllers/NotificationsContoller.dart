@@ -76,7 +76,7 @@ class NotificationsContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return list;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
@@ -121,7 +121,7 @@ class NotificationsContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return false;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
@@ -179,7 +179,7 @@ class NotificationsContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return null;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -216,7 +216,7 @@ class NotificationsContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return false;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -251,7 +251,7 @@ class NotificationsContoller extends GetxController {
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
             msg: Strings.accountBlockedMessage(Get.context!));
-        Commons.logoutUser();
+        Commons.logoutUser(true);
         return false;
       } else {
         Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));

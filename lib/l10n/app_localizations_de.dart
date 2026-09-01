@@ -403,7 +403,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get descriptionText => 'Beschreibung';
 
   @override
+  String get blockText => 'Block';
+
+  @override
+  String get unblockText => 'Freigeben';
+
+  @override
   String get jobDescriptionText => 'Jobbeschreibung';
+
+  @override
+  String get accountSuspendedMessage => 'Konto gesperrt';
 
   @override
   String get jobTitleHintText => 'z.B. Ich brauche einen Maler für mein Haus.';
@@ -411,6 +420,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get accountBlockedMessage =>
       'Ihr Konto wurde vom Administrator gesperrt';
+
+  @override
+  String get accountBlockedDesc =>
+      'Ihr Konto wurde aufgrund eines Verstoßes gegen unsere Nutzungsbedingungen gesperrt. Wenn Sie der Meinung sind, dass es sich um einen Fehler handelt, wenden Sie sich bitte an unser Support-Team.';
 
   @override
   String get jobTitleDescText =>
@@ -730,10 +743,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyPolicy => 'Datenschutzrichtlinie';
 
   @override
-  String get submitReportText => 'Submit Report';
+  String get submitReportText => 'Bericht einreichen';
 
   @override
   String get reviewApplicantsText => 'Bewerber prüfen';
+
+  @override
+  String get pleaseselectareason => 'Bitte wählen Sie einen Grund aus.';
+
+  @override
+  String get pleasedescribetheissue => 'Bitte beschreiben Sie das Problem.';
 
   @override
   String get chatAndAssignText => 'Chat & Zuweisen';
@@ -872,6 +891,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get nowText => 'Jetzt';
 
   @override
+  String get noteText => 'Notiz';
+
+  @override
   String get startContractNowText => 'Vertrag jetzt starten';
 
   @override
@@ -905,7 +927,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get goBackText => 'Geh zurück';
 
   @override
+  String get blockedonText => 'Blockiert durch';
+
+  @override
+  String get taptounblock => 'Zum Entsperren tippen';
+
+  @override
+  String get tellUsMore => 'Erzählen Sie uns mehr...';
+
+  @override
   String get atLeast12CharactersText => 'Mindestens 12 Zeichen';
+
+  @override
+  String get whyareyoublockinghim => 'Warum blockierst du ihn?';
+
+  @override
+  String get whyareyoureportinghim => 'Why are you reporting him?';
 
   @override
   String get lowercaseText => 'Kleinbuchstaben';
@@ -931,11 +968,31 @@ class AppLocalizationsDe extends AppLocalizations {
   String get newUserText => 'Neuer Benutzer';
 
   @override
+  String get userText => 'Benutzerin';
+
+  @override
+  String get blockusersText => 'Blockierte Nutzer';
+
+  @override
+  String get unBlockMsg =>
+      'Sie werden Ihnen Nachrichten senden und Ihre Inhalte wieder sehen können.';
+
+  @override
+  String get blocktradesmanwouldnotbeableto =>
+      'Ein blockierter Handwerker könnte Ihre veröffentlichten Inhalte nicht sehen.';
+
+  @override
+  String get blockedbyUser => 'Sie wurden von dem Handwerker blockiert.';
+
+  @override
   String get youCanNowLoginText => 'Sie können sich jetzt anmelden!';
 
   @override
   String get bycreatingaccountyouAgreetoourText =>
       'Durch die Erstellung eines Kontos stimmen Sie unseren Nutzungsbedingungen zu';
+
+  @override
+  String get youhavebeenblockedbyUser => 'Du wurdest von dem Nutzer blockiert.';
 
   @override
   String get andText => 'Und';
@@ -948,6 +1005,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get passwordCannotBeEmptyText => 'Das Passwort darf nicht leer sein.';
+
+  @override
+  String get youhavenotblockeduser => 'Du hast noch keine Nutzer blockiert.';
 
   @override
   String get confirmPasswordCannotBeEmptyText =>

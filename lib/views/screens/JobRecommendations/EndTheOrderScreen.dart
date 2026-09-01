@@ -146,10 +146,16 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                   text: Strings.continueText(context),
                   fontsize: 15.0.sp,
                   color: MyColors.themeRedColor,
-                  onPressed: () {
+                  onPressed: () async {
                     if (controller.selectedReason.value.isNotEmpty) {
-                      controller.pleaseCancelTheOrder(controller.jobId.value,
-                          controller.selectedReason.value, context);
+                      var res = await controller.pleaseCancelTheOrder(
+                          controller.jobId.value,
+                          controller.selectedReason.value,
+                          context);
+                      if (res) {
+                        Get.back();
+                        Get.back();
+                      }
                     }
                   }),
             ),

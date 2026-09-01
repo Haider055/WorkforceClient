@@ -37,6 +37,11 @@ class SplashController extends GetxController {
       Get.offAllNamed(AppLinks.eula_screen);
       return;
     }
+    bool isSuspended = _prefs.getBool('isSuspended') ?? false;
+    if (isSuspended) {
+      Get.offAllNamed(AppLinks.account_suspended_screen);
+      return;
+    }
 
     String value = "";
     value = _prefs.getString("isLogin") ?? "loggedOut";

@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/AccountSuspendedController.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
+import 'package:workforceclientapp/Controllers/BlockController.dart';
+import 'package:workforceclientapp/Controllers/BlockPeopleController.dart';
 import 'package:workforceclientapp/Controllers/ChangeLanguageController.dart';
 import 'package:workforceclientapp/Controllers/CreateNewPasswordController.dart';
 import 'package:workforceclientapp/Controllers/EndtheOrderController.dart';
@@ -258,5 +260,19 @@ class AccountSuspendedBindings implements Bindings {
   @override
   void dependencies() {
     Get.put<AccountSuspendedController>(AccountSuspendedController());
+  }
+}
+
+class BlockScreenBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<BlockController>(BlockController());
+  }
+}
+
+class BlockedPeopleScreenBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<BlockPeopleController>(BlockPeopleController());
   }
 }
