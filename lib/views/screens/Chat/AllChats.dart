@@ -25,72 +25,51 @@ class _AllChatsState extends State<AllChats> {
   AllChatsContoller controller = Get.put(AllChatsContoller());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(MyColors.whiteColor),
-      body: Obx(() {
-        return !controller.isLoggedIn.value
-            ? _buildNoLoginView()
-            : Column(
-                children: [
-                  Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 14.0.w),
-                          child: HeadingTextW600(
-                            text: Strings.chatText(context),
-                            centerAlign: false,
-                            size: 22.sp,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      PopupMenuButton<String>(
-                        icon: const Icon(Icons.more_vert, color: Colors.black),
-                        color: const Color(MyColors.whiteColor),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        onSelected: (value) {
-                          if (value == "view_blocked") {
-                            Get.toNamed(AppLinks.blocked_people_screen);
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: "view_blocked",
-                            child: Row(
-                              children: [
-                                const Icon(Icons.block,
-                                    size: 18, color: Colors.redAccent),
-                                SizedBox(width: 8.w),
-                                Text(Strings.blockusersText(context)),
-                              ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        controller.refreshData();
+      },
+      child: Scaffold(
+        backgroundColor: const Color(MyColors.whiteColor),
+        body: Obx(() {
+          return !controller.isLoggedIn.value
+              ? _buildNoLoginView()
+              : Column(
+                  children: [
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 14.0.w),
+                            child: HeadingTextW600(
+                              text: Strings.chatText(context),
+                              centerAlign: false,
+                              size: 22.sp,
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(width: 8.w),
-                    ],
-                  ),
-                  controller.isLoading.value
-                      ? const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: Color(MyColors.themeRedColor),
-                            ),
-                          ),
-                        )
-                      : Expanded(
-                          child: (controller.list.isEmpty &&
-                                  controller.blockedList.isEmpty)
-                              ? _buildNoChatsView()
-                              : _buildCombinedList(),
                         ),
-                ],
-              );
-      }),
+                        const Spacer(),
+                        SizedBox(width: 8.w),
+                      ],
+                    ),
+                    controller.isLoading.value
+                        ? const Expanded(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Color(MyColors.themeRedColor),
+                              ),
+                            ),
+                          )
+                        : Expanded(
+                            child: (controller.list.isEmpty)
+                                ? _buildNoChatsView()
+                                : _buildCombinedList(),
+                          ),
+                  ],
+                );
+        }),
+      ),
     );
   }
 
@@ -100,10 +79,7 @@ class _AllChatsState extends State<AllChats> {
 
     final int chatsCount = controller.list.length;
     final int loadMoreSlot = hasMoreChats ? 1 : 0;
-    final int blockedHeaderSlot = controller.blockedList.isNotEmpty ? 1 : 0;
-    final int blockedCount = controller.blockedList.length;
-    final int totalCount =
-        chatsCount + loadMoreSlot + blockedHeaderSlot + blockedCount;
+    final int totalCount = chatsCount + loadMoreSlot;
 
     return ListView.builder(
       itemCount: totalCount,
@@ -117,29 +93,6 @@ class _AllChatsState extends State<AllChats> {
         if (hasMoreChats && index == chatsCount) {
           return _buildLoadMoreButton();
         }
-
-        final afterChatsAndLoadMore = index - chatsCount - loadMoreSlot;
-
-        // 3. Blocked section header — appears once, right before blocked items
-        if (blockedHeaderSlot == 1 && afterChatsAndLoadMore == 0) {
-          return Padding(
-            padding: EdgeInsets.only(left: 14.0.w, top: 12.h, bottom: 6.h),
-            child: Text(
-              "Blocked",
-              style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[600],
-                fontFamily: 'Poppins',
-              ),
-            ),
-          );
-        }
-
-        // 4. Blocked chats — always last, no matter what
-        final blockedIndex = afterChatsAndLoadMore - blockedHeaderSlot;
-        return _buildChatView(
-            controller.blockedList[blockedIndex], blockedIndex);
       },
     );
   }
@@ -286,7 +239,6 @@ class _AllChatsState extends State<AllChats> {
     return GestureDetector(
       onTap: () async {
         try {
-          controller.blockedList.add(controller.list.elementAt(index));
           var result = await Get.to(
             const ConversationScreen(),
             arguments: {
@@ -338,17 +290,44 @@ class _AllChatsState extends State<AllChats> {
                       Expanded(
                         flex: 2, // 20%
                         child: Center(
-                          child: chat.profileImg != null
-                              ? Padding(
-                                  padding: EdgeInsets.all(8.0.r),
-                                  child: CircleAvatar(
-                                    radius: 30.r,
-                                    backgroundImage: NetworkImage(
-                                        chat.profileImg.toString()),
-                                  ),
-                                )
-                              : Image.asset(
-                                  "lib/assets/icons/placeholder_tradesmen.png"),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              chat.profileImg != null
+                                  ? Padding(
+                                      padding: EdgeInsets.all(8.0.r),
+                                      child: CircleAvatar(
+                                        radius: 30.r,
+                                        backgroundImage: NetworkImage(
+                                            chat.profileImg.toString()),
+                                      ),
+                                    )
+                                  : Image.asset(
+                                      "lib/assets/icons/placeholder_tradesmen.png"),
+                              chat.blockedByMe
+                                  ? Positioned(
+                                      right: 3.w,
+                                      bottom: 3.h,
+                                      child: Container(
+                                        padding: EdgeInsets.all(3.0.r),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white,
+                                              width: 1.5.w),
+                                        ),
+                                        child: Icon(
+                                          Icons.block,
+                                          size: 14.sp,
+                                          color: const Color(
+                                              MyColors.themeRedColor),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(width: 10.h),

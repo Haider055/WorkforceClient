@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:pinput/pinput.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
 import 'package:workforceclientapp/Models/Chat.dart';
 import 'package:workforceclientapp/Models/ChatObj.dart';
@@ -18,7 +17,6 @@ import 'package:workforceclientapp/Others/Strings.dart';
 
 class ConversationContoller extends GetxController {
   final messageTextField = TextEditingController().obs;
-  final RxBool enable = true.obs;
 
   Future<ChatsList?> pleaseGetAllChats(BuildContext context, int page) async {
     try {
@@ -87,9 +85,6 @@ class ConversationContoller extends GetxController {
               }))
           .timeout(const Duration(seconds: 5));
 
-      print(response.statusCode);
-      print(response.body);
-
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
@@ -115,7 +110,6 @@ class ConversationContoller extends GetxController {
         return null;
       } else if (response.statusCode == 400) {
         Fluttertoast.showToast(msg: Strings.blockedbyUser(context));
-        enable.value = false;
         Get.find<AllChatsContoller>().refreshData();
       } else {
         Fluttertoast.showToast(msg: Strings.messageFailedToSend(context));
@@ -322,6 +316,47 @@ class ConversationContoller extends GetxController {
       return;
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<bool> pleaseUnblockUser(BuildContext context, int userId) async {
+    try {
+      final response = await http
+          .delete(
+            Uri.parse('${Constants.baseUrl}/blocks/$userId'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonData['success'] == true) {
+          Fluttertoast.showToast(
+              msg: jsonData['message'] ?? "User unblocked successfully");
+          Get.find<AllChatsContoller>().refreshData();
+          return true;
+        } else {
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          return false;
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser(true);
+        return false;
+      } else {
+        String msg = jsonData['message'] ?? Strings.somethingWentWrong(context);
+        Fluttertoast.showToast(msg: msg);
+        return false;
+      }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      return false;
+    } catch (e) {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      debugPrint('pleaseUnblockUser error: $e');
+      return false;
     }
   }
 }

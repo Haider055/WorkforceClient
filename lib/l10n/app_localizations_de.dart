@@ -995,6 +995,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get youhavebeenblockedbyUser => 'Du wurdest von dem Nutzer blockiert.';
 
   @override
+  String get youhaveBlockedTheUser => 'Sie haben diesen Nutzer blockiert.';
+
+  @override
+  String get tapToUnblock => 'Zum Entsperren tippen';
+
+  @override
   String get andText => 'Und';
 
   @override

@@ -1910,6 +1910,18 @@ abstract class AppLocalizations {
   /// **'You have been blocked by User'**
   String get youhavebeenblockedbyUser;
 
+  /// No description provided for @youhaveBlockedTheUser.
+  ///
+  /// In en, this message translates to:
+  /// **'You have blocked this user'**
+  String get youhaveBlockedTheUser;
+
+  /// No description provided for @tapToUnblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to Unblock'**
+  String get tapToUnblock;
+
   /// No description provided for @andText.
   ///
   /// In en, this message translates to:

@@ -302,6 +302,8 @@
   "youCanNowLoginText": "you can now Login!",
   "bycreatingaccountyouAgreetoourText": "By creating an account, you agree to our",
   "youhavebeenblockedbyUser": "You have been blocked by User",
+  "youhaveBlockedTheUser": "You have blocked this user",
+  "tapToUnblock": "Tap to Unblock",
   "andText": "and",
   "nameCannotBeEmptyText": "name Cannot Be Empty",
   "phoneCannotBeEmptyText": "phone Cannot Be Empty",

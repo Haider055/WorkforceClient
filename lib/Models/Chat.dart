@@ -17,43 +17,52 @@ class Chat {
   String? profileImg;
   String? memberSince;
   Message? lastMessage;
+  bool isBlocked = false;
+  bool blockedByMe = false;
+  bool canSendMessage = true;
 
-  Chat(
-      {required this.id,
-      required this.jobApplicationId,
-      required this.jobPostingId,
-      required this.unreadCount,
-      required this.jobTitle,
-      required this.jobDesc,
-      required this.jobStatus,
-      required this.applicationStatus,
-      required this.isVerified,
-      required this.lastMessage,
-      required this.serviceName,
-      required this.tradesmenId,
-      required this.tradesmenName,
-      required this.profileImg,
-      required this.memberSince});
+  Chat({
+    required this.id,
+    required this.jobApplicationId,
+    required this.jobPostingId,
+    required this.unreadCount,
+    required this.jobTitle,
+    required this.jobDesc,
+    required this.jobStatus,
+    required this.applicationStatus,
+    required this.isVerified,
+    required this.lastMessage,
+    required this.serviceName,
+    required this.tradesmenId,
+    required this.tradesmenName,
+    required this.profileImg,
+    required this.memberSince,
+    required this.isBlocked,
+    required this.blockedByMe,
+    required this.canSendMessage,
+  });
 
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
-      id: json['id'],
-      unreadCount: ((json['unread_count'] ?? 0) as int).obs,
-      jobApplicationId: json['job_application_id'],
-      jobPostingId: json['job_application']['job_posting_id'],
-      jobTitle: json['title'],
-      jobDesc: json['job_application']['job_posting']['description'],
-      isVerified: true,
-      serviceName: "Master Painter (Interior)",
-      lastMessage: json['latest_message'] == null
-          ? null
-          : Message.fromJson(json['latest_message']),
-      jobStatus: json['job_application']['job_posting']['status'],
-      applicationStatus: json['job_application']['status'],
-      tradesmenId: json['job_application']['user_id'],
-      tradesmenName: json['job_application']['user']['name'],
-      profileImg: json['job_application']['user']['profile_img'],
-      memberSince: json['job_application']['user']['member_since'],
-    );
+        id: json['id'],
+        unreadCount: ((json['unread_count'] ?? 0) as int).obs,
+        jobApplicationId: json['job_application_id'],
+        jobPostingId: json['job_application']['job_posting_id'],
+        jobTitle: json['title'],
+        jobDesc: json['job_application']['job_posting']['description'],
+        isVerified: true,
+        serviceName: "Master Painter (Interior)",
+        lastMessage: json['latest_message'] == null
+            ? null
+            : Message.fromJson(json['latest_message']),
+        jobStatus: json['job_application']['job_posting']['status'],
+        applicationStatus: json['job_application']['status'],
+        tradesmenId: json['job_application']['user_id'],
+        tradesmenName: json['job_application']['user']['name'],
+        profileImg: json['job_application']['user']['profile_img'],
+        memberSince: json['job_application']['user']['member_since'],
+        isBlocked: json['is_blocked'] ?? false,
+        blockedByMe: json['blocked_by_me'] ?? false,
+        canSendMessage: json['can_send_message'] ?? true);
   }
 }

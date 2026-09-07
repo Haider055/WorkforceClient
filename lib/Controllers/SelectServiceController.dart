@@ -547,10 +547,9 @@ class SelectServiceController extends GetxController {
                 controller.addMessage(newMessage);
                 // playMessageSound();
               }
-              Constants.unReadcount.value++;
-              // if (mounted) {
-              // }
-              // setState(() {});
+              if (newMessage.senderId != clientId) {
+                Constants.unReadcount.value++;
+              }
             } catch (e) {
               throw Exception(e);
             }

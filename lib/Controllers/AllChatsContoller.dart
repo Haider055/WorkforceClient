@@ -17,12 +17,12 @@ import 'package:workforceclientapp/Others/Strings.dart';
 class AllChatsContoller extends GetxController {
   ChatsList? chatsList;
   RxList<Chat> list = <Chat>[].obs;
-  RxList<Chat> blockedList = <Chat>[].obs;
   RxBool isLoading = false.obs;
   RxInt totalChats = 0.obs;
   RxBool isLoadingMore = false.obs;
   late SharedPreferences _prefs;
   RxBool isLoggedIn = false.obs;
+  int myId = 0;
 
   @override
   void onInit() async {
@@ -35,6 +35,7 @@ class AllChatsContoller extends GetxController {
   void refreshData() async {
     try {
       print("refresh called");
+      myId = _prefs.getInt('id')!;
       isLoading.value = true;
       list = <Chat>[].obs;
       list.clear();
@@ -99,7 +100,9 @@ class AllChatsContoller extends GetxController {
           for (var i = 0; i < list.length; i++) {
             if (list[i].id == messages.last.chatId) {
               Chat chat = list[i];
-              chat.unreadCount.value += 1;
+              if (messages.last.senderId != myId) {
+                chat.unreadCount.value += 1;
+              }
               chat.lastMessage = messages.last;
               list.removeAt(i);
               list.insert(0, chat);

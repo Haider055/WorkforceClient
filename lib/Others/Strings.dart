@@ -265,6 +265,10 @@ class Strings {
       AppLocalizations.of(context)!.pleaseEnterYourEmailText;
   static String passwordDoNotMatch(BuildContext context) =>
       AppLocalizations.of(context)!.passwordDoNotMatchText;
+  static String youhaveBlockedTheUser(BuildContext context) =>
+      AppLocalizations.of(context)!.youhaveBlockedTheUser;
+  static String tapToUnblock(BuildContext context) =>
+      AppLocalizations.of(context)!.tapToUnblock;
 
   static String sendRequest(BuildContext context) =>
       AppLocalizations.of(context)!.sendRequestText;

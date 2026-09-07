@@ -302,6 +302,8 @@
   "youCanNowLoginText": "Sie können sich jetzt anmelden!",
   "bycreatingaccountyouAgreetoourText": "Durch die Erstellung eines Kontos stimmen Sie unseren Nutzungsbedingungen zu",
   "youhavebeenblockedbyUser": "Du wurdest von dem Nutzer blockiert.",
+  "youhaveBlockedTheUser": "Sie haben diesen Nutzer blockiert.",
+  "tapToUnblock": "Zum Entsperren tippen",
   "andText": "Und",
   "nameCannotBeEmptyText": "Der Name darf nicht leer sein.",
   "phoneCannotBeEmptyText": "Telefon kann nicht leer sein",

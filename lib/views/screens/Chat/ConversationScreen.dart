@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
 import 'package:workforceclientapp/Controllers/ConversationContoller.dart';
 import 'package:workforceclientapp/Controllers/PostedOrderDetailsController.dart';
 import 'package:workforceclientapp/Models/Chat.dart';
@@ -111,6 +112,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     }
     if (data['chat'] != null) {
       chat = data['chat'];
+      getUserInfo();
 
       jobId = chat!.jobPostingId!;
       jobStatus = chat!.jobStatus!;
@@ -128,7 +130,6 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       }
       // pusherService.initPusher();
       // initPusher();
-      getUserInfo();
       // connectToPusher();
       getLastMessages("");
       _initializePusher();
@@ -136,8 +137,6 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       if (data['chatId'] != null) {
         chatId = data['chatId'];
         getChatObject();
-      } else {
-        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
       }
     }
     _listenToiOSTerminate();
@@ -170,9 +169,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   Future<void> getUserInfo() async {
     _prefs = await SharedPreferences.getInstance();
     clientId = _prefs.getInt('id')!;
-    print(_prefs.getInt('id')!);
-    // initilizeRoom(clientId);
-    // await _prefs.setString('profile_img', userObj['profile_img'] ?? "");
+    // get chat object from api
+    chat = await conversationContoller.pleaseGetChatObject(chatId, context);
   }
 
   @override
@@ -394,7 +392,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                             Row(
                               children: [
                                 Expanded(flex: 10, child: textfieldWidget()),
-                                conversationContoller.enable.value
+                                chat!.canSendMessage
                                     ? Expanded(
                                         flex: 2,
                                         child: GestureDetector(
@@ -495,6 +493,9 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       );
       if (messageObj != null) {
         _scrollToBottom();
+        setState(() {
+          messagesList.elementAt(0).sent = true;
+        });
       }
       // Chat chat = Get.find<AllChatsContoller>().list.elementAt(12);
       // Get.find<AllChatsContoller>().list.removeAt(12);
@@ -510,91 +511,202 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     return Padding(
       padding: EdgeInsets.only(
           bottom: 14.0.h, right: 6.0.w, left: 14.0.w, top: 8.0.h),
-      child: !conversationContoller.enable.value
+      child: chat!.blockedByMe
           ? Center(
-              child: Text(Strings.youhavebeenblockedby(context),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Poppins')),
-            )
-          : ConstrainedBox(
-              // 🛠️ FIX 1: Caps the maximum height of the input field to a reasonable scale (e.g., 120 pixels)
-              constraints: BoxConstraints(
-                maxHeight: 150.0.h,
+              child: Column(
+                children: [
+                  Text(Strings.youhaveBlockedTheUser(context),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Poppins')),
+                  GestureDetector(
+                    onTap: () {
+                      _showUnblockDialog(context, chat!);
+                    },
+                    child: Text(Strings.tapToUnblock(context),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins')),
+                  ),
+                ],
               ),
-              child: TextFormField(
-                controller: conversationContoller.messageTextField(),
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: null, // Keeps the inner text multi-line scrollable
-                scrollPhysics:
-                    const BouncingScrollPhysics(), // 🛠️ FIX 2: Ensures text scrolls inside the constrained area
-                enabled: conversationContoller.enable.value,
-                onChanged: (value) {},
-                obscuringCharacter: "*",
-                validator: (value) {
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: Strings.typeaMessageText(Get.context!),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0.r),
-                    borderSide: BorderSide(
-                      width: 2.0.w,
-                      color: Colors.red.withOpacity(0.7),
-                    ),
+            )
+          : chat!.isBlocked
+              ? Center(
+                  child: Text(Strings.youhavebeenblockedby(context),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins')),
+                )
+              : ConstrainedBox(
+                  // 🛠️ FIX 1: Caps the maximum height of the input field to a reasonable scale (e.g., 120 pixels)
+                  constraints: BoxConstraints(
+                    maxHeight: 150.0.h,
                   ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0.r),
-                    borderSide: BorderSide(
-                      width: 2.0.w,
-                      color: Colors.red.withOpacity(0.7),
-                    ),
-                  ),
-                  filled: true,
-                  fillColor:
-                      const Color(MyColors.lightSilverColor).withOpacity(0.8),
-                  hintStyle: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14.0.sp,
-                    color: const Color(0x66000000),
-                    fontWeight: FontWeight.w400,
-                  ),
-                  prefixIcon: null,
-                  prefixIconColor: const Color(0x66000000),
-                  suffixIcon: null,
-                  suffixIconColor: const Color(0x66000000),
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16.0.w,
-                    vertical: 14.0.h,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(26.0.r),
-                    borderSide: BorderSide(
-                      width: 1.5.w,
-                      color: const Color(MyColors.fieldBorderColor),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(26.0.r),
-                    borderSide: BorderSide(
-                      width: 1.5.w,
-                      color: const Color(MyColors.themeRedColor),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(26.0.r),
-                    borderSide: BorderSide(
-                      width: 1.5.w,
-                      color: const Color(MyColors.fieldBorderColor),
+                  child: TextFormField(
+                    controller: conversationContoller.messageTextField(),
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines:
+                        null, // Keeps the inner text multi-line scrollable
+                    scrollPhysics:
+                        const BouncingScrollPhysics(), // 🛠️ FIX 2: Ensures text scrolls inside the constrained area
+                    enabled: chat!.canSendMessage,
+                    onChanged: (value) {},
+                    obscuringCharacter: "*",
+                    validator: (value) {
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: Strings.typeaMessageText(Get.context!),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0.r),
+                        borderSide: BorderSide(
+                          width: 2.0.w,
+                          color: Colors.red.withOpacity(0.7),
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0.r),
+                        borderSide: BorderSide(
+                          width: 2.0.w,
+                          color: Colors.red.withOpacity(0.7),
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: const Color(MyColors.lightSilverColor)
+                          .withOpacity(0.8),
+                      hintStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14.0.sp,
+                        color: const Color(0x66000000),
+                        fontWeight: FontWeight.w400,
+                      ),
+                      prefixIcon: null,
+                      prefixIconColor: const Color(0x66000000),
+                      suffixIcon: null,
+                      suffixIconColor: const Color(0x66000000),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.0.w,
+                        vertical: 14.0.h,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(26.0.r),
+                        borderSide: BorderSide(
+                          width: 1.5.w,
+                          color: const Color(MyColors.fieldBorderColor),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(26.0.r),
+                        borderSide: BorderSide(
+                          width: 1.5.w,
+                          color: const Color(MyColors.themeRedColor),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(26.0.r),
+                        borderSide: BorderSide(
+                          width: 1.5.w,
+                          color: const Color(MyColors.fieldBorderColor),
+                        ),
+                      ),
                     ),
                   ),
                 ),
+    );
+  }
+
+  void _showUnblockDialog(BuildContext context, Chat? chat) {
+    Get.dialog(
+      Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+        insetPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        child: Padding(
+          padding: EdgeInsets.all(18.0.r),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "${Strings.unblockText(context)} ${chat!.tradesmenName ?? {
+                      Strings.userText(context)
+                    }}?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                ),
               ),
-            ),
+              SizedBox(height: 8.h),
+              Text(
+                Strings.unBlockMsg(context),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: Colors.grey[600],
+                  fontFamily: 'Poppins',
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
+                      onPressed: () => Get.back(),
+                      child: Text(
+                        Strings.cancelText(context),
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(MyColors.themeRedColor),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
+                      onPressed: () async {
+                        Get.back();
+                        var res = await conversationContoller.pleaseUnblockUser(
+                            context, chat.tradesmenId ?? 0);
+                        if (res) {
+                          getChatObject();
+                        }
+                      },
+                      child: Text(
+                        Strings.unblockText(context),
+                        style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
     );
   }
 
@@ -748,6 +860,9 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                   flex: 7,
                   child: GestureDetector(
                     onTap: () {
+                      if (chat!.blockedByMe || chat!.isBlocked) {
+                        return;
+                      }
                       Get.toNamed(
                         AppLinks.tradesmen_detail_screen,
                         arguments: {'tradesmenId': chat!.tradesmenId ?? -1},
@@ -831,6 +946,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                         'conversationContoller':
                                             conversationContoller,
                                       });
+                                } else if (value == 'unblock') {
+                                  _showUnblockDialog(context, chat);
                                 }
                               },
                               itemBuilder: (context) => [
@@ -849,20 +966,39 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                     ],
                                   ),
                                 ),
-                                PopupMenuItem(
-                                  value: "block",
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.block,
-                                          size: 18, color: Colors.black87),
-                                      const SizedBox(width: 8),
-                                      Headingdescription(
-                                          text: Strings.blockText(Get.context!),
-                                          centerAlign: false,
-                                          size: 13),
-                                    ],
-                                  ),
-                                ),
+                                !chat!.blockedByMe
+                                    ? PopupMenuItem(
+                                        value: "block",
+                                        child: Row(
+                                          children: [
+                                            const Icon(Icons.block,
+                                                size: 18,
+                                                color: Colors.black87),
+                                            const SizedBox(width: 8),
+                                            Headingdescription(
+                                                text: Strings.blockText(
+                                                    Get.context!),
+                                                centerAlign: false,
+                                                size: 13),
+                                          ],
+                                        ),
+                                      )
+                                    : PopupMenuItem(
+                                        value: "unblock",
+                                        child: Row(
+                                          children: [
+                                            const Icon(Icons.block,
+                                                size: 18,
+                                                color: Colors.black87),
+                                            const SizedBox(width: 8),
+                                            Headingdescription(
+                                                text: Strings.unblockText(
+                                                    Get.context!),
+                                                centerAlign: false,
+                                                size: 13),
+                                          ],
+                                        ),
+                                      ),
                               ],
                             ),
                           ),

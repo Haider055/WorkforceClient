@@ -1,7 +1,7 @@
 name: workforceclientapp
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.7.19+36
+version: 1.7.20+37
 
 environment:
   sdk: ^3.5.3

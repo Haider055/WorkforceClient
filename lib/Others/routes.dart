@@ -7,7 +7,6 @@ import 'package:workforceclientapp/views/screens/Authentications/OTPVerification
 import 'package:workforceclientapp/views/screens/Authentications/PasswordUpdatedScreen.dart';
 import 'package:workforceclientapp/views/screens/Authentications/SignupScreen.dart';
 import 'package:workforceclientapp/views/screens/Chat/ReviewJobScreen.dart';
-import 'package:workforceclientapp/views/screens/Chat/ViewBlockedPeople.dart';
 import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDescriptionScreen.dart';
 import 'package:workforceclientapp/views/screens/ClientJobPosting/JobPostCompletedScreen.dart';
 import 'package:workforceclientapp/views/screens/ClientJobPosting/JobTitleScreen.dart';
@@ -206,11 +205,6 @@ class AppRoutes {
       name: AppLinks.block_screen,
       page: () => const BlockScreen(),
       binding: BlockScreenBindings(),
-    ),
-    GetPage(
-      name: AppLinks.blocked_people_screen,
-      page: () => const ViewBlockedPeople(),
-      binding: BlockedPeopleScreenBindings(),
     ),
   ];
 }
