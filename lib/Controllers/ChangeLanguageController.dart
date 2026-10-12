@@ -38,9 +38,7 @@ class ChangeLanguageController extends GetxController {
       print(response.body);
 
       if (response.statusCode == 200) {
-        if (jsonData['success'] &&
-            (jsonData['message'] == 'Updated successfully' ||
-                jsonData['message'] == 'Erfolgreich aktualisiert')) {
+        if (jsonData['success']) {
           return true;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
@@ -68,15 +66,9 @@ class ChangeLanguageController extends GetxController {
       Commons.showProgressDialog(Get.context!);
       var res = await pleaseChangeLanguage(lang);
       if (res) {
-        if (lang == "en") {
-          selectedLang.value = 'en';
-          await _prefs.setString("language", "en");
-          Get.updateLocale(const Locale('en'));
-        } else {
-          selectedLang.value = 'de';
-          await _prefs.setString("language", "de");
-          Get.updateLocale(const Locale('de'));
-        }
+        selectedLang.value = lang;
+        await _prefs.setString("language", lang);
+        Get.updateLocale(Locale(lang));
         Commons.hideProgressDialog();
       }
     } catch (e) {

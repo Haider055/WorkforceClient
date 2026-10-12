@@ -93,6 +93,7 @@ class _AllChatsState extends State<AllChats> {
         if (hasMoreChats && index == chatsCount) {
           return _buildLoadMoreButton();
         }
+        return null;
       },
     );
   }
@@ -249,22 +250,30 @@ class _AllChatsState extends State<AllChats> {
           );
           if (result != null) {
             if (result == "reload") {
-              if (Constants.unReadcount.value >= chat.unreadCount.value) {
-                Constants.unReadcount.value =
-                    Constants.unReadcount.value - chat.unreadCount.value;
-              } else {
-                // Constants.unReadcount.value -= chat.unreadCount.value;
-              }
-              chat.unreadCount.value = 0;
+              print("object1111");
+              // if (Constants.unReadcount.value >= chat.unreadCount.value) {
+              //   Constants.unReadcount.value =
+              //       Constants.unReadcount.value - chat.unreadCount.value;
+              // } else {
+              //   Constants.unReadcount.value -= chat.unreadCount.value;
+              // }
+              // chat.unreadCount.value = 0;
               // Constants.unReadcount.value -= chat.unreadCount.value;
-              Commons.showProgressDialog(Get.context!);
-              controller.updateChatObject(chat.id!, index);
+              if (controller.list.elementAt(0).id != chat.id) {
+                Commons.showProgressDialog(Get.context!);
+                controller.updateChatObject(chat.id!, index);
+              }
+              setState(() {});
             } else {
-              if (Constants.unReadcount.value >= chat.unreadCount.value) {
-                Constants.unReadcount.value =
-                    Constants.unReadcount.value - chat.unreadCount.value;
-              } else {}
-              chat.unreadCount.value = 0;
+              print("object2222");
+              // if (Constants.unReadcount.value >= chat.unreadCount.value) {
+              //   Constants.unReadcount.value =
+              //       Constants.unReadcount.value - chat.unreadCount.value;
+              // } else {
+              //   Constants.unReadcount.value -= chat.unreadCount.value;
+              // }
+              // chat.unreadCount.value = 0;
+              setState(() {});
             }
           }
         } catch (e) {

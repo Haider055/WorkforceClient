@@ -7,10 +7,12 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:workforceclientapp/Others/LocaleProvider.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
+import 'package:workforceclientapp/Others/NotificationNavigationService.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:workforceclientapp/views/notification_service.dart';
 import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -31,9 +33,9 @@ void main() async {
 
   // iOS foreground options
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
+    alert: false,
+    badge: false,
+    sound: false,
   );
 
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -43,8 +45,11 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // await NotificationService.init(_handleNotificationNavigation);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  NotificationService.init((data) {
+    NotificationNavigationService.handleNotificationTap(data);
+  });
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(

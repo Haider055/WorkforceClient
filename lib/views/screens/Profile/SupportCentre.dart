@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:workforceclientapp/Controllers/SupportCentreController.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 
 class SupportCentre extends GetView<SupportCentreController> {
@@ -61,7 +62,7 @@ class SupportCentre extends GetView<SupportCentreController> {
                 children: [
                   Center(
                       child: HeadingTextW600(
-                    text: "Support Centre",
+                    text: Strings.supportCenter(context),
                     centerAlign: false,
                     size: 18.0.sp,
                   )),
@@ -87,13 +88,14 @@ class SupportCentre extends GetView<SupportCentreController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeadingTextW600(
-                text: "Need help? Reach out to us",
+                text:
+                    "${Strings.needHelpText(context)}? ${Strings.reachOutToUsText(context)}",
                 centerAlign: false,
                 size: 16.sp,
               ),
               SizedBox(height: 4.h),
               Text(
-                "We're available to answer your questions and support you.",
+                Strings.reachOutToUsdesc(context),
                 style: TextStyle(fontSize: 13.sp, color: Colors.grey[600]),
               ),
               SizedBox(height: 20.h),
@@ -110,7 +112,7 @@ class SupportCentre extends GetView<SupportCentreController> {
                     _ContactTile(
                       icon: Icons.email_outlined,
                       iconColor: Colors.blueAccent,
-                      title: "Email us",
+                      title: Strings.emailUsText(context),
                       subtitle: controller.supportEmail.value,
                       onTap: () => _launchEmail(controller.supportEmail.value),
                     ),

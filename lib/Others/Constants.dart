@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:simple_flutter_reverb/simple_flutter_reverb.dart';
 
 class Constants {
   static const String baseUrl = "https://auftragnow.com/api";
@@ -42,8 +41,9 @@ class Constants {
   static RxBool fromNotifications = false.obs;
   static RxBool titleTVFocus = true.obs;
   static RxBool descTVFocus = true.obs;
+  static RxBool inConversationScreen = false.obs;
 
   static int lastPostedJobId = 0;
-  static late final SimpleFlutterReverb reverb;
+  // static late final SimpleFlutterReverb? reverb;
   // static Message message;
 }

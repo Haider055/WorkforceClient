@@ -8,6 +8,13 @@ import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
+const _languages = [
+  (code: 'en', name: 'English'),
+  (code: 'de', name: 'German'),
+  (code: 'tr', name: 'Turkish'),
+  (code: 'pt', name: 'Portuguese'),
+];
+
 class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
   const ChangeLanguageScreen({super.key});
 
@@ -72,73 +79,40 @@ class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
                             size: 16.sp),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 16.0.w, right: 16.0.w, top: 8.0.h),
-                      child: Card(
-                        elevation: 0,
-                        color: controller.selectedLang.value == 'en'
-                            ? Colors.red.shade50
-                            : const Color(MyColors.whiteColor),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0.r),
-                          side: BorderSide(
-                            color: controller.selectedLang.value == 'en'
-                                ? const Color(MyColors.themeRedColor)
-                                : const Color(MyColors.darkGrayColor),
+                    for (final lang in _languages)
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 16.0.w,
+                            right: 16.0.w,
+                            top: 5.0.h,
+                            bottom: lang == _languages.last ? 8.0.h : 0),
+                        child: Card(
+                          elevation: 0,
+                          color: controller.selectedLang.value == lang.code
+                              ? Colors.red.shade50
+                              : const Color(MyColors.whiteColor),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0.r),
+                            side: BorderSide(
+                              color: controller.selectedLang.value == lang.code
+                                  ? const Color(MyColors.themeRedColor)
+                                  : const Color(MyColors.darkGrayColor),
+                            ),
+                          ),
+                          child: RadioListTile(
+                            title: Headingdescription(
+                                text: lang.name, centerAlign: false, size: 14.sp),
+                            value: lang.code,
+                            groupValue: controller.selectedLang.value,
+                            selected: controller.selectedLang.value == lang.code,
+                            activeColor: const Color(MyColors.themeRedColor),
+                            tileColor: Colors.white,
+                            onChanged: (value) {
+                              controller.setLanguage(lang.code);
+                            },
                           ),
                         ),
-                        child: RadioListTile(
-                          title: Headingdescription(
-                              text: 'English', centerAlign: false, size: 14.sp),
-                          value: 'en',
-                          groupValue: controller.selectedLang.value,
-                          selected: controller.selectedLang.value == 'en'
-                              ? true
-                              : false,
-                          activeColor: const Color(MyColors.themeRedColor),
-                          tileColor: Colors.white,
-                          onChanged: (value) {
-                            controller.setLanguage('en');
-                          },
-                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 16.0.w,
-                          right: 16.0.w,
-                          top: 5.0.h,
-                          bottom: 8.0.h),
-                      child: Card(
-                        elevation: 0,
-                        color: controller.selectedLang.value == 'de'
-                            ? Colors.red.shade50
-                            : const Color(MyColors.whiteColor),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0.r),
-                          side: BorderSide(
-                            color: controller.selectedLang.value == 'de'
-                                ? const Color(MyColors.themeRedColor)
-                                : const Color(MyColors.darkGrayColor),
-                          ),
-                        ),
-                        child: RadioListTile(
-                          title: Headingdescription(
-                              text: 'German', centerAlign: false, size: 14.sp),
-                          value: 'de',
-                          groupValue: controller.selectedLang.value,
-                          selected: controller.selectedLang.value == 'de'
-                              ? true
-                              : false,
-                          activeColor: const Color(MyColors.themeRedColor),
-                          tileColor: Colors.white,
-                          onChanged: (value) {
-                            controller.setLanguage('de');
-                          },
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),

@@ -24,7 +24,6 @@ import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/widgets/DialogButton.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
-import 'package:simple_flutter_reverb/simple_flutter_reverb.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
@@ -66,7 +65,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   // final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
   // late PusherConfig pusherConfig;
   // PusherService pusherService = PusherService();
-  late final SimpleFlutterReverb reverb;
+  // late final SimpleFlutterReverb reverb;
   bool shouldShowDateSeparator(int index) {
     if (index >= messagesList.length) return false;
 
@@ -103,6 +102,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    Constants.inConversationScreen.value = true;
     if (data == null) {
       return;
     }
@@ -147,6 +147,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     WidgetsBinding.instance.removeObserver(this);
     conversationContoller.pleaseMarkAllasRead(context, chatId);
     conversationContoller.dispose();
+    Constants.inConversationScreen.value = false;
     super.dispose();
   }
 
@@ -154,13 +155,24 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached ||
         state == AppLifecycleState.paused) {
+      Constants.inConversationScreen.value = false;
       await conversationContoller.pleaseMarkAllasRead(context, chatId);
+    } else if (state == AppLifecycleState.resumed) {
+      Constants.inConversationScreen.value = true;
+      // The chat websocket reconnects on resume but doesn't replay events
+      // missed while backgrounded, so re-fetch the latest messages.
+      if (chat != null) {
+        messagesList.clear();
+        getLastMessages("");
+        await conversationContoller.pleaseMarkAllasRead(context, chatId);
+      }
     }
   }
 
   void _listenToiOSTerminate() {
     _channel.setMethodCallHandler((call) async {
       if (call.method == 'onAppTerminate') {
+        Constants.inConversationScreen.value = false;
         await conversationContoller.pleaseMarkAllasRead(context, chatId);
       }
     });
@@ -180,15 +192,17 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       onPopInvoked: (didPop) async {
         if (didPop) {
           try {
+            Constants.inConversationScreen.value = false;
             if (chat != null) {
               print("object1");
               if (Constants.unReadcount.value >= chat!.unreadCount.value) {
                 Constants.unReadcount.value -= chat!.unreadCount.value;
-              } else {
-                Constants.unReadcount.value -= chat!.unreadCount.value;
               }
-              Constants.unReadcount.value = 0;
-              chat!.unreadCount.value = 0;
+              Get.find<AllChatsContoller>()
+                  .list
+                  .elementAt(index)
+                  .unreadCount
+                  .value = 0;
             } else {
               print("object2");
               Get.back(result: backResults);
@@ -369,6 +383,36 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                     : const SizedBox(width: 7)
                                               ],
                                             ),
+                                            message.failed
+                                                ? Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.error,
+                                                        size: 14,
+                                                        color: Colors.white70,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 3.w,
+                                                      ),
+                                                      Text(
+                                                        Strings.failedText(
+                                                            Get.context!),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                          color: Colors.white70,
+                                                          fontSize: 11
+                                                              .sp, // responsive font size
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: 'Poppins',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : const SizedBox(),
                                           ],
                                         ),
                                       ),
@@ -496,12 +540,11 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
         setState(() {
           messagesList.elementAt(0).sent = true;
         });
+      } else {
+        setState(() {
+          messagesList.elementAt(0).failed = true;
+        });
       }
-      // Chat chat = Get.find<AllChatsContoller>().list.elementAt(12);
-      // Get.find<AllChatsContoller>().list.removeAt(12);
-      // Get.find<AllChatsContoller>().list.insert(0, chat);
-      // Get.find<AllChatsContoller>().list.elementAt(0).lastMessage = messageObj;
-      // print("yessssss");
     } catch (e) {
       throw Exception(e);
     }
@@ -548,7 +591,6 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                           fontFamily: 'Poppins')),
                 )
               : ConstrainedBox(
-                  // 🛠️ FIX 1: Caps the maximum height of the input field to a reasonable scale (e.g., 120 pixels)
                   constraints: BoxConstraints(
                     maxHeight: 150.0.h,
                   ),
@@ -762,7 +804,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
 
   void disconnectPusher() {
     try {
-      reverb.close();
+      // reverb.close();
       // reverb = null;
       print("🔌 Disconnected from Pusher.");
     } catch (e) {
@@ -779,9 +821,10 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
         return;
       }
       setState(() {});
-      if (Constants.fromNotifications.value) {
-        Constants.unReadcount.value -= chat!.unreadCount.value;
-      }
+      // if (Constants.fromNotifications.value) {
+      //   Constants.unReadcount.value -= chat!.unreadCount.value;
+      //   chat!.unreadCount.value = 0;
+      // }
 
       jobId = chat!.jobPostingId!;
       jobStatus = chat!.jobStatus!;
@@ -822,7 +865,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                       onTap: () async {
                         try {
                           // Commons.showProgressDialog(context);
-                          await conversationContoller.pleaseMarkAllasRead(
+                          Constants.inConversationScreen.value = false;
+                          conversationContoller.pleaseMarkAllasRead(
                               context, chatId);
                           if (fromWhere == "OrderDetail") {
                             try {
@@ -831,12 +875,12 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                     chat!.unreadCount.value) {
                                   Constants.unReadcount.value -=
                                       chat!.unreadCount.value;
-                                } else {
-                                  Constants.unReadcount.value -=
-                                      chat!.unreadCount.value;
                                 }
-                                Constants.unReadcount.value = 0;
-                                chat!.unreadCount.value = 0;
+                                Get.find<AllChatsContoller>()
+                                    .list
+                                    .elementAt(index)
+                                    .unreadCount
+                                    .value = 0;
                               }
                             } catch (e) {
                               throw Exception(e);
@@ -1136,81 +1180,137 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                             ),
                           ),
                         )),
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                      child: FullWidthElevatedButton(
-                        text: option,
-                        color: option ==
-                                Strings.markAsCompleteText(Get.context!)
-                            ? MyColors.themeRedColor
-                            : option == Strings.jobHasBeenDoneText(Get.context!)
-                                ? MyColors.lightGrayColor
-                                : option ==
-                                        Strings.chatIsClosedText(Get.context!)
-                                    ? MyColors.lightGrayColor
-                                    : MyColors.themeRedColor,
-                        onPressed: () {
-                          if (option ==
-                              Strings.startContractNowText(Get.context!)) {
-                            updateJobStatus("in_progress");
-                          } else if (option ==
-                              Strings.markAsCompleteText(Get.context!)) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title:
-                                    Text(Strings.jobHasBeenDoneText(context)),
-                                content: Text(Strings
-                                    .areYouSureToCompleteThisContractText(
-                                        Get.context!)),
-                                contentTextStyle: TextStyle(
-                                    fontSize: 15.5.sp, color: Colors.black),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.sp)),
-                                backgroundColor:
-                                    const Color(MyColors.colorRed200),
-                                actions: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0.w, right: 8.0.w),
-                                          child: FullWidthOutlineButton(
-                                              text: Strings.noText(context),
-                                              fontsize: 15.0.sp,
-                                              color: MyColors.themeRedColor,
-                                              onPressed: () {
-                                                Get.back();
-                                              }),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0.w, right: 8.0.w),
-                                          child: FullWidthButtonPrimary(
-                                              text: Strings.yesText(context),
-                                              fontsize: 15.0.sp,
-                                              color: MyColors.themeRedColor,
-                                              onPressed: () {
-                                                Get.back();
-                                                updateJobStatus("completed");
-                                              }),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {}
-                        },
-                        textColor: MyColors.whiteColor,
-                      ),
-                    ),
+                    !chat!.canSendMessage
+                        ? const SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                            child: FullWidthElevatedButton(
+                              text: option,
+                              color: option ==
+                                      Strings.markAsCompleteText(Get.context!)
+                                  ? MyColors.themeRedColor
+                                  : option ==
+                                          Strings.jobHasBeenDoneText(
+                                              Get.context!)
+                                      ? MyColors.lightGrayColor
+                                      : option ==
+                                              Strings.chatIsClosedText(
+                                                  Get.context!)
+                                          ? MyColors.lightGrayColor
+                                          : MyColors.themeRedColor,
+                              onPressed: () {
+                                if (option ==
+                                    Strings.startContractNowText(
+                                        Get.context!)) {
+                                  updateJobStatus("in_progress");
+                                } else if (option ==
+                                    Strings.markAsCompleteText(Get.context!)) {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (context) => Dialog(
+                                            backgroundColor: Colors.white,
+                                            insetPadding: EdgeInsets.symmetric(
+                                                horizontal: 24.w),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        16.r)),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 20.w,
+                                                  vertical: 24.h),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.all(14.r),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color(MyColors
+                                                          .cardColorGreen200),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: SvgPicture.asset(
+                                                      "lib/assets/icons/completedTickIcon.svg",
+                                                      height: 26.h,
+                                                      width: 26.w,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 16.h),
+                                                  Text(
+                                                    "${Strings.jobHasBeenDoneText(context)}?",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 17.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'Poppins',
+                                                      color: const Color(
+                                                          MyColors.blackColor),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10.h),
+                                                  Text(
+                                                    Strings
+                                                        .areYouSureToCompleteThisContractText(
+                                                            context),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      fontFamily: 'Poppins',
+                                                      color: const Color(
+                                                          MyColors
+                                                              .darkGrayColor),
+                                                      height: 1.4,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 24.h),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child:
+                                                            FullWidthOutlineButton(
+                                                                text: Strings
+                                                                    .noText(
+                                                                        context),
+                                                                fontsize:
+                                                                    14.5.sp,
+                                                                color: MyColors
+                                                                    .colorNeutral700,
+                                                                onPressed: () {
+                                                                  Get.back();
+                                                                }),
+                                                      ),
+                                                      SizedBox(width: 12.w),
+                                                      Expanded(
+                                                        child:
+                                                            FullWidthButtonPrimary(
+                                                                text: Strings
+                                                                    .yesText(
+                                                                        context),
+                                                                fontsize:
+                                                                    14.5.sp,
+                                                                color: MyColors
+                                                                    .themeRedColor,
+                                                                onPressed: () {
+                                                                  Get.back();
+                                                                  updateJobStatus(
+                                                                      "completed");
+                                                                }),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ));
+                                } else {}
+                              },
+                              textColor: MyColors.whiteColor,
+                            ),
+                          ),
                   ],
                 ),
               ),

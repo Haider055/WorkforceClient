@@ -42,6 +42,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get germanText => 'German';
 
   @override
+  String get portugueseText => 'Portuguese';
+
+  @override
+  String get turkishText => 'Turkish';
+
+  @override
   String get cancelText => 'Cancel';
 
   @override
@@ -913,10 +919,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goBackText => 'Go Back';
 
   @override
+  String get emailUsText => 'Email us';
+
+  @override
+  String get needHelpText => 'Need Help';
+
+  @override
   String get blockedonText => 'Blocked on';
 
   @override
   String get taptounblock => 'Tap to unblock';
+
+  @override
+  String get enable2FAText => 'Enable 2FA Verification';
 
   @override
   String get tellUsMore => 'Tell us more...';
@@ -944,6 +959,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseEnterYourEmailText => 'please Enter Your Email';
+
+  @override
+  String get reachOutToUsText => 'Reach out to us';
+
+  @override
+  String get reachOutToUsdesc =>
+      'We\'re available to answer your questions and support you';
 
   @override
   String get emailCannotBeEmptyText => 'email Cannot Be Empty';
@@ -1041,6 +1063,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stepText => 'Step';
+
+  @override
+  String get emailText => 'Email';
 
   @override
   String get tellUsMoreAboutYourNeed => 'Tell us more about your need';
@@ -1183,6 +1208,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get imagesCanBeAddMoreText => 'images can be add more';
+
+  @override
+  String get searchForServicesText => 'Search for services';
 
   @override
   String get requestAlreadySentText => 'Request already sent';

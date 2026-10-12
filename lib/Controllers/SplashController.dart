@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Others/NotificationNavigationService.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/notification_service.dart';
 
@@ -17,21 +18,28 @@ class SplashController extends GetxController {
     // to listen notifications when the app is in foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("Foreground message received");
-
+      // if (Platform.isAndroid) {
       if (message.notification != null) {
         print(message.notification!.title);
         print(message.notification!.body);
         NotificationService.showNotification(
-          message.notification!.title ?? "No Title",
-          message.notification!.body ?? "No Body",
-        );
+            message.notification!.title ?? "No Title",
+            message.notification!.body ?? "No Body",
+            data: message.data);
       }
+      // }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      NotificationNavigationService.handleNotificationTap(message.data);
     });
   }
 
   Future<void> _loadSavedValue() async {
     // EULA must be accepted before anything else, and only ever shown once.
     _prefs = await SharedPreferences.getInstance();
+    String lang = _prefs.getString('language') ?? "de";
+    Get.updateLocale(Locale(lang));
+
     bool eulaAccepted = _prefs.getBool('eula_accepted') ?? false;
     if (!eulaAccepted) {
       Get.offAllNamed(AppLinks.eula_screen);
@@ -66,9 +74,6 @@ class SplashController extends GetxController {
         );
       }
     }
-    _prefs = await SharedPreferences.getInstance();
-    String lang = _prefs.getString('language') ?? "en";
-    Get.updateLocale(Locale(lang));
 
     // Get.to(
     //   const PostedOrderDetailScreen(),

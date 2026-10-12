@@ -253,19 +253,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return GestureDetector(
       onTap: () async {
         try {
-          print(notification.actionText ?? "null");
-          if (notification.actionText == "View Job Details" ||
-              notification.actionText == "View Job Posting" ||
-              notification.actionText == "View Request Details" ||
-              notification.actionText == "Jobdetails anzeigen" ||
-              notification.actionText == "Anfragedetails anzeigen") {
+          if (notification.type == null) {
+            return;
+          }
+          print(notification.type);
+          if (notification.type == "job_posted" ||
+              notification.type == "job_completed" ||
+              notification.type == "job_posting_in_progress") {
             int jobPostingId = notification.jobPostingId == null
                 ? -1
                 : int.parse(notification.jobPostingId!);
             Get.toNamed(AppLinks.orders_details_screen,
                 arguments: {'jobId': jobPostingId});
-          } else if (notification.actionText == "View Job Application" ||
-              notification.actionText == "Bewerbung anzeigen") {
+          } else if (notification.type == "job_application_received" ||
+              notification.type == 'request_declined' ||
+              notification.type == 'request_approved') {
             int jobPostingId = notification.jobPostingId == null
                 ? -1
                 : int.parse(notification.jobPostingId!);

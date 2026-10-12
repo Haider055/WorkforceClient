@@ -150,7 +150,7 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
                                     maxLines: 2,
                                     autofocus: false,
                                     enabled: Constants.titleTVFocus.value,
-                                    maxLength: 50,
+                                    maxLength: 150,
                                     cursorColor: const Color(
                                       MyColors.themeRedColor,
                                     ),

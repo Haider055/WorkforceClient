@@ -46,11 +46,20 @@ class Strings {
       AppLocalizations.of(context)!.selectText;
   static String unBlockMsg(BuildContext context) =>
       AppLocalizations.of(context)!.unBlockMsg;
+  static String emailText(BuildContext context) =>
+      AppLocalizations.of(context)!.emailText;
+
+  static String enable2FAText(BuildContext context) =>
+      AppLocalizations.of(context)!.enable2FAText;
 
   static String englishText(BuildContext context) =>
       AppLocalizations.of(context)!.englishText;
   static String germanText(BuildContext context) =>
       AppLocalizations.of(context)!.germanText;
+  static String portugueseText(BuildContext context) =>
+      AppLocalizations.of(context)!.portugueseText;
+  static String turkishText(BuildContext context) =>
+      AppLocalizations.of(context)!.turkishText;
   static String cancelText(BuildContext context) =>
       AppLocalizations.of(context)!.cancelText;
   static String canceledText(BuildContext context) =>
@@ -91,6 +100,8 @@ class Strings {
       AppLocalizations.of(context)!.fullNameAddressText;
   static String emailAddressText(BuildContext context) =>
       AppLocalizations.of(context)!.emailAddressText;
+  static String emailUsText(BuildContext context) =>
+      AppLocalizations.of(context)!.emailUsText;
   static String emailAddressNotFoundText(BuildContext context) =>
       AppLocalizations.of(context)!.emailAddressNotFoundText;
   static String passwordText(BuildContext context) =>
@@ -376,6 +387,12 @@ class Strings {
       AppLocalizations.of(context)!.blockusersText;
   static String blockedonText(BuildContext context) =>
       AppLocalizations.of(context)!.blockedonText;
+  static String needHelpText(BuildContext context) =>
+      AppLocalizations.of(context)!.needHelpText;
+  static String reachOutToUsText(BuildContext context) =>
+      AppLocalizations.of(context)!.reachOutToUsText;
+  static String reachOutToUsdesc(BuildContext context) =>
+      AppLocalizations.of(context)!.reachOutToUsdesc;
 
   static String numbers(BuildContext context) =>
       AppLocalizations.of(context)!.numbersText;
@@ -722,6 +739,8 @@ class Strings {
       AppLocalizations.of(context)!.toMore1TradesmenText;
   static String toMore0TradesmenText(BuildContext context) =>
       AppLocalizations.of(context)!.toMore0TradesmenText;
+  static String searchForServicesText(BuildContext context) =>
+      AppLocalizations.of(context)!.searchForServicesText;
 
   static String deleteAccountDescText(BuildContext context) =>
       AppLocalizations.of(context)!.deleteAccountDescText;

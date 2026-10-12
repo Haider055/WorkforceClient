@@ -27,7 +27,8 @@ import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/ConversationScreen.dart';
 
-class SelectServiceController extends GetxController {
+class SelectServiceController extends GetxController
+    with WidgetsBindingObserver {
   final searchController = TextEditingController().obs;
   RxBool showServicesSuggestions = false.obs;
   RxList<Services> filteredOptions = <Services>[].obs;
@@ -38,7 +39,7 @@ class SelectServiceController extends GetxController {
   late SharedPreferences _prefs;
   RxString isLoggedIn = "".obs;
   RxInt unreadMessagesCount = 0.obs;
-  late final SimpleFlutterReverb reverb;
+  SimpleFlutterReverb? reverb;
   final data = Get.arguments;
   String toWhere = "";
   RxBool isSearchingQuery = false.obs;
@@ -49,17 +50,70 @@ class SelectServiceController extends GetxController {
   final RxInt currentIndex = 0.obs;
   int chatLinstenerRetryCount = 0;
   RxBool isEnabled = true.obs;
+  int _currentClientId = -1;
 
   @override
   void onInit() {
     super.onInit();
+    WidgetsBinding.instance.addObserver(this);
     init();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      _prefs = await SharedPreferences.getInstance();
+      isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
+      print(isLoggedIn.value);
+      if (isLoggedIn.value != "loggedOut") {
+        // The raw WebSocket has no reliable "still alive?" check, and
+        // mobile networks/OSes routinely kill it while backgrounded, so
+        // always tear down and reconnect fresh instead of trusting it.
+        // Reverb doesn't replay events sent while disconnected, so also
+        // re-sync unread count / chat list via REST to catch anything
+        // missed while backgrounded.
+        _reconnectAndResync();
+      }
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      _reverbWatchdogTimer?.cancel();
+
+      try {
+        reverb?.close();
+      } catch (e) {
+        throw Exception(e);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _reverbWatchdogTimer?.cancel();
+    try {
+      reverb?.close();
+    } catch (e) {
+      throw Exception(e);
+    }
+    super.dispose();
   }
 
   void refreshData() async {
     // print("called refresh");
     isLoading.value = true;
     await getAllOptionsOfServices();
+    _prefs = await SharedPreferences.getInstance();
+    isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
+    print(isLoggedIn.value);
+    if (isLoggedIn.value != "loggedOut") {
+      if (_reverbWatchdogTimer != null) {
+        _reverbWatchdogTimer?.cancel();
+      }
+      startChatListener();
+    }
+
     isLoading.value = false;
   }
 
@@ -69,8 +123,6 @@ class SelectServiceController extends GetxController {
     await getNotificationsCount();
     manageIfFcmTokenNotSaved();
     await checkIsLoggedIn();
-    AllChatsContoller controller = Get.put(AllChatsContoller());
-    controller.dispose();
 
     if (data != null) {
       toWhere = data['toWhere'] ?? "";
@@ -101,14 +153,13 @@ class SelectServiceController extends GetxController {
       return androidInfo.id; // Android ID (may not be stable)
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      return iosInfo.identifierForVendor; // iOS unique device ID
+      return iosInfo.identifierForVendor;
     }
     return null;
   }
 
   Future<void> getUnredMessagesCount() async {
     try {
-      unreadMessagesCount.value = 0;
       unreadMessagesCount.value = await pleaseGetUnreadMessageCount();
       Constants.unReadcount = unreadMessagesCount;
     } catch (e) {
@@ -121,6 +172,8 @@ class SelectServiceController extends GetxController {
     isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
     print(isLoggedIn.value);
     if (isLoggedIn.value != "loggedOut") {
+      AllChatsContoller controller = Get.put(AllChatsContoller());
+      controller.dispose();
       await getUnredMessagesCount();
       startChatListener();
       manageIfComesFromNotificationClick();
@@ -144,17 +197,17 @@ class SelectServiceController extends GetxController {
   }
 
   void _handleNotificationTap(Map<String, dynamic> data) {
-    // Example: navigate based on type
     final String? type = data['type'];
-    Fluttertoast.showToast(msg: type!);
-    Fluttertoast.showToast(msg: "Notification tapped ${type.toString()}");
+    print(type);
     print(data.toString());
     if (type == "View Job Details" ||
         type == "View Job Posting" ||
         type == "View Request Details" ||
         type == "Jobdetails anzeigen" ||
         type == "Anfragedetails anzeigen" ||
-        type == "job_posted") {
+        type == "job_posted" ||
+        type == 'job_completed' ||
+        type == 'job_posting_in_progress') {
       int jobPostingId = data['job_posting_id'] == null
           ? -1
           : int.parse(data['job_posting_id']);
@@ -162,8 +215,10 @@ class SelectServiceController extends GetxController {
           arguments: {'jobId': jobPostingId});
     } else if (type == "View Job Application" ||
         type == "Bewerbung anzeigen" ||
-        type == "request_approved" ||
-        type == "anfrage_genehmigt") {
+        type == "anfrage_genehmigt" ||
+        type == "job_application_received" ||
+        type == "request_declined" ||
+        type == "request_approved") {
       int jobPostingId = data['job_posting_id'] == null
           ? -1
           : int.parse(data['job_posting_id']);
@@ -294,6 +349,7 @@ class SelectServiceController extends GetxController {
           return list;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+
           return list;
         }
       } else if (response.statusCode == 403) {
@@ -516,12 +572,38 @@ class SelectServiceController extends GetxController {
     return list;
   }
 
+  Timer? _reverbWatchdogTimer;
+  DateTime? _lastMessageReceivedAt;
+  static const int _watchdogIntervalSeconds = 30;
+  static const int _staleConnectionThresholdSeconds = 240;
+
+  // SimpleFlutterReverb.close() only closes the socket sink — it never
+  // cancels the stream subscription set up inside the previous listen()
+  // call, so a stale connection can keep delivering events after we've
+  // already moved on to a new one. Tag every connection with a generation
+  // id and drop events from any listener that isn't the current one, so a
+  // single broadcast message can't be processed twice.
+  int _reverbGeneration = 0;
+
   void startChatListener() async {
     try {
-      final token = await Commons.getUserToken();
       _prefs = await SharedPreferences.getInstance();
       int clientId = _prefs.getInt('id')!;
+      _currentClientId = clientId;
+      print("started Listening");
 
+      // Always start from a clean socket — the old one may be stale
+      // (backgrounded app, dead NAT mapping, etc.) with no way to probe it.
+      _reverbWatchdogTimer?.cancel();
+      try {
+        reverb?.close();
+      } catch (e) {
+        throw Exception(e);
+      }
+
+      final int myGeneration = ++_reverbGeneration;
+
+      final token = await Commons.getUserToken();
       final options = SimpleFlutterReverbOptions(
         scheme: "wss",
         host: "auftragnow.com",
@@ -534,40 +616,87 @@ class SelectServiceController extends GetxController {
       );
 
       reverb = SimpleFlutterReverb(options: options);
-      Constants.reverb = reverb;
+      _lastMessageReceivedAt = DateTime.now();
 
-      reverb.listen(
+      reverb!.listen(
         (message) {
-          if (message != null && message.event == "message.sent") {
-            try {
-              final newMessage = Message.fromJson(message.data['message']);
-              if (isLoggedIn != "loggedOut") {
-                NewMessageController controller =
-                    Get.put(NewMessageController());
-                controller.addMessage(newMessage);
-                // playMessageSound();
-              }
-              if (newMessage.senderId != clientId) {
-                Constants.unReadcount.value++;
-              }
-            } catch (e) {
-              throw Exception(e);
-            }
+          if (myGeneration != _reverbGeneration) {
+            // A newer connection has since been started; this listener
+            // belongs to a stale socket that hasn't fully closed yet.
+            return;
           }
-          print("Received at: dashborad");
-          print("Received: ${message.event}, Data: ${message.data}");
+          _lastMessageReceivedAt = DateTime.now();
+          try {
+            if (message != null && message.event == "message.sent") {
+              final newMessage = Message.fromJson(message.data['message']);
+              if (isLoggedIn.value != "loggedOut") {
+                Get.put(NewMessageController()).addMessage(newMessage);
+              }
+              if (newMessage.senderId != _currentClientId &&
+                  !Constants.inConversationScreen.value) {
+                // Always re-fetch the authoritative count from the server
+                // instead of incrementing locally. A local `++` can race
+                // with the REST resync that also runs on reconnect
+                // (_reconnectAndResync), double-counting a message that
+                // arrives right as the app comes back to foreground.
+                getUnredMessagesCount();
+              }
+            }
+          } catch (e) {
+            print("Error handling reverb event: $e");
+          }
+          print("Received: ${message?.event}, Data: ${message?.data}");
         },
-        "chat.$clientId",
+        'chat.$clientId',
         isPrivate: true,
       );
+
+      print("Reverb connected & subscribed successfully");
+      chatLinstenerRetryCount = 0;
+      _startWatchdog();
     } catch (e) {
-      print('Failed to initialize Pusher: $e');
-      if (chatLinstenerRetryCount < 3) {
-        chatLinstenerRetryCount++;
-        Future.delayed(const Duration(seconds: 2), () {
-          startChatListener();
-        });
-      }
+      print('Failed to initialize Reverb: $e');
+      _retryConnection();
     }
+  }
+
+  void _startWatchdog() {
+    _reverbWatchdogTimer?.cancel();
+    _reverbWatchdogTimer =
+        Timer.periodic(const Duration(seconds: _watchdogIntervalSeconds), (_) {
+      if (_lastMessageReceivedAt == null) return;
+      final secondsSinceLastMessage =
+          DateTime.now().difference(_lastMessageReceivedAt!).inSeconds;
+
+      if (secondsSinceLastMessage > _staleConnectionThresholdSeconds) {
+        print("No activity for ${secondsSinceLastMessage}s — reconnecting.");
+        _reverbWatchdogTimer?.cancel();
+        _reconnectAndResync();
+      }
+    });
+  }
+
+  void _retryConnection() {
+    chatLinstenerRetryCount++;
+    final delaySeconds = (chatLinstenerRetryCount * 2).clamp(2, 30);
+    Future.delayed(Duration(seconds: delaySeconds), () {
+      startChatListener();
+    });
+  }
+
+  Future<void> _reconnectAndResync() async {
+    startChatListener();
+
+    if (Get.isRegistered<AllChatsContoller>()) {
+      Get.find<AllChatsContoller>().refreshData();
+    }
+    getUnredMessagesCount();
+  }
+
+  void stopChatListener() {
+    _reverbWatchdogTimer?.cancel();
+    try {
+      reverb?.close();
+    } catch (_) {}
   }
 }

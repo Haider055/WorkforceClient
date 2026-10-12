@@ -127,6 +127,7 @@ class Commons {
       await prefs.remove('token');
       Constants.unReadcount.value = 0;
       Constants.unreadNotificationsCount.value = 0;
+      Get.closeAllSnackbars();
       Get.offAllNamed(AppLinks.select_service_screen);
     }
   }

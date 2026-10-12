@@ -10,11 +10,15 @@ import 'package:workforceclientapp/Controllers/PostedOrderDetailsController.dart
 import 'package:workforceclientapp/Models/PostedJobAnswers.dart';
 import 'package:workforceclientapp/Models/RequestedTradesmen.dart';
 import 'package:workforceclientapp/Models/TradesmenRequest.dart';
+import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/ConversationScreen.dart';
+import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
+import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
+import 'package:workforceclientapp/views/widgets/GlowingButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW700.dart';
@@ -133,6 +137,173 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        controller.postedJobDetail.status == "in_progress"
+                            ? GlowingButton(
+                                text: Strings.markAsCompleteText(context),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (context) => Dialog(
+                                            backgroundColor: Colors.white,
+                                            insetPadding: EdgeInsets.symmetric(
+                                                horizontal: 24.w),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        16.r)),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 20.w,
+                                                  vertical: 24.h),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.all(14.r),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color(MyColors
+                                                          .cardColorGreen200),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: SvgPicture.asset(
+                                                      "lib/assets/icons/completedTickIcon.svg",
+                                                      height: 26.h,
+                                                      width: 26.w,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 16.h),
+                                                  Text(
+                                                    "${Strings.jobHasBeenDoneText(context)}?",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 17.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'Poppins',
+                                                      color: const Color(
+                                                          MyColors.blackColor),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10.h),
+                                                  Text(
+                                                    Strings
+                                                        .areYouSureToCompleteThisContractText(
+                                                            context),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      fontFamily: 'Poppins',
+                                                      color: const Color(
+                                                          MyColors
+                                                              .darkGrayColor),
+                                                      height: 1.4,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 24.h),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child:
+                                                            FullWidthOutlineButton(
+                                                                text: Strings
+                                                                    .noText(
+                                                                        context),
+                                                                fontsize:
+                                                                    14.5.sp,
+                                                                color: MyColors
+                                                                    .colorNeutral700,
+                                                                onPressed: () {
+                                                                  Get.back();
+                                                                }),
+                                                      ),
+                                                      SizedBox(width: 12.w),
+                                                      Expanded(
+                                                        child:
+                                                            FullWidthButtonPrimary(
+                                                                text: Strings
+                                                                    .yesText(
+                                                                        context),
+                                                                fontsize:
+                                                                    14.5.sp,
+                                                                color: MyColors
+                                                                    .themeRedColor,
+                                                                onPressed:
+                                                                    () async {
+                                                                  Get.back();
+                                                                  Commons.showProgressDialog(
+                                                                      Get.context!);
+                                                                  int requestId =
+                                                                      0;
+                                                                  int tradesmanId =
+                                                                      0;
+                                                                  RequestedTradesmen? requestedTradesmen = await controller.pleaseGetTradesmenRequestsList(
+                                                                      controller
+                                                                          .jobId
+                                                                          .value,
+                                                                      controller
+                                                                          .postedJobDetail
+                                                                          .status!
+                                                                          .value,
+                                                                      Get.context!);
+                                                                  print(requestedTradesmen!
+                                                                      .tradesmenRequestList!
+                                                                      .length);
+                                                                  if (requestedTradesmen
+                                                                          .tradesmenRequestList !=
+                                                                      null) {
+                                                                    for (var i =
+                                                                            0;
+                                                                        i < requestedTradesmen.tradesmenRequestList!.length;
+                                                                        i++) {
+                                                                      if (requestedTradesmen
+                                                                              .tradesmenRequestList!
+                                                                              .elementAt(i)
+                                                                              .jobStatus ==
+                                                                          'in_progress') {
+                                                                        print(
+                                                                            "found");
+                                                                        requestId = requestedTradesmen
+                                                                            .tradesmenRequestList!
+                                                                            .elementAt(i)
+                                                                            .id!;
+                                                                        tradesmanId = requestedTradesmen
+                                                                            .tradesmenRequestList!
+                                                                            .elementAt(i)
+                                                                            .userId!;
+                                                                        if (tradesmanId ==
+                                                                                0 ||
+                                                                            requestId ==
+                                                                                0) {
+                                                                          Fluttertoast.showToast(
+                                                                              msg: Strings.somethingWentWrong(Get.context!));
+
+                                                                          return;
+                                                                        }
+                                                                        controller.updateJobStatus(
+                                                                            "completed",
+                                                                            controller.postedJobDetail.id!,
+                                                                            requestId,
+                                                                            tradesmanId);
+                                                                        break;
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ));
+
+                                  // controller.postedJobDetail.id
+                                },
+                              )
+                            : const SizedBox(),
                         Padding(
                           padding: EdgeInsets.only(left: 28.0.w, top: 12.0.h),
                           child: SingleChildScrollView(
@@ -1772,6 +1943,7 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                                   tradesmen.id!,
                                                   "approved",
                                                   context);
+                                          if (!mounted) return;
                                           if (chatId != -1) {
                                             Fluttertoast.showToast(
                                                 msg: Strings
@@ -1806,6 +1978,7 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                                   tradesmen.id!,
                                                   "declined",
                                                   context);
+                                          if (!mounted) return;
                                           if (chatId != -1) {
                                             Fluttertoast.showToast(
                                                 msg: Strings
@@ -2208,6 +2381,7 @@ class _ChatSectionState extends State<ChatSection> {
                                                   tradesmen.id!,
                                                   "approved",
                                                   context);
+                                          if (!mounted) return;
                                           if (chatId != -1) {
                                             Fluttertoast.showToast(
                                                 msg: Strings
@@ -2240,6 +2414,7 @@ class _ChatSectionState extends State<ChatSection> {
                                                   tradesmen.id!,
                                                   "declined",
                                                   context);
+                                          if (!mounted) return;
                                           if (chatId != -1) {
                                             Fluttertoast.showToast(
                                                 msg: Strings

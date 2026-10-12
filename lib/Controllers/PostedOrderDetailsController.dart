@@ -13,6 +13,7 @@ import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
+import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/DashBoard/SelectServiceScreen.dart';
 
 class PostedOrderDetailsController extends GetxController {
@@ -241,6 +242,7 @@ class PostedOrderDetailsController extends GetxController {
 
       print(response.body);
       Map<String, dynamic> jsonData = json.decode(response.body);
+      Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -352,6 +354,28 @@ class PostedOrderDetailsController extends GetxController {
       // setState(() {});
     } catch (e) {
       e.printError();
+    }
+  }
+
+  void updateJobStatus(
+      String status, int jobId, int requestId, int tradesmanId) async {
+    try {
+      Commons.showProgressDialog(Get.context!);
+      int chatId = await pleaseUpdateRequestsStatus(
+        jobId,
+        requestId,
+        status,
+        Get.context!,
+      );
+      Commons.hideProgressDialog();
+      if (chatId != -1) {
+        Fluttertoast.showToast(
+            msg: Strings.jobhasbeenCompletedText(Get.context!));
+        Get.toNamed(AppLinks.review_screen,
+            arguments: {'jobPostingId': jobId, 'tradesmenId': tradesmanId});
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

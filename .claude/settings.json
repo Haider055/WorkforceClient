@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -n '1,220p' /Users/mac/.pub-cache/hosted/pub.dev/get-4.7.3/lib/get_instance/src/get_instance.dart)",
+      "Read(//Users/mac/.pub-cache/hosted/pub.dev/get-4.7.3/lib/get_instance/src/**)",
+      "Bash(grep -n \"isDirty\\\\|class _InstanceBuilderFactory\\\\|void delete\\\\|_delete\\\\b\" /Users/mac/.pub-cache/hosted/pub.dev/get-4.7.3/lib/get_instance/src/get_instance.dart | head -40)",
+      "Read(//Users/mac/.pub-cache/hosted/pub.dev/simple_flutter_reverb-0.0.3/lib/**)"
+    ]
+  }
+}

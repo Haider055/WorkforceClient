@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
 import 'package:workforceclientapp/Models/Chat.dart';
 import 'package:workforceclientapp/Models/ChatsList.dart';
 import 'package:workforceclientapp/Models/Message.dart';
@@ -84,6 +85,8 @@ class AllChatsContoller extends GetxController {
             : true;
     if (isLoggedIn.value) {
       getChats(1);
+      Get.find<SelectServiceController>().getUnredMessagesCount();
+      // Get.find<SelectServiceController>().startChatListener();
     } else {
       isLoading.value = false;
     }

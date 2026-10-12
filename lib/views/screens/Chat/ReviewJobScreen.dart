@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/ReviewScreenController.dart';
+import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
@@ -197,8 +198,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                               fontsize: 15.0.sp,
                               color: MyColors.themeRedColor,
                               onPressed: () {
-                                // Get.back();
-                                Get.offAllNamed(AppLinks.select_service_screen);
+                                _goToSelectServiceScreen();
                               }),
                         ),
                       ),
@@ -212,10 +212,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                               onPressed: () async {
                                 try {
                                   if (controller.review.value.isEmpty) {
-                                    Fluttertoast.showToast(
-                                        msg: Strings.reviewCannotbeemptyText(
-                                            Get.context!));
-                                    return;
+                                    controller.review.value = '';
                                   }
                                   if (controller.ratingValue.value == 0) {
                                     Fluttertoast.showToast(
@@ -233,8 +230,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                                           controller.tradesmenId.value);
                                   Commons.hideProgressDialog();
                                   if (res) {
-                                    Get.offAllNamed(
-                                        AppLinks.select_service_screen);
+                                    _goToSelectServiceScreen();
                                   }
                                 } catch (e) {
                                   throw Exception(e);
@@ -251,5 +247,33 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
         ),
       ),
     );
+  }
+
+  /// Returns to the select service screen that is already in the stack
+  /// instead of rebuilding it, so its existing controller and layout are
+  /// reused. Falls back to a fresh screen when none is in the stack.
+  void _goToSelectServiceScreen() {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    bool found = false;
+    Get.until((route) {
+      final name = route.settings.name;
+      if (name == AppLinks.select_service_screen ||
+          name == '/SelectServiceScreen') {
+        found = true;
+        return true;
+      }
+      return route.isFirst;
+    });
+
+    if (found && Get.isRegistered<SelectServiceController>()) {
+      final selectServiceController = Get.find<SelectServiceController>();
+      selectServiceController.currentIndex.value = 0;
+      if (!selectServiceController.isLoading.value) {
+        selectServiceController.refreshData();
+      }
+    } else {
+      Get.offAllNamed(AppLinks.select_service_screen);
+    }
   }
 }

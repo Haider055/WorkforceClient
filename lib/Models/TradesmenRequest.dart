@@ -9,6 +9,7 @@ class TradesmenRequest {
   String? userProfileImg;
   String? coverLetter;
   String? status;
+  String? jobStatus;
   String? humanReadableCreatedAt;
   ServiceArea? serviceArea;
   int? reviewsCount;
@@ -25,6 +26,7 @@ class TradesmenRequest {
     this.userProfileImg,
     this.coverLetter,
     this.status,
+    this.jobStatus,
     this.serviceArea,
     this.humanReadableCreatedAt,
     this.reviewsCount,
@@ -41,6 +43,7 @@ class TradesmenRequest {
       coverLetter: json['cover_letter'],
       chatId: json['chat'] != null ? json['chat']['id'] : null,
       status: json['status'],
+      jobStatus: json['job_posting']['status'],
       serviceArea: json['user']['service_area'] != null
           ? ServiceArea.fromJson(json['user']['service_area'])
           : null,

@@ -55,33 +55,54 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                       Padding(
                         padding: EdgeInsets.all(12.0.r),
                         child: FullWidthButtonPrimary(
-                            text: Strings.englishText(context),
-                            fontsize: 17.0.sp,
-                            color: MyColors.themeRedColor,
-                            onPressed: () async {
-                              _prefs = await SharedPreferences.getInstance();
-                              await _prefs.setString("language", "en");
-                              // await Provider.of<LocaleProvider>(context,
-                              //         listen: false)
-                              //     .setLocale(const Locale('en'));
-                              Get.updateLocale(const Locale('en'));
-                              Get.offAllNamed(AppLinks.onboard_screen);
-                            }),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
-                        child: FullWidthOutlineButton(
                             text: Strings.germanText(context),
                             fontsize: 17.0.sp,
                             color: MyColors.themeRedColor,
                             onPressed: () async {
                               _prefs = await SharedPreferences.getInstance();
                               await _prefs.setString("language", "de");
-                              // await Provider.of<LocaleProvider>(context,
-                              //         listen: false)
-                              //     .setLocale(const Locale('de'));
                               Get.updateLocale(const Locale('de'));
-                              // notifyListeners();
+                              Get.offAllNamed(AppLinks.onboard_screen);
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+                        child: FullWidthOutlineButton(
+                            text: Strings.englishText(context),
+                            fontsize: 17.0.sp,
+                            color: MyColors.themeRedColor,
+                            onPressed: () async {
+                              _prefs = await SharedPreferences.getInstance();
+                              await _prefs.setString("language", "en");
+                              Get.updateLocale(const Locale('en'));
+                              Get.offAllNamed(AppLinks.onboard_screen);
+                            }),
+                      ),
+                      SizedBox(height: 12.0.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+                        child: FullWidthOutlineButton(
+                            text: Strings.portugueseText(context),
+                            fontsize: 17.0.sp,
+                            color: MyColors.themeRedColor,
+                            onPressed: () async {
+                              _prefs = await SharedPreferences.getInstance();
+                              await _prefs.setString("language", "pt");
+                              Get.updateLocale(const Locale('pt'));
+                              Get.offAllNamed(AppLinks.onboard_screen);
+                            }),
+                      ),
+                      SizedBox(height: 12.0.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+                        child: FullWidthOutlineButton(
+                            text: Strings.turkishText(context),
+                            fontsize: 17.0.sp,
+                            color: MyColors.themeRedColor,
+                            onPressed: () async {
+                              _prefs = await SharedPreferences.getInstance();
+                              await _prefs.setString("language", "tr");
+                              Get.updateLocale(const Locale('tr'));
                               Get.offAllNamed(AppLinks.onboard_screen);
                             }),
                       ),

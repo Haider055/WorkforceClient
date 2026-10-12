@@ -136,7 +136,7 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                               Padding(
                                 padding: EdgeInsets.only(left: 8.0.w),
                                 child: Headingdescription(
-                                    text: "Enable 2FA Verification",
+                                    text: Strings.englishText(context),
                                     centerAlign: false,
                                     size: 14.3.sp),
                               ),

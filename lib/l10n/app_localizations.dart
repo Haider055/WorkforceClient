@@ -7,6 +7,8 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,7 +97,9 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('de')
+    Locale('de'),
+    Locale('pt'),
+    Locale('tr')
   ];
 
   /// No description provided for @auftragNowText.
@@ -163,6 +167,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'German'**
   String get germanText;
+
+  /// No description provided for @portugueseText.
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get portugueseText;
+
+  /// No description provided for @turkishText.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get turkishText;
 
   /// No description provided for @cancelText.
   ///
@@ -1784,6 +1800,18 @@ abstract class AppLocalizations {
   /// **'Go Back'**
   String get goBackText;
 
+  /// No description provided for @emailUsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Email us'**
+  String get emailUsText;
+
+  /// No description provided for @needHelpText.
+  ///
+  /// In en, this message translates to:
+  /// **'Need Help'**
+  String get needHelpText;
+
   /// No description provided for @blockedonText.
   ///
   /// In en, this message translates to:
@@ -1795,6 +1823,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap to unblock'**
   String get taptounblock;
+
+  /// No description provided for @enable2FAText.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable 2FA Verification'**
+  String get enable2FAText;
 
   /// No description provided for @tellUsMore.
   ///
@@ -1849,6 +1883,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'please Enter Your Email'**
   String get pleaseEnterYourEmailText;
+
+  /// No description provided for @reachOutToUsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Reach out to us'**
+  String get reachOutToUsText;
+
+  /// No description provided for @reachOutToUsdesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re available to answer your questions and support you'**
+  String get reachOutToUsdesc;
 
   /// No description provided for @emailCannotBeEmptyText.
   ///
@@ -2029,6 +2075,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Step'**
   String get stepText;
+
+  /// No description provided for @emailText.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailText;
 
   /// No description provided for @tellUsMoreAboutYourNeed.
   ///
@@ -2294,6 +2346,12 @@ abstract class AppLocalizations {
   /// **'images can be add more'**
   String get imagesCanBeAddMoreText;
 
+  /// No description provided for @searchForServicesText.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for services'**
+  String get searchForServicesText;
+
   /// No description provided for @requestAlreadySentText.
   ///
   /// In en, this message translates to:
@@ -2318,7 +2376,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['de', 'en'].contains(locale.languageCode);
+      <String>['de', 'en', 'pt', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2331,6 +2389,10 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
+    case 'pt':
+      return AppLocalizationsPt();
+    case 'tr':
+      return AppLocalizationsTr();
   }
 
   throw FlutterError(

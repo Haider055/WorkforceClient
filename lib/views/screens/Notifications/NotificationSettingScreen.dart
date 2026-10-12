@@ -137,7 +137,9 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       HeadingTextW500(
-                          text: "E-mail", centerAlign: false, size: 14.sp),
+                          text: Strings.emailText(Get.context!),
+                          centerAlign: false,
+                          size: 14.sp),
                       Transform.scale(
                         scale: 0.8, // Set to 0.6 or 0.7 for even smaller size
                         child: Obx(() {

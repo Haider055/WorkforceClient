@@ -173,12 +173,14 @@ class ProfileController extends GetxController {
     try {
       final prefs = await SharedPreferences.getInstance();
       final String email = prefs.getString('email') ?? '';
+      final String deviceId = prefs.getString('device_id') ?? '';
 
       final response = await http
           .post(
             Uri.parse('${Constants.baseUrl}/logout'),
             headers: await Commons.manageRequestHeader(),
-            body: jsonEncode(<String, String>{'email': email}),
+            body: jsonEncode(
+                <String, String>{'email': email, 'device_id': deviceId}),
           )
           .timeout(const Duration(seconds: 5));
 

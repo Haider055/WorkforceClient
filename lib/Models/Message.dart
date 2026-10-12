@@ -7,6 +7,7 @@ class Message {
   // String? read;
   String? message;
   bool sent = true;
+  bool failed = false;
   final DateTime? createdAt;
 
   Message(

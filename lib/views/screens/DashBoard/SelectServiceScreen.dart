@@ -14,6 +14,7 @@ import 'package:workforceclientapp/Controllers/PostedOrdersController.dart';
 import 'package:workforceclientapp/Controllers/ProfileController.dart';
 import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
 import 'package:workforceclientapp/Models/PostedJobDetail.dart';
+import 'package:workforceclientapp/Models/Services.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
@@ -228,95 +229,68 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
     }
   }
 
-  Widget buildServiceOptions(int index) {
-    return SizedBox(
-      height: 70.h,
-      child: GestureDetector(
-        onTap: () async {
-          try {
-            controller.searchController.value.text =
-                controller.filteredOptions.elementAt(index).name!;
-            controller.selectedServiceName =
-                controller.filteredOptions.elementAt(index).name!;
-            controller.selectedServiceId =
-                controller.filteredOptions.elementAt(index).id!;
-            controller.showServicesSuggestions.value = false;
-          } catch (e) {
-            e.printError();
-          }
+  Widget buildServiceListItem(Services service) {
+    return GestureDetector(
+      onTap: () async {
+        try {
+          controller.searchController.value.text = service.name!;
+          controller.selectedServiceName = service.name!;
+          controller.selectedServiceId = service.id!;
+          controller.showServicesSuggestions.value = false;
+        } catch (e) {
+          e.printError();
+        }
 
-          Commons.showProgressDialog(Get.context!);
-          await controller.pleaseGetAllServiceQuestions(
-              controller.selectedServiceId, controller.selectedServiceName);
-          Commons.hideProgressDialog();
-        },
+        Commons.showProgressDialog(Get.context!);
+        await controller.pleaseGetAllServiceQuestions(
+            controller.selectedServiceId, controller.selectedServiceName);
+        Commons.hideProgressDialog();
+      },
+      child: Card(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        color: const Color(MyColors.cardGrayColor50),
+        shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Color.fromARGB(255, 212, 212, 212)),
+            borderRadius: BorderRadius.circular(8.0.r)),
         child: Padding(
-          padding: EdgeInsets.only(left: 27.0.w, right: 27.0.w, top: 3.0.h),
-          child: Card(
-            elevation: 0,
-            color: const Color(MyColors.cardGrayColor50),
-            margin: EdgeInsets.symmetric(vertical: 0.1.h),
-            shape: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 212, 212, 212),
-                    strokeAlign: 1.0,
-                    style: BorderStyle.solid),
-                borderRadius: BorderRadius.circular(5.0.r)),
-            child: Row(
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(left: 11.0.w),
-                    child:
-                        controller.filteredOptions.elementAt(index).icon != null
-                            ? SvgPicture.network(
-                                controller.filteredOptions
-                                    .elementAt(index)
-                                    .icon!
-                                    .url!,
-                                height: 36.h,
-                                width: 36.w,
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return SizedBox(
-                                      height: 36.h,
-                                      width: 36.w,
-                                      child: SvgPicture.asset(
-                                        "lib/assets/images/tradesmenplaceholdericon.svg",
-                                        fit: BoxFit.contain,
-                                        height: 36.h,
-                                        width: 36.w,
-                                      ));
-                                },
-                              )
-                            : SizedBox(
-                                height: 36.h,
-                                width: 36.w,
-                                child: SvgPicture.asset(
-                                  "lib/assets/icons/bookIcon.svg",
-                                  fit: BoxFit.contain,
-                                  height: 36.h,
-                                  width: 36.w,
-                                ))),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 7.0.w, right: 8.0.w),
-                    child: Text(
-                        controller.filteredOptions
-                            .elementAt(index)
-                            .name
-                            .toString(),
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        softWrap: true,
-                        style: TextStyle(
-                            fontSize: 14.5.sp,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins')),
-                  ),
-                ),
-              ],
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 12.0.h),
+          child: Row(
+            children: [
+              service.icon != null
+                  ? SvgPicture.network(
+                      service.icon!.url!,
+                      height: 40.h,
+                      width: 40.w,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                          "lib/assets/images/tradesmenplaceholdericon.svg",
+                          fit: BoxFit.contain,
+                          height: 40.h,
+                          width: 40.w,
+                        );
+                      },
+                    )
+                  : SvgPicture.asset(
+                      "lib/assets/icons/bookIcon.svg",
+                      fit: BoxFit.contain,
+                      height: 40.h,
+                      width: 40.w,
+                    ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Text(service.name.toString(),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontSize: 14.5.sp,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Poppins')),
+              ),
+              const Icon(Icons.chevron_right, color: Color(0x9C000000)),
+            ],
           ),
         ),
       ),
@@ -510,7 +484,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                 prefixIcon: const Icon(Icons.search,
                                     color: Colors.black),
                                 hintText:
-                                    "e.g. ${Strings.painter(Get.context!)}",
+                                    Strings.searchForServicesText(Get.context!),
                                 hintStyle: const TextStyle(
                                     color: Color(MyColors.lightGrayColor)),
                                 suffixIcon: Padding(
@@ -521,6 +495,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                           .isNotEmpty) {
                                         controller.searchController.value.text =
                                             "";
+                                        controller.searchInput.value = "";
                                         controller.filteredOptions.value = [];
                                         controller.showServicesSuggestions
                                             .value = false;
@@ -567,145 +542,39 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                           ),
                         );
                       }),
-                      controller.showServicesSuggestions.value
-                          ? controller.filteredOptions.isNotEmpty
-                              ? SizedBox(
-                                  height:
-                                      controller.isLoggedIn.value == "loggedOut"
-                                          ? 220.h
-                                          : 350.h,
-                                  child: ListView.builder(
-                                    itemCount:
-                                        controller.filteredOptions.length,
-                                    itemBuilder: (context, index) {
-                                      return buildServiceOptions(index);
-                                    },
-                                  ),
-                                )
-                              : controller.isSearchingQuery.value
-                                  ? SizedBox(
-                                      height: MediaQuery.of(Get.context!)
-                                              .size
-                                              .height /
-                                          7,
-                                      child: Center(
-                                          child: SizedBox(
-                                        height: 26.h,
-                                        width: 26.w,
-                                        child: const CircularProgressIndicator(
-                                          color: Color(MyColors.themeRedColor),
-                                        ),
-                                      )),
-                                    )
-                                  : Container()
-                          : const SizedBox(),
-                      controller.showServicesSuggestions.value == false
-                          ? SizedBox(
-                              width:
-                                  MediaQuery.of(Get.context!).size.width * 0.9,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 50.0.h, left: 8.w, right: 8.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "lib/assets/icons/bookIconsvg.svg",
-                                      height: 38.h,
-                                      width: 38.w,
-                                      fit: BoxFit.contain,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 12.0.w),
-                                          child: Text(
-                                              Strings.selectServiceInfo1(
-                                                  Get.context!),
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0x9C000000),
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Poppins'))),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
-                      controller.showServicesSuggestions.value == false
-                          ? SizedBox(
-                              width:
-                                  MediaQuery.of(Get.context!).size.width * 0.9,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 32.0.h, left: 8.w, right: 8.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "lib/assets/icons/personredsvg.svg",
-                                      height: 38.h,
-                                      width: 38.w,
-                                      fit: BoxFit.contain,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 12.0.w),
-                                          child: Text(
-                                              Strings.selectServiceInfo2(
-                                                  Get.context!),
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0x9C000000),
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Poppins'))),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
-                      controller.showServicesSuggestions.value == false
-                          ? SizedBox(
-                              width:
-                                  MediaQuery.of(Get.context!).size.width * 0.9,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 32.0.h, left: 8.w, right: 8.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "lib/assets/icons/resStarsvg.svg",
-                                      fit: BoxFit.contain,
-                                      height: 38.h,
-                                      width: 38.w,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 12.0.w),
-                                          child: Text(
-                                              "${Strings.moreThan(Get.context!)} 10,000+ ${Strings.independentReviews(Get.context!)}",
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0x9C000000),
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Poppins'))),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
+                      Obx(() {
+                        final services = controller.searchInput.value.isEmpty
+                            ? controller.allListOptions.toList()
+                            : controller.filteredOptions.toList();
+                        if (services.isEmpty) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 40.0.h),
+                            child: Text(
+                                controller.searchInput.value.isEmpty
+                                    ? ""
+                                    : "No services found",
+                                style: TextStyle(
+                                    color: const Color(0x9C000000),
+                                    fontSize: 14.5.sp,
+                                    fontFamily: 'Poppins')),
+                          );
+                        }
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(
+                              top: 20.0.h,
+                              left: 25.0.w,
+                              right: 25.0.w,
+                              bottom: 24.0.h),
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 10.h),
+                          itemCount: services.length,
+                          itemBuilder: (context, index) {
+                            return buildServiceListItem(services[index]);
+                          },
+                        );
+                      }),
                     ],
                   ),
                 ),
@@ -758,7 +627,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                             itemCount: controller
                                                 .postedOrdersList.length,
                                             physics:
-                                                const NeverScrollableScrollPhysics(), // important
+                                                const NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
                                               return _buildOrderView(
@@ -1527,7 +1396,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                     color: Color(MyColors.themeRedColor)),
                 title: Text(Strings.cameraText(context)),
                 onTap: () {
-                  Get.back(); // close bottom sheet
+                  Get.back();
                   _pickImageFromSource(ImageSource.camera);
                 },
               ),
@@ -1669,16 +1538,18 @@ class _ProfileSectionState extends State<ProfileSection> {
                         ),
                       )
                     : const SizedBox(),
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 12.0.r, top: 8.0.h, bottom: 8.0.h),
-                      child: HeadingTextW600(
-                          text: Strings.settingsText(context),
-                          centerAlign: false,
-                          size: 16.sp),
-                    )),
+                widget.isLoggedin != "loggedOut"
+                    ? Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 12.0.r, top: 8.0.h, bottom: 8.0.h),
+                          child: HeadingTextW600(
+                              text: Strings.settingsText(context),
+                              centerAlign: false,
+                              size: 16.sp),
+                        ))
+                    : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? Padding(
                         padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
@@ -1695,20 +1566,22 @@ class _ProfileSectionState extends State<ProfileSection> {
                         ),
                       )
                     : const SizedBox(),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
-                  child: ProfileInfoCard(
-                    icon: "lib/assets/icons/languageIcon.svg",
-                    text: Strings.languageText(context),
-                    onPressed: () {
-                      try {
-                        Get.toNamed(AppLinks.change_language_screen);
-                      } catch (e) {
-                        throw Exception(e);
-                      }
-                    },
-                  ),
-                ),
+                widget.isLoggedin != "loggedOut"
+                    ? Padding(
+                        padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
+                        child: ProfileInfoCard(
+                          icon: "lib/assets/icons/languageIcon.svg",
+                          text: Strings.languageText(context),
+                          onPressed: () {
+                            try {
+                              Get.toNamed(AppLinks.change_language_screen);
+                            } catch (e) {
+                              throw Exception(e);
+                            }
+                          },
+                        ),
+                      )
+                    : const SizedBox(),
                 Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
@@ -1727,20 +1600,6 @@ class _ProfileSectionState extends State<ProfileSection> {
                     onPressed: () {
                       try {
                         Get.toNamed(AppLinks.support_centre);
-                      } catch (e) {
-                        throw Exception(e);
-                      }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
-                  child: ProfileInfoCard(
-                    icon: "lib/assets/icons/contactIcon.svg",
-                    text: Strings.contact(context),
-                    onPressed: () {
-                      try {
-                        Fluttertoast.showToast(msg: "Coming soon...");
                       } catch (e) {
                         throw Exception(e);
                       }
