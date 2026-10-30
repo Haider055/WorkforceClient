@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
-import 'package:workforceclientapp/views/widgets/CommonTextFieldWhite.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
@@ -22,6 +21,9 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
   String pass = "";
   late SharedPreferences _prefs;
   final passwordTextField = TextEditingController().obs;
+
+  // Drives the show/hide eye on the suffix icon.
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -93,15 +95,107 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 12.0.h),
-                      child: CommonTextFieldWhite(
-                          hint: Strings.currentPasswordText(context),
-                          errorText: "",
-                          controller: passwordTextField(),
-                          inputType: TextInputType.text,
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          needPasswordSuffixIcon: true,
-                          needprefixIcon: true,
-                          onChanged: (value) {}),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 19.w),
+                        child: TextFormField(
+                          controller: passwordTextField.value,
+                          keyboardType: TextInputType.visiblePassword,
+                          maxLines: 1,
+                          onChanged: (value) {},
+                          onFieldSubmitted: (value) {
+                            submit();
+                          },
+                          obscureText: _obscurePassword,
+                          obscuringCharacter: "*",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Field cannot be empty!";
+                            } else if (value.length < 3) {
+                              return "Must be at least 3 characters long!";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            hintText: Strings.currentPasswordText(context),
+
+                            // ERROR BORDER
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                width: 2.w,
+                                color: Colors.red.withOpacity(0.7),
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                width: 2.w,
+                                color: Colors.red.withOpacity(0.7),
+                              ),
+                            ),
+
+                            filled: true,
+                            fillColor: const Color(MyColors.whiteColor),
+
+                            // TEXT STYLE
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 16.sp,
+                              color: const Color(0x66000000),
+                              fontWeight: FontWeight.w400,
+                            ),
+
+                            prefixIcon: null,
+                            prefixIconColor: const Color(0x66000000),
+
+                            // Was `suffixIcon: Icon` — that passes the Icon
+                            // CLASS, not a widget, so it would not compile.
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                size: 20.sp,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
+                            suffixIconColor: const Color(0x66000000),
+
+                            // INNER PADDING
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 14.h,
+                            ),
+
+                            // NORMAL BORDER
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                width: 2.w,
+                                color: const Color(MyColors.fieldBorderColor),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                width: 2.w,
+                                color: const Color(MyColors.fieldBorderColor),
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                width: 2.w,
+                                color: const Color(MyColors.fieldBorderColor),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(20.0.r),
@@ -109,18 +203,7 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
                           text: Strings.next(Get.context!),
                           color: MyColors.themeRedColor,
                           onPressed: () {
-                            try {
-                              if (pass == passwordTextField.value.text) {
-                                Get.toNamed(AppLinks.update_password_screen,
-                                    arguments: {'password': pass});
-                              } else {
-                                FocusScope.of(Get.context!).unfocus();
-                                Fluttertoast.showToast(
-                                    msg: Strings.passwordIsWrong(context));
-                              }
-                            } catch (e) {
-                              throw Exception(e);
-                            }
+                            submit();
                           },
                           textColor: MyColors.whiteColor),
                     )
@@ -132,6 +215,27 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
         ),
       ),
     );
+  }
+
+  void submit() {
+    try {
+      print(pass);
+      if (pass == passwordTextField.value.text) {
+        Get.toNamed(AppLinks.update_password_screen,
+            arguments: {'password': pass});
+      } else {
+        FocusScope.of(Get.context!).unfocus();
+        Fluttertoast.showToast(msg: Strings.passwordIsWrong(context));
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  void dispose() {
+    passwordTextField.value.dispose();
+    super.dispose();
   }
 
   void getSavedPass() async {

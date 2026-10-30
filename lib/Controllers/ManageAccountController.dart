@@ -28,7 +28,7 @@ class ManageAccountController extends GetxController {
     pass.value = _prefs.getString('password') ?? "";
   }
 
-  Future<bool> pleaseChange2FAStatus(bool val) async {
+  Future<bool> pleaseChange2FAStatus(bool val, String password) async {
     String url = '';
     if (val) {
       url = '${Constants.baseUrl}/2fa/enable';
@@ -40,13 +40,13 @@ class ManageAccountController extends GetxController {
           .post(
             Uri.parse(url),
             headers: await Commons.manageRequestHeader(),
-            body: jsonEncode(<String, dynamic>{'password': pass.value}),
+            body: jsonEncode(<String, dynamic>{'password': password}),
           )
           .timeout(const Duration(seconds: 5));
       Commons.hideProgressDialog();
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -65,6 +65,7 @@ class ManageAccountController extends GetxController {
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

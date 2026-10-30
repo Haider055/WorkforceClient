@@ -19,7 +19,7 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(Get.context!).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -60,7 +60,7 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
         backgroundColor: const Color(MyColors.whiteColor),
         body: GestureDetector(
           onTap: () {
-            FocusScope.of(Get.context!).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           child: SingleChildScrollView(
             child: Column(
@@ -84,104 +84,64 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 12.0.h),
-                          child: CommonTextFieldWhite(
-                              hint: Strings.passwordText(context),
-                              errorText: controller.passErrorText.value,
-                              controller: controller.passwordTextField(),
-                              inputType: TextInputType.text,
-                              prefixIcon: const Icon(Icons.lock_outline),
-                              needPasswordSuffixIcon: true,
-                              needprefixIcon: true,
-                              onChanged: (value) {
-                                controller.passErrorText.value = "";
-                                controller.showPasswordRules.value = true;
-                                _checkPasswordStrength(value);
-                              }),
+                          child: Obx(() {
+                            return CommonTextFieldWhite(
+                                hint: Strings.passwordText(context),
+                                errorText: controller.passErrorText.value,
+                                controller: controller.passwordTextField(),
+                                inputType: TextInputType.visiblePassword,
+                                prefixIcon: const Icon(Icons.lock_outline),
+                                needPasswordSuffixIcon: true,
+                                needprefixIcon: true,
+                                onChanged: (value) {
+                                  controller.passErrorText.value = "";
+                                  controller.showPasswordRules.value = true;
+
+                                  // This is what makes the rules below
+                                  // repaint. Reading passwordTextField.value
+                                  // in the Obx does NOT work: that Rx only
+                                  // fires when the TextEditingController
+                                  // OBJECT is replaced, never when its text
+                                  // changes.
+                                  controller.passwordInput.value = value;
+
+                                  _checkPasswordStrength(value);
+                                });
+                          }),
                         ),
                         Obx(() {
+                          final pass = controller.passwordInput.value;
+
                           return controller.showPasswordRules.value
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 23.0.w,
-                                          right: 23.0.w,
-                                          top: 12.0.h),
-                                      child: LinearProgressIndicator(
-                                        value:
-                                            controller.passwordStrength.value,
-                                        color:
-                                            controller.passwordStrength.value <
-                                                    0.4
-                                                ? Colors.red
-                                                : controller.passwordStrength
-                                                            .value <
-                                                        0.8
-                                                    ? Colors.orange
-                                                    : Colors.green,
-                                        minHeight: 4,
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            right: 20.0.w, top: 4.h),
-                                        child: Text(
-                                          controller.passwordStrengthText.value,
-                                          style: TextStyle(
-                                            color: controller.passwordStrength
-                                                        .value <
-                                                    0.4
-                                                ? Colors.red
-                                                : controller.passwordStrength
-                                                            .value <
-                                                        0.8
-                                                    ? Colors.orange
-                                                    : Colors.green,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 18.0.w),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          _passwordRule(
-                                              Strings.atLeast12CharactersText(
-                                                  Get.context!),
-                                              controller.passwordTextField.value
-                                                      .text.length >=
-                                                  12),
-                                          _passwordRule(
-                                              Strings.lowercaseText(
-                                                  Get.context!),
-                                              RegExp(r'[a-z]').hasMatch(
-                                                  controller.passwordTextField
-                                                      .value.text)),
-                                          _passwordRule(
-                                              Strings.uppercaseText(
-                                                  Get.context!),
-                                              RegExp(r'[A-Z]').hasMatch(
-                                                  controller.passwordTextField
-                                                      .value.text)),
-                                          _passwordRule(
-                                              "${Strings.specialSymbols(Get.context!)} (? # @ ...)",
-                                              RegExp(r'[!@#\$&*~]').hasMatch(
-                                                  controller.passwordTextField
-                                                      .value.text)),
-                                          _passwordRule(
-                                              Strings.specialSymbols(
-                                                  Get.context!),
-                                              RegExp(r'[0-9]').hasMatch(
-                                                  controller.passwordTextField
-                                                      .value.text)),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                              ? Padding(
+                                  padding: EdgeInsets.only(left: 18.0.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Label said 10 while the check is 12,
+                                      // which is what _checkPasswordStrength
+                                      // uses too.
+                                      _passwordRule(
+                                          Strings.atLeast10CharactersText(
+                                              Get.context!),
+                                          pass.length >= 12),
+                                      _passwordRule(
+                                          Strings.lowercaseText(Get.context!),
+                                          RegExp(r'[a-z]').hasMatch(pass)),
+                                      _passwordRule(
+                                          Strings.uppercaseText(Get.context!),
+                                          RegExp(r'[A-Z]').hasMatch(pass)),
+                                      _passwordRule(
+                                          "${Strings.specialSymbols(Get.context!)} (? # @ ...)",
+                                          RegExp(r'[!@#\$&*~]').hasMatch(pass)),
+                                      // Checks digits — was labelled
+                                      // "special symbols".
+                                      _passwordRule(
+                                          Strings.numbers(Get.context!),
+                                          RegExp(r'[0-9]').hasMatch(pass)),
+                                    ],
+                                  ),
                                 )
                               : const SizedBox();
                         }),
@@ -204,15 +164,11 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                                 errorText: "",
                                 controller:
                                     controller.confirmPasswordTextField(),
-                                inputType: TextInputType.text,
+                                inputType: TextInputType.visiblePassword,
                                 prefixIcon: const Icon(Icons.lock_outline),
                                 needPasswordSuffixIcon: true,
                                 needprefixIcon: true,
-                                onChanged: (value) {
-                                  // setState(() {
-                                  //   emailAddressErrorText = "";
-                                  // });
-                                }),
+                                onChanged: (value) {}),
                           ),
                         ),
                         Padding(
@@ -220,41 +176,7 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                           child: FullWidthElevatedButton(
                               text: Strings.updateText(context),
                               color: MyColors.themeRedColor,
-                              onPressed: () async {
-                                try {
-                                  if (controller.passwordTextField.value.text
-                                          .isNotEmpty &&
-                                      controller.confirmPasswordTextField.value
-                                          .text.isNotEmpty) {
-                                    if (!controller.showPasswordRules.value) {
-                                      if (controller
-                                              .passwordTextField.value.text ==
-                                          controller.confirmPasswordTextField
-                                              .value.text) {
-                                        Commons.showProgressDialog(context);
-                                        var res = await controller
-                                            .pleaseUpdatePassword(
-                                                controller.prviousPassword);
-                                        Commons.hideProgressDialog();
-                                        if (res) {
-                                          Get.offAllNamed(
-                                              AppLinks.select_service_screen);
-                                        }
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg: Strings
-                                                .confirmPasswordErrorText(
-                                                    context));
-                                      }
-                                    }
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg: Strings.cannotBeEmpty(context));
-                                  }
-                                } catch (e) {
-                                  throw Exception(e);
-                                }
-                              },
+                              onPressed: () => _onUpdate(context),
                               textColor: MyColors.whiteColor),
                         )
                       ],
@@ -267,6 +189,43 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
         ),
       ),
     );
+  }
+
+  Future<void> _onUpdate(BuildContext context) async {
+    final password = controller.passwordTextField.value.text;
+    final confirm = controller.confirmPasswordTextField.value.text;
+
+    if (password.isEmpty || confirm.isEmpty) {
+      Fluttertoast.showToast(msg: Strings.cannotBeEmpty(context));
+      return;
+    }
+
+    if (controller.showPasswordRules.value) {
+      Fluttertoast.showToast(msg: Strings.pleaseFollowPasswordRules(context));
+      return;
+    }
+
+    if (password != confirm) {
+      Fluttertoast.showToast(msg: Strings.confirmPasswordErrorText(context));
+      return;
+    }
+
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    try {
+      Commons.showProgressDialog(context);
+      var res =
+          await controller.pleaseUpdatePassword(controller.prviousPassword);
+      if (res) {
+        Get.offAllNamed(AppLinks.select_service_screen);
+      }
+    } catch (e) {
+      debugPrint('pleaseUpdatePassword error: $e');
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
+    } finally {
+      // Was only hidden on the happy path — a throw left it stuck on screen.
+      Commons.hideProgressDialog();
+    }
   }
 
   Widget _passwordRule(String text, bool isValid) {
@@ -289,23 +248,18 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
 
   void _checkPasswordStrength(String password) {
     double strength = 0;
-    if (password.length >= 12) strength += 0.2;
+    if (password.length >= 10) strength += 0.2;
     if (RegExp(r'[a-z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[A-Z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[0-9]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[!@#\$&*~]').hasMatch(password)) strength += 0.2;
 
     controller.passwordStrength.value = strength;
-    if (strength < 0.4) {
-      controller.passwordStrengthText.value = Strings.weakText(Get.context!);
-    } else if (strength < 0.8) {
-      controller.passwordStrengthText.value =
-          Strings.moderateText(Get.context!);
-    } else if (strength < 1.0) {
-      controller.passwordStrengthText.value = Strings.goodText(Get.context!);
-    } else {
-      controller.passwordStrengthText.value = Strings.strongText(Get.context!);
-      controller.showPasswordRules.value = false;
-    }
+
+    // The strength label is commented out in your version, so the only
+    // thing left to do is hide the rules once every one of them passes.
+    // (The stray `Strings.moderateText(Get.context!);` line that was here
+    // evaluated a string and threw it away.)
+    controller.showPasswordRules.value = strength < 1.0;
   }
 }

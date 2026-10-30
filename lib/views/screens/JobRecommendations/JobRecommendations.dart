@@ -158,54 +158,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                                 Color(MyColors.themeRedColor),
                                           ),
                                         )
-                                      : ElevatedButton(
-                                          style: ButtonStyle(
-                                              shape: WidgetStateProperty.all(
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.r))),
-                                              fixedSize: WidgetStatePropertyAll(
-                                                  Size.fromWidth(
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .w /
-                                                          2)),
-                                              foregroundColor:
-                                                  const WidgetStatePropertyAll(
-                                                      Color(
-                                                          MyColors.infoPinkColor2)),
-                                              elevation: const WidgetStatePropertyAll(0)),
-                                          onPressed: () {
-                                            try {
-                                              controller.loadMore();
-                                            } catch (e) {
-                                              throw Exception(e);
-                                            }
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.all(4.0.r),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Headingdescription(
-                                                    text: Strings.loadMoreText(
-                                                        Get.context!),
-                                                    centerAlign: false,
-                                                    size: 14.sp),
-                                                SizedBox(
-                                                  width: 5.0.w,
-                                                ),
-                                                Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  size: 20.sp,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                      : _buildLoadMoreButton(context),
                                 );
                               });
                             }
@@ -269,7 +222,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                         left: 20.0.w, right: 10.0.w),
                                     child: FullWidthOutlineButton(
                                         text: Strings.cancelText(context),
-                                        fontsize: 16.0.sp,
+                                        fontsize: 16.0,
                                         color: MyColors.themeRedColor,
                                         onPressed: () {
                                           if (controller.fromWhere.value ==
@@ -290,7 +243,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                         left: 10.0.w, right: 20.0.w),
                                     child: FullWidthButtonPrimary(
                                         text: Strings.orderDetail(context),
-                                        fontsize: 16.0.sp,
+                                        fontsize: 16.0,
                                         color: MyColors.themeRedColor,
                                         onPressed: () {
                                           Get.toNamed(
@@ -313,6 +266,80 @@ class JobRecommendations extends GetView<JobRecommendationController> {
         }),
       ),
     );
+  }
+
+  Widget _buildLoadMoreButton(BuildContext context) {
+    return Obx(() {
+      final loading = controller.isLoadingMore.value;
+
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.h),
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 1.6,
+            height: 42.h,
+            child: ElevatedButton(
+              onPressed: loading ? null : () => _loadMoreData(),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                padding: EdgeInsets.zero,
+                backgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                disabledBackgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                foregroundColor: const Color(MyColors.themeRedColor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(21.r),
+                  side: BorderSide(
+                    color:
+                        const Color(MyColors.themeRedColor).withOpacity(0.25),
+                  ),
+                ),
+              ),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: loading
+                    ? SizedBox(
+                        key: const ValueKey(''),
+                        width: 18.w,
+                        height: 18.w,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(MyColors.themeRedColor),
+                        ),
+                      )
+                    : Row(
+                        key: const ValueKey('label'),
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            Strings.loadMoreText(context),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                              color: const Color(MyColors.themeRedColor),
+                            ),
+                          ),
+                          SizedBox(width: 6.w),
+                          Icon(Icons.keyboard_arrow_down, size: 19.sp),
+                        ],
+                      ),
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  void _loadMoreData() {
+    try {
+      controller.loadMore();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Widget _buildOptionsButton(String icon, String label, Color color) {

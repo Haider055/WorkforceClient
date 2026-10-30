@@ -30,6 +30,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get select_languageText => 'Dil Seçin';
 
   @override
+  String get noInternetText => 'İnternet yok';
+
+  @override
+  String get onlineText => 'çevrimiçi';
+
+  @override
   String get englishText => 'İngilizce';
 
   @override
@@ -63,6 +69,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get registerText => 'Kayıt Ol';
 
   @override
+  String get agreeText => 'kabul etmek';
+
+  @override
+  String get dated => 'tarihli';
+
+  @override
   String get phoneText => 'Telefon';
 
   @override
@@ -84,6 +96,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changeLanguageText => 'Dili Değiştir';
 
   @override
+  String get contractCompleted => 'sözleşme tamamlandı';
+
+  @override
+  String get contractInProgress => 'Sözleşme Süreçte';
+
+  @override
   String get createText => 'Oluştur';
 
   @override
@@ -91,6 +109,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get signInText => 'Giriş Yap';
+
+  @override
+  String get totalJobText => 'toplam işler';
 
   @override
   String get loginDesc => 'Devam etmek için lütfen giriş yapın';
@@ -314,6 +335,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get backText => 'Geri';
 
   @override
+  String get aboutText => 'Hakkında';
+
+  @override
   String get photosText => 'Fotoğraflar';
 
   @override
@@ -350,16 +374,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pleaseSelectSeviceText => 'Lütfen bir hizmet seçin!';
 
   @override
+  String get pleaseEntercurrentPasswordText => 'Lütfen mevcut şifrenizi girin';
+
+  @override
   String get overviewText => 'Genel Bakış';
 
   @override
-  String get detailsText => 'Ayrıntılar';
+  String get detailsText => 'detaylar';
+
+  @override
+  String get saveText => 'Kaydetmek';
 
   @override
   String get tradesman => 'Usta';
 
   @override
+  String get restartText => 'Tekrar başlat';
+
+  @override
   String get orderDetailText => 'Sipariş Ayrıntısı';
+
+  @override
+  String get resultsFoundText => 'sonuç bulundu';
+
+  @override
+  String get unFinishedJobText => 'Yarım Kalmış İş';
 
   @override
   String get searchYourLocationText => 'Konumunuzu arayın';
@@ -400,7 +439,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get professionsText => 'Meslekler';
 
   @override
-  String get portfolioText => 'Portfolyo';
+  String get portfolioText => 'portföy';
 
   @override
   String get portfoliosText => 'Portfolyolar';
@@ -459,7 +498,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get jobTitleText => 'İş Başlığı';
 
   @override
-  String get aboutThisCompanyText => 'Bu Şirket Hakkında';
+  String get aboutThisCompanyText => 'Bu şirket hakkında';
 
   @override
   String get termsAndConditionText => 'Şartlar ve Koşullar';
@@ -580,7 +619,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get selectServiceDescText =>
-      'Bölgenizdeki sertifikalı ustaları \nihtiyacınız olan hizmetler için bulun ve işe alın.';
+      'Bölgenizdeki sertifikalı ustaları ihtiyacınız olan hizmetler için bulun ve işe alın.';
 
   @override
   String get selectServiceInfoText1 =>
@@ -870,10 +909,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get toMore0TradesmenText => 'ek yanıtlar almak için 0 ustaya daha';
 
   @override
+  String get mapPermissionDeniedDesc =>
+      'Lütfen telefon ayarlarınızdan AuftragNow uygulaması için konum hizmetini etkinleştirin.';
+
+  @override
   String get messageNotSentText => 'Mesaj Gönderilmedi';
 
   @override
+  String get eulaHeading => 'son kullanıcı lisans sözleşmesi';
+
+  @override
   String get loadMoreText => 'Daha fazla yükle';
+
+  @override
+  String get permissionDenied => 'İzin reddedildi';
 
   @override
   String get nowText => 'şimdi';
@@ -914,6 +963,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get goBackText => 'Yardıma ihtiyacım var';
 
   @override
+  String get goToSettingsText => 'ayarlara git';
+
+  @override
   String get emailUsText => 'Bize e-posta gönderin';
 
   @override
@@ -932,7 +984,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tellUsMore => 'Bize daha fazlasını anlatın...';
 
   @override
-  String get atLeast12CharactersText => 'en az 12 karakter';
+  String get disclaimerInPickImageText =>
+      'Yasal Uyarı: Yüklenen fotoğrafların hizmet şartlarımıza aykırı olması durumunda, kullanıcıya karşı her türlü yasal işlem başlatılabilir.';
+
+  @override
+  String get atLeast10CharactersText => 'en az 10 karakter';
 
   @override
   String get whyareyoublockinghim => 'Bu kullanıcıyı neden engelliyorsunuz?';
@@ -1064,6 +1120,27 @@ class AppLocalizationsTr extends AppLocalizations {
   String get emailText => 'E-posta';
 
   @override
+  String get legalText => 'yeniden dene';
+
+  @override
+  String get retryText => 'Tentar novamente';
+
+  @override
+  String get newText => 'yeni';
+
+  @override
+  String get uploadPhotosText => 'fotoğrafları yükle';
+
+  @override
+  String get newNotificationText => 'Yeni Bildirim';
+
+  @override
+  String get lastUsedLocationText => 'Son kullanılan konum';
+
+  @override
+  String get useCurrentLocation => 'Mevcut konumu kullan';
+
+  @override
   String get tellUsMoreAboutYourNeed =>
       'İhtiyacınız hakkında bize daha fazla bilgi verin';
 
@@ -1075,7 +1152,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'İşiniz artık yayında ve yetenekli profesyonellerin ilgisini çekmeye hazır.';
 
   @override
-  String get postingyourJobText => 'İşiniz yayınlanıyor...';
+  String get postingyourJobText => 'İlanınız yayınlanıyor...';
 
   @override
   String get dragtomovePinText => 'İğneyi tam konuma taşımak için sürükleyin';
@@ -1085,7 +1162,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'İnşaat planlarının fotoğrafları (isteğe bağlı)';
 
   @override
-  String get max15MbFileText => 'En fazla 15 dosya, dosya başına en fazla 2 MB';
+  String get max15MbFileText => 'En fazla 15 dosya';
 
   @override
   String get uploadFilesFromGalleryText => 'Galeriden dosya yükleyin';
@@ -1098,6 +1175,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get selectText => 'Seç';
 
   @override
+  String get onlyUsersAllowedToLoginText =>
+      'Yalnızca bu kullanıcıların giriş yapmasına izin verilir';
+
+  @override
   String get requestHasSentText => 'Talep gönderildi';
 
   @override
@@ -1108,6 +1189,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reviewedOnText => 'Değerlendirme tarihi:';
+
+  @override
+  String get giveReviewText => 'Değerlendirme yap';
 
   @override
   String get seeourPrivacyPlolicyText => 'Gizlilik Politikamızı inceleyin';
@@ -1203,6 +1287,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get otpFailedToSentText => 'OTP gönderilemedi';
+
+  @override
+  String get onlineSnackbarDescText => 'İnternet geri geldi';
+
+  @override
+  String get offlineSnackbarDescText => 'Görünüşe göre ağ bağlantınız yok';
 
   @override
   String get imagesCanBeAddMoreText => 'görsel daha eklenebilir';

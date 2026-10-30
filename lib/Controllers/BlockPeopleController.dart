@@ -83,7 +83,7 @@ class BlockPeopleController extends GetxController {
 
           return BlockedChatsList(list: list, pagination: pagination);
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return BlockedChatsList(list: list, pagination: null);
         }
       } else if (response.statusCode == 403) {
@@ -92,14 +92,17 @@ class BlockPeopleController extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return BlockedChatsList(list: list, pagination: null);
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return null;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseGetBlockedChats error: $e');
       return null;
     }
@@ -122,7 +125,7 @@ class BlockPeopleController extends GetxController {
               msg: jsonData['message'] ?? "User unblocked successfully");
           return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -136,10 +139,13 @@ class BlockPeopleController extends GetxController {
         return false;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseUnblockUser error: $e');
       return false;
     }

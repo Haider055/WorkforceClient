@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
+import 'package:workforceclientapp/Controllers/LoginContoller.dart';
 import 'package:workforceclientapp/Controllers/OPTVerificationController.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
@@ -14,7 +14,6 @@ import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/RedClickableText.dart';
-import 'package:workforceclientapp/views/widgets/FullWidthButton.dart';
 import 'package:get/get.dart';
 
 class OTPVerificationScreen extends GetView<OTPVerificationController> {
@@ -37,6 +36,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
 
     return WillPopScope(
       onWillPop: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         if (Platform.isAndroid) {
           Get.back();
           return true;
@@ -53,6 +53,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
           children: [
             GestureDetector(
               onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
                 Get.back();
               },
               child: Padding(
@@ -141,7 +142,13 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                           // },
                                           hapticFeedbackType:
                                               HapticFeedbackType.lightImpact,
-                                          onCompleted: (pin) {
+                                          onCompleted: (pin) async {
+                                            // Release the pin field before
+                                            // any navigation below, or the
+                                            // keyboard flashes on the next
+                                            // screen.
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
                                             controller.middleText.value =
                                                 Strings.pleaseVerify(context)
                                                     .obs();
@@ -150,6 +157,133 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                             controller.pinCode.value =
                                                 pin.toString();
                                             debugPrint('onCompleted: $pin');
+                                            if (controller.middleText.value ==
+                                                Strings.pleaseVerify(context)) {
+                                              if (controller.fromWhere.value ==
+                                                      "login" &&
+                                                  controller.preAuthToken.value
+                                                      .isNotEmpty) {
+                                                print("object1");
+                                                Commons.showProgressDialog(
+                                                    context);
+                                                String res =
+                                                    await controller.verify2FA(
+                                                        controller
+                                                            .preAuthToken.value,
+                                                        controller
+                                                            .pinCode.value,
+                                                        context);
+                                                if (res == 'done') {
+                                                  if (Constants.fromWhere ==
+                                                      'JobPostCompletedScreen') {
+                                                    Get.offAllNamed(AppLinks
+                                                        .job_post_completed_screen);
+                                                  } else {
+                                                    Get.offAllNamed(AppLinks
+                                                        .select_service_screen);
+                                                  }
+                                                } else {
+                                                  pleaseShowDialog(res);
+                                                }
+
+                                                return;
+                                              } else {
+                                                print("object2");
+                                                Commons.showProgressDialog(
+                                                    context);
+                                                String res = await controller
+                                                    .pleaseVerifyOTP(
+                                                        controller
+                                                            .pinCode.value,
+                                                        controller.email.value,
+                                                        context);
+                                                Commons.hideProgressDialog();
+//                                                 if (res == "done") {
+//                                                   try {
+//  else {}
+//                                                   } catch (e) {
+//                                                     e.printError();
+//                                                   }
+//                                                 } else
+                                                if (res == "success") {
+                                                  print(Constants.fromWhere);
+                                                  // need to remove else if
+                                                  if (Constants.fromWhere ==
+                                                      "JobPostCompletedScreen") {
+                                                    Commons.showProgressDialog(
+                                                        Get.context!);
+                                                    Get.find<LoginContoller>()
+                                                            .emailTextField
+                                                            .value
+                                                            .text =
+                                                        Constants.signupEmail;
+                                                    Get.find<LoginContoller>()
+                                                            .passwordTextField
+                                                            .value
+                                                            .text =
+                                                        Constants
+                                                            .signupPassword;
+                                                    String res = await Get.find<
+                                                            LoginContoller>()
+                                                        .pleaseLoginUser();
+                                                    if (res == 'done') {
+                                                      try {
+                                                        Commons
+                                                            .hideProgressDialog();
+                                                        Get.offAllNamed(AppLinks
+                                                            .job_post_completed_screen);
+                                                      } catch (e) {
+                                                        e.printError();
+                                                      }
+                                                    }
+                                                  } else if (controller
+                                                              .fromWhere
+                                                              .value ==
+                                                          "signup" ||
+                                                      controller.fromWhere
+                                                              .value ==
+                                                          "login") {
+                                                    Commons.showProgressDialog(
+                                                        Get.context!);
+                                                    Get.find<LoginContoller>()
+                                                            .emailTextField
+                                                            .value
+                                                            .text =
+                                                        Constants.signupEmail;
+                                                    Get.find<LoginContoller>()
+                                                            .passwordTextField
+                                                            .value
+                                                            .text =
+                                                        Constants
+                                                            .signupPassword;
+                                                    String res = await Get.find<
+                                                            LoginContoller>()
+                                                        .pleaseLoginUser();
+                                                    if (res == 'done') {
+                                                      try {
+                                                        Commons
+                                                            .hideProgressDialog();
+                                                        Get.offAllNamed(AppLinks
+                                                            .select_service_screen);
+                                                      } catch (e) {
+                                                        e.printError();
+                                                      }
+                                                    }
+                                                  } else {
+                                                    Get.toNamed(
+                                                        AppLinks
+                                                            .create_new_password_screen,
+                                                        arguments: {
+                                                          "email": controller
+                                                              .email.value
+                                                              .toString()
+                                                        });
+                                                  }
+                                                } else {
+                                                  pleaseShowDialog(res);
+                                                }
+                                              }
+                                            }
                                           },
                                           onChanged: (value) {
                                             controller.middleText.value =
@@ -261,73 +395,6 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                             );
                           }),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 25.0.h, left: 8.0.w, right: 8.0.w),
-                          child: FullWidthButton(
-                            text: Strings.verify(context),
-                            color: controller.verifyButtonColor.value,
-                            onPressed: () async {
-                              if (controller.middleText.value ==
-                                  Strings.pleaseVerify(context)) {
-                                if (controller.fromWhere.value == "login" &&
-                                    controller.preAuthToken.value.isNotEmpty) {
-                                  print("object1");
-                                  Commons.showProgressDialog(context);
-                                  String res = await controller.verify2FA(
-                                      controller.preAuthToken.value,
-                                      controller.pinCode.value,
-                                      context);
-                                  if (res == 'done') {
-                                    Get.offAllNamed(
-                                        AppLinks.select_service_screen);
-                                  }
-
-                                  return;
-                                } else {
-                                  print("object2");
-                                  Commons.showProgressDialog(context);
-                                  String res = await controller.pleaseVerifyOTP(
-                                      controller.pinCode.value,
-                                      controller.email.value,
-                                      context);
-                                  Commons.hideProgressDialog();
-                                  if (res == "done") {
-                                    try {
-                                      if (Constants.fromWhere ==
-                                          "JobPostCompletedScreen") {
-                                        Get.toNamed(
-                                            AppLinks.job_post_completed_screen);
-                                      } else {}
-                                    } catch (e) {
-                                      e.printError();
-                                    }
-                                  } else if (res == "success") {
-                                    // need to remove else if
-                                    Commons.hideProgressDialog();
-                                    if (controller.fromWhere.value ==
-                                            "signup" ||
-                                        controller.fromWhere.value == "login") {
-                                      Fluttertoast.showToast(
-                                          msg: Strings.youCanNowLoginText(
-                                              Get.context!));
-                                      Get.offAllNamed(AppLinks.login_screen);
-                                    } else {
-                                      Get.toNamed(
-                                          AppLinks.create_new_password_screen,
-                                          arguments: {
-                                            "email": controller.email.value
-                                                .toString()
-                                          });
-                                    }
-                                  } else {
-                                    pleaseShowDialog(res);
-                                  }
-                                }
-                              }
-                            },
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -384,7 +451,7 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                   child: Container(
                     child: Center(
                         child: Text(
-                      Strings.tryAgain(Get.context!),
+                      Strings.cancelText(Get.context!),
                       style: const TextStyle(color: Colors.white),
                     )),
                   ),

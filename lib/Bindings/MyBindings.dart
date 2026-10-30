@@ -10,6 +10,8 @@ import 'package:workforceclientapp/Controllers/EulaController.dart';
 import 'package:workforceclientapp/Controllers/ForgotPasswordContoller.dart';
 import 'package:workforceclientapp/Controllers/JobPostCompleteController.dart';
 import 'package:workforceclientapp/Controllers/JobRecommendationController.dart';
+import 'package:workforceclientapp/Controllers/LegalDetailController.dart.dart';
+import 'package:workforceclientapp/Controllers/LegalGuidesController.dart';
 import 'package:workforceclientapp/Controllers/LoginContoller.dart';
 import 'package:workforceclientapp/Controllers/ManageAccountController.dart';
 import 'package:workforceclientapp/Controllers/NotificationsContoller.dart';
@@ -19,6 +21,7 @@ import 'package:workforceclientapp/Controllers/PasswordUpdatedController.dart';
 import 'package:workforceclientapp/Controllers/PickAddressController.dart';
 import 'package:workforceclientapp/Controllers/PostedOrderDetailsController.dart';
 import 'package:workforceclientapp/Controllers/PostedOrdersController.dart';
+import 'package:workforceclientapp/Controllers/PrivacyPolicyController.dart';
 import 'package:workforceclientapp/Controllers/ProfileController.dart';
 import 'package:workforceclientapp/Controllers/ReportController.dart';
 import 'package:workforceclientapp/Controllers/ReviewScreenController.dart';
@@ -27,10 +30,11 @@ import 'package:workforceclientapp/Controllers/SelectServiceController.dart';
 import 'package:workforceclientapp/Controllers/SignupContoller.dart';
 import 'package:workforceclientapp/Controllers/SplashController.dart';
 import 'package:workforceclientapp/Controllers/SupportCentreController.dart';
+import 'package:workforceclientapp/Controllers/TermsandConditionController.dart';
 import 'package:workforceclientapp/Controllers/TradesmenDetailController.dart';
 import 'package:workforceclientapp/Controllers/UploadJobImagesController.dart';
-import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
-import 'package:workforceclientapp/views/screens/LegalInformation/TermsAndConditions.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDescriptionScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobTitleScreen.dart';
 
 class SelectServiceBinding implements Bindings {
   @override
@@ -64,6 +68,20 @@ class OnBoardScreenBinding implements Bindings {
   @override
   void dependencies() {
     Get.put<OnboardingScreenController>(OnboardingScreenController());
+  }
+}
+
+class LegalGuidesBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<LegalGuidesController>(LegalGuidesController());
+  }
+}
+
+class LegalDetailBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<LegalDetailController>(LegalDetailController());
   }
 }
 
@@ -112,14 +130,14 @@ class PasswordUpdatedBinding implements Bindings {
 class JobDescriptionBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put<PasswordUpdatedController>(PasswordUpdatedController());
+    Get.put<JobDescController>(JobDescController());
   }
 }
 
 class JobTitleBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put<PasswordUpdatedController>(PasswordUpdatedController());
+    Get.put<JobTitleController>(JobTitleController());
   }
 }
 

@@ -18,33 +18,15 @@ class SupportCentre extends GetView<SupportCentreController> {
       queryParameters: {'subject': 'Support Request'},
     );
     if (!await launchUrl(uri)) {
-      Get.snackbar('Error', 'Could not open email app');
+      // Get.snackbar('Error', 'Could not open email app');
     }
   }
-
-  // Future<void> _launchPhone(String phone) async {
-  //   if (phone.isEmpty) return;
-  //   final uri = Uri(scheme: 'tel', path: phone);
-  //   if (!await launchUrl(uri)) {
-  //     Get.snackbar('Error', 'Could not open dialer');
-  //   }
-  // }
-
-  // Future<void> _launchWhatsApp(String phone) async {
-  //   if (phone.isEmpty) return;
-  //   // Strip spaces, dashes, parentheses and leading '+' for the wa.me link
-  //   final cleaned = phone.replaceAll(RegExp(r'[^\d]'), '');
-  //   final uri = Uri.parse('https://wa.me/$cleaned');
-  //   if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-  //     Get.snackbar('Error', 'Could not open WhatsApp');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      bottom: true,
+      bottom: false,
       child: Scaffold(
         backgroundColor: const Color(MyColors.cardGrayColor100),
         appBar: AppBar(

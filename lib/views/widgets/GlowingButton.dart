@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 
 class GlowingButton extends StatefulWidget {
@@ -68,10 +70,18 @@ class _GlowingButtonState extends State<GlowingButton>
             ),
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
           ),
-          child: Text(
+          child: AutoSizeText(
             widget.text,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
+            maxLines: 1,
+            minFontSize: 9,
+            maxFontSize: 16.0,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: const Color(MyColors.whiteColor),
+                fontSize: 16.0.sp,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500),
           ),
         ),
       ),

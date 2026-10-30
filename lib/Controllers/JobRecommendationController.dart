@@ -65,7 +65,7 @@ class JobRecommendationController extends GetxController {
             headers: await Commons.manageRequestHeader(),
           )
           .timeout(const Duration(seconds: 5));
-      print(response.body);
+      //print(response.body);
 
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -95,9 +95,11 @@ class JobRecommendationController extends GetxController {
         return RecommendedTradesman(tradesmenList: [], pagination: null);
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return RecommendedTradesman(tradesmenList: [], pagination: null);
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -124,7 +126,7 @@ class JobRecommendationController extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
       String msg = "";
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -151,9 +153,11 @@ class JobRecommendationController extends GetxController {
         return "";
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return "";
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

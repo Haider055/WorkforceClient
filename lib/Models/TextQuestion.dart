@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 class TextQuestion {
   int? id;
   String? question;
@@ -6,6 +9,7 @@ class TextQuestion {
   int? isRequired;
   String? description;
   String answer = "";
+  final editField = TextEditingController().obs;
 
   TextQuestion.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -21,6 +21,7 @@ class AllChatsContoller extends GetxController {
   RxBool isLoading = false.obs;
   RxInt totalChats = 0.obs;
   RxBool isLoadingMore = false.obs;
+  RxBool isError = false.obs;
   late SharedPreferences _prefs;
   RxBool isLoggedIn = false.obs;
   int myId = 0;
@@ -36,6 +37,7 @@ class AllChatsContoller extends GetxController {
   void refreshData() async {
     try {
       print("refresh called");
+      Constants.fromWhere = '';
       myId = _prefs.getInt('id')!;
       isLoading.value = true;
       list = <Chat>[].obs;
@@ -53,11 +55,13 @@ class AllChatsContoller extends GetxController {
       if (chatsList != null) {
         list.addAll(chatsList!.list);
         totalChats.value = chatsList!.pagination!.total ?? 0;
-        isLoading.value = false;
-        isLoadingMore.value = false;
-      }
+      } else {}
     } catch (e) {
       throw Exception(e);
+    } finally {
+      // Always clear loading, otherwise a failed request (e.g. while offline)
+      // leaves the loader spinning and blocks every later refresh.
+      isLoadingMore.value = false;
     }
   }
 
@@ -143,7 +147,7 @@ class AllChatsContoller extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -158,13 +162,14 @@ class AllChatsContoller extends GetxController {
               pagination = Pagination.fromJson(jsonData['pagination']);
             }
             chatsList = ChatsList(list: list, pagination: pagination);
+            isLoading.value = false;
             return chatsList;
           } else {
-            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            // // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
             return chatsList;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
           return chatsList;
         }
       } else if (response.statusCode == 403) {
@@ -172,14 +177,16 @@ class AllChatsContoller extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return chatsList;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return null;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseGetAllChats error: $e');
       return null;
     }
@@ -197,7 +204,7 @@ class AllChatsContoller extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      print(response.body);
+      //print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
@@ -211,11 +218,11 @@ class AllChatsContoller extends GetxController {
             }
             return chat;
           } else {
-            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            // // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
             return chat;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return chat;
         }
       } else if (response.statusCode == 403) {
@@ -223,13 +230,16 @@ class AllChatsContoller extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return chat;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return null;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

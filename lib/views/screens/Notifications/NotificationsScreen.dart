@@ -111,7 +111,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                   itemBuilder: (context, index) {
                                     // Last item = Load More Button
                                     if (index == controller.notiList.length) {
-                                      return _buildLoadMoreButton();
+                                      return _buildLoadMoreButton(context);
                                     }
 
                                     return _buildNotificationView(
@@ -127,62 +127,85 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     );
   }
 
-  Widget _buildLoadMoreButton() {
+  Widget _buildLoadMoreButton(BuildContext context) {
     return Obx(() {
-      return controller.isLoadingMore.value
-          ? Center(
-              child: Padding(
-                padding: EdgeInsets.all(4.0.r),
-                child: const CircularProgressIndicator(
-                  color: Color(MyColors.themeRedColor),
+      final loading = controller.isLoadingMore.value;
+
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.h),
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 1.6,
+            height: 42.h,
+            child: ElevatedButton(
+              onPressed: loading ? null : () => _loadMoreData(),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                padding: EdgeInsets.zero,
+                backgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                disabledBackgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                foregroundColor: const Color(MyColors.themeRedColor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(21.r),
+                  side: BorderSide(
+                    color:
+                        const Color(MyColors.themeRedColor).withOpacity(0.25),
+                  ),
                 ),
               ),
-            )
-          : ElevatedButton(
-              style: ButtonStyle(
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r))),
-                  fixedSize: WidgetStatePropertyAll(
-                      Size.fromWidth(MediaQuery.of(context).size.width.w / 2)),
-                  foregroundColor: const WidgetStatePropertyAll(
-                      Color(MyColors.infoPinkColor2)),
-                  elevation: const WidgetStatePropertyAll(0)),
-              onPressed: () {
-                try {
-                  if (controller.notificationList!.pagination != null) {
-                    if (controller.notificationList!.pagination!.hasMore ??
-                        false) {
-                      controller.isLoadingMore.value =
-                          controller.notificationList!.pagination!.hasMore!;
-                      controller.getNotificationList(
-                          controller.notificationList!.pagination!.nextCursor!);
-                    }
-                  }
-                } catch (e) {
-                  throw Exception(e);
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.all(4.0.r),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Headingdescription(
-                        text: Strings.loadMoreText(Get.context!),
-                        centerAlign: false,
-                        size: 14.sp),
-                    SizedBox(
-                      width: 5.0.w,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 20.sp,
-                    )
-                  ],
-                ),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: loading
+                    ? SizedBox(
+                        key: const ValueKey(''),
+                        width: 18.w,
+                        height: 18.w,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(MyColors.themeRedColor),
+                        ),
+                      )
+                    : Row(
+                        key: const ValueKey('label'),
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            Strings.loadMoreText(context),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                              color: const Color(MyColors.themeRedColor),
+                            ),
+                          ),
+                          SizedBox(width: 6.w),
+                          Icon(Icons.keyboard_arrow_down, size: 19.sp),
+                        ],
+                      ),
               ),
-            );
+            ),
+          ),
+        ),
+      );
     });
+  }
+
+  void _loadMoreData() {
+    try {
+      if (controller.notificationList!.pagination != null) {
+        if (controller.notificationList!.pagination!.hasMore ?? false) {
+          controller.isLoadingMore.value =
+              controller.notificationList!.pagination!.hasMore!;
+          controller.getNotificationList(
+              controller.notificationList!.pagination!.nextCursor!);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Widget _buildNoLoginView() {
@@ -214,7 +237,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 20.0.h),
             child: FullWidthButtonPrimary(
                 text: Strings.loginText(context),
-                fontsize: 15.0.sp,
+                fontsize: 15.0,
                 color: MyColors.themeRedColor,
                 onPressed: () {
                   Constants.fromWhere = "SelectServiceScreen";

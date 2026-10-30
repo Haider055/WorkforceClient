@@ -153,7 +153,7 @@ class BlockScreen extends GetView<BlockController> {
                       )
                     : FullWidthButtonPrimary(
                         text: Strings.submitReportText(context),
-                        fontsize: 15.0.sp,
+                        fontsize: 15.0,
                         color: MyColors.themeRedColor,
                         onPressed: () {
                           controller.submitBlock();

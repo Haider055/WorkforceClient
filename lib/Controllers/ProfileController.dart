@@ -14,6 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Authentications/PasswordUpdatedScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDraft.dart';
 
 class ProfileController extends GetxController {
   late SharedPreferences _prefs;
@@ -37,7 +38,7 @@ class ProfileController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         _prefs = await SharedPreferences.getInstance();
@@ -58,8 +59,11 @@ class ProfileController extends GetxController {
         Fluttertoast.showToast(msg: msg);
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -74,7 +78,7 @@ class ProfileController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      print(response.body);
+      //print(response.body);
       Commons.hideProgressDialog();
 
       if (response.statusCode == 200) {
@@ -94,9 +98,11 @@ class ProfileController extends GetxController {
         return false;
       }
     } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       Commons.hideProgressDialog();
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -162,9 +168,11 @@ class ProfileController extends GetxController {
         return false;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -174,6 +182,8 @@ class ProfileController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       final String email = prefs.getString('email') ?? '';
       final String deviceId = prefs.getString('device_id') ?? '';
+      print(deviceId);
+      print(email);
 
       final response = await http
           .post(
@@ -199,8 +209,10 @@ class ProfileController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -208,6 +220,7 @@ class ProfileController extends GetxController {
   void logoutUser() async {
     _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('isLogin', "loggedOut");
+    await JobDraftService.clear();
     Get.offAllNamed(AppLinks.select_service_screen);
   }
 }

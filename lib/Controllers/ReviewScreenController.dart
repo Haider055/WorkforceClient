@@ -41,17 +41,13 @@ class ReviewScreenController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
+      //print(response.body);
+      print(response.statusCode);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         if (jsonData['success']) {
-          if (jsonData.keys.contains('data')) {
-            Fluttertoast.showToast(msg: jsonData['data']['message']);
-            return true;
-          } else {
-            Fluttertoast.showToast(
-                msg: Strings.somethingWentWrong(Get.context!));
-            return false;
-          }
+          Fluttertoast.showToast(msg: jsonData['data']['message'] ?? '');
+          return true;
         } else {
           Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
@@ -66,9 +62,11 @@ class ReviewScreenController extends GetxController {
         return false;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -116,10 +114,12 @@ class ReviewScreenController extends GetxController {
         return chat;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       Chat? chat;
       return chat;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

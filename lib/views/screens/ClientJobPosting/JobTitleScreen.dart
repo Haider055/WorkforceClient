@@ -1,34 +1,30 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
-import 'package:workforceclientapp/Controllers/PasswordUpdatedController.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
-import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/ClientJobPosting/CheckBoxQuestionsScreen.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDraft.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
-class JobTitleScreen extends GetView<PasswordUpdatedController> {
+class JobTitleScreen extends GetView<JobTitleController> {
   const JobTitleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!didPop) {
-          Get.offAllNamed(AppLinks.select_service_screen);
-        }
-      },
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {},
       child: GestureDetector(
         onTap: () {
-          FocusScope.of(Get.context!).unfocus();
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -48,17 +44,14 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                  child: Text(
+                  child: AutoSizeText(
                     Constants.selectedServiceName,
+                    maxLines: 2,
                     textAlign: TextAlign.center,
+                    minFontSize: 9,
                     overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0.sp,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Poppins',
-                    ),
+                    style: const TextStyle(
+                        fontSize: 15.5, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -94,13 +87,17 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
                         alignment: Alignment.topRight,
                         child: Padding(
                           padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
-                          child: Text(
-                            "${Strings.step(context)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
-                            style: TextStyle(
-                              fontSize: 14.5.sp,
-                              color: const Color(MyColors.midGrayColor),
-                            ),
-                          ),
+                          // The bar was in an Obx but this label was not, so
+                          // "Step 1/4" never changed.
+                          child: Obx(() {
+                            return Text(
+                              "${Strings.step(context)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
+                              style: TextStyle(
+                                fontSize: 14.5.sp,
+                                color: const Color(MyColors.midGrayColor),
+                              ),
+                            );
+                          }),
                         ),
                       ),
                     ],
@@ -143,64 +140,68 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
                                   size: 16,
                                 ),
                               ),
-                              Obx(() {
-                                return Padding(
-                                  padding: EdgeInsets.all(18.0.r),
-                                  child: TextField(
-                                    maxLines: 2,
-                                    autofocus: false,
-                                    enabled: Constants.titleTVFocus.value,
-                                    maxLength: 150,
-                                    cursorColor: const Color(
-                                      MyColors.themeRedColor,
+                              Padding(
+                                padding: EdgeInsets.all(18.0.r),
+                                child: TextField(
+                                  maxLines: 2,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.done,
+                                  autofocus: false,
+                                  // `enabled: Constants.titleTVFocus.value`
+                                  // is gone. It was read outside any Obx so
+                                  // it never took effect, and toggling a
+                                  // field's enabled state to kill the
+                                  // keyboard causes its own flicker. A real
+                                  // unfocus does the job.
+                                  maxLength: 150,
+                                  showCursor: true,
+                                  cursorColor: const Color(
+                                    MyColors.themeRedColor,
+                                  ),
+                                  onSubmitted: (value) {
+                                    onTextSubmit();
+                                  },
+                                  controller: controller.titleTextField(),
+                                  decoration: InputDecoration(
+                                    hintText: Strings.jobTitleHint(context),
+                                    hintStyle: TextStyle(
+                                      fontSize: 15.sp,
+                                      color: const Color(
+                                        MyColors.darkGrayColor,
+                                      ),
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    controller: TextEditingController(
-                                      text: Constants.jobTitle,
+                                    fillColor: const Color(
+                                      MyColors.whiteColor,
                                     ),
-                                    onChanged: (value) {
-                                      Constants.jobTitle = value;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: Strings.jobTitleHint(context),
-                                      hintStyle: TextStyle(
-                                        fontSize: 15.sp,
-                                        color: const Color(
-                                          MyColors.darkGrayColor,
-                                        ),
-                                        fontWeight: FontWeight.w400,
+                                    filled: true,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        9.0.r,
                                       ),
-                                      fillColor: const Color(
-                                        MyColors.whiteColor,
+                                      borderSide: const BorderSide(
+                                        color: Color(MyColors.lightGrayColor),
                                       ),
-                                      filled: true,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          9.0.r,
-                                        ),
-                                        borderSide: const BorderSide(
-                                          color: Color(MyColors.lightGrayColor),
-                                        ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        9.0.r,
                                       ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          9.0.r,
-                                        ),
-                                        borderSide: const BorderSide(
-                                          color: Color(MyColors.themeRedColor),
-                                        ),
+                                      borderSide: const BorderSide(
+                                        color: Color(MyColors.themeRedColor),
                                       ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          9.0.r,
-                                        ),
-                                        borderSide: const BorderSide(
-                                          color: Color(MyColors.lightGrayColor),
-                                        ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        9.0.r,
+                                      ),
+                                      borderSide: const BorderSide(
+                                        color: Color(MyColors.lightGrayColor),
                                       ),
                                     ),
                                   ),
-                                );
-                              }),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -224,12 +225,11 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
                             ),
                             child: FullWidthOutlineButton(
                               text: Strings.back(context),
-                              fontsize: 15.0.sp,
+                              fontsize: 15,
                               color: MyColors.themeRedColor,
                               onPressed: () {
-                                Get.offAllNamed(
-                                  AppLinks.select_service_screen,
-                                );
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                Get.back();
                               },
                             ),
                           ),
@@ -242,52 +242,10 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
                             ),
                             child: FullWidthButtonPrimary(
                               text: Strings.next(context),
-                              fontsize: 15.0.sp,
+                              fontsize: 15,
                               color: MyColors.themeRedColor,
-                              onPressed: () async {
-                                if (Constants.jobTitle.isNotEmpty) {
-                                  if (Constants.jobPostingSteps == 4) {
-                                    Constants.currentJobPostingStep.value++;
-                                    Constants.titleTVFocus.value = false;
-                                    FocusScope.of(Get.context!).unfocus();
-                                    Future.delayed(
-                                      const Duration(milliseconds: 300),
-                                      () async {
-                                        var res = await Get.to(
-                                          const CheckBoxQuestionsScreen(),
-                                        );
-                                        if (res != null) {
-                                          Constants.titleTVFocus.value = true;
-                                        }
-                                      },
-                                    );
-                                  } else {
-                                    if (Constants.jobTitle.length > 3) {
-                                      Constants.currentJobPostingStep.value++;
-                                      Constants.titleTVFocus.value = false;
-                                      FocusScope.of(Get.context!).unfocus();
-                                      Future.delayed(
-                                        const Duration(milliseconds: 300),
-                                        () async {
-                                          var res = await Get.to(
-                                            const CheckBoxQuestionsScreen(),
-                                          );
-                                          if (res != null) {
-                                            Constants.titleTVFocus.value = true;
-                                          }
-                                        },
-                                      );
-                                    } else {
-                                      Fluttertoast.showToast(
-                                        msg: Strings.nameMustBeAtLeast(context),
-                                      );
-                                    }
-                                  }
-                                } else {
-                                  Fluttertoast.showToast(
-                                    msg: Strings.writeJobTitle(context),
-                                  );
-                                }
+                              onPressed: () {
+                                onTextSubmit();
                               },
                             ),
                           ),
@@ -302,5 +260,53 @@ class JobTitleScreen extends GetView<PasswordUpdatedController> {
         ),
       ),
     );
+  }
+
+  void onTextSubmit() {
+    try {
+      Constants.jobTitle = controller.titleTextField.value.text.trim();
+
+      if (Constants.jobTitle.isEmpty) {
+        Fluttertoast.showToast(msg: Strings.writeJobTitle(Get.context!));
+        return;
+      }
+
+      // The 4-step flow skipped this length check; the other one applied it.
+      // Keeping that difference, just stated plainly.
+      if (Constants.jobPostingSteps != 4 && Constants.jobTitle.length <= 3) {
+        Fluttertoast.showToast(msg: Strings.nameMustBeAtLeast(Get.context!));
+        return;
+      }
+
+      Constants.currentJobPostingStep.value++;
+      JobDraftService.save(step: Constants.currentJobPostingStep.value);
+      _goNext();
+    } catch (e) {
+      debugPrint('Error in onTextSubmit: $e');
+    }
+  }
+
+  Future<void> _goNext() async {
+    // Drop focus for real. FocusScope.of(Get.context!).unfocus() leaves the
+    // field's own node focused, so the keyboard was still "owned" by this
+    // screen while the next route pushed — hence the flash.
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    // Give the keyboard one frame plus a moment to finish closing before the
+    // push animation starts.
+    await Future.delayed(const Duration(milliseconds: 120));
+
+    // Get.to takes a builder; passing the widget itself is the old form.
+    Get.to(() => const CheckBoxQuestionsScreen());
+  }
+}
+
+class JobTitleController extends GetxController {
+  final titleTextField = TextEditingController().obs;
+
+  @override
+  void onClose() {
+    titleTextField.value.dispose();
+    super.onClose();
   }
 }

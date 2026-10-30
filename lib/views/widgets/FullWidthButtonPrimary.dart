@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,6 +19,7 @@ class FullWidthButtonPrimary extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
+        height: 48.h,
         child: TextButton(
           onPressed: onPressed,
           style: ButtonStyle(
@@ -26,14 +28,16 @@ class FullWidthButtonPrimary extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r)))),
           child: Padding(
             padding: EdgeInsets.all(5.r),
-            child: Text(
+            child: AutoSizeText(
               text,
               maxLines: 1,
+              minFontSize: 8,
+              maxFontSize: fontsize,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: fontsize.sp,
+                  fontSize: fontsize,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w500),
             ),

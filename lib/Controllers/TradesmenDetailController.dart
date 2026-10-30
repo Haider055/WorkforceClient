@@ -61,7 +61,7 @@ class TradesmenDetailController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -87,9 +87,11 @@ class TradesmenDetailController extends GetxController {
         return tradesmen;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return tradesmen;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -108,7 +110,7 @@ class TradesmenDetailController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success'] == true) {
@@ -138,9 +140,11 @@ class TradesmenDetailController extends GetxController {
         return tradesmenReview;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return tradesmenReview;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -156,7 +160,7 @@ class TradesmenDetailController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -186,9 +190,11 @@ class TradesmenDetailController extends GetxController {
         return list;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

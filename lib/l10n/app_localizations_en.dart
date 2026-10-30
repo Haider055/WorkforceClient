@@ -30,6 +30,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_languageText => 'Select Language';
 
   @override
+  String get noInternetText => 'No internet';
+
+  @override
+  String get onlineText => 'Online';
+
+  @override
   String get englishText => 'English';
 
   @override
@@ -51,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancelText => 'Cancel';
 
   @override
-  String get canceledText => 'Canceled';
+  String get canceledText => 'Cancelled';
 
   @override
   String get loginText => 'Login';
@@ -61,6 +67,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registerText => 'Register';
+
+  @override
+  String get agreeText => 'Agree';
+
+  @override
+  String get dated => 'Dated';
 
   @override
   String get phoneText => 'Phone';
@@ -84,6 +96,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changeLanguageText => 'Change Language';
 
   @override
+  String get contractCompleted => 'Contract Completed';
+
+  @override
+  String get contractInProgress => 'Contract in Progress';
+
+  @override
   String get createText => 'Create';
 
   @override
@@ -91,6 +109,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInText => 'Sign In';
+
+  @override
+  String get totalJobText => 'Total jobs';
 
   @override
   String get loginDesc => 'Please Sign in to Continue';
@@ -313,6 +334,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backText => 'Back';
 
   @override
+  String get aboutText => 'About';
+
+  @override
   String get photosText => 'Photos';
 
   @override
@@ -349,16 +373,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseSelectSeviceText => 'Please Select Sevice!';
 
   @override
+  String get pleaseEntercurrentPasswordText => 'Please enter current password';
+
+  @override
   String get overviewText => 'Overview';
 
   @override
   String get detailsText => 'Details';
 
   @override
+  String get saveText => 'Save';
+
+  @override
   String get tradesman => 'Tradesman';
 
   @override
+  String get restartText => 'Restart';
+
+  @override
   String get orderDetailText => 'Order Detail';
+
+  @override
+  String get resultsFoundText => 'results found';
+
+  @override
+  String get unFinishedJobText => 'Unfinished Job';
 
   @override
   String get searchYourLocationText => 'Search your location';
@@ -576,7 +615,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectServiceDescText =>
-      'Find and hire certified tradesmen in your \narea for the services your need.';
+      'Find and hire certified tradesmen in your area for the services your need.';
 
   @override
   String get selectServiceInfoText1 =>
@@ -875,10 +914,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'to more 0 tradesmen to get additional asnwers';
 
   @override
+  String get mapPermissionDeniedDesc =>
+      'Please enable the location service for AuftragNow app in your phone settings';
+
+  @override
   String get messageNotSentText => 'Message not Sent';
 
   @override
+  String get eulaHeading => 'End User Lisence Agreement';
+
+  @override
   String get loadMoreText => 'Load more';
+
+  @override
+  String get permissionDenied => 'Permission Denied';
 
   @override
   String get nowText => 'now';
@@ -919,6 +968,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goBackText => 'Go Back';
 
   @override
+  String get goToSettingsText => 'Go to settings';
+
+  @override
   String get emailUsText => 'Email us';
 
   @override
@@ -937,7 +989,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tellUsMore => 'Tell us more...';
 
   @override
-  String get atLeast12CharactersText => 'at least 12 characters';
+  String get disclaimerInPickImageText =>
+      'Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.';
+
+  @override
+  String get atLeast10CharactersText => 'at least 10 characters';
 
   @override
   String get whyareyoublockinghim => 'Why are you Blocking him?';
@@ -1068,6 +1124,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailText => 'Email';
 
   @override
+  String get legalText => 'Legal';
+
+  @override
+  String get retryText => 'Retry';
+
+  @override
+  String get newText => 'new';
+
+  @override
+  String get uploadPhotosText => 'Upload Photos';
+
+  @override
+  String get newNotificationText => 'New Notification';
+
+  @override
+  String get lastUsedLocationText => 'Last used location';
+
+  @override
+  String get useCurrentLocation => 'Use current location';
+
+  @override
   String get tellUsMoreAboutYourNeed => 'Tell us more about your need';
 
   @override
@@ -1089,7 +1166,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Photos of construction plans (optional)';
 
   @override
-  String get max15MbFileText => 'Max. 15 files, Max. 2 MB per file';
+  String get max15MbFileText => 'Max. 15 files';
 
   @override
   String get uploadFilesFromGalleryText => 'upload files from Gallery';
@@ -1099,6 +1176,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectText => 'Select';
+
+  @override
+  String get onlyUsersAllowedToLoginText => 'Only Users allowed to login';
 
   @override
   String get requestHasSentText => 'Request has sent';
@@ -1111,6 +1191,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewedOnText => 'Reviewed on';
+
+  @override
+  String get giveReviewText => 'Give Review';
 
   @override
   String get seeourPrivacyPlolicyText => 'See our Privacy Policy';
@@ -1205,6 +1288,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otpFailedToSentText => 'OTP failed to Sent';
+
+  @override
+  String get onlineSnackbarDescText => 'Internet is now back';
+
+  @override
+  String get offlineSnackbarDescText =>
+      'Seems you are out of network connection';
 
   @override
   String get imagesCanBeAddMoreText => 'images can be add more';

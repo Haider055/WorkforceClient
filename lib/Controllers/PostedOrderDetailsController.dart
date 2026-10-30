@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:workforceclientapp/Models/JobContact.dart';
 import 'package:workforceclientapp/Models/Pagination.dart';
 import 'package:workforceclientapp/Models/PostedJobDetail.dart';
 import 'package:workforceclientapp/Models/RequestedTradesmen.dart';
@@ -35,6 +36,8 @@ class PostedOrderDetailsController extends GetxController {
   RxBool loadingInterestedTradesmen = true.obs;
   RxList<String> tradesmenImages = <String>[].obs;
   int jobIndex = 0;
+  Rxn<JobContact> jobContact = Rxn<JobContact>();
+  RxBool loadingJobContact = false.obs;
 
   @override
   void onInit() {
@@ -52,7 +55,7 @@ class PostedOrderDetailsController extends GetxController {
       }
       jobId.value = data['jobId'];
       if (jobId == -1) {
-        Fluttertoast.showToast(msg: "Job Id not found!");
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return;
       }
       getJobDetails(jobId.value);
@@ -79,7 +82,7 @@ class PostedOrderDetailsController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success'] == true) {
@@ -106,9 +109,11 @@ class PostedOrderDetailsController extends GetxController {
         return postedJobDetail;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return postedJobDetail;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -134,7 +139,7 @@ class PostedOrderDetailsController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      // print(response.body);
+      // //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success'] == true) {
@@ -165,9 +170,11 @@ class PostedOrderDetailsController extends GetxController {
         return requestedTradesmen;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return requestedTradesmen;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -185,7 +192,7 @@ class PostedOrderDetailsController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success'] == true) {
@@ -213,9 +220,11 @@ class PostedOrderDetailsController extends GetxController {
         return list;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -240,7 +249,7 @@ class PostedOrderDetailsController extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      print(response.body);
+      // print(response.body);
       Map<String, dynamic> jsonData = json.decode(response.body);
       Commons.hideProgressDialog();
 
@@ -271,8 +280,15 @@ class PostedOrderDetailsController extends GetxController {
             return chatid;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
-          return chatid;
+          if (jsonData.containsKey('message')) {
+            String message =
+                jsonData['message'] ?? Strings.somethingWentWrong(context);
+            Fluttertoast.showToast(msg: message);
+            return chatid;
+          } else {
+            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            return chatid;
+          }
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
@@ -280,15 +296,22 @@ class PostedOrderDetailsController extends GetxController {
         Commons.logoutUser(true);
         return chatid;
       } else {
-        // If the server did not return a 200 CREATED response,
-        // then throw an exception.
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
-        return chatid;
+        if (jsonData.containsKey('message')) {
+          String message =
+              jsonData['message'] ?? Strings.somethingWentWrong(context);
+          Fluttertoast.showToast(msg: message);
+          return chatid;
+        } else {
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          return chatid;
+        }
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return chatid;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -305,7 +328,7 @@ class PostedOrderDetailsController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      // print(response.body);
+      // //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -335,11 +358,48 @@ class PostedOrderDetailsController extends GetxController {
             msg: Strings.somethingWentWrongRemovingJob(Get.context!));
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(
           msg: Strings.somethingWentWrongRemovingJob(Get.context!));
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
+  }
+
+  Future<JobContact?> pleaseGetJobContact(int jobId, String jobStatus) async {
+    try {
+      final response = await http
+          .get(
+            Uri.parse('${Constants.baseUrl}/jobs/$jobId/contacts'),
+            headers: await Commons.manageRequestHeader(),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = json.decode(response.body);
+
+      if (response.statusCode == 200 && jsonData['success'] == true) {
+        List<dynamic> dataList = jsonData['data'] ?? [];
+        List<JobContact> contacts =
+            dataList.map((e) => JobContact.fromJson(e)).toList();
+        if (contacts.isEmpty) return null;
+        // Prefer the contact whose status matches the job's current status.
+        return contacts.firstWhereOrNull((c) => c.status == jobStatus) ??
+            contacts.first;
+      }
+      return null;
+    } catch (e) {
+      e.printError();
+      return null;
+    }
+  }
+
+  void getJobContact(int jobId) async {
+    final status = postedJobDetail.status?.value;
+    if (status != "completed" && status != "in_progress") return;
+    loadingJobContact.value = true;
+    jobContact.value = await pleaseGetJobContact(jobId, status!);
+    loadingJobContact.value = false;
   }
 
   void getJobDetails(int jobId) async {
@@ -348,6 +408,7 @@ class PostedOrderDetailsController extends GetxController {
       currentPosition.value = LatLng(double.parse(postedJobDetail.lat!),
           double.parse(postedJobDetail.lng!));
       isLoading.value = false;
+      getJobContact(jobId);
       tradesmenImages.value =
           await pleaseGetTradesmenRequestsImagesList(jobId, Get.context!);
       loadingInterestedTradesmen.value = false;

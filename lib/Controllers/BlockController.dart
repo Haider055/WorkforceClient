@@ -89,11 +89,11 @@ class BlockController extends GetxController {
           if (jsonData.keys.contains('data')) {
             return ReportOptions.fromJson(jsonData['data']);
           } else {
-            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
             return null;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return null;
         }
       } else if (response.statusCode == 403) {
@@ -102,14 +102,17 @@ class BlockController extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return null;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return null;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseGetReportOptions error: $e');
       return null;
     }
@@ -131,16 +134,15 @@ class BlockController extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      print(response.body);
+      //print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (jsonData['success'] == true) {
-          Fluttertoast.showToast(
-              msg: jsonData['message'] ?? "User blocked successfully");
+          Fluttertoast.showToast(msg: jsonData['message'] ?? "");
           return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -154,10 +156,13 @@ class BlockController extends GetxController {
         return false;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseBlockUser error: $e');
       return false;
     }

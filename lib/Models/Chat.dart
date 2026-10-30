@@ -55,7 +55,7 @@ class Chat {
         lastMessage: json['latest_message'] == null
             ? null
             : Message.fromJson(json['latest_message']),
-        jobStatus: json['job_application']['job_posting']['status'],
+        jobStatus: json['job_application']['job_posting']['status'] ?? '',
         applicationStatus: json['job_application']['status'],
         tradesmenId: json['job_application']['user_id'],
         tradesmenName: json['job_application']['user']['name'],

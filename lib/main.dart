@@ -1,10 +1,12 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
+import 'package:workforceclientapp/Controllers/NetworkController.dart';
+import 'package:workforceclientapp/Others/KeyboardDismissOverlay.dart';
 import 'package:workforceclientapp/Others/LocaleProvider.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/NotificationNavigationService.dart';
@@ -19,6 +21,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(NetworkController(), permanent: true);
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Scaffold(
       body: Center(
@@ -81,12 +84,15 @@ class MainApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: GetMaterialApp(
+        builder: (context, child) =>
+            KeyboardDismissOverlay(child: child ?? const SizedBox()),
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         locale: localeProvider.locale,
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: const [
           AppLocalizations.delegate,
+          CountryLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,

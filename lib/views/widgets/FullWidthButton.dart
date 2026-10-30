@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,14 +32,18 @@ class FullWidthButton extends StatelessWidget {
               ),
             ),
           ),
-          child: Text(
+          child: AutoSizeText(
             text,
+            maxLines: 1,
+            minFontSize: 9,
+            maxFontSize: 18,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.sp,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-            ),
+                color: Colors.white,
+                fontSize: 18.0.sp,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500),
           ),
         ),
       ),

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Controllers/NetworkController.dart';
 import 'package:workforceclientapp/Controllers/ProfileController.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/CupertinoProgressDialog.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDraft.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 
@@ -50,13 +52,15 @@ class Commons {
   }
 
   static void showProgressDialog(BuildContext context) {
-    Get.dialog(
-      WillPopScope(
-        onWillPop: () async => false,
-        child: const CupertinoProgressDialog(msg: 'Please Wait'),
-      ),
-      barrierDismissible: false,
-    );
+    if (Get.find<NetworkController>().isOnline.value) {
+      Get.dialog(
+        WillPopScope(
+          onWillPop: () async => false,
+          child: const CupertinoProgressDialog(msg: 'Please Wait'),
+        ),
+        barrierDismissible: false,
+      );
+    }
   }
 
   static void hideProgressDialog() {
@@ -84,7 +88,7 @@ class Commons {
                   padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                   child: FullWidthOutlineButton(
                     text: Strings.noText(context),
-                    fontsize: 15.0.sp,
+                    fontsize: 15.0,
                     color: MyColors.themeRedColor,
                     onPressed: () => Get.back(), // close dialog only
                   ),
@@ -95,10 +99,12 @@ class Commons {
                   padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                   child: FullWidthButtonPrimary(
                     text: Strings.yesText(context),
-                    fontsize: 15.0.sp,
+                    fontsize: 15.0,
                     color: MyColors.themeRedColor,
                     onPressed: () {
-                      Get.back(); // close dialog
+                      Get.back();
+                      Constants.selectedImages.clear();
+                      JobDraftService.clear();
                       Get.offAllNamed(AppLinks.select_service_screen);
                     },
                   ),
@@ -115,6 +121,7 @@ class Commons {
     if (suspended) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isSuspended', true);
+      await JobDraftService.clear();
       Get.offAllNamed(AppLinks.account_suspended_screen);
       return;
     }
@@ -125,6 +132,7 @@ class Commons {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('isLogin', "loggedOut");
       await prefs.remove('token');
+      await JobDraftService.clear();
       Constants.unReadcount.value = 0;
       Constants.unreadNotificationsCount.value = 0;
       Get.closeAllSnackbars();

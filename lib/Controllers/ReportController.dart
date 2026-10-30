@@ -105,11 +105,11 @@ class ReportController extends GetxController {
           if (jsonData.keys.contains('data')) {
             return ReportOptions.fromJson(jsonData['data']);
           } else {
-            Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+            // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
             return null;
           }
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return null;
         }
       } else if (response.statusCode == 403) {
@@ -118,14 +118,16 @@ class ReportController extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return null;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return null;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseGetReportOptions error: $e');
       return null;
     }
@@ -158,7 +160,7 @@ class ReportController extends GetxController {
         if (jsonData['success'] == true) {
           return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -172,10 +174,12 @@ class ReportController extends GetxController {
         return false;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       debugPrint('pleaseSubmitReport error: $e');
       return false;
     }

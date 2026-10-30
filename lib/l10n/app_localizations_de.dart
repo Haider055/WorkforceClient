@@ -30,6 +30,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get select_languageText => 'Sprache auswählen';
 
   @override
+  String get noInternetText => 'Kein Internet';
+
+  @override
+  String get onlineText => 'Online';
+
+  @override
   String get englishText => 'Englisch';
 
   @override
@@ -63,6 +69,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get registerText => 'Registrieren';
 
   @override
+  String get agreeText => 'zustimmen';
+
+  @override
+  String get dated => 'datiert';
+
+  @override
   String get phoneText => 'Telefon';
 
   @override
@@ -72,7 +84,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get allText => 'Alle';
 
   @override
-  String get chatText => 'Chat';
+  String get chatText => 'Chatten';
 
   @override
   String get settingsText => 'Einstellungen';
@@ -84,6 +96,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get changeLanguageText => 'Sprache ändern';
 
   @override
+  String get contractCompleted => 'Vertrag erfüllt';
+
+  @override
+  String get contractInProgress => 'Vertrag in Bearbeitung';
+
+  @override
   String get createText => 'Erstellen';
 
   @override
@@ -91,6 +109,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signInText => 'Anmelden';
+
+  @override
+  String get totalJobText => 'Gesamtzahl der Arbeitsplätze';
 
   @override
   String get loginDesc => 'Bitte melden Sie sich an, um fortzufahren';
@@ -179,7 +200,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get completedText => 'Abgeschlossen';
 
   @override
-  String get servicesText => 'Services';
+  String get servicesText => 'Dienstleistungen';
 
   @override
   String get youGotText => 'You got';
@@ -314,6 +335,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get backText => 'Zurück';
 
   @override
+  String get aboutText => 'Um';
+
+  @override
   String get photosText => 'Fotos';
 
   @override
@@ -350,16 +374,32 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pleaseSelectSeviceText => 'Bitte Dienstleistung auswählen!';
 
   @override
+  String get pleaseEntercurrentPasswordText =>
+      'Bitte geben Sie das aktuelle Passwort ein';
+
+  @override
   String get overviewText => 'Übersicht';
 
   @override
-  String get detailsText => 'Details';
+  String get detailsText => 'Einzelheiten';
+
+  @override
+  String get saveText => 'Speichern';
 
   @override
   String get tradesman => 'Händler';
 
   @override
+  String get restartText => 'Neustart';
+
+  @override
   String get orderDetailText => 'Bestelldetails';
+
+  @override
+  String get resultsFoundText => 'Ergebnisse gefunden';
+
+  @override
+  String get unFinishedJobText => 'Trabalho inacabado';
 
   @override
   String get searchYourLocationText => 'Suchen Sie Ihren Standort';
@@ -400,7 +440,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get professionsText => 'Berufe';
 
   @override
-  String get portfolioText => 'Portfolio';
+  String get portfolioText => 'Portfólio';
 
   @override
   String get portfoliosText => 'Portfolios';
@@ -460,7 +500,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get jobTitleText => 'Auftragstitel';
 
   @override
-  String get aboutThisCompanyText => 'Geschäftsbedingungen';
+  String get aboutThisCompanyText => 'Über dieses Unternehmen';
 
   @override
   String get termsAndConditionText => 'Geschäftsbedingungen';
@@ -493,13 +533,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cookieManagementText => 'Cookie-Verwaltung';
 
   @override
-  String get supportCenterText => 'Support-Center';
+  String get supportCenterText => 'Unterstützung-Center';
 
   @override
   String get contactText => 'Kontakt';
 
   @override
-  String get memberSinceText => 'Member Since';
+  String get memberSinceText => 'Mitglied seit';
 
   @override
   String get endingOrderPageHeadText => 'Warum beenden Sie diesen Auftrag?';
@@ -888,10 +928,20 @@ class AppLocalizationsDe extends AppLocalizations {
       'an 0 weitere Handwerker, um zusätzliche Antworten zu erhalten';
 
   @override
+  String get mapPermissionDeniedDesc =>
+      'Bitte aktiviere in den Einstellungen deines Smartphones den Standortdienst für die AuftragNow-App';
+
+  @override
   String get messageNotSentText => 'Nachricht nicht gesendet';
 
   @override
+  String get eulaHeading => 'Endbenutzer-Lizenzvereinbarung';
+
+  @override
   String get loadMoreText => 'mehr laden';
+
+  @override
+  String get permissionDenied => 'Zugriff verweigert';
 
   @override
   String get nowText => 'Jetzt';
@@ -933,6 +983,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get goBackText => 'Geh zurück';
 
   @override
+  String get goToSettingsText => 'Aceda às configurações';
+
+  @override
   String get emailUsText => 'Schreiben Sie uns eine E-Mail';
 
   @override
@@ -951,7 +1004,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tellUsMore => 'Erzählen Sie uns mehr...';
 
   @override
-  String get atLeast12CharactersText => 'Mindestens 12 Zeichen';
+  String get disclaimerInPickImageText =>
+      'Haftungsausschluss: Gegen den Nutzer können rechtliche Schritte eingeleitet werden, falls die hochgeladenen Fotos gegen unsere Nutzungsbedingungen verstoßen.';
+
+  @override
+  String get atLeast10CharactersText => 'Mindestens 10 Zeichen';
 
   @override
   String get whyareyoublockinghim => 'Warum blockierst du ihn?';
@@ -1086,6 +1143,27 @@ class AppLocalizationsDe extends AppLocalizations {
   String get emailText => 'E-Mail';
 
   @override
+  String get legalText => 'Rechtlich';
+
+  @override
+  String get retryText => 'Wiederholen';
+
+  @override
+  String get newText => 'neu';
+
+  @override
+  String get uploadPhotosText => 'Fotos hochladen';
+
+  @override
+  String get newNotificationText => 'Neue Benachrichtigung';
+
+  @override
+  String get lastUsedLocationText => 'Zuletzt verwendeter Standort';
+
+  @override
+  String get useCurrentLocation => 'Aktuellen Standort verwenden';
+
+  @override
   String get tellUsMoreAboutYourNeed =>
       'Schildern Sie uns bitte Ihre Bedürfnisse genauer';
 
@@ -1098,17 +1176,18 @@ class AppLocalizationsDe extends AppLocalizations {
       'Ihre Stellenanzeige ist jetzt online und bereit, qualifizierte Fachkräfte anzuziehen';
 
   @override
-  String get postingyourJobText => 'Posting your Job...';
+  String get postingyourJobText => 'Stellenanzeige wird veröffentlicht...';
 
   @override
-  String get dragtomovePinText => 'Drag to move pin to exact location';
+  String get dragtomovePinText =>
+      'Ziehen, um die Markierung an die exakte Position zu verschieben';
 
   @override
   String get photosOfConstructionPlansOptional =>
       'Fotos von Bauplänen (optional)';
 
   @override
-  String get max15MbFileText => 'Maximal 15 Dateien, maximal 2 MB pro Datei';
+  String get max15MbFileText => 'Maximal 15 Dateien';
 
   @override
   String get uploadFilesFromGalleryText =>
@@ -1122,6 +1201,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectText => 'Wählen';
 
   @override
+  String get onlyUsersAllowedToLoginText => 'Nur Benutzer dürfen sich anmelden';
+
+  @override
   String get requestHasSentText => 'Anfrage wurde gesendet';
 
   @override
@@ -1132,6 +1214,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reviewedOnText => 'Rezension vom';
+
+  @override
+  String get giveReviewText => 'Bewertung abgeben';
 
   @override
   String get seeourPrivacyPlolicyText => 'siehe unsere Datenschutzerklärung';
@@ -1227,6 +1312,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get otpFailedToSentText => 'OTP-Versand fehlgeschlagen';
+
+  @override
+  String get onlineSnackbarDescText => 'Das Internet funktioniert wieder.';
+
+  @override
+  String get offlineSnackbarDescText =>
+      'Es scheint, als hättest du keine Netzwerkverbindung.';
 
   @override
   String get imagesCanBeAddMoreText =>

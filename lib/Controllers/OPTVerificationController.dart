@@ -34,7 +34,7 @@ class OTPVerificationController extends GetxController {
   RxInt verifyButtonColor = 0xffDDDDDD.obs;
   int tokenRetry = 0;
 
-  RxInt remainingSeconds = 120.obs;
+  RxInt remainingSeconds = 240.obs;
   Timer? _countdownTimer;
   RxBool canResend = false.obs;
 
@@ -64,16 +64,26 @@ class OTPVerificationController extends GetxController {
     if (data['email'] != null) {
       email.value = data['email'].toString();
     }
+    if (_countdownTimer != null) {
+      _countdownTimer?.cancel();
+    }
+
     startTimer();
 
     if (kIsWeb) {
       BrowserContextMenu.disableContextMenu();
     }
+    editTextField1.value.clear();
+    editTextField2.value.clear();
+    editTextField3.value.clear();
+    editTextField4.value.clear();
+    editTextField5.value.clear();
+    editTextField6.value.clear();
   }
 
   void startTimer() {
     canResend.value = false;
-    remainingSeconds.value = 120;
+    remainingSeconds.value = 240;
     _countdownTimer?.cancel();
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds.value > 0) {
@@ -129,13 +139,16 @@ class OTPVerificationController extends GetxController {
 
       if (response.statusCode == 200) {
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return "failed";
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return "failed";
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
     return "failed";
@@ -178,9 +191,11 @@ class OTPVerificationController extends GetxController {
         return false;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.otpFailedToSentText(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -226,8 +241,11 @@ class OTPVerificationController extends GetxController {
         return msg;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -264,7 +282,8 @@ class OTPVerificationController extends GetxController {
               if (dataObj['user'] != null) {
                 if (dataObj['user']['role'] != null) {
                   if (dataObj['user']['role'] == "tradeperson") {
-                    Fluttertoast.showToast(msg: "Only Users allowed to login");
+                    Fluttertoast.showToast(
+                        msg: Strings.onlyUsersAllowedToLoginText(Get.context!));
                     return "otherUser";
                   } else {
                     await saveUserInfo(dataObj['user']);
@@ -294,14 +313,16 @@ class OTPVerificationController extends GetxController {
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return "failed";
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return "failed";
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -365,7 +386,7 @@ class OTPVerificationController extends GetxController {
         }),
       );
       print("object");
-      print(response.body);
+      //print(response.body);
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -382,6 +403,7 @@ class OTPVerificationController extends GetxController {
         return "";
       }
     } catch (e) {
+      Commons.hideProgressDialog();
       print(e.toString());
     }
     return "";

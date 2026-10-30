@@ -21,7 +21,7 @@ class LoginScreen extends GetView<LoginContoller> {
     return WillPopScope(
       onWillPop: () async {
         // if (FocusScope.of(context).hasFocus) {
-        //   FocusScope.of(context).unfocus(); // Close keyboard
+        // FocusScope.of(context).unfocus(); // Close keyboard
         //   return false;
         // }
         if (Constants.fromWhere == "SelectServiceScreen") {

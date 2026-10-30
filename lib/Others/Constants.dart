@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 class Constants {
-  static const String baseUrl = "https://auftragnow.com/api";
+  static const String baseUrl =
+      "https://staging.auftragnow.de/api"; //"https://auftragnow.de/api";
   // static const String baseUrl = "https://service.ghostbear.pw/api";
   static const String googleMapsAPIkey =
       "AIzaSyBZz4unF-wEdjkLUM6jOI8TSKu8E-CisnM";

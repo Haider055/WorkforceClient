@@ -155,7 +155,7 @@ class ReportScreen extends GetView<ReportController> {
                       )
                     : FullWidthButtonPrimary(
                         text: Strings.submitReportText(context),
-                        fontsize: 15.0.sp,
+                        fontsize: 15.0,
                         color: MyColors.themeRedColor,
                         onPressed: () {
                           controller.submitReport();

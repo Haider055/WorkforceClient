@@ -44,8 +44,11 @@ class ContactInformationCotroller extends GetxController {
         return msg;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -65,7 +68,7 @@ class ContactInformationCotroller extends GetxController {
       Commons.hideProgressDialog();
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         String msg = jsonData['message'];
@@ -83,8 +86,11 @@ class ContactInformationCotroller extends GetxController {
         return msg;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

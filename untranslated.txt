@@ -1,10 +1,8 @@
 {
   "de": [
-    "servicesText",
     "youGotText",
     "recommendedCraftsmenText",
     "leaveOrderText",
-    "memberSinceText",
     "addingPicturesHelpsBetterQuotesText",
     "whyareyoureportinghim",
     "confirmPasswordCannotBeEmptyText"

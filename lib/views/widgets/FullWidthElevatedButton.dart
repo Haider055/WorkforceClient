@@ -31,7 +31,7 @@ class FullWidthElevatedButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 14.sp, // Adjust font size to fit inside
+            fontSize: 14,
             color: Color(textColor), // Text color
             fontWeight: FontWeight.bold,
           ),

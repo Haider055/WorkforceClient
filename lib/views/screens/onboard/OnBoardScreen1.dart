@@ -29,71 +29,80 @@ class OnBoardScreen1 extends GetView<OnboardingScreenController> {
         return false;
       },
       child: Obx(() {
-        return Scaffold(
-          backgroundColor: const Color(MyColors.appbackgroundColor),
-          body: SafeArea(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 0.72.sh,
-                  child: PageView.builder(
-                    controller: controller.pageController,
-                    itemCount: 3,
-                    onPageChanged: (index) {
-                      controller.currentIndex.value = index;
-                    },
-                    itemBuilder: (context, index) {
-                      return SliderViewSplash(index);
-                    },
-                  ),
-                ),
-                Column(
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: const SystemUiOverlayStyle(
+              systemNavigationBarColor: Color(MyColors.appbackgroundColor),
+              systemNavigationBarIconBrightness:
+                  Brightness.dark, // dark icons on a light bar
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+            ),
+            child: Scaffold(
+              backgroundColor: const Color(MyColors.appbackgroundColor),
+              body: SafeArea(
+                top: false,
+                child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(3, (index) {
-                        return Rectangleindicator(
-                          size: controller.currentIndex.value == index
-                              ? 40.0.w
-                              : 20.0.w,
-                          color: controller.currentIndex.value == index
-                              ? 0xFFD60107
-                              : 0x7F900B09,
-                        );
-                      }),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 32.0.w, right: 32.0.w, top: 8.0.h),
-                      child: FullWidthButtonPrimary(
-                        text: controller.currentIndex.value == 2
-                            ? Strings.letsStartText(context)
-                            : Strings.continueText(context),
-                        fontsize: 17.0.sp,
-                        color: MyColors.themeRedColor,
-                        onPressed: () async {
-                          controller.nextPage();
+                    SizedBox(
+                      height: 0.72.sh,
+                      child: PageView.builder(
+                        controller: controller.pageController,
+                        itemCount: 3,
+                        onPageChanged: (index) {
+                          controller.currentIndex.value = index;
+                        },
+                        itemBuilder: (context, index) {
+                          return SliderViewSplash(index);
                         },
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.goToDashboard();
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(4.0.r),
-                        child: Skipandnexttext(
-                          text: Strings.skipText(context),
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(3, (index) {
+                            return Rectangleindicator(
+                              size: controller.currentIndex.value == index
+                                  ? 40.0.w
+                                  : 20.0.w,
+                              color: controller.currentIndex.value == index
+                                  ? 0xFFD60107
+                                  : 0x7F900B09,
+                            );
+                          }),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 32.0.w, right: 32.0.w, top: 8.0.h),
+                          child: FullWidthButtonPrimary(
+                            text: controller.currentIndex.value == 2
+                                ? Strings.letsStartText(context)
+                                : Strings.continueText(context),
+                            fontsize: 17.0,
+                            color: MyColors.themeRedColor,
+                            onPressed: () async {
+                              controller.nextPage();
+                            },
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            controller.goToDashboard();
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(4.0.r),
+                            child: Skipandnexttext(
+                              text: Strings.skipText(context),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    const Spacer(),
                   ],
                 ),
-                const Spacer(),
-              ],
-            ),
-          ),
-        );
+              ),
+            ));
       }),
     );
   }

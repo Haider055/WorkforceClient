@@ -25,7 +25,7 @@ class SelectServiceDetailsController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      // print(response.body);
+      // //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -53,9 +53,11 @@ class SelectServiceDetailsController extends GetxController {
         return list;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

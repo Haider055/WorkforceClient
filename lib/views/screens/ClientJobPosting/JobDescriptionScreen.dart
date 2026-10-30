@@ -1,35 +1,35 @@
-import 'dart:io';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
-import 'package:workforceclientapp/Controllers/PasswordUpdatedController.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDraft.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
-class JobDescriptionScreen extends GetView<PasswordUpdatedController> {
+class JobDescriptionScreen extends GetView<JobDescController> {
   const JobDescriptionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: Platform.isAndroid,
+      canPop: true,
       onPopInvokedWithResult: (didPop, result) {
-        if (didPop && Platform.isAndroid) {
+        if (didPop) {
           Constants.currentJobPostingStep.value--;
         }
       },
       child: GestureDetector(
         onTap: () {
-          FocusScope.of(Get.context!).unfocus();
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -49,15 +49,15 @@ class JobDescriptionScreen extends GetView<PasswordUpdatedController> {
                   Center(
                       child: Padding(
                     padding: EdgeInsets.only(left: 8.0.w, right: 40.0.w),
-                    child: Text(Constants.selectedServiceName,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins')),
+                    child: AutoSizeText(
+                      Constants.selectedServiceName,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      minFontSize: 9,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 15.5, fontWeight: FontWeight.w600),
+                    ),
                   )),
                   Positioned(
                       top: 0,
@@ -73,195 +73,230 @@ class JobDescriptionScreen extends GetView<PasswordUpdatedController> {
             ),
           ),
           body: SafeArea(
-            child: Obx(() {
-              return Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Obx(() {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.0.w, vertical: 0),
-                            child: LinearProgressBar(
-                              maxSteps: Constants.jobPostingSteps,
-                              progressType:
-                                  LinearProgressBar.progressTypeLinear,
-                              minHeight: 6,
-                              currentStep:
-                                  Constants.currentJobPostingStep.value,
-                              progressColor:
-                                  const Color(MyColors.themeRedColor),
-                              backgroundColor:
-                                  const Color(MyColors.lightSilverColor),
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          );
-                        }),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 5.0.h, right: 15.w),
-                            child: Text(
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Obx(() {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.0.w, vertical: 0),
+                          child: LinearProgressBar(
+                            maxSteps: Constants.jobPostingSteps,
+                            progressType: LinearProgressBar.progressTypeLinear,
+                            minHeight: 6,
+                            currentStep: Constants.currentJobPostingStep.value,
+                            progressColor: const Color(MyColors.themeRedColor),
+                            backgroundColor:
+                                const Color(MyColors.lightSilverColor),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        );
+                      }),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5.0.h, right: 15.w),
+                          // The bar was in an Obx but this label was not, so
+                          // the step number never changed.
+                          child: Obx(() {
+                            return Text(
                               "${Strings.step(Get.context!)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
                               style: TextStyle(
                                   fontSize: 14.5.sp,
                                   color: const Color(MyColors.midGrayColor)),
-                            ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 16,
+                  child: Padding(
+                    padding: EdgeInsets.all(12.0.r),
+                    child: Column(
+                      children: [
+                        Card(
+                          color: const Color(MyColors.cardGrayColor50),
+                          elevation: 0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 18.0.w, top: 12.0.h),
+                                child: HeadingTextW500(
+                                    text: Strings.description(context),
+                                    centerAlign: false,
+                                    size: 20.sp),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 18.0.w, top: 5.0.h),
+                                child: Headingdescription(
+                                  text: Strings.tellUsMoreAboutYourNeed(
+                                      Get.context!),
+                                  centerAlign: false,
+                                  size: 16.sp,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(18.0.r),
+                                child: TextField(
+                                  maxLines: 12,
+                                  autofocus: false,
+                                  keyboardType: TextInputType.multiline,
+                                  textInputAction: TextInputAction.newline,
+                                  // `enabled: Constants.descTVFocus.value` is
+                                  // gone. It was read outside any Obx so it
+                                  // never took effect, and toggling a field's
+                                  // enabled state to kill the keyboard causes
+                                  // flicker of its own. A real unfocus does
+                                  // the job.
+                                  showCursor: true,
+                                  onChanged: (value) {
+                                    Constants.jobDescription = value;
+                                  },
+                                  onSubmitted: (value) {
+                                    Constants.jobDescription = value;
+                                    onTextSubmit();
+                                  },
+                                  controller: controller.descTextField(),
+                                  cursorColor:
+                                      const Color(MyColors.themeRedColor),
+                                  decoration: InputDecoration(
+                                      hintText:
+                                          Strings.pleaseExplaininyourownWords(
+                                              Get.context!),
+                                      hintStyle: TextStyle(
+                                          fontSize: 15.sp,
+                                          color: const Color(
+                                              MyColors.darkGrayColor),
+                                          fontWeight: FontWeight.w400),
+                                      fillColor:
+                                          const Color(MyColors.whiteColor),
+                                      filled: true,
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color: Color(
+                                                  MyColors.lightGrayColor))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9.0.r),
+                                          borderSide: const BorderSide(
+                                              color:
+                                                  Color(MyColors.themeRedColor))),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0.r), borderSide: const BorderSide(color: Color(MyColors.lightGrayColor)))),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        const Spacer(),
                       ],
                     ),
                   ),
-                  Expanded(
-                    flex: 16,
-                    child: Padding(
-                      padding: EdgeInsets.all(12.0.r),
-                      child: Column(
-                        children: [
-                          Card(
-                            color: const Color(MyColors.cardGrayColor50),
-                            elevation: 0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 18.0.w, top: 12.0.h),
-                                  child: HeadingTextW500(
-                                      text: Strings.description(context),
-                                      centerAlign: false,
-                                      size: 20.sp),
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 18.0.w, top: 5.0.h),
-                                  child: Headingdescription(
-                                    text: Strings.tellUsMoreAboutYourNeed(
-                                        Get.context!),
-                                    centerAlign: false,
-                                    size: 16.sp,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(18.0.r),
-                                  child: TextField(
-                                    maxLines: 12,
-                                    autofocus: false,
-                                    enabled: Constants.descTVFocus.value,
-                                    controller: TextEditingController(
-                                        text: Constants.jobDescription),
-                                    onChanged: (value) {
-                                      Constants.jobDescription = value;
-                                    },
-                                    cursorColor:
-                                        const Color(MyColors.themeRedColor),
-                                    decoration: InputDecoration(
-                                        hintText:
-                                            Strings.pleaseExplaininyourownWords(
-                                                Get.context!),
-                                        hintStyle: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: const Color(
-                                                MyColors.darkGrayColor),
-                                            fontWeight: FontWeight.w400),
-                                        fillColor:
-                                            const Color(MyColors.whiteColor),
-                                        filled: true,
-                                        enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(9.0.r),
-                                            borderSide: const BorderSide(
-                                                color: Color(
-                                                    MyColors.lightGrayColor))),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(9.0.r),
-                                            borderSide: const BorderSide(
-                                                color:
-                                                    Color(MyColors.themeRedColor))),
-                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0.r), borderSide: const BorderSide(color: Color(MyColors.lightGrayColor)))),
-                                  ),
-                                ),
-                              ],
-                            ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 25.0.w, right: 12.0.w),
+                            child: FullWidthOutlineButton(
+                                text: Strings.back(context),
+                                fontsize: 15,
+                                color: MyColors.themeRedColor,
+                                onPressed: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  Get.back();
+                                }),
                           ),
-                          const Spacer(),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 12.0.w, right: 25.0.w),
+                            child: FullWidthButtonPrimary(
+                                text: Strings.next(context),
+                                fontsize: 15,
+                                color: MyColors.themeRedColor,
+                                onPressed: () {
+                                  Constants.jobDescription =
+                                      controller.descTextField.value.text;
+                                  onTextSubmit();
+                                }),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.r),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 25.0.w, right: 12.0.w),
-                              child: FullWidthOutlineButton(
-                                  text: Strings.back(context),
-                                  fontsize: 15.0.sp,
-                                  color: MyColors.themeRedColor,
-                                  onPressed: () {
-                                    if (Platform.isIOS) {
-                                      Constants.currentJobPostingStep.value--;
-                                    }
-                                    Get.back();
-                                  }),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 12.0.w, right: 25.0.w),
-                              child: FullWidthButtonPrimary(
-                                  text: Strings.next(context),
-                                  fontsize: 15.0.sp,
-                                  color: MyColors.themeRedColor,
-                                  onPressed: () async {
-                                    if (Constants.jobDescription.isNotEmpty) {
-                                      FocusScope.of(Get.context!).unfocus();
-                                      Constants.descTVFocus.value = false;
-                                      Constants.currentJobPostingStep.value++;
-                                      Future.delayed(
-                                        const Duration(milliseconds: 300),
-                                        () async {
-                                          var res = await Get.toNamed(
-                                              AppLinks.upload_job_image_screen);
-                                          if (res != null) {
-                                            Constants.descTVFocus.value = true;
-                                          }
-                                        },
-                                      );
-
-                                      // Future.delayed(
-                                      //     const Duration(milliseconds: 800), () {
-                                      //   controller.hasEnable.value = true;
-                                      // });
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: Strings.writeJobDescription(
-                                              context));
-                                    }
-                                  }),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void onTextSubmit() {
+    try {
+      if (Constants.jobDescription.trim().isEmpty) {
+        Fluttertoast.showToast(msg: Strings.writeJobDescription(Get.context!));
+        return;
+      }
+
+      Constants.currentJobPostingStep.value++;
+      JobDraftService.save(step: Constants.currentJobPostingStep.value);
+      _goNext();
+    } catch (e) {
+      debugPrint('Error in onTextSubmit: $e');
+    }
+  }
+
+  Future<void> _goNext() async {
+    // Order matters. The old code called Get.toNamed FIRST and unfocused
+    // afterwards, inside the delayed callback — by then Get.context! was the
+    // upload screen, so it unfocused the wrong route while this screen still
+    // owned the keyboard. Drop focus here, first.
+    //
+    // FocusScope.of(Get.context!).unfocus() also never released the field's
+    // own node; FocusManager does.
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    // Let the keyboard finish closing before the push animation starts.
+    await Future.delayed(const Duration(milliseconds: 120));
+
+    Get.toNamed(AppLinks.upload_job_image_screen);
+  }
+}
+
+class JobDescController extends GetxController {
+  final descTextField = TextEditingController().obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Restores what was typed if the user steps back into this screen.
+    descTextField.value.text = Constants.jobDescription;
+  }
+
+  @override
+  void onClose() {
+    descTextField.value.dispose();
+    super.onClose();
   }
 }

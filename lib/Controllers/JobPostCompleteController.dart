@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Controllers/NetworkController.dart';
 import 'package:workforceclientapp/Models/CheckBoxQuestion.dart';
 import 'package:workforceclientapp/Models/RadioQuestion.dart';
 import 'package:workforceclientapp/Models/TextQuestion.dart';
@@ -18,8 +20,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
-import 'package:workforceclientapp/views/widgets/HeadingText.dart';
-import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDraft.dart';
 
 class JobPostCompleteController extends GetxController {
   late SharedPreferences _prefs;
@@ -39,6 +40,11 @@ class JobPostCompleteController extends GetxController {
 
   Future<String> pleasePostJob() async {
     try {
+      if (!Get.find<NetworkController>().isOnline.value) {
+        showNoInternetDialog();
+        return 'error';
+      }
+
       String lang = await _getPrefLanguageValue();
       List<File> imageFiles = Constants.selectedImages;
       List<Map<String, dynamic>> questionsList = Constants.questionsList;
@@ -140,6 +146,8 @@ class JobPostCompleteController extends GetxController {
                   Constants.jobPostingLng = "";
                   Constants.selectedServiceName = "";
                   Constants.lastPostedJobId = jobPostingObj['id'];
+                  Constants.selectedImages.clear();
+                  JobDraftService.clear();
                 }
               }
             }
@@ -162,9 +170,14 @@ class JobPostCompleteController extends GetxController {
         return msg;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       print("Error: request timed out");
+      // showErrorDialog(Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
+      // showErrorDialog(Strings.somethingWentWrong(Get.context!));
       print("Error: $e");
       throw Exception(e);
     }
@@ -186,63 +199,13 @@ class JobPostCompleteController extends GetxController {
       if (value == "loggedIn") {
         // showLoginDialogPlease();
         String res = await pleasePostJob();
+        if (res == 'error') {
+          return;
+        }
         if (res == "ok") {
           isLoading.value = false;
         } else {
-          isLoading.value = false;
-          jobPostingFailed.value = true;
-
-          Get.defaultDialog(
-            titleStyle: null,
-            title: "",
-            content: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Image.asset(
-                        dialogIconsUrl.value,
-                        fit: BoxFit.contain,
-                        height: 136.92.h,
-                        width: 123.72.w,
-                      )),
-                ),
-                HeadingText(
-                    text: Strings.failedText(Get.context!), centerAlign: true),
-                Headingdescription(
-                    text: Strings.somethingWentWrong(Get.context!),
-                    centerAlign: true,
-                    size: 15.0.sp),
-                Headingdescription(text: res, centerAlign: true, size: 15.0.sp),
-                Padding(
-                  padding: EdgeInsets.only(top: 18.0.h),
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: const WidgetStatePropertyAll(
-                              Color(MyColors.themeRedColor)),
-                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r)))),
-                      onPressed: () {
-                        Get.offAllNamed(AppLinks.select_service_screen);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 50.0.w, right: 50.0.w),
-                        child: Center(
-                            child: Text(
-                          Strings.tryAgain(Get.context!),
-                          style: const TextStyle(color: Colors.white),
-                        )),
-                      )),
-                ),
-                SizedBox(height: 16.0.h)
-              ],
-            ),
-          ).then(
-            (value) {
-              Get.offAllNamed(AppLinks.select_service_screen);
-            },
-          );
+          showErrorDialog(res);
         }
       } else {
         showLoginDialogPlease();
@@ -256,58 +219,347 @@ class JobPostCompleteController extends GetxController {
   void showLoginDialogPlease() {
     showLoginDialog.value = true;
     jobPostingFailed.value = true;
+    if (Get.isDialogOpen ?? false) return;
+
     Get.dialog(
-      AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0.r),
-        ),
-        title: Center(
-          child: Text(
-            Strings.loginRequiredText(Get.context!),
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: const Color(MyColors.themeRedColor),
-            ),
+      PopScope(
+        canPop: false,
+        child: Dialog(
+          backgroundColor: Colors.white,
+          insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.r),
           ),
-        ),
-        content: Text(
-          Strings.pleaseLoginToPostJobDescText(Get.context!),
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 14.sp),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Constants.fromWhere = "JobPostCompletedScreen";
-                  Get.offAllNamed(AppLinks.login_screen);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(MyColors.themeRedColor),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 18.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(14.r),
+                  decoration: BoxDecoration(
+                    color:
+                        const Color(MyColors.themeRedColor).withOpacity(0.10),
+                    shape: BoxShape.circle,
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                  child: Icon(
+                    Icons.lock_person_outlined,
+                    color: const Color(MyColors.themeRedColor),
+                    size: 26.sp,
+                  ),
                 ),
-                child: Text(
-                  Strings.loginText(Get.context!),
-                  style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                SizedBox(height: 16.h),
+                Text(
+                  Strings.loginRequiredText(Get.context!),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17.5.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins',
+                    color: const Color(MyColors.blackColor),
+                  ),
                 ),
-              ),
+                SizedBox(height: 8.h),
+                Text(
+                  Strings.pleaseLoginToPostJobDescText(Get.context!),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13.5.sp,
+                    height: 1.45,
+                    fontFamily: 'Poppins',
+                    color: const Color(MyColors.darkGrayColor),
+                  ),
+                ),
+                SizedBox(height: 22.h),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Constants.fromWhere = "JobPostCompletedScreen";
+                      // Close FIRST — otherwise the dialog stays mounted
+                      // over the login screen.
+                      Get.back();
+                      Get.toNamed(AppLinks.login_screen);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(MyColors.themeRedColor),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 13.h),
+                    ),
+                    child: Text(
+                      Strings.loginText(Get.context!),
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.back();
+                      Get.offAllNamed(AppLinks.select_service_screen);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                          color: Color(MyColors.lightSilverColor)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 13.h),
+                    ),
+                    child: Text(
+                      Strings.cancelText(Get.context!),
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Poppins',
+                        color: const Color(MyColors.darkGrayColor),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
       barrierDismissible: false,
-      // Prevent dismissing by tapping outside
-    ).then(
-      (value) {
-        Get.offAllNamed(AppLinks.select_service_screen);
-      },
+    );
+  }
+
+  void showErrorDialog(String res) {
+    isLoading.value = false;
+    jobPostingFailed.value = true;
+
+    Get.dialog(
+      PopScope(
+        canPop: false, // still blocking, but Cancel is now a real exit
+        child: Dialog(
+          backgroundColor: Colors.white,
+          insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 18.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  dialogIconsUrl.value,
+                  fit: BoxFit.contain,
+                  height: 112.h,
+                  width: 102.w,
+                ),
+                SizedBox(height: 18.h),
+                Text(
+                  Strings.failedText(Get.context!),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins',
+                    color: const Color(MyColors.blackColor),
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  res,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13.5.sp,
+                    height: 1.45,
+                    fontFamily: 'Poppins',
+                    color: const Color(MyColors.darkGrayColor),
+                  ),
+                ),
+                SizedBox(height: 22.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(
+                              color: Color(MyColors.lightSilverColor)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 13.h),
+                        ),
+                        onPressed: () => Get.back(),
+                        child: Text(
+                          Strings.cancelText(Get.context!),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: 'Poppins',
+                            color: const Color(MyColors.darkGrayColor),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(MyColors.themeRedColor),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 13.h),
+                        ),
+                        onPressed: () async {
+                          // Close FIRST — otherwise postJob's progress dialog
+                          // opens on top of this one and they stack.
+                          Get.back();
+                          await Future.delayed(
+                              const Duration(milliseconds: 150));
+                          postJob();
+                        },
+                        child: Text(
+                          Strings.tryAgain(Get.context!),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  void showNoInternetDialog() {
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+        insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Padding(
+          padding: EdgeInsets.all(18.0.r),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(12.r),
+                decoration: BoxDecoration(
+                  color: const Color(MyColors.themeRedColor).withOpacity(0.10),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.wifi_off_rounded,
+                  color: const Color(MyColors.themeRedColor),
+                  size: 24.sp,
+                ),
+              ),
+              SizedBox(height: 14.h),
+              AutoSizeText(Strings.noInternetText(Get.context!),
+                  textAlign: TextAlign.center,
+                  maxFontSize: 16,
+                  maxLines: 1,
+                  minFontSize: 9,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                  )),
+              SizedBox(height: 8.h),
+              AutoSizeText(
+                Strings.offlineSnackbarDescText(Get.context!),
+                textAlign: TextAlign.center,
+                maxFontSize: 13,
+                minFontSize: 9,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 13,
+                  height: 1.4,
+                  color: Colors.grey[600],
+                  fontFamily: 'Poppins',
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(
+                            color: Color(MyColors.lightSilverColor)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                        Get.back();
+                      },
+                      child: Text(
+                        Strings.cancelText(Get.context!),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: 'Poppins',
+                          color: const Color(MyColors.darkGrayColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(MyColors.themeRedColor),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
+                      onPressed: () async {
+                        // Close first so a progress dialog opened by the
+                        // retry cannot collide with this one.
+                        Get.back();
+                        await Future.delayed(const Duration(milliseconds: 100));
+                        postJob();
+                      },
+                      child: Text(
+                        Strings.tryAgain(Get.context!),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
     );
   }
 }

@@ -21,6 +21,7 @@ import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/NewMessageController.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/screens/Chat/ChatLoadingSkeleton.dart';
 import 'package:workforceclientapp/views/widgets/DialogButton.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
@@ -233,11 +234,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                 resizeToAvoidBottomInset: true,
                 appBar: appBarWidget(),
                 body: isLoading.value || chat == null
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(MyColors.themeRedColor),
-                        ),
-                      )
+                    ? const ChatLoadingSkeleton() // was CircularProgressIndicator
                     : SafeArea(
                         child: Column(
                           children: [
@@ -433,49 +430,52 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                 );
                               }),
                             ),
-                            Row(
-                              children: [
-                                Expanded(flex: 10, child: textfieldWidget()),
-                                chat!.canSendMessage
-                                    ? Expanded(
-                                        flex: 2,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            try {
-                                              if (conversationContoller
-                                                  .messageTextField
-                                                  .value
-                                                  .text
-                                                  .isNotEmpty) {
-                                                sendMessage(
-                                                  conversationContoller
-                                                      .messageTextField
-                                                      .value
-                                                      .text,
-                                                );
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16.0.h),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 10, child: textfieldWidget()),
+                                  chat!.canSendMessage
+                                      ? Expanded(
+                                          flex: 2,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              try {
+                                                if (conversationContoller
+                                                    .messageTextField
+                                                    .value
+                                                    .text
+                                                    .isNotEmpty) {
+                                                  sendMessage(
+                                                    conversationContoller
+                                                        .messageTextField
+                                                        .value
+                                                        .text,
+                                                  );
+                                                }
+                                              } catch (e) {
+                                                throw Exception(e);
                                               }
-                                            } catch (e) {
-                                              throw Exception(e);
-                                            }
-                                          },
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              "lib/assets/icons/sendButton.svg",
-                                              fit: BoxFit.cover,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  10,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  8,
+                                            },
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                "lib/assets/icons/sendButton.svg",
+                                                fit: BoxFit.cover,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    10,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    8,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                              ],
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -495,8 +495,27 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
         status,
         context,
       );
-      Commons.hideProgressDialog();
+      print(chatId);
+      print("chatid");
       backResults = "reload";
+      if (chatId != -1) {
+        // initState/getChatObject read both fields, so keep them in sync
+        // or reopening this chat shows the old status.
+        jobStatus = status;
+        this.status = status;
+        chat!.jobStatus = status;
+        chat!.applicationStatus = status;
+        for (final listChat in Get.find<AllChatsContoller>().list) {
+          if (listChat.id == chat!.id) {
+            listChat.jobStatus = status;
+            listChat.applicationStatus = status;
+          }
+        }
+      }
+      // Get.find<AllChatsContoller>().updateChatObject(chatId, index);
+      Commons.hideProgressDialog();
+      setState(() {});
+
       if (chatId != -1) {
         setState(() {
           if (option == Strings.startContractNowText(Get.context!)) {
@@ -770,7 +789,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
         isLoadMoreEnable.value = false;
         setState(() {});
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       }
     } catch (e) {
       throw Exception(e);
@@ -817,7 +836,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     try {
       chat = await conversationContoller.pleaseGetChatObject(chatId, context);
       if (chat == null) {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(context));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
         return;
       }
       setState(() {});
@@ -1205,107 +1224,106 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                   updateJobStatus("in_progress");
                                 } else if (option ==
                                     Strings.markAsCompleteText(Get.context!)) {
-                                  showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (context) => Dialog(
-                                            backgroundColor: Colors.white,
-                                            insetPadding: EdgeInsets.symmetric(
-                                                horizontal: 24.w),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        16.r)),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 20.w,
-                                                  vertical: 24.h),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.all(14.r),
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: Color(MyColors
-                                                          .cardColorGreen200),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: SvgPicture.asset(
-                                                      "lib/assets/icons/completedTickIcon.svg",
-                                                      height: 26.h,
-                                                      width: 26.w,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 16.h),
-                                                  Text(
-                                                    "${Strings.jobHasBeenDoneText(context)}?",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 17.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: 'Poppins',
-                                                      color: const Color(
-                                                          MyColors.blackColor),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 10.h),
-                                                  Text(
-                                                    Strings
-                                                        .areYouSureToCompleteThisContractText(
-                                                            context),
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontFamily: 'Poppins',
-                                                      color: const Color(
-                                                          MyColors
-                                                              .darkGrayColor),
-                                                      height: 1.4,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 24.h),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child:
-                                                            FullWidthOutlineButton(
-                                                                text: Strings
-                                                                    .noText(
-                                                                        context),
-                                                                fontsize:
-                                                                    14.5.sp,
-                                                                color: MyColors
-                                                                    .colorNeutral700,
-                                                                onPressed: () {
-                                                                  Get.back();
-                                                                }),
-                                                      ),
-                                                      SizedBox(width: 12.w),
-                                                      Expanded(
-                                                        child:
-                                                            FullWidthButtonPrimary(
-                                                                text: Strings
-                                                                    .yesText(
-                                                                        context),
-                                                                fontsize:
-                                                                    14.5.sp,
-                                                                color: MyColors
-                                                                    .themeRedColor,
-                                                                onPressed: () {
-                                                                  Get.back();
-                                                                  updateJobStatus(
-                                                                      "completed");
-                                                                }),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ));
+                                  // showDialog(
+                                  //     context: context,
+                                  //     barrierDismissible: true,
+                                  //     builder: (context) => Dialog(
+                                  //           backgroundColor: Colors.white,
+                                  //           insetPadding: EdgeInsets.symmetric(
+                                  //               horizontal: 24.w),
+                                  //           shape: RoundedRectangleBorder(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(
+                                  //                       16.r)),
+                                  //           child: Padding(
+                                  //             padding: EdgeInsets.symmetric(
+                                  //                 horizontal: 20.w,
+                                  //                 vertical: 24.h),
+                                  //             child: Column(
+                                  //               mainAxisSize: MainAxisSize.min,
+                                  //               children: [
+                                  //                 Container(
+                                  //                   padding:
+                                  //                       EdgeInsets.all(14.r),
+                                  //                   decoration:
+                                  //                       const BoxDecoration(
+                                  //                     color: Color(MyColors
+                                  //                         .cardColorGreen200),
+                                  //                     shape: BoxShape.circle,
+                                  //                   ),
+                                  //                   child: SvgPicture.asset(
+                                  //                     "lib/assets/icons/completedTickIcon.svg",
+                                  //                     height: 26.h,
+                                  //                     width: 26.w,
+                                  //                   ),
+                                  //                 ),
+                                  //                 SizedBox(height: 16.h),
+                                  //                 Text(
+                                  //                   "${Strings.jobHasBeenDoneText(context)}?",
+                                  //                   textAlign: TextAlign.center,
+                                  //                   style: TextStyle(
+                                  //                     fontSize: 17.sp,
+                                  //                     fontWeight:
+                                  //                         FontWeight.w600,
+                                  //                     fontFamily: 'Poppins',
+                                  //                     color: const Color(
+                                  //                         MyColors.blackColor),
+                                  //                   ),
+                                  //                 ),
+                                  //                 SizedBox(height: 10.h),
+                                  //                 Text(
+                                  //                   Strings
+                                  //                       .areYouSureToCompleteThisContractText(
+                                  //                           context),
+                                  //                   textAlign: TextAlign.center,
+                                  //                   style: TextStyle(
+                                  //                     fontSize: 14.sp,
+                                  //                     fontFamily: 'Poppins',
+                                  //                     color: const Color(
+                                  //                         MyColors
+                                  //                             .darkGrayColor),
+                                  //                     height: 1.4,
+                                  //                   ),
+                                  //                 ),
+                                  //                 SizedBox(height: 24.h),
+                                  //                 Row(
+                                  //                   children: [
+                                  //                     Expanded(
+                                  //                       child:
+                                  //                           FullWidthOutlineButton(
+                                  //                               text: Strings
+                                  //                                   .noText(
+                                  //                                       context),
+                                  //                               fontsize: 14,
+                                  //                               color: MyColors
+                                  //                                   .colorNeutral700,
+                                  //                               onPressed: () {
+                                  //                                 Get.back();
+                                  //                               }),
+                                  //                     ),
+                                  //                     SizedBox(width: 12.w),
+                                  //                     Expanded(
+                                  //                       child:
+                                  //                           FullWidthButtonPrimary(
+                                  //                               text: Strings
+                                  //                                   .yesText(
+                                  //                                       context),
+                                  //                               fontsize: 14,
+                                  //                               color: MyColors
+                                  //                                   .themeRedColor,
+                                  //                               onPressed: () {
+                                  //                                 Get.back();
+                                  //                                 updateJobStatus(
+                                  //                                     "completed");
+                                  //                               }),
+                                  //                     ),
+                                  //                   ],
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         ));
+                                  _confirmAndComplete();
                                 } else {}
                               },
                               textColor: MyColors.whiteColor,
@@ -1319,6 +1337,90 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
         ),
       ),
     );
+  }
+
+  final bool _isUpdatingStatus = false;
+
+  Future<void> _confirmAndComplete() async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: Colors.white,
+        insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(14.r),
+                decoration: const BoxDecoration(
+                  color: Color(MyColors.cardColorGreen200),
+                  shape: BoxShape.circle,
+                ),
+                child: SvgPicture.asset(
+                  "lib/assets/icons/completedTickIcon.svg",
+                  height: 26.h,
+                  width: 26.w,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "${Strings.markAsCompleteText(dialogContext)}?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                  color: const Color(MyColors.blackColor),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                Strings.areYouSureToCompleteThisContractText(dialogContext),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontFamily: 'Poppins',
+                  color: const Color(MyColors.darkGrayColor),
+                  height: 1.4,
+                ),
+              ),
+              SizedBox(height: 24.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: FullWidthOutlineButton(
+                      text: Strings.noText(dialogContext),
+                      fontsize: 14,
+                      color: MyColors.colorNeutral700,
+                      onPressed: () => Navigator.of(dialogContext).pop(false),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: FullWidthButtonPrimary(
+                      text: Strings.yesText(dialogContext),
+                      fontsize: 14,
+                      color: MyColors.themeRedColor,
+                      onPressed: () => Navigator.of(dialogContext).pop(true),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    // The dialog is fully closed here, so the next step can't collide with it.
+    if (confirmed == true && mounted) {
+      updateJobStatus("completed");
+    }
   }
 }
 

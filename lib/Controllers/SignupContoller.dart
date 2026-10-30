@@ -14,6 +14,7 @@ import 'package:workforceclientapp/Others/routes.dart';
 
 class SignUpContoller extends GetxController {
   late SharedPreferences _prefs;
+  RxString countryDialCode = "+49".obs;
 
   RxString dialogIconsUrl = "lib/assets/images/signuperrorimage.png"
       .obs; // lib/assets/images/signuperrorimage.png
@@ -46,7 +47,7 @@ class SignUpContoller extends GetxController {
             body: jsonEncode(<String, String>{
               'name': nameTextField.value.text.toString(),
               'email': emailTextField.value.text.toString(),
-              'phone': phoneTextField.value.text.toString(),
+              'phone': fullPhoneNumber,
               'password': passwordTextField.value.text.toString(),
               'password_confirmation':
                   confirmPasswordTextField.value.text.toString(),
@@ -55,7 +56,7 @@ class SignUpContoller extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      print(response.body);
+      //print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       String message = jsonData['message'];
 
@@ -95,15 +96,17 @@ class SignUpContoller extends GetxController {
       return "";
     } on TimeoutException {
       Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
 
   void checkPasswordStrength(String password) {
     double strength = 0;
-    if (password.length >= 12) strength += 0.2;
+    if (password.length >= 10) strength += 0.2;
     if (RegExp(r'[a-z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[A-Z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[0-9]').hasMatch(password)) strength += 0.2;
@@ -111,14 +114,23 @@ class SignUpContoller extends GetxController {
 
     passwordStrength.value = strength;
     if (strength < 0.4) {
-      passwordStrengthText.value = Strings.weakText(Get.context!);
+      // passwordStrengthText.value = Strings.weakText(Get.context!);
     } else if (strength < 0.8) {
-      passwordStrengthText.value = Strings.moderateText(Get.context!);
+      // passwordStrengthText.value = Strings.moderateText(Get.context!);
     } else if (strength < 1.0) {
-      passwordStrengthText.value = Strings.goodText(Get.context!);
+      // passwordStrengthText.value = Strings.goodText(Get.context!);
     } else {
-      passwordStrengthText.value = Strings.strongText(Get.context!);
+      // passwordStrengthText.value = Strings.strongText(Get.context!);
       showPasswordRules.value = false;
     }
+  }
+
+  String get fullPhoneNumber {
+    String number =
+        phoneTextField.value.text.trim().replaceAll(RegExp(r'[\s\-()]'), '');
+
+    if (number.startsWith('+')) return number;
+    number = number.replaceFirst(RegExp(r'^0+'), '');
+    return '${countryDialCode.value}$number';
   }
 }

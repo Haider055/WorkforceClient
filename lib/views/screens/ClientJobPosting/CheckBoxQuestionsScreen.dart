@@ -1,10 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
-import 'package:workforceclientapp/Controllers/PasswordUpdatedController.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Models/CheckBoxQuestion.dart';
 import 'package:workforceclientapp/Models/QuestionOption.dart';
 import 'package:workforceclientapp/Models/RadioQuestion.dart';
@@ -14,6 +15,7 @@ import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
+import 'package:workforceclientapp/views/screens/ClientJobPosting/JobDraft.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
@@ -29,7 +31,8 @@ class CheckBoxQuestionsScreen extends StatefulWidget {
 
 class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
   int _currentIndex = 0;
-  final PageController _pageController = PageController();
+  late final PageController _pageController =
+      PageController(initialPage: _currentIndex);
   bool isLoading = true.obs();
   int selectedServiceId = -1;
   final data = Get.arguments;
@@ -37,8 +40,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
   late List<Map<String, dynamic>> questionsList = [];
   Map<String, List<int>> radioAddedSubQues = {};
   Map<String, List<int>> checkBoxAddedSubQues = {};
-  PasswordUpdatedController passwordUpdatedController =
-      Get.find<PasswordUpdatedController>();
+  late SharedPreferences prefs;
 
   void _nextPage() {
     if (questionsList.elementAt(_currentIndex).entries.first.key ==
@@ -73,11 +75,15 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
     if (_currentIndex < questionsList.length - 1) {
       FocusScope.of(context).unfocus();
       Constants.currentJobPostingStep.value++;
+      JobDraftService.save(step: Constants.currentJobPostingStep.value);
+      // prefs.setString('answer1', questionsList.elementAt(_currentIndex))
+
       _pageController.nextPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     } else {
       Constants.questionsList = questionsList;
       Constants.currentJobPostingStep.value++;
+      JobDraftService.save(step: Constants.currentJobPostingStep.value);
       Get.toNamed(AppLinks.job_description_screen);
     }
   }
@@ -85,12 +91,15 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
   void _previousPage() {
     if (_currentIndex > 0) {
       Constants.currentJobPostingStep.value--;
+      JobDraftService.save(step: Constants.currentJobPostingStep.value);
       _pageController.previousPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
       FocusScope.of(context).unfocus();
     } else {
       Constants.currentJobPostingStep.value--;
-      Get.offNamed(AppLinks.job_title_screen);
+      Get.back();
+      setState(() {});
+      // Get.offNamed(AppLinks.job_title_screen);
     }
   }
 
@@ -99,9 +108,23 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
     super.initState();
     header = Constants.selectedServiceName;
     questionsList = Constants.questionsList;
-    Future.delayed(const Duration(milliseconds: 300), () {
+    final resume = JobDraftService.takeResume();
+    if (resume != null) {
+      _currentIndex = resume.index;
+      radioAddedSubQues = resume.radioSubQues;
+      checkBoxAddedSubQues = resume.checkBoxSubQues;
+    }
+    manageLastJob();
+
+    Future.delayed(const Duration(milliseconds: 100), () {
       Constants.titleTVFocus.value = true;
+      setState(() {});
     });
+  }
+
+  void manageLastJob() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool('hasLastJob', true);
   }
 
   @override
@@ -133,15 +156,15 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                     Center(
                         child: Padding(
                       padding: EdgeInsets.only(left: 8.0.w, right: 32.0.w),
-                      child: Text(Constants.selectedServiceName,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.0.sp,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Poppins')),
+                      child: AutoSizeText(
+                        Constants.selectedServiceName,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        minFontSize: 9,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 15.5, fontWeight: FontWeight.w600),
+                      ),
                     )),
                     Positioned(
                         top: 0,
@@ -183,7 +206,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(top: 5.0.h, right: 15.0.w),
                         child: Text(
-                          "${Strings.skipText(Get.context!)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
+                          "${Strings.step(Get.context!)} ${Constants.currentJobPostingStep.value}/${Constants.jobPostingSteps}",
                           style: TextStyle(
                               fontSize: 14.5.sp,
                               color: const Color(MyColors.midGrayColor)),
@@ -252,7 +275,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                           padding: EdgeInsets.only(left: 25.0.w, right: 12.0.w),
                           child: FullWidthOutlineButton(
                               text: Strings.back(context),
-                              fontsize: 15.0.sp,
+                              fontsize: 15.0,
                               color: MyColors.themeRedColor,
                               onPressed: () {
                                 _previousPage();
@@ -264,7 +287,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                           padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
                           child: FullWidthButtonPrimary(
                               text: Strings.next(context),
-                              fontsize: 15.0.sp,
+                              fontsize: 15.0,
                               color: MyColors.themeRedColor,
                               onPressed: () {
                                 _nextPage();
@@ -633,7 +656,10 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
               Padding(
                 padding: EdgeInsets.all(20.0.w),
                 child: TextField(
-                  controller: TextEditingController(text: question.answer),
+                  onSubmitted: (value) {
+                    _nextPage();
+                  },
+                  controller: question.editField(question.editField.value),
                   onChanged: (value) {
                     question.answer = value;
                   },

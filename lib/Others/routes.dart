@@ -1,3 +1,4 @@
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:workforceclientapp/Bindings/MyBindings.dart';
 import 'package:workforceclientapp/views/screens/Authentications/CreateNewPassword.dart';
@@ -20,10 +21,10 @@ import 'package:workforceclientapp/views/screens/JobRecommendations/TradesmenDet
 import 'package:workforceclientapp/views/screens/LegalInformation/AccountSuspendedScreen.dart';
 import 'package:workforceclientapp/views/screens/Chat/BlockScreen.dart';
 import 'package:workforceclientapp/views/screens/LegalInformation/EulaScreen.dart';
-import 'package:workforceclientapp/views/screens/LegalInformation/PrivacyPolicy.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/LegalDetailScreen.dart';
+import 'package:workforceclientapp/views/screens/LegalInformation/LegalGuidesScreen.dart';
 import 'package:workforceclientapp/views/screens/Chat/ReportScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/SupportCentre.dart';
-import 'package:workforceclientapp/views/screens/LegalInformation/TermsAndConditions.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationSettingScreen.dart';
 import 'package:workforceclientapp/views/screens/PostedOrders/OrdersDetailsScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ChangeLanguageScreen.dart';
@@ -172,16 +173,6 @@ class AppRoutes {
       binding: NotificationSettingScreenBinding(),
     ),
     GetPage(
-      name: AppLinks.terms_and_conditions,
-      page: () => const TermsAndConditions(),
-      binding: TermsAndConditionsBindings(),
-    ),
-    GetPage(
-      name: AppLinks.privacy_policy,
-      page: () => const PrivacyPolicy(),
-      binding: PrivacyPolicyBindings(),
-    ),
-    GetPage(
       name: AppLinks.support_centre,
       page: () => const SupportCentre(),
       binding: SupportCentreBindings(),
@@ -205,6 +196,16 @@ class AppRoutes {
       name: AppLinks.block_screen,
       page: () => const BlockScreen(),
       binding: BlockScreenBindings(),
+    ),
+    GetPage(
+      name: AppLinks.legal_guides_screen,
+      page: () => const LegalGuidesScreen(),
+      binding: LegalGuidesBinding(),
+    ),
+    GetPage(
+      name: AppLinks.legal_detail_screen,
+      page: () => const LegalDetailScreen(),
+      binding: LegalDetailBinding(),
     ),
   ];
 }
@@ -245,4 +246,6 @@ class AppLinks {
   static const manage_account_screen = '/manage_account_screen';
   static const account_suspended_screen = '/account_suspended_screen';
   static const support_centre = '/support_centre';
+  static const legal_guides_screen = '/legal_guides_screen';
+  static const legal_detail_screen = '/legal_detail_screen';
 }

@@ -24,8 +24,8 @@ class CreateNewPasswordController extends GetxController {
   RxString confirmPassErrorText = "".obs;
   RxString passErrorText = "".obs;
   RxDouble passwordStrength = 0.0.obs;
-  RxString passwordStrengthText = "".obs;
   RxBool showPasswordRules = false.obs;
+  RxString passwordInput = "".obs;
 
   @override
   void onInit() {
@@ -41,7 +41,6 @@ class CreateNewPasswordController extends GetxController {
 
   Future<void> pleaseResetPassword(String email) async {
     try {
-      Commons.showProgressDialog(Get.context!);
       final response = await http
           .post(
             Uri.parse('${Constants.baseUrl}/reset-password'),
@@ -61,6 +60,7 @@ class CreateNewPasswordController extends GetxController {
       if (response.statusCode == 200) {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
+        updatePassword();
         Get.toNamed(
           AppLinks.password_updated_screen,
         );
@@ -73,9 +73,11 @@ class CreateNewPasswordController extends GetxController {
         Fluttertoast.showToast(msg: msg);
       }
     } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       Commons.hideProgressDialog();
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -103,8 +105,6 @@ class CreateNewPasswordController extends GetxController {
         String msg = jsonData['message'];
         Fluttertoast.showToast(msg: msg);
         updatePassword();
-        passwordTextField.value.text = "";
-        confirmPasswordTextField.value.text = "";
         return true;
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
@@ -118,8 +118,10 @@ class CreateNewPasswordController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       return false;
     }
   }
@@ -127,6 +129,10 @@ class CreateNewPasswordController extends GetxController {
   Future<void> updatePassword() async {
     _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('password', passwordTextField.value.text ?? "");
+    Future.delayed(const Duration(milliseconds: 500), () {
+      passwordTextField.value.text = "";
+      confirmPasswordTextField.value.text = "";
+    });
   }
 
   Widget passwordRule(String text, bool isValid) {
@@ -149,7 +155,7 @@ class CreateNewPasswordController extends GetxController {
 
   void checkPasswordStrength(String password) {
     double strength = 0;
-    if (password.length >= 12) strength += 0.2;
+    if (password.length >= 10) strength += 0.2;
     if (RegExp(r'[a-z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[A-Z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[0-9]').hasMatch(password)) strength += 0.2;
@@ -157,13 +163,13 @@ class CreateNewPasswordController extends GetxController {
 
     passwordStrength.value = strength;
     if (strength < 0.4) {
-      passwordStrengthText.value = Strings.weakText(Get.context!);
+      // passwordStrengthText.value = Strings.weakText(Get.context!);
     } else if (strength < 0.8) {
-      passwordStrengthText.value = Strings.moderateText(Get.context!);
+      // passwordStrengthText.value = Strings.moderateText(Get.context!);
     } else if (strength < 1.0) {
-      passwordStrengthText.value = Strings.goodText(Get.context!);
+      // passwordStrengthText.value = Strings.goodText(Get.context!);
     } else {
-      passwordStrengthText.value = Strings.strongText(Get.context!);
+      // passwordStrengthText.value = Strings.strongText(Get.context!);
       showPasswordRules.value = false;
     }
   }

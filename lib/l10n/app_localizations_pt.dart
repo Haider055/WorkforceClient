@@ -30,6 +30,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get select_languageText => 'Selecionar idioma';
 
   @override
+  String get noInternetText => 'Sem internet';
+
+  @override
+  String get onlineText => 'Online';
+
+  @override
   String get englishText => 'Inglês';
 
   @override
@@ -63,6 +69,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get registerText => 'Registar';
 
   @override
+  String get agreeText => 'concordar';
+
+  @override
+  String get dated => 'datado';
+
+  @override
   String get phoneText => 'Telefone';
 
   @override
@@ -72,7 +84,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get allText => 'Todos';
 
   @override
-  String get chatText => 'Chat';
+  String get chatText => 'conversa';
 
   @override
   String get settingsText => 'Definições';
@@ -84,6 +96,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get changeLanguageText => 'Alterar idioma';
 
   @override
+  String get contractCompleted => 'contrato concluído';
+
+  @override
+  String get contractInProgress => 'Contrato em curso';
+
+  @override
   String get createText => 'Criar';
 
   @override
@@ -91,6 +109,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get signInText => 'Iniciar sessão';
+
+  @override
+  String get totalJobText => 'total de empregos';
 
   @override
   String get loginDesc => 'Inicie sessão para continuar';
@@ -314,6 +335,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get backText => 'Voltar';
 
   @override
+  String get aboutText => 'Sobre';
+
+  @override
   String get photosText => 'Fotos';
 
   @override
@@ -351,16 +375,31 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pleaseSelectSeviceText => 'Selecione um serviço!';
 
   @override
+  String get pleaseEntercurrentPasswordText => 'Introduza a senha atual';
+
+  @override
   String get overviewText => 'Visão geral';
 
   @override
-  String get detailsText => 'Detalhes';
+  String get detailsText => 'detalhes';
+
+  @override
+  String get saveText => 'Guardar';
 
   @override
   String get tradesman => 'Profissional';
 
   @override
+  String get restartText => 'Reiniciar';
+
+  @override
   String get orderDetailText => 'Detalhes do pedido';
+
+  @override
+  String get resultsFoundText => 'resultados encontrados';
+
+  @override
+  String get unFinishedJobText => 'Trabalho inacabado';
 
   @override
   String get searchYourLocationText => 'Pesquise a sua localização';
@@ -402,7 +441,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get professionsText => 'Profissões';
 
   @override
-  String get portfolioText => 'Portefólio';
+  String get portfolioText => 'portfólio';
 
   @override
   String get portfoliosText => 'Portefólios';
@@ -584,7 +623,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get selectServiceDescText =>
-      'Encontre e contrate profissionais certificados na sua \nzona para os serviços de que precisa.';
+      'Encontre e contrate profissionais certificados na sua zona para os serviços de que precisa.';
 
   @override
   String get selectServiceInfoText1 =>
@@ -886,10 +925,20 @@ class AppLocalizationsPt extends AppLocalizations {
       'a mais 0 profissionais para obter respostas adicionais';
 
   @override
+  String get mapPermissionDeniedDesc =>
+      'Por favor, ative o serviço de localização para a aplicação AuftragNow nas definições do seu telefone.';
+
+  @override
   String get messageNotSentText => 'Mensagem não enviada';
 
   @override
+  String get eulaHeading => 'contrato de licença de utilizador final';
+
+  @override
   String get loadMoreText => 'Carregar mais';
+
+  @override
+  String get permissionDenied => 'Permissão negada';
 
   @override
   String get nowText => 'agora';
@@ -930,6 +979,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get goBackText => 'Voltar';
 
   @override
+  String get goToSettingsText => 'Aceda às configurações';
+
+  @override
   String get emailUsText => 'Envie-nos um e-mail';
 
   @override
@@ -948,7 +1000,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tellUsMore => 'Conte-nos mais...';
 
   @override
-  String get atLeast12CharactersText => 'pelo menos 12 caracteres';
+  String get disclaimerInPickImageText =>
+      'Aviso: Poderão ser tomadas medidas legais contra o utilizador caso as fotos enviadas violem os nossos termos de serviço.';
+
+  @override
+  String get atLeast10CharactersText => 'pelo menos 10 caracteres';
 
   @override
   String get whyareyoublockinghim => 'Porque está a bloquear este utilizador?';
@@ -1081,6 +1137,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailText => 'E-mail';
 
   @override
+  String get legalText => 'Legal';
+
+  @override
+  String get retryText => 'Tentar novamente';
+
+  @override
+  String get newText => 'novo';
+
+  @override
+  String get uploadPhotosText => 'enviar fotos';
+
+  @override
+  String get newNotificationText => 'Nova notificação';
+
+  @override
+  String get lastUsedLocationText => 'Último local utilizado';
+
+  @override
+  String get useCurrentLocation => 'Usar a localização atual';
+
+  @override
   String get tellUsMoreAboutYourNeed => 'Conte-nos mais sobre o que precisa';
 
   @override
@@ -1092,7 +1169,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'O seu trabalho já está publicado e pronto para atrair profissionais qualificados.';
 
   @override
-  String get postingyourJobText => 'A publicar o seu trabalho...';
+  String get postingyourJobText => 'Publicando a sua vaga...';
 
   @override
   String get dragtomovePinText =>
@@ -1103,7 +1180,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Fotos das plantas de construção (opcional)';
 
   @override
-  String get max15MbFileText => 'Máx. 15 ficheiros, máx. 2 MB por ficheiro';
+  String get max15MbFileText => 'Máx. 15 ficheiros';
 
   @override
   String get uploadFilesFromGalleryText => 'Carregar ficheiros da galeria';
@@ -1116,6 +1193,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get selectText => 'Selecionar';
 
   @override
+  String get onlyUsersAllowedToLoginText =>
+      'Apenas utilizadores autorizados a iniciar sessão';
+
+  @override
   String get requestHasSentText => 'Solicitação enviada';
 
   @override
@@ -1126,6 +1207,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reviewedOnText => 'Avaliado em';
+
+  @override
+  String get giveReviewText => 'Deixar avaliação';
 
   @override
   String get seeourPrivacyPlolicyText =>
@@ -1224,10 +1308,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get otpFailedToSentText => 'Falha ao enviar o OTP';
 
   @override
+  String get onlineSnackbarDescText => 'A Internet está de volta';
+
+  @override
+  String get offlineSnackbarDescText => 'Parece que está sem ligação de rede.';
+
+  @override
   String get imagesCanBeAddMoreText => 'imagens ainda podem ser adicionadas';
 
   @override
-  String get searchForServicesText => 'Hizmetleri ara';
+  String get searchForServicesText => 'procura de serviços';
 
   @override
   String get requestAlreadySentText => 'Solicitação já enviada';

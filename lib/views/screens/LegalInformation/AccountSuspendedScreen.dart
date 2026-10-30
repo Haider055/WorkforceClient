@@ -50,7 +50,7 @@ class AccountSuspendedScreen extends GetView<AccountSuspendedController> {
                   child: FullWidthButtonPrimary(
                     text:
                         "${Strings.contact(context)} ${Strings.supportCenter(context)}",
-                    fontsize: 15.0.sp,
+                    fontsize: 15.0,
                     color: MyColors.themeRedColor,
                     onPressed: () {
                       controller.goToSupport();
@@ -61,7 +61,7 @@ class AccountSuspendedScreen extends GetView<AccountSuspendedController> {
                   padding: EdgeInsets.only(bottom: 20.0.h),
                   child: FullWidthButtonPrimary(
                     text: Strings.loginText(context),
-                    fontsize: 15.0.sp,
+                    fontsize: 15.0,
                     color: MyColors.themeRedColor,
                     onPressed: () {
                       controller.goToLogin();

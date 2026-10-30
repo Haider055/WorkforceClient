@@ -12,6 +12,14 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButton.dart';
 import 'package:get/get.dart';
 
+// ---------------------------------------------------------------------
+// Uses the same new field as UpdatePasswordScreen:
+//
+//     RxString passwordInput = "".obs;
+//
+// in CreateNewPasswordController. Add it once and both screens work.
+// ---------------------------------------------------------------------
+
 class CreateNewPassword extends GetView<CreateNewPasswordController> {
   const CreateNewPassword({super.key});
 
@@ -19,7 +27,7 @@ class CreateNewPassword extends GetView<CreateNewPasswordController> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(Get.context!).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -79,128 +87,96 @@ class CreateNewPassword extends GetView<CreateNewPasswordController> {
                             size: 14.0.sp),
                       ),
                     ),
+
+                    // errorText read .value with no Obx around it, so it
+                    // never repainted.
                     Padding(
                       padding: EdgeInsets.only(top: 40.0.h),
-                      child: CommonTextField(
-                        errorText: controller.passErrorText.value,
-                        hint: Strings.passwordText(context),
-                        controller: controller.passwordTextField(),
-                        inputType: TextInputType.text,
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        needPasswordSuffixIcon: true,
-                        onChanged: (value) {
-                          controller.passErrorText.value = "";
-                          controller.showPasswordRules.value = true;
-                          controller.checkPasswordStrength(value);
-                        },
-                        needprefixIcon: true,
-                      ),
+                      child: Obx(() {
+                        return CommonTextField(
+                          errorText: controller.passErrorText.value,
+                          hint: Strings.passwordText(context),
+                          controller: controller.passwordTextField(),
+                          inputType: TextInputType.visiblePassword,
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          needPasswordSuffixIcon: true,
+                          onChanged: (value) {
+                            controller.passErrorText.value = "";
+                            controller.showPasswordRules.value = true;
+
+                            // Drives the rules below. Reading
+                            // passwordTextField.value.text inside the Obx
+                            // does NOT work — that Rx only fires when the
+                            // TextEditingController OBJECT is replaced,
+                            // never when its text changes.
+                            controller.passwordInput.value = value;
+
+                            controller.checkPasswordStrength(value);
+                          },
+                          needprefixIcon: true,
+                        );
+                      }),
                     ),
-                    controller.showPasswordRules.value
-                        ? Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: 23.0.w, right: 23.0.w, top: 12.0.h),
-                                child: LinearProgressIndicator(
-                                  value: controller.passwordStrength.value,
-                                  color: controller.passwordStrength.value < 0.4
-                                      ? Colors.red
-                                      : controller.passwordStrength.value < 0.8
-                                          ? Colors.orange
-                                          : Colors.green,
-                                  minHeight: 4,
-                                ),
+
+                    // This whole block had no Obx, so showPasswordRules
+                    // could never make the rules appear at all.
+                    Obx(() {
+                      final pass = controller.passwordInput.value;
+
+                      return controller.showPasswordRules.value
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 18.0.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  controller.passwordRule(
+                                      Strings.atLeast10CharactersText(
+                                          Get.context!),
+                                      pass.length >= 10),
+                                  controller.passwordRule(
+                                      Strings.lowercaseText(Get.context!),
+                                      RegExp(r'[a-z]').hasMatch(pass)),
+                                  controller.passwordRule(
+                                      Strings.uppercaseText(Get.context!),
+                                      RegExp(r'[A-Z]').hasMatch(pass)),
+                                  controller.passwordRule(
+                                      "${Strings.specialSymbols(Get.context!)} (? # @ ...)",
+                                      RegExp(r'[!@#\$&*~]').hasMatch(pass)),
+                                  // Was labelled Strings.dataNotFound — this
+                                  // row checks for digits.
+                                  controller.passwordRule(
+                                      Strings.numbers(Get.context!),
+                                      RegExp(r'[0-9]').hasMatch(pass)),
+                                ],
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      right: 20.0.w, top: 4.0.h),
-                                  child: Text(
-                                    controller.passwordStrengthText.value,
-                                    style: TextStyle(
-                                      color: controller.passwordStrength.value <
-                                              0.4
-                                          ? Colors.red
-                                          : controller.passwordStrength.value <
-                                                  0.8
-                                              ? Colors.orange
-                                              : Colors.green,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 18.0.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    controller.passwordRule(
-                                        Strings.atLeast12CharactersText(
-                                            Get.context!),
-                                        controller.passwordTextField.value.text
-                                                .length >=
-                                            12),
-                                    controller.passwordRule(
-                                        Strings.lowercaseText(Get.context!),
-                                        RegExp(r'[a-z]').hasMatch(controller
-                                            .passwordTextField.value.text)),
-                                    controller.passwordRule(
-                                        Strings.uppercaseText(Get.context!),
-                                        RegExp(r'[A-Z]').hasMatch(controller
-                                            .passwordTextField.value.text)),
-                                    controller.passwordRule(
-                                        "${Strings.specialSymbols(Get.context!)} (? # @ ...)",
-                                        RegExp(r'[!@#\$&*~]').hasMatch(
-                                            controller
-                                                .passwordTextField.value.text)),
-                                    controller.passwordRule(
-                                        Strings.dataNotFound(Get.context!),
-                                        RegExp(r'[0-9]').hasMatch(controller
-                                            .passwordTextField.value.text)),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox(),
-                    // Password Strength Rules
+                            )
+                          : const SizedBox();
+                    }),
+
                     Padding(
                       padding: EdgeInsets.only(top: 16.0.h),
-                      child: CommonTextField(
-                        errorText: controller.confirmPassErrorText.value,
-                        hint: Strings.confirmPasswordText(context),
-                        controller: controller.confirmPasswordTextField(),
-                        inputType: TextInputType.text,
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        needPasswordSuffixIcon: true,
-                        needprefixIcon: true,
-                      ),
+                      child: Obx(() {
+                        return CommonTextField(
+                          errorText: controller.confirmPassErrorText.value,
+                          hint: Strings.confirmPasswordText(context),
+                          controller: controller.confirmPasswordTextField(),
+                          inputType: TextInputType.visiblePassword,
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          needPasswordSuffixIcon: true,
+                          needprefixIcon: true,
+                          onChanged: (value) {
+                            controller.confirmPassErrorText.value = "";
+                          },
+                        );
+                      }),
                     ),
+
                     Padding(
                       padding: EdgeInsets.only(top: 40.0.h),
                       child: FullWidthButton(
                         text: Strings.createText(context),
                         color: MyColors.themeRedColor,
-                        onPressed: () {
-                          try {
-                            if (controller
-                                    .passwordTextField.value.text.isEmpty ||
-                                controller.confirmPasswordTextField.value.text
-                                    .isEmpty) {
-                              Fluttertoast.showToast(
-                                  msg: Strings.cannotBeEmpty(context));
-                            } else {
-                              Commons.showProgressDialog(context);
-                              controller
-                                  .pleaseResetPassword(controller.email.value);
-                              Commons.hideProgressDialog();
-                            }
-                          } catch (e) {
-                            throw Exception(e);
-                          }
-                        },
+                        onPressed: () => _onCreate(context),
                       ),
                     ),
                   ],
@@ -211,5 +187,34 @@ class CreateNewPassword extends GetView<CreateNewPasswordController> {
         ),
       ),
     );
+  }
+
+  Future<void> _onCreate(BuildContext context) async {
+    final password = controller.passwordTextField.value.text;
+    final confirm = controller.confirmPasswordTextField.value.text;
+
+    if (password.isEmpty || confirm.isEmpty) {
+      Fluttertoast.showToast(msg: Strings.cannotBeEmpty(context));
+      return;
+    }
+
+    // There was NO match check here — two different passwords went straight
+    // through to the API.
+    if (password != confirm) {
+      Fluttertoast.showToast(msg: Strings.passwordDoNotMatch(context));
+      return;
+    }
+
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    try {
+      Commons.showProgressDialog(context);
+      await controller.pleaseResetPassword(controller.email.value);
+    } catch (e) {
+      debugPrint('pleaseResetPassword error: $e');
+      // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
+    } finally {
+      Commons.hideProgressDialog();
+    }
   }
 }

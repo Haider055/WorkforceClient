@@ -16,16 +16,11 @@ import 'package:get/get.dart';
 class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
   const ForgotPasswordScreen({super.key});
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -33,6 +28,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
           children: [
             GestureDetector(
               onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
                 Get.back();
               },
               child: Padding(
@@ -99,23 +95,29 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16.0.h),
-                      child: CommonTextField(
-                          errorText: controller.emailAddressErrorText.value,
-                          hint: Strings.emailAddressText(context),
-                          inputType: TextInputType.emailAddress,
-                          controller: controller.emailTextField(),
-                          prefixIcon: const Icon(null),
-                          needPasswordSuffixIcon: false,
-                          needprefixIcon: false),
-                    ),
+                    Obx(() {
+                      return Padding(
+                        padding: EdgeInsets.only(top: 16.0.h),
+                        child: CommonTextField(
+                            errorText: controller.emailAddressErrorText.value,
+                            hint: Strings.emailAddressText(context),
+                            inputType: TextInputType.emailAddress,
+                            controller: controller.emailTextField(),
+                            prefixIcon: const Icon(null),
+                            needPasswordSuffixIcon: false,
+                            needprefixIcon: false),
+                      );
+                    }),
                     Padding(
                       padding: EdgeInsets.only(top: 40.0.h),
                       child: FullWidthButton(
                         text: Strings.sendCodeText(context),
                         color: MyColors.themeRedColor,
                         onPressed: () async {
+                          // Release the email field first, otherwise it
+                          // still owns the keyboard when the OTP screen is
+                          // pushed and it flashes open there.
+                          FocusManager.instance.primaryFocus?.unfocus();
                           if (controller.emailTextField.value.text.isNotEmpty) {
                             if (Commons.isValidEmail(
                                 controller.emailTextField.value.text)) {
@@ -161,6 +163,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                             text: Strings.loginText(context),
                             size: 14.0.sp,
                             callback: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               Get.back();
                             },
                           ),

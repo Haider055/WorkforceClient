@@ -34,10 +34,14 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Spacer(),
-                          HeadingTextW600(
-                              text: Strings.congratulations(context),
-                              centerAlign: false,
-                              size: 32.0.sp),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+                            child: HeadingTextW600(
+                                text: Strings.congratulations(context),
+                                centerAlign: true,
+                                size: 28.0.sp),
+                          ),
                           Padding(
                               padding: EdgeInsets.all(12.0.r),
                               child: Image.asset(
@@ -50,7 +54,7 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
                             child: HeadingTextW600(
                                 text: Strings.jobhasbeenpostedsuccessfullyText(
                                     context),
-                                centerAlign: false,
+                                centerAlign: true,
                                 size: 15.5.sp),
                           ),
                           Padding(
@@ -71,7 +75,7 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
                                   child: FullWidthButtonPrimary(
                                       text: Strings.exploreRecommendedTradesmen(
                                           context),
-                                      fontsize: 15.0.sp,
+                                      fontsize: 15.0,
                                       color: MyColors.themeRedColor,
                                       onPressed: () {
                                         Get.offNamed(
@@ -89,7 +93,7 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
                                       left: 12.0.w, right: 12.0.w),
                                   child: FullWidthOutlineButton(
                                       text: Strings.viewPostedJobs(context),
-                                      fontsize: 15.0.sp,
+                                      fontsize: 15.0,
                                       color: MyColors.themeRedColor,
                                       onPressed: () {
                                         Get.offAllNamed(

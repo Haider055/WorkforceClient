@@ -122,7 +122,7 @@ class PostedOrdersController extends GetxController {
 
       Map<String, dynamic> jsonData = json.decode(response.body);
       print(response.statusCode);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success'] == true) {
@@ -154,9 +154,11 @@ class PostedOrdersController extends GetxController {
         return postedOrders;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return postedOrders;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -203,9 +205,11 @@ class PostedOrdersController extends GetxController {
         return postedJobDetail;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return postedJobDetail;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

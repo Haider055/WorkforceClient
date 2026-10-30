@@ -18,8 +18,32 @@ class Strings {
       AppLocalizations.of(context)!.yesText;
   static String noText(BuildContext context) =>
       AppLocalizations.of(context)!.noText;
+  static String legalText(BuildContext context) =>
+      AppLocalizations.of(context)!.legalText;
+  static String retryText(BuildContext context) =>
+      AppLocalizations.of(context)!.retryText;
+  static String dated(BuildContext context) =>
+      AppLocalizations.of(context)!.dated;
+  static String newNotificationText(BuildContext context) =>
+      AppLocalizations.of(context)!.newNotificationText;
+
+  static String uploadPhotosText(BuildContext context) =>
+      AppLocalizations.of(context)!.uploadPhotosText;
+  static String lastUsedLocationText(BuildContext context) =>
+      AppLocalizations.of(context)!.lastUsedLocationText;
+  static String useCurrentLocation(BuildContext context) =>
+      AppLocalizations.of(context)!.useCurrentLocation;
+  static String totalJobText(BuildContext context) =>
+      AppLocalizations.of(context)!.totalJobText;
+  static String unFinishedJobText(BuildContext context) =>
+      AppLocalizations.of(context)!.unFinishedJobText;
+
   static String noteText(BuildContext context) =>
       AppLocalizations.of(context)!.noteText;
+  static String restartText(BuildContext context) =>
+      AppLocalizations.of(context)!.restartText;
+  static String eulaHeading(BuildContext context) =>
+      AppLocalizations.of(context)!.eulaHeading;
   static String continueText(BuildContext context) =>
       AppLocalizations.of(context)!.continueText;
   static String letsStartText(BuildContext context) =>
@@ -48,9 +72,19 @@ class Strings {
       AppLocalizations.of(context)!.unBlockMsg;
   static String emailText(BuildContext context) =>
       AppLocalizations.of(context)!.emailText;
+  static String disclaimerInPickImageText(BuildContext context) =>
+      AppLocalizations.of(context)!.disclaimerInPickImageText;
 
   static String enable2FAText(BuildContext context) =>
       AppLocalizations.of(context)!.enable2FAText;
+  static String noInternetText(BuildContext context) =>
+      AppLocalizations.of(context)!.noInternetText;
+  static String onlineText(BuildContext context) =>
+      AppLocalizations.of(context)!.onlineText;
+  static String onlineSnackbarDescText(BuildContext context) =>
+      AppLocalizations.of(context)!.onlineSnackbarDescText;
+  static String offlineSnackbarDescText(BuildContext context) =>
+      AppLocalizations.of(context)!.offlineSnackbarDescText;
 
   static String englishText(BuildContext context) =>
       AppLocalizations.of(context)!.englishText;
@@ -108,6 +142,8 @@ class Strings {
       AppLocalizations.of(context)!.passwordText;
   static String currentPasswordText(BuildContext context) =>
       AppLocalizations.of(context)!.currentPasswordText;
+  static String pleaseEntercurrentPasswordText(BuildContext context) =>
+      AppLocalizations.of(context)!.pleaseEntercurrentPasswordText;
   static String newPasswordText(BuildContext context) =>
       AppLocalizations.of(context)!.newPasswordText;
   static String confirmPasswordErrorText(BuildContext context) =>
@@ -136,6 +172,8 @@ class Strings {
       AppLocalizations.of(context)!.requestAlreadySentText;
   static String submitReportText(BuildContext context) =>
       AppLocalizations.of(context)!.submitReportText;
+  static String saveText(BuildContext context) =>
+      AppLocalizations.of(context)!.saveText;
 
   static String managePassword(BuildContext context) =>
       AppLocalizations.of(context)!.managePaswordText;
@@ -151,7 +189,12 @@ class Strings {
       AppLocalizations.of(context)!.painterText;
   static String completed(BuildContext context) =>
       AppLocalizations.of(context)!.completedText;
-  static String services(BuildContext context) =>
+  static String contractCompleted(BuildContext context) =>
+      AppLocalizations.of(context)!.contractCompleted;
+  static String contractInProgress(BuildContext context) =>
+      AppLocalizations.of(context)!.contractInProgress;
+
+  static String servicesText(BuildContext context) =>
       AppLocalizations.of(context)!.servicesText;
   static String youGot(BuildContext context) =>
       AppLocalizations.of(context)!.youGotText;
@@ -167,8 +210,13 @@ class Strings {
       AppLocalizations.of(context)!.orderNowText;
   static String nowText(BuildContext context) =>
       AppLocalizations.of(context)!.nowText;
+  static String newText(BuildContext context) =>
+      AppLocalizations.of(context)!.newText;
   static String goBackText(BuildContext context) =>
       AppLocalizations.of(context)!.goBackText;
+  static String goToSettingsText(BuildContext context) =>
+      AppLocalizations.of(context)!.goToSettingsText;
+
   static String otpSentText(BuildContext context) =>
       AppLocalizations.of(context)!.otpSentText;
   static String otpFailedToSentText(BuildContext context) =>
@@ -189,6 +237,8 @@ class Strings {
       AppLocalizations.of(context)!.rejectedText;
   static String accept(BuildContext context) =>
       AppLocalizations.of(context)!.acceptText;
+  static String agreeText(BuildContext context) =>
+      AppLocalizations.of(context)!.agreeText;
   static String and(BuildContext context) =>
       AppLocalizations.of(context)!.andText;
   static String today(BuildContext context) =>
@@ -240,6 +290,8 @@ class Strings {
       AppLocalizations.of(context)!.noReviewFoundText;
   static String reviewedOn(BuildContext context) =>
       AppLocalizations.of(context)!.reviewedOnText;
+  static String giveReview(BuildContext context) =>
+      AppLocalizations.of(context)!.giveReviewText;
 
   static String reviewCannotbeemptyText(BuildContext context) =>
       AppLocalizations.of(context)!.reviewCannotbeemptyText;
@@ -283,6 +335,9 @@ class Strings {
 
   static String sendRequest(BuildContext context) =>
       AppLocalizations.of(context)!.sendRequestText;
+  static String resultsFoundText(BuildContext context) =>
+      AppLocalizations.of(context)!.resultsFoundText;
+
   static String requestRejected(BuildContext context) =>
       AppLocalizations.of(context)!.requestRejectedText;
   static String moreCraftmen(BuildContext context) =>
@@ -337,7 +392,7 @@ class Strings {
       AppLocalizations.of(context)!.pleaseSelectSeviceText;
   static String overview(BuildContext context) =>
       AppLocalizations.of(context)!.overviewText;
-  static String details(BuildContext context) =>
+  static String detailsText(BuildContext context) =>
       AppLocalizations.of(context)!.detailsText;
   static String orderDetail(BuildContext context) =>
       AppLocalizations.of(context)!.orderDetailText;
@@ -377,6 +432,9 @@ class Strings {
       AppLocalizations.of(context)!.imagesCanBeAddMoreText;
   static String onlyInfoText(BuildContext context) =>
       AppLocalizations.of(context)!.onlyInfoText;
+  static String onlyUsersAllowedToLoginText(BuildContext context) =>
+      AppLocalizations.of(context)!.onlyUsersAllowedToLoginText;
+
   static String reportText(BuildContext context) =>
       AppLocalizations.of(context)!.reportText;
   static String blockText(BuildContext context) =>
@@ -409,7 +467,7 @@ class Strings {
       AppLocalizations.of(context)!.workForceText;
   static String professions(BuildContext context) =>
       AppLocalizations.of(context)!.professionsText;
-  static String portfolio(BuildContext context) =>
+  static String portfolioText(BuildContext context) =>
       AppLocalizations.of(context)!.portfolioText;
   static String portfolios(BuildContext context) =>
       AppLocalizations.of(context)!.portfoliosText;
@@ -425,6 +483,10 @@ class Strings {
       AppLocalizations.of(context)!.tellUsMoreAboutYourNeed;
   static String tellUsMore(BuildContext context) =>
       AppLocalizations.of(context)!.tellUsMore;
+  static String permissionDenied(BuildContext context) =>
+      AppLocalizations.of(context)!.permissionDenied;
+  static String mapPermissionDeniedDesc(BuildContext context) =>
+      AppLocalizations.of(context)!.mapPermissionDeniedDesc;
 
   static String jobTitleHint(BuildContext context) =>
       AppLocalizations.of(context)!.jobTitleHintText;
@@ -450,9 +512,11 @@ class Strings {
       AppLocalizations.of(context)!.blocktradesmanwouldnotbeableto;
   static String blockedbyUser(BuildContext context) =>
       AppLocalizations.of(context)!.blockedbyUser;
+  static String aboutText(BuildContext context) =>
+      AppLocalizations.of(context)!.aboutText;
 
-  static String atLeast12CharactersText(BuildContext context) =>
-      AppLocalizations.of(context)!.atLeast12CharactersText;
+  static String atLeast10CharactersText(BuildContext context) =>
+      AppLocalizations.of(context)!.atLeast10CharactersText;
   static String pleaseFollowPasswordRules(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseFollowPasswordRulesText;
   static String seeourPrivacyPlolicyText(BuildContext context) =>
@@ -497,7 +561,7 @@ class Strings {
       AppLocalizations.of(context)!.specialSymbolsText;
   static String contact(BuildContext context) =>
       AppLocalizations.of(context)!.contactText;
-  static String memberSince(BuildContext context) =>
+  static String memberSinceText(BuildContext context) =>
       AppLocalizations.of(context)!.memberSinceText;
   static String endingOrderPageHead(BuildContext context) =>
       AppLocalizations.of(context)!.endingOrderPageHeadText;

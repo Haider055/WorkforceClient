@@ -195,7 +195,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                           padding: EdgeInsets.only(left: 25.0.r, right: 12.0.r),
                           child: FullWidthOutlineButton(
                               text: Strings.cancelText(context),
-                              fontsize: 15.0.sp,
+                              fontsize: 15.0,
                               color: MyColors.themeRedColor,
                               onPressed: () {
                                 _goToSelectServiceScreen();
@@ -207,7 +207,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                           padding: EdgeInsets.only(left: 12.0.w, right: 25.0.w),
                           child: FullWidthButtonPrimary(
                               text: Strings.next(context),
-                              fontsize: 15.0.sp,
+                              fontsize: 15.0,
                               color: MyColors.themeRedColor,
                               onPressed: () async {
                                 try {

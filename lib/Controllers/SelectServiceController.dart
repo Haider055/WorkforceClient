@@ -30,7 +30,6 @@ import 'package:workforceclientapp/views/screens/Chat/ConversationScreen.dart';
 class SelectServiceController extends GetxController
     with WidgetsBindingObserver {
   final searchController = TextEditingController().obs;
-  RxBool showServicesSuggestions = false.obs;
   RxList<Services> filteredOptions = <Services>[].obs;
   RxInt textFieldBorderColor = MyColors.lightGrayColor.obs;
   RxList<Services> allOptions = <Services>[].obs;
@@ -42,7 +41,6 @@ class SelectServiceController extends GetxController
   SimpleFlutterReverb? reverb;
   final data = Get.arguments;
   String toWhere = "";
-  RxBool isSearchingQuery = false.obs;
   late int searchMillis;
   RxString searchInput = "".obs;
   int selectedServiceId = -1;
@@ -67,6 +65,7 @@ class SelectServiceController extends GetxController
       _prefs = await SharedPreferences.getInstance();
       isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
       print(isLoggedIn.value);
+      isEnabled.value = true;
       if (isLoggedIn.value != "loggedOut") {
         // The raw WebSocket has no reliable "still alive?" check, and
         // mobile networks/OSes routinely kill it while backgrounded, so
@@ -78,13 +77,13 @@ class SelectServiceController extends GetxController
       }
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      _reverbWatchdogTimer?.cancel();
+      // _reverbWatchdogTimer?.cancel();
 
-      try {
-        reverb?.close();
-      } catch (e) {
-        throw Exception(e);
-      }
+      // try {
+      //   reverb?.close();
+      // } catch (e) {
+      //   throw Exception(e);
+      // }
     }
   }
 
@@ -101,24 +100,32 @@ class SelectServiceController extends GetxController
   }
 
   void refreshData() async {
-    // print("called refresh");
-    isLoading.value = true;
-    await getAllOptionsOfServices();
-    _prefs = await SharedPreferences.getInstance();
-    isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
-    print(isLoggedIn.value);
-    if (isLoggedIn.value != "loggedOut") {
-      if (_reverbWatchdogTimer != null) {
-        _reverbWatchdogTimer?.cancel();
+    try {
+      // print("called refresh");
+      isLoading.value = true;
+      isEnabled.value = true;
+      Constants.selectedImages.clear();
+      await getAllOptionsOfServices();
+      _prefs = await SharedPreferences.getInstance();
+      isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
+      print(isLoggedIn.value);
+      if (isLoggedIn.value != "loggedOut") {
+        if (_reverbWatchdogTimer != null) {
+          _reverbWatchdogTimer?.cancel();
+        }
+        startChatListener();
       }
-      startChatListener();
-    }
 
-    isLoading.value = false;
+      isLoading.value = false;
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+      throw Exception(e);
+    }
   }
 
   void init() async {
     isEnabled.value = true;
+    Constants.fromWhere = '';
     await getAllOptionsOfServices();
     await getNotificationsCount();
     manageIfFcmTokenNotSaved();
@@ -300,7 +307,7 @@ class SelectServiceController extends GetxController
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else if (response.statusCode == 403) {
@@ -309,7 +316,7 @@ class SelectServiceController extends GetxController
         Commons.logoutUser(true);
         return list;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
@@ -330,7 +337,7 @@ class SelectServiceController extends GetxController
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         // If the server did return a 200 CREATED response,
@@ -348,7 +355,7 @@ class SelectServiceController extends GetxController
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
 
           return list;
         }
@@ -360,7 +367,7 @@ class SelectServiceController extends GetxController
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
@@ -457,15 +464,19 @@ class SelectServiceController extends GetxController
             Constants.jobPostingLng = "";
             Constants.jobPostingAddress = "";
             searchController.value.text = "";
+            Constants.selectedImages.clear();
             Commons.hideProgressDialog();
             Get.toNamed(AppLinks.job_title_screen);
+            isEnabled.value = true;
             return "";
           } else {
             isEnabled.value = false;
             Constants.jobPostingSteps = 4;
             Constants.currentJobPostingStep.value = 1;
+            Constants.selectedImages.clear();
             Commons.hideProgressDialog();
             Get.toNamed(AppLinks.job_title_screen);
+            isEnabled.value = true;
             return "error";
           }
         } else {
@@ -490,9 +501,11 @@ class SelectServiceController extends GetxController
     } on TimeoutException {
       isEnabled.value = true;
       Commons.hideProgressDialog();
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return "error";
     } catch (e) {
+      Commons.hideProgressDialog();
       isEnabled.value = true;
       throw Exception(e);
     }
@@ -517,7 +530,7 @@ class SelectServiceController extends GetxController
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -530,7 +543,7 @@ class SelectServiceController extends GetxController
 
           return count;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return count;
         }
       } else if (response.statusCode == 403) {
@@ -539,7 +552,7 @@ class SelectServiceController extends GetxController
         Commons.logoutUser(true);
         return 0;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return count;
       }
     } on TimeoutException {
@@ -552,7 +565,6 @@ class SelectServiceController extends GetxController
 
   void filterSearchResults(String query) {
     if (query.isNotEmpty) {
-      showServicesSuggestions.value = true;
       textFieldBorderColor.value = MyColors.lightGrayColor;
       filteredOptions.value = allListOptions
           .where(
@@ -560,7 +572,7 @@ class SelectServiceController extends GetxController
           .toList();
       allOptions = filteredOptions;
     } else {
-      showServicesSuggestions.value = true;
+      searchController.value.text = "";
       filteredOptions.value = allListOptions.toList();
       // filteredOptions.clear();
       allOptions = filteredOptions;

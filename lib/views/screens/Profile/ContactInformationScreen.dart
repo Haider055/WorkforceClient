@@ -167,7 +167,8 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                                     borderSide: BorderSide(
                                       width: 2.w,
                                       color: phoneErrorText.isEmpty
-                                          ? const Color(MyColors.fieldBorderColor)
+                                          ? const Color(
+                                              MyColors.fieldBorderColor)
                                           : Colors.red.withOpacity(0.7),
                                     ),
                                   ),
@@ -176,7 +177,8 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                                     borderSide: BorderSide(
                                       width: 2.w,
                                       color: phoneErrorText.isEmpty
-                                          ? const Color(MyColors.fieldBorderColor)
+                                          ? const Color(
+                                              MyColors.fieldBorderColor)
                                           : Colors.red.withOpacity(0.7),
                                     ),
                                   ),
@@ -250,7 +252,7 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                         Padding(
                           padding: EdgeInsets.all(20.0.sp),
                           child: FullWidthElevatedButton(
-                              text: "Save",
+                              text: Strings.saveText(Get.context!),
                               color: MyColors.themeRedColor,
                               onPressed: () async {
                                 try {

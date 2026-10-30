@@ -144,7 +144,7 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                   EdgeInsets.only(left: 25.0.w, right: 25.0.w, bottom: 12.0.h),
               child: FullWidthButtonPrimary(
                   text: Strings.continueText(context),
-                  fontsize: 15.0.sp,
+                  fontsize: 15.0,
                   color: MyColors.themeRedColor,
                   onPressed: () async {
                     if (controller.selectedReason.value.isNotEmpty) {

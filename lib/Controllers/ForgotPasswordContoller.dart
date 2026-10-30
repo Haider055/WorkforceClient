@@ -14,7 +14,7 @@ import 'package:workforceclientapp/views/widgets/HeadingText.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
 class ForgotPasswordContoller extends GetxController {
-  final emailTextField = TextEditingController(text: "").obs;
+  final emailTextField = TextEditingController().obs;
   RxString emailAddressErrorText = "".obs;
 
   @override
@@ -51,8 +51,11 @@ class ForgotPasswordContoller extends GetxController {
         return msg;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -97,7 +100,7 @@ class ForgotPasswordContoller extends GetxController {
                   child: Container(
                     child: Center(
                         child: Text(
-                      Strings.tryAgain(Get.context!),
+                      Strings.cancelText(Get.context!),
                       style: const TextStyle(color: Colors.white),
                     )),
                   ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +24,7 @@ import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/AllChats.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationsScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ContactInformationScreen.dart';
+import 'package:workforceclientapp/views/widgets/ContinueLastJobCard.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
@@ -62,7 +64,11 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
         bottomNavigationBar: Obx(() {
           return BottomNavigationBar(
             backgroundColor: Colors.white,
+            enableFeedback: true,
+            showSelectedLabels: true,
             elevation: 7,
+            selectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
+            unselectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
             showUnselectedLabels: true,
             currentIndex: controller.currentIndex.value,
             onTap: (index) {
@@ -236,7 +242,6 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
           controller.searchController.value.text = service.name!;
           controller.selectedServiceName = service.name!;
           controller.selectedServiceId = service.id!;
-          controller.showServicesSuggestions.value = false;
         } catch (e) {
           e.printError();
         }
@@ -280,14 +285,13 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                     ),
               SizedBox(width: 12.w),
               Expanded(
-                child: Text(service.name.toString(),
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(
-                        fontSize: 14.5.sp,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Poppins')),
+                child: AutoSizeText(
+                  '${service.name}',
+                  maxLines: 3,
+                  minFontSize: 10,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 15),
+                ),
               ),
               const Icon(Icons.chevron_right, color: Color(0x9C000000)),
             ],
@@ -298,289 +302,310 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
   }
 
   Widget mainScreenUI() {
-    return controller.isLoading.value
-        ? const Center(
-            child: CircularProgressIndicator(
-            color: Color(MyColors.themeRedColor),
-          ))
-        : GestureDetector(
-            onTap: () {
-              if (controller.searchInput.value.isEmpty) {
-                controller.showServicesSuggestions.value = false;
-              }
-              FocusScope.of(Get.context!).unfocus();
-            },
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          controller.isLoggedIn.value == "loggedOut"
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 15.0.w, right: 15.0.w),
-                                  child: Card(
-                                    elevation: 0,
-                                    color: Colors.red.shade50,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8.0.w,
-                                              right: 8.0.w,
-                                              top: 9.0.h),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Stack(
-                                                children: [
-                                                  Container(
-                                                    width: 34.w,
-                                                    height: 34.h,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors
-                                                          .white, // White background
-                                                      shape: BoxShape
-                                                          .circle, // Circular shape
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                                  0.3), // Soft shadow
-                                                          blurRadius: 5,
-                                                          spreadRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 2),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: const Center(
-                                                        child: Icon(
-                                                            Icons
-                                                                .person_outline,
-                                                            color: Color(MyColors
-                                                                .themeRedColor),
-                                                            size: 26)),
+    return RefreshIndicator(
+      color: const Color(MyColors.themeRedColor),
+      onRefresh: () async {
+        controller.refreshData();
+      },
+      child: controller.isLoading.value
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: Color(MyColors.themeRedColor),
+            ))
+          : GestureDetector(
+              onTap: () {
+                FocusScope.of(Get.context!).unfocus();
+              },
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                slivers: [
+                  // 1. Scrollable header content (login card + headings)
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        controller.isLoggedIn.value == "loggedOut"
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    left: 15.0.w, right: 15.0.w),
+                                child: Card(
+                                  elevation: 0,
+                                  color: Colors.red.shade50,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0.w,
+                                            right: 8.0.w,
+                                            top: 9.0.h),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: 34.w,
+                                              height: 34.h,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    blurRadius: 5,
+                                                    spreadRadius: 2,
+                                                    offset: const Offset(0, 2),
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(width: 10.0.r),
-                                              Expanded(
-                                                  child: Headingdescription(
-                                                      text: Strings
-                                                          .itSeemsYouAreNotLoginText(
-                                                              Get.context!),
-                                                      centerAlign: false,
-                                                      size: 14.5.sp)),
-                                            ],
-                                          ),
+                                              child: const Center(
+                                                  child: Icon(
+                                                      Icons.person_outline,
+                                                      color: Color(MyColors
+                                                          .themeRedColor),
+                                                      size: 26)),
+                                            ),
+                                            SizedBox(width: 10.0.r),
+                                            Expanded(
+                                                child: Headingdescription(
+                                                    text: Strings
+                                                        .itSeemsYouAreNotLoginText(
+                                                            Get.context!),
+                                                    centerAlign: false,
+                                                    size: 13.0.sp)),
+                                          ],
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.all(12.0.r),
-                                          child: SizedBox(
-                                            height: 32.h,
-                                            width: MediaQuery.of(Get.context!)
-                                                .size
-                                                .width
-                                                .w,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                // manageinnAppPurchase();
-                                                Constants.fromWhere =
-                                                    "SelectServiceScreen";
-                                                Get.toNamed(
-                                                    AppLinks.login_screen);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color(
-                                                    MyColors
-                                                        .themeRedColor), // Button color
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8
-                                                          .r), // Optional rounded corners
-                                                ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(12.0.r),
+                                        child: SizedBox(
+                                          height: 32.h,
+                                          width: MediaQuery.of(Get.context!)
+                                              .size
+                                              .width
+                                              .w,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Constants.fromWhere =
+                                                  "SelectServiceScreen";
+                                              Get.toNamed(
+                                                  AppLinks.login_screen);
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color(
+                                                  MyColors.themeRedColor),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
                                               ),
-                                              child: Text(
-                                                Strings.loginText(Get.context!),
-                                                style: TextStyle(
-                                                  fontSize: 12
-                                                      .sp, // Adjust font size to fit inside
-                                                  color: Colors
-                                                      .white, // Text color
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                textAlign: TextAlign.center,
+                                            ),
+                                            child: Text(
+                                              Strings.loginText(Get.context!),
+                                              style: TextStyle(
+                                                fontSize: 13.sp,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
                                               ),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                )
-                              : const SizedBox(),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 18.0.h, left: 24.w),
-                              child: HeadingTextW600(
-                                  text: Strings.hireNow(Get.context!),
-                                  centerAlign: false,
-                                  size: 28.sp),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: HeadingText(
-                                text:
-                                    Strings.selectServiceHeading(Get.context!),
-                                centerAlign: false),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 25.0.w, top: 18.0.h),
-                              child: Headingdescription(
-                                  text: Strings.selectServiceDesc(Get.context!),
-                                  centerAlign: false,
-                                  size: 14.5.sp),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Obx(() {
-                        return SizedBox(
-                          width: MediaQuery.of(Get.context!).size.width,
+                                ),
+                              )
+                            : const SizedBox(),
+                        const ContinueLastJobCard(),
+                        Align(
+                          alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 24.0.h, left: 25.0.w, right: 25.0.w),
-                            child: TextField(
-                              autofocus: false,
-                              enabled: controller.isEnabled.value,
-                              controller: controller.searchController(),
-                              onTap: () {
-                                if (controller.searchInput.value.isEmpty) {
-                                  controller.filterSearchResults(
-                                      controller.searchInput.value);
-                                }
-                              },
-                              onChanged: (value) {
-                                controller.searchInput.value = value;
-                                // searchMillis =
-                                //     DateTime.now().millisecondsSinceEpoch;
-                                controller.filterSearchResults(
-                                    controller.searchInput.value);
-                                // searchQuery();
-                              },
-                              cursorColor: const Color(MyColors.themeRedColor),
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.search,
-                                    color: Colors.black),
-                                hintText:
-                                    Strings.searchForServicesText(Get.context!),
-                                hintStyle: const TextStyle(
-                                    color: Color(MyColors.lightGrayColor)),
-                                suffixIcon: Padding(
-                                  padding: EdgeInsets.only(right: 6.0.w),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (controller.searchController.value.text
-                                          .isNotEmpty) {
-                                        controller.searchController.value.text =
-                                            "";
-                                        controller.searchInput.value = "";
-                                        controller.filteredOptions.value = [];
-                                        controller.showServicesSuggestions
-                                            .value = false;
-                                      }
-                                    },
-                                    child: controller.searchController.value
-                                            .text.isNotEmpty
-                                        ? Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Image.asset(
-                                                'lib/assets/images/select_service_suffixicon.png', // Make sure this image is in assets folder
-                                                width: 30.w, // Adjust width
-                                                height: 30.h, // Adjust height
-                                              ),
-                                              Image.asset(
-                                                'lib/assets/icons/cancelicon.png', // Make sure this image is in assets folder
-                                                width: 12.w, // Adjust width
-                                                height: 12.h, // Adjust height
-                                              ),
-                                            ],
-                                          )
-                                        : const SizedBox(),
-                                  ),
-                                ), // Search icon at start
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(8.r)), // Border radius
-                                  borderSide: BorderSide(
-                                      color: Color(controller
-                                          .textFieldBorderColor.value),
-                                      width: 1.5.w), // Black border
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.r)),
-                                  borderSide: BorderSide(
-                                      color: Color(controller
-                                          .textFieldBorderColor.value),
-                                      width: 2.w),
-                                ),
-                              ),
-                            ),
+                            padding: EdgeInsets.only(top: 18.0.h, left: 24.w),
+                            child: HeadingTextW600(
+                                text: Strings.hireNow(Get.context!),
+                                centerAlign: false,
+                                size: 28.sp),
                           ),
-                        );
-                      }),
-                      Obx(() {
-                        final services = controller.searchInput.value.isEmpty
-                            ? controller.allListOptions.toList()
-                            : controller.filteredOptions.toList();
-                        if (services.isEmpty) {
-                          return Padding(
-                            padding: EdgeInsets.only(top: 40.0.h),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: HeadingText(
+                              text: Strings.selectServiceHeading(Get.context!),
+                              centerAlign: false),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 25.0.w, top: 18.0.h),
+                            child: Headingdescription(
+                                text: Strings.selectServiceDesc(Get.context!),
+                                centerAlign: false,
+                                size: 14.5.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // 2. Search field, pinned to the top while the list scrolls
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _PinnedHeaderDelegate(
+                      height:
+                          controller.searchInput.value.isNotEmpty ? 95.h : 74.h,
+                      child: Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.only(
+                            top: 12.0.h,
+                            left: 25.0.w,
+                            right: 25.0.w,
+                            bottom: 8.0.h),
+                        child: _buildSearchField(),
+                      ),
+                    ),
+                  ),
+
+                  // 3. Services list
+                  SliverToBoxAdapter(
+                    child: Obx(() {
+                      final services = controller.searchInput.value.isEmpty
+                          ? controller.allListOptions.toList()
+                          : controller.filteredOptions.toList();
+                      if (services.isEmpty) {
+                        return Padding(
+                          padding: EdgeInsets.only(top: 40.0.h),
+                          child: Center(
                             child: Text(
                                 controller.searchInput.value.isEmpty
                                     ? ""
-                                    : "No services found",
+                                    : Strings.noDataFound(Get.context!),
                                 style: TextStyle(
                                     color: const Color(0x9C000000),
                                     fontSize: 14.5.sp,
                                     fontFamily: 'Poppins')),
-                          );
-                        }
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.only(
-                              top: 20.0.h,
-                              left: 25.0.w,
-                              right: 25.0.w,
-                              bottom: 24.0.h),
-                          separatorBuilder: (context, index) =>
-                              SizedBox(height: 10.h),
-                          itemCount: services.length,
-                          itemBuilder: (context, index) {
-                            return buildServiceListItem(services[index]);
-                          },
+                          ),
                         );
-                      }),
-                    ],
+                      }
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.only(
+                            top: 12.0.h,
+                            left: 25.0.w,
+                            right: 25.0.w,
+                            bottom: 24.0.h),
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 10.h),
+                        itemCount: services.length,
+                        itemBuilder: (context, index) {
+                          return buildServiceListItem(services[index]);
+                        },
+                      );
+                    }),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          );
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Obx(() {
+      return Column(
+        children: [
+          TextField(
+            autofocus: false,
+            enabled: controller.isEnabled.value,
+            controller: controller.searchController.value,
+            onTap: () {
+              if (controller.searchInput.value.isEmpty) {
+                controller.filterSearchResults(controller.searchInput.value);
+              }
+            },
+            onChanged: (value) {
+              controller.searchInput.value = value;
+              controller.filterSearchResults(controller.searchInput.value);
+            },
+            cursorColor: const Color(MyColors.themeRedColor),
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search, color: Colors.black),
+              hintStyle: const TextStyle(color: Color(MyColors.lightGrayColor)),
+              hintMaxLines: 1,
+              hint: AutoSizeText(
+                Strings.searchForServicesText(Get.context!),
+                maxLines: 1,
+                minFontSize: 9,
+                maxFontSize: 16,
+                overflow: TextOverflow.visible,
+                style: const TextStyle(
+                  fontSize: 16, // starting size
+                  color: Color(MyColors.lightGrayColor),
+                ),
+              ),
+              suffixIcon: Padding(
+                padding: EdgeInsets.only(right: 6.0.w),
+                child: GestureDetector(
+                  onTap: () {
+                    controller.searchController.value.text = "";
+                    controller.searchInput.value = "";
+                    controller.filteredOptions.value = [];
+                  },
+                  child: controller.searchInput.value.isNotEmpty
+                      ? Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.asset(
+                              'lib/assets/images/select_service_suffixicon.png',
+                              width: 30.w,
+                              height: 30.h,
+                            ),
+                            Image.asset(
+                              'lib/assets/icons/cancelicon.png',
+                              width: 12.w,
+                              height: 12.h,
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                borderSide: BorderSide(
+                    color: Color(controller.textFieldBorderColor.value),
+                    width: 1.5.w),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                borderSide: BorderSide(
+                    color: Color(controller.textFieldBorderColor.value),
+                    width: 2.w),
+              ),
+            ),
+          ),
+          controller.searchInput.value.isNotEmpty
+              ? Padding(
+                  padding: EdgeInsets.only(top: 4.0.h),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        controller.searchInput.value.isEmpty
+                            ? ""
+                            : "${controller.filteredOptions.toList().length} ${Strings.resultsFoundText(Get.context!)}",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: const Color(0x9C000000),
+                            fontSize: 12.5.sp,
+                            fontFamily: 'Poppins')),
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      );
+    });
   }
 }
 
@@ -636,12 +661,13 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                                   index);
                                             },
                                           )
-                                        : controller.selectedTabName == "all"
+                                        : controller.selectedTabName.value ==
+                                                "all"
                                             ? _buildNoJobPostedView()
                                             : _buildNoJobPostedView2(),
                                     controller.totalpostedOrders >
                                             controller.postedOrdersList.length
-                                        ? _buildLoadMoreButton()
+                                        ? _buildLoadMoreButton(context)
                                         : const SizedBox()
                                   ],
                                 ),
@@ -805,7 +831,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
             GestureDetector(
               onTap: () {
                 controller.isLoading.value = true;
-                controller.selectedTabName.value = "canceled";
+                controller.selectedTabName.value = "cancelled";
                 controller.status.value = "cancelled";
                 controller.getPostedOrdersList(1, controller.status.value);
               },
@@ -813,7 +839,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                 children: [
                   Card(
                     elevation: 0,
-                    color: controller.selectedTabName.value == "canceled"
+                    color: controller.selectedTabName.value == "cancelled"
                         ? const Color(MyColors.themeRedColor)
                         : const Color(MyColors.whiteColor),
                     child: Padding(
@@ -825,10 +851,10 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                       child: Text(Strings.canceledText(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              color:
-                                  controller.selectedTabName.value == "canceled"
-                                      ? const Color(MyColors.whiteColor)
-                                      : const Color(MyColors.blackColor),
+                              color: controller.selectedTabName.value ==
+                                      "cancelled"
+                                  ? const Color(MyColors.whiteColor)
+                                  : const Color(MyColors.blackColor),
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Poppins')),
@@ -843,61 +869,83 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
     );
   }
 
-  Widget _buildLoadMoreButton() {
+  void _loadMoreData() {
+    try {
+      if (controller.postedOrders!.pagination != null) {
+        if (controller.postedOrders!.pagination!.hasMore ?? false) {
+          int page = controller.postedOrders!.pagination!.currentPage! + 1;
+          controller.isLoadingMore.value = true;
+          controller.getPostedOrdersList(page, controller.status.value);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Widget _buildLoadMoreButton(BuildContext context) {
     return Obx(() {
-      return controller.isLoadingMore.value
-          ? Center(
-              child: Padding(
-                padding: EdgeInsets.all(4.0.r),
-                child: const CircularProgressIndicator(
-                  color: Color(MyColors.themeRedColor),
+      final loading = controller.isLoadingMore.value;
+
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.h),
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 1.6,
+            height: 42.h,
+            child: ElevatedButton(
+              onPressed: loading ? null : () => _loadMoreData(),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                padding: EdgeInsets.zero,
+                backgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                disabledBackgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                foregroundColor: const Color(MyColors.themeRedColor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(21.r),
+                  side: BorderSide(
+                    color:
+                        const Color(MyColors.themeRedColor).withOpacity(0.25),
+                  ),
                 ),
               ),
-            )
-          : ElevatedButton(
-              style: ButtonStyle(
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r))),
-                  fixedSize: WidgetStatePropertyAll(Size.fromWidth(
-                      MediaQuery.of(Get.context!).size.width / 2)),
-                  foregroundColor: const WidgetStatePropertyAll(
-                      Color(MyColors.infoPinkColor2)),
-                  elevation: const WidgetStatePropertyAll(0)),
-              onPressed: () {
-                try {
-                  if (controller.postedOrders!.pagination != null) {
-                    if (controller.postedOrders!.pagination!.hasMore ?? false) {
-                      int page =
-                          controller.postedOrders!.pagination!.currentPage! + 1;
-                      controller.isLoadingMore.value = true;
-                      controller.getPostedOrdersList(
-                          page, controller.status.value);
-                    }
-                  }
-                } catch (e) {
-                  throw Exception(e);
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.all(4.0.r),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Headingdescription(
-                        text: Strings.loadMoreText(Get.context!),
-                        centerAlign: false,
-                        size: 14.sp),
-                    SizedBox(
-                      width: 5.0.w,
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 20.sp,
-                    )
-                  ],
-                ),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: loading
+                    ? SizedBox(
+                        key: const ValueKey(''),
+                        width: 18.w,
+                        height: 18.w,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(MyColors.themeRedColor),
+                        ),
+                      )
+                    : Row(
+                        key: const ValueKey('label'),
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            Strings.loadMoreText(context),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                              color: const Color(MyColors.themeRedColor),
+                            ),
+                          ),
+                          SizedBox(width: 6.w),
+                          Icon(Icons.keyboard_arrow_down, size: 19.sp),
+                        ],
+                      ),
               ),
-            );
+            ),
+          ),
+        ),
+      );
     });
   }
 
@@ -951,11 +999,11 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
             Padding(
               padding: EdgeInsets.all(12.0.r),
               child: HeadingTextW700(
-                text: controller.selectedTabName == "Active"
+                text: controller.selectedTabName.value == "Active"
                     ? Strings.noActiveOrders(Get.context!)
-                    : controller.selectedTabName == "open"
+                    : controller.selectedTabName.value == "open"
                         ? Strings.noOpenOrders(Get.context!)
-                        : controller.selectedTabName == "completed"
+                        : controller.selectedTabName.value == "completed"
                             ? Strings.noCompleteOrders(Get.context!)
                             : Strings.noCancelOrders(Get.context!),
                 centerAlign: true,
@@ -1002,7 +1050,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                       EdgeInsets.only(left: 12.0.r, right: 12.0.r, top: 20.0.r),
                   child: FullWidthButtonPrimary(
                       text: Strings.loginText(Get.context!),
-                      fontsize: 15.0.sp,
+                      fontsize: 15.0,
                       color: MyColors.themeRedColor,
                       onPressed: () {
                         Constants.fromWhere = "SelectServiceScreen";
@@ -1030,235 +1078,176 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
           throw Exception(e);
         }
       },
-      child: Card(
-        elevation: 0,
-        color: const Color(MyColors.whiteColor),
+      child: Container(
+        margin: EdgeInsets.all(8.r),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: const Color(0xFFEDEDEF)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 5,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
         child: Padding(
-          padding: EdgeInsets.all(8.0.r),
+          padding: EdgeInsets.all(14.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r, top: 8.0.r),
-                child: HeadingTextW600(
-                    text: job.title ?? "N/A", centerAlign: false, size: 18.sp),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
-                child: HeadingTextW500(
-                    text: job.serviceName ?? "N/A",
-                    centerAlign: false,
-                    size: 15.sp),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
-                child: RichText(
-                  text: TextSpan(
-                    text:
-                        '${Strings.postedAt(Get.context!)}: ', // default style
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontFamily: 'Poppins',
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: job.humanReadableCreatedAt ?? "N/A",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontFamily: 'Poppins',
-                        ),
+              // ---- Title + Status row ----
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      job.title ?? "N/A",
+                      style: TextStyle(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        height: 1.3,
                       ),
-                    ],
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Obx(() => _statusBadge(job)),
+                ],
+              ),
+              SizedBox(height: 6.h),
+
+              // ---- Service name chip ----
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: const Color(MyColors.themeRedColor)
+                      .withValues(alpha: 0.07),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Text(
+                  job.serviceName ?? "N/A",
+                  style: TextStyle(
+                    fontSize: 12.5.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Poppins',
+                    color: const Color(MyColors.themeRedColor),
                   ),
                 ),
               ),
+              SizedBox(height: 10.h),
+
+              // ---- Description ----
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10.r),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF7F7F8),
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Text(
+                  job.desc ?? "N/A",
+                  textAlign: TextAlign.start,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: const Color(MyColors.darkGrayColor),
+                    fontSize: 13.5.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Poppins',
+                    height: 1.45,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+
+              // ---- Posted at ----
+              Row(
+                children: [
+                  Icon(Icons.access_time_rounded,
+                      size: 14.r, color: const Color(MyColors.darkGrayColor)),
+                  SizedBox(width: 5.w),
+                  Text(
+                    '${Strings.postedAt(Get.context!)}: ${job.humanReadableCreatedAt ?? "N/A"}',
+                    style: TextStyle(
+                      color: const Color(MyColors.darkGrayColor),
+                      fontSize: 12.sp,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ],
+              ),
+
+              // ---- Interested / Chat stats ----
               Obx(() {
+                if (job.tradespersonApplicationsCount == null ||
+                    job.tradespersonApplicationsCount!.value == 0) {
+                  return const SizedBox();
+                }
                 return Padding(
-                  padding: EdgeInsets.only(left: 4.0.r, top: 4.0.r),
-                  child: Card(
-                    elevation: 0,
-                    color: job.status!.value == "open"
-                        ? const Color(MyColors.cardColorSky200)
-                        : job.status!.value == "in_progress"
-                            ? const Color(MyColors.cardColorGreenLight)
-                            : job.status!.value == "cancelled"
-                                ? const Color(MyColors.cardcolorOrange200)
-                                : const Color(MyColors.cardColorGreen200),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.r)),
-                    child: Padding(
-                      padding: EdgeInsets.all(3.0.r),
-                      child: job.status!.value == "open"
-                          ? Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SvgPicture.asset(
-                                    "lib/assets/icons/inprocessIcon.svg",
-                                    height: 14.0.h,
-                                    width: 14.0.w),
-                                SizedBox(
-                                  width: 2.0.w,
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 6.w),
+                    decoration: BoxDecoration(
+                      color: const Color(MyColors.colorNeutral100),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              if (job.tradespersonApplicationsCount != null)
+                                HeadingTextW600(
+                                  text:
+                                      '${job.tradespersonApplicationsCount!.value}',
+                                  centerAlign: true,
+                                  size: 20.sp,
                                 ),
-                                Headingdescription(
-                                    text: Strings.openText(Get.context!),
-                                    centerAlign: false,
-                                    size: 12.sp)
-                              ],
-                            )
-                          : job.status!.value == "in_progress"
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Lottie.asset(
-                                      'lib/assets/icons/ActiveStatusRipple.json',
-                                      width: 14.w,
-                                      height: 14.h,
-                                      fit: BoxFit.contain,
-                                      repeat: true,
-                                      animate: true,
-                                    ),
-                                    SizedBox(
-                                      width: 2.0.w,
-                                    ),
-                                    Headingdescription(
-                                        text: Strings.active(Get.context!),
-                                        centerAlign: false,
-                                        size: 12.sp)
-                                  ],
-                                )
-                              : job.status!.value == "cancelled"
-                                  ? Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SvgPicture.asset(
-                                            "lib/assets/icons/jobCancelledIcon.svg",
-                                            height: 14.0.h,
-                                            width: 14.0.w),
-                                        SizedBox(
-                                          width: 2.0.w,
-                                        ),
-                                        Headingdescription(
-                                            text: Strings.canceledText(
-                                                Get.context!),
-                                            centerAlign: false,
-                                            size: 12.sp)
-                                      ],
-                                    )
-                                  : Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SvgPicture.asset(
-                                            "lib/assets/icons/completedTickIcon.svg",
-                                            height: 14.0.h,
-                                            width: 14.0.w),
-                                        SizedBox(
-                                          width: 2.0.w,
-                                        ),
-                                        Headingdescription(
-                                            text:
-                                                Strings.completed(Get.context!),
-                                            centerAlign: false,
-                                            size: 12.sp)
-                                      ],
-                                    ),
+                              Headingdescription(
+                                text: Strings.interested(Get.context!),
+                                centerAlign: true,
+                                size: 13.sp,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 1.w,
+                          height: 36.h,
+                          child: Container(
+                              color: const Color(MyColors.silverColor)),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              if (job.inContactTradesmenCount != null)
+                                HeadingTextW600(
+                                  text: '${job.inContactTradesmenCount!.value}',
+                                  centerAlign: true,
+                                  size: 20.sp,
+                                ),
+                              Headingdescription(
+                                text: Strings.chatText(Get.context!),
+                                centerAlign: true,
+                                size: 13.sp,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
               }),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 8.0.w, right: 8.0.w, top: 12.0.h),
-                child: Text(job.desc ?? "N/A",
-                    textAlign: TextAlign.start,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Poppins')),
-              ),
-              Obx(() {
-                return job.tradespersonApplicationsCount == null
-                    ? const SizedBox()
-                    : job.tradespersonApplicationsCount!.value == 0
-                        ? const SizedBox()
-                        : Padding(
-                            padding: EdgeInsets.only(
-                                left: 6.0.w, right: 6.0.w, top: 4.0.h),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6.r)),
-                              elevation: 0,
-                              color: const Color(MyColors.colorNeutral100),
-                              child: Padding(
-                                padding: EdgeInsets.all(6.0.r),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 24,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            job.tradespersonApplicationsCount !=
-                                                    null
-                                                ? HeadingTextW600(
-                                                    text:
-                                                        '${job.tradespersonApplicationsCount!.value}',
-                                                    centerAlign: false,
-                                                    size: 20.sp)
-                                                : const SizedBox(),
-                                            Headingdescription(
-                                                text: Strings.interested(
-                                                    Get.context!),
-                                                centerAlign: false,
-                                                size: 14.sp)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: SizedBox(
-                                        width: 1.0.w,
-                                        height: 40.0.h,
-                                        child: Container(
-                                            color: const Color(
-                                                MyColors.silverColor)),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 24,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            job.inContactTradesmenCount != null
-                                                ? HeadingTextW600(
-                                                    text:
-                                                        '${job.inContactTradesmenCount!.value}',
-                                                    centerAlign: false,
-                                                    size: 20.sp)
-                                                : const SizedBox(),
-                                            Headingdescription(
-                                                text: Strings.chatText(
-                                                    Get.context!),
-                                                centerAlign: false,
-                                                size: 14.sp)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-              }),
+
+              // ---- Send request card ----
               job.status!.value == "open"
                   ? Padding(
-                      padding: EdgeInsets.only(
-                          left: 4.0.w, right: 4.0.w, top: 6.0.h, bottom: 3.0.h),
+                      padding: EdgeInsets.only(top: 12.h),
                       child: GestureDetector(
                         onTap: () async {
                           if (job.tradespersonRequestsCount!.value == "10") {
@@ -1283,79 +1272,174 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                 (10 - result).toString();
                           }
                         },
-                        child: Card(
-                          elevation: 0,
-                          color: const Color(MyColors.lightSilverColor),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0.r),
-                            child: Obx(() {
-                              return RichText(
-                                text: TextSpan(
-                                  text: '',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 13.sp),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text:
-                                          '${Strings.sendARequestText(context)} ',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(
-                                              MyColors.themeRedColor)),
-                                    ),
-                                    TextSpan(
-                                      text: controller.getRemainingTrademenRequests(
-                                                  int.parse(job
-                                                      .tradespersonRequestsCount!
-                                                      .value)) ==
-                                              0
-                                          ? Strings.toMore0TradesmenText(
-                                              Get.context!)
-                                          : controller.getRemainingTrademenRequests(
-                                                      int.parse(job
-                                                          .tradespersonRequestsCount!
-                                                          .value)) ==
-                                                  1
-                                              ? Strings.toMore1TradesmenText(Get.context!)
-                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 2
-                                                  ? Strings.toMore2TradesmenText(Get.context!)
-                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 3
-                                                      ? Strings.toMore3TradesmenText(Get.context!)
-                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 4
-                                                          ? Strings.toMore4TradesmenText(Get.context!)
-                                                          : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 5
-                                                              ? Strings.toMore5TradesmenText(Get.context!)
-                                                              : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 6
-                                                                  ? Strings.toMore6TradesmenText(Get.context!)
-                                                                  : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 7
-                                                                      ? Strings.toMore7TradesmenText(Get.context!)
-                                                                      : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 8
-                                                                          ? Strings.toMore8TradesmenText(Get.context!)
-                                                                          : controller.getRemainingTrademenRequests(int.parse(job.tradespersonRequestsCount!.value)) == 9
-                                                                              ? Strings.toMore9TradesmenText(Get.context!)
-                                                                              : Strings.toMore10TradesmenText(Get.context!),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Poppins'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 10.h),
+                          decoration: BoxDecoration(
+                            color: const Color(MyColors.themeRedColor)
+                                .withValues(alpha: 0.06),
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(
+                              color: const Color(MyColors.themeRedColor)
+                                  .withValues(alpha: 0.15),
+                            ),
                           ),
+                          child: Obx(() {
+                            return RichText(
+                              text: TextSpan(
+                                text: '',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 13.sp),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text:
+                                        '${Strings.sendARequestText(context)} ',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(
+                                            MyColors.themeRedColor)),
+                                  ),
+                                  TextSpan(
+                                    text: _remainingTradesmenText(job),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Poppins'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
                         ),
                       ),
                     )
-                  : const SizedBox()
+                  : const SizedBox(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _statusBadge(PostedJobDetail job) {
+    final status = job.status!.value;
+
+    late Color bgColor;
+    late String label;
+    late Widget icon;
+
+    switch (status) {
+      case "open":
+        bgColor = const Color(MyColors.cardColorSky200);
+        label = Strings.openText(Get.context!);
+        icon = SvgPicture.asset("lib/assets/icons/inprocessIcon.svg",
+            height: 12.h, width: 12.w);
+        break;
+      case "in_progress":
+        bgColor = const Color(MyColors.cardColorGreenLight);
+        label = Strings.active(Get.context!);
+        icon = Lottie.asset(
+          'lib/assets/icons/ActiveStatusRipple.json',
+          width: 12.w,
+          height: 12.h,
+          fit: BoxFit.contain,
+          repeat: true,
+          animate: true,
+        );
+        break;
+      case "cancelled":
+        bgColor = const Color(MyColors.cardcolorOrange200);
+        label = Strings.canceledText(Get.context!);
+        icon = SvgPicture.asset("lib/assets/icons/jobCancelledIcon.svg",
+            height: 12.h, width: 12.w);
+        break;
+      default:
+        bgColor = const Color(MyColors.cardColorGreen200);
+        label = Strings.completed(Get.context!);
+        icon = SvgPicture.asset("lib/assets/icons/completedTickIcon.svg",
+            height: 12.h, width: 12.w);
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          icon,
+          SizedBox(width: 4.w),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11.5.sp,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Poppins',
+              color: Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _remainingTradesmenText(PostedJobDetail job) {
+    final remaining = controller.getRemainingTrademenRequests(
+        int.parse(job.tradespersonRequestsCount!.value));
+    switch (remaining) {
+      case 0:
+        return Strings.toMore0TradesmenText(Get.context!);
+      case 1:
+        return Strings.toMore1TradesmenText(Get.context!);
+      case 2:
+        return Strings.toMore2TradesmenText(Get.context!);
+      case 3:
+        return Strings.toMore3TradesmenText(Get.context!);
+      case 4:
+        return Strings.toMore4TradesmenText(Get.context!);
+      case 5:
+        return Strings.toMore5TradesmenText(Get.context!);
+      case 6:
+        return Strings.toMore6TradesmenText(Get.context!);
+      case 7:
+        return Strings.toMore7TradesmenText(Get.context!);
+      case 8:
+        return Strings.toMore8TradesmenText(Get.context!);
+      case 9:
+        return Strings.toMore9TradesmenText(Get.context!);
+      default:
+        return Strings.toMore10TradesmenText(Get.context!);
+    }
+  }
+}
+
+class _PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double height;
+  final Widget child;
+
+  _PinnedHeaderDelegate({required this.height, required this.child});
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return child;
+  }
+
+  @override
+  bool shouldRebuild(covariant _PinnedHeaderDelegate oldDelegate) {
+    return oldDelegate.height != height || oldDelegate.child != child;
   }
 }
 
@@ -1620,30 +1704,30 @@ class _ProfileSectionState extends State<ProfileSection> {
                   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
                   child: ProfileInfoCard(
                     icon: "lib/assets/icons/bookIcon.svg",
-                    text: Strings.termsAndConditionText(context),
+                    text: Strings.legalText(context),
                     onPressed: () {
                       try {
-                        Get.toNamed(AppLinks.terms_and_conditions);
+                        Get.toNamed(AppLinks.legal_guides_screen);
                       } catch (e) {
                         throw Exception(e);
                       }
                     },
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
-                  child: ProfileInfoCard(
-                    icon: "lib/assets/icons/eyeOffIcon.svg",
-                    text: Strings.privacyPolicy(context),
-                    onPressed: () {
-                      try {
-                        Get.toNamed(AppLinks.privacy_policy);
-                      } catch (e) {
-                        throw Exception(e);
-                      }
-                    },
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
+                //   child: ProfileInfoCard(
+                //     icon: "lib/assets/icons/eyeOffIcon.svg",
+                //     text: Strings.privacyPolicy(context),
+                //     onPressed: () {
+                //       try {
+                //         Get.toNamed(AppLinks.privacy_policy);
+                //       } catch (e) {
+                //         throw Exception(e);
+                //       }
+                //     },
+                //   ),
+                // ),
                 widget.isLoggedin == "loggedOut"
                     ? const SizedBox()
                     : Padding(

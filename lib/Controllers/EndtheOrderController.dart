@@ -64,10 +64,11 @@ class EndtheOrderController extends GetxController {
         return false;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(
-          msg: Strings.somethingWentWrongRemovingJob(context));
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

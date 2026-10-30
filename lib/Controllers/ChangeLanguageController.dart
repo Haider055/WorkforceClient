@@ -9,10 +9,24 @@ import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 
+class Lang {
+  final String name;
+  final String code;
+  const Lang(this.name, this.code);
+}
+
 class ChangeLanguageController extends GetxController {
+  List<Lang> languages = [
+    Lang(Strings.englishText(Get.context!), "en"),
+    Lang(Strings.germanText(Get.context!), "de"),
+    Lang(Strings.turkishText(Get.context!), "tr"),
+    Lang(Strings.portugueseText(Get.context!), "pt"),
+  ];
+
   @override
   void onInit() {
     super.onInit();
+    updateLanguages();
     getSelecedLang();
   }
 
@@ -35,7 +49,7 @@ class ChangeLanguageController extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         if (jsonData['success']) {
@@ -54,9 +68,11 @@ class ChangeLanguageController extends GetxController {
         return false;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
       Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -70,9 +86,19 @@ class ChangeLanguageController extends GetxController {
         await _prefs.setString("language", lang);
         Get.updateLocale(Locale(lang));
         Commons.hideProgressDialog();
+        onInit();
       }
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  void updateLanguages() {
+    languages = [
+      Lang(Strings.englishText(Get.context!), "en"),
+      Lang(Strings.germanText(Get.context!), "de"),
+      Lang(Strings.turkishText(Get.context!), "tr"),
+      Lang(Strings.portugueseText(Get.context!), "pt"),
+    ];
   }
 }

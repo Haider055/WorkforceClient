@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Controllers/SelectLanguageController.dart';
@@ -8,7 +9,6 @@ import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
-import 'package:workforceclientapp/views/widgets/SplashScreenimage.dart';
 
 class SelectLanguage extends GetView<SelectLanguageController> {
   SelectLanguage({super.key});
@@ -24,11 +24,9 @@ class SelectLanguage extends GetView<SelectLanguageController> {
             padding: EdgeInsets.only(top: 50.0.h),
             child: Align(
                 alignment: Alignment.topCenter,
-                child: Image.asset(
-                  "lib/assets/icons/Logo_black_red.png",
-                  fit: BoxFit.fill,
-                  height: 27.27,
-                  width: 114.0,
+                child: SvgPicture.asset(
+                  "lib/assets/icons/auftragnowRedBalck.svg",
+                  fit: BoxFit.contain,
                 )),
           ),
           Center(
@@ -37,8 +35,12 @@ class SelectLanguage extends GetView<SelectLanguageController> {
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.0.r),
-                  child: const SplashScreenimage(
-                      path: "lib/assets/images/select_language_image.png"),
+                  child: Image.asset(
+                    'lib/assets/images/select_language_image.png',
+                    height: 300.0.h,
+                    width: 200.0.w,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 Text(Strings.selectLanguageText(context),
                     textAlign: TextAlign.center,
@@ -56,7 +58,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                         padding: EdgeInsets.all(12.0.r),
                         child: FullWidthButtonPrimary(
                             text: Strings.germanText(context),
-                            fontsize: 17.0.sp,
+                            fontsize: 17.0,
                             color: MyColors.themeRedColor,
                             onPressed: () async {
                               _prefs = await SharedPreferences.getInstance();
@@ -69,7 +71,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                         padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
                         child: FullWidthOutlineButton(
                             text: Strings.englishText(context),
-                            fontsize: 17.0.sp,
+                            fontsize: 17.0,
                             color: MyColors.themeRedColor,
                             onPressed: () async {
                               _prefs = await SharedPreferences.getInstance();
@@ -83,7 +85,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                         padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
                         child: FullWidthOutlineButton(
                             text: Strings.portugueseText(context),
-                            fontsize: 17.0.sp,
+                            fontsize: 17.0,
                             color: MyColors.themeRedColor,
                             onPressed: () async {
                               _prefs = await SharedPreferences.getInstance();
@@ -97,7 +99,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                         padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
                         child: FullWidthOutlineButton(
                             text: Strings.turkishText(context),
-                            fontsize: 17.0.sp,
+                            fontsize: 17.0,
                             color: MyColors.themeRedColor,
                             onPressed: () async {
                               _prefs = await SharedPreferences.getInstance();

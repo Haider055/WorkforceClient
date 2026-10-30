@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/NotificationNavigationService.dart';
+import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/notification_service.dart';
 
@@ -23,8 +24,10 @@ class SplashController extends GetxController {
         print(message.notification!.title);
         print(message.notification!.body);
         NotificationService.showNotification(
-            message.notification!.title ?? "No Title",
-            message.notification!.body ?? "No Body",
+            message.notification!.title ??
+                Strings.newNotificationText(Get.context!),
+            message.notification!.body ??
+                Strings.newNotificationText(Get.context!),
             data: message.data);
       }
       // }
@@ -74,13 +77,6 @@ class SplashController extends GetxController {
         );
       }
     }
-
-    // Get.to(
-    //   const PostedOrderDetailScreen(),
-    //   transition: Transition.rightToLeft, // Left-to-right animation
-    //   duration:
-    //       const Duration(milliseconds: 500), // Optional: animation duration
-    // );
   }
 
   @override

@@ -1,6 +1,8 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/SignupContoller.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
@@ -9,6 +11,7 @@ import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/widgets/CommonTextField.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
+import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/RedClickableText.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButton.dart';
@@ -20,7 +23,7 @@ class SignupScreen extends GetView<SignUpContoller> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(Get.context!).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -32,6 +35,7 @@ class SignupScreen extends GetView<SignUpContoller> {
                 left: 0,
                 child: GestureDetector(
                   onTap: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     Get.back();
                   },
                   child: Padding(
@@ -65,19 +69,23 @@ class SignupScreen extends GetView<SignUpContoller> {
                     children: [
                       const Spacer(),
                       Center(
-                        child: Image.asset(
-                          "lib/assets/icons/Logo_black_red.png",
-                          fit: BoxFit.fill,
-                          height: 27.27.h,
+                        child: SvgPicture.asset(
+                          "lib/assets/icons/auftragnowRedBalck.svg",
+                          fit: BoxFit.contain,
+                          height: 27.23.h,
                           width: 144.0.w,
                         ),
                       ),
                       SizedBox(height: 60.0.h),
                       Align(
                         alignment: Alignment.topLeft,
-                        child: HeadingText(
-                            text: Strings.registerText(context),
-                            centerAlign: true),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20.0.w),
+                          child: HeadingTextW600(
+                              text: Strings.registerText(context),
+                              centerAlign: false,
+                              size: 24),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 22.0.h),
@@ -108,113 +116,104 @@ class SignupScreen extends GetView<SignUpContoller> {
                             needprefixIcon: true),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(top: 16.0.h),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 19.w),
-                            child: TextFormField(
-                              autofillHints: const [
-                                AutofillHints.telephoneNumber
-                              ],
-                              controller: controller.phoneTextField(),
-                              keyboardType: TextInputType.phone,
-                              maxLines: 1,
-                              maxLength: 13,
-                              onChanged: (value) {
-                                controller.phoneErrorText.value = "";
-                              },
-                              obscureText: false,
-                              obscuringCharacter: "*",
-                              validator: (value) {
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText:
-                                    "${Strings.phoneText(context)} e.g. +491234567891",
-                                errorText: controller.phoneErrorText.value,
-
-                                // Borders
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide(
-                                    width: 2.w,
-                                    color: Colors.red.withOpacity(0.7),
-                                  ),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide(
-                                    width: 2.w,
-                                    color: Colors.red.withOpacity(0.7),
-                                  ),
-                                ),
-                                filled: true,
-                                fillColor:
-                                    controller.phoneErrorText.value.isEmpty
-                                        ? const Color(MyColors.lightSilverColor)
-                                        : Colors.red.withOpacity(0.12),
-
-                                // Font
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14.sp,
-                                  color: const Color(0x66000000),
-                                  fontWeight: FontWeight.w400,
-                                ),
-
-                                prefixIcon: const Icon(Icons.phone),
-                                prefixIconColor: const Color(0x66000000),
-
-                                suffixIcon: null,
-                                suffixIconColor: const Color(0x66000000),
-
-                                // Padding inside textfield
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16.w,
-                                  vertical: 14.h,
-                                ),
-
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide(
-                                    width: 2.w,
-                                    color:
-                                        const Color(MyColors.fieldBorderColor),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide(
-                                    width: 2.w,
-                                    color:
-                                        const Color(MyColors.fieldBorderColor),
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide(
-                                    width: 2.w,
-                                    color:
-                                        const Color(MyColors.fieldBorderColor),
-                                  ),
-                                ),
-                              ),
+                        padding: EdgeInsetsGeometry.only(
+                            top: 16.0.h, left: 19.0.w, right: 19.0.w),
+                        child: TextFormField(
+                          autofillHints: const [AutofillHints.telephoneNumber],
+                          controller: controller.phoneTextField(),
+                          keyboardType: TextInputType.phone,
+                          maxLines: 1,
+                          maxLength: 10,
+                          onChanged: (value) {
+                            controller.phoneErrorText.value = "";
+                          },
+                          decoration: InputDecoration(
+                            hintText: Strings.phoneText(context),
+                            errorText: controller.phoneErrorText.value,
+                            counterText: "",
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                  width: 2.w,
+                                  color:
+                                      const Color(MyColors.fieldBorderColor)),
                             ),
-                          )
-                          //  CommonTextField(
-                          //                         errorText: controller.phoneErrorText.value,
-                          //                         hint:
-                          //                             "${Strings.phoneText(context)} (e.g. +491234567891",
-                          //                         controller: controller.phoneTextField(),
-                          //                         prefixIcon: const Icon(Icons.phone),
-                          //                         inputType: TextInputType.phone,
-                          //                         needPasswordSuffixIcon: false,
-                          //                         onChanged: (value) {
-                          //                           controller.phoneErrorText.value = "";
-                          //                         },
-                          //                         needprefixIcon: true),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                  width: 2.w,
+                                  color:
+                                      const Color(MyColors.fieldBorderColor)),
+                            ),
+                            filled: true,
+                            fillColor: const Color(MyColors.lightSilverColor),
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14.sp,
+                              color: const Color(0x66000000),
+                              fontWeight: FontWeight.w400,
+                            ),
+
+                            // Country code picker on the left
+                            prefixIcon: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CountryCodePicker(
+                                  onChanged: (code) {
+                                    controller.countryDialCode.value =
+                                        code.dialCode ?? "+49";
+                                  },
+                                  initialSelection: 'DE',
+                                  favorite: const ['DE', 'TR', 'PT'],
+                                  showFlag: true,
+                                  showDropDownButton: true,
+                                  padding: EdgeInsets.zero,
+                                  flagWidth: 22.w,
+                                  textStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Container(
+                                  height: 24.h,
+                                  width: 1,
+                                  color: const Color(0x33000000),
+                                ),
+                                SizedBox(width: 8.w),
+                              ],
+                            ),
+                            prefixIconConstraints:
+                                const BoxConstraints(minWidth: 0, minHeight: 0),
+
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 14.h),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                  width: 2.w,
+                                  color:
+                                      const Color(MyColors.fieldBorderColor)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                  width: 2.w,
+                                  color:
+                                      const Color(MyColors.fieldBorderColor)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                  width: 2.w,
+                                  color:
+                                      const Color(MyColors.fieldBorderColor)),
+                            ),
                           ),
+                        ),
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: 16.0.h),
+                        padding: EdgeInsets.only(top: 0.0.h),
                         child: CommonTextField(
                             errorText: controller.passErrorText.value,
                             hint: Strings.passwordText(context),
@@ -278,11 +277,11 @@ class SignupScreen extends GetView<SignUpContoller> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         _passwordRule(
-                                            Strings.atLeast12CharactersText(
+                                            Strings.atLeast10CharactersText(
                                                 Get.context!),
                                             controller.passwordTextField.value
                                                     .text.length >=
-                                                12),
+                                                10),
                                         _passwordRule(
                                             Strings.lowercaseText(Get.context!),
                                             RegExp(r'[a-z]').hasMatch(controller
@@ -347,7 +346,8 @@ class SignupScreen extends GetView<SignUpContoller> {
                             text: Strings.termsAndConditionText(Get.context!),
                             size: 13.5.sp,
                             callback: () {
-                              Get.toNamed(AppLinks.terms_and_conditions);
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              Get.toNamed(AppLinks.legal_guides_screen);
                             },
                           ),
                           const SizedBox(
@@ -364,7 +364,8 @@ class SignupScreen extends GetView<SignUpContoller> {
                             size: 13.5.sp,
                             text: Strings.privacyPolicy(Get.context!),
                             callback: () {
-                              Get.toNamed(AppLinks.privacy_policy);
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              Get.toNamed(AppLinks.legal_guides_screen);
                             },
                           ),
                         ],
@@ -401,24 +402,21 @@ class SignupScreen extends GetView<SignUpContoller> {
 
   Future<void> pleaseValidateData() async {
     if (controller.nameTextField.value.text.isEmpty) {
-      controller.nameErrorText.value =
-          Strings.nameCannotBeEmptyText(Get.context!);
+      Fluttertoast.showToast(msg: Strings.nameCannotBeEmptyText(Get.context!));
     }
     if (controller.emailTextField.value.text.isEmpty) {
-      controller.emailAddressErrorText.value =
-          Strings.emailCannotBeEmptyText(Get.context!);
+      Fluttertoast.showToast(msg: Strings.emailCannotBeEmptyText(Get.context!));
     }
     if (controller.phoneTextField.value.text.isEmpty) {
-      controller.phoneErrorText.value =
-          Strings.phoneCannotBeEmptyText(Get.context!);
+      Fluttertoast.showToast(msg: Strings.phoneCannotBeEmptyText(Get.context!));
     }
     if (controller.passwordTextField.value.text.isEmpty) {
-      controller.passErrorText.value =
-          Strings.passwordCannotBeEmptyText(Get.context!);
+      Fluttertoast.showToast(
+          msg: Strings.passwordCannotBeEmptyText(Get.context!));
     }
     if (controller.confirmPasswordTextField.value.text.isEmpty) {
-      controller.confirmPassErrorText.value =
-          Strings.confirmPasswordCannotBeEmptyText(Get.context!);
+      Fluttertoast.showToast(
+          msg: Strings.confirmPasswordCannotBeEmptyText(Get.context!));
     }
     if (controller.nameTextField.value.text.isNotEmpty &&
         controller.emailTextField.value.text.isNotEmpty &&
@@ -426,25 +424,24 @@ class SignupScreen extends GetView<SignUpContoller> {
         controller.passwordTextField.value.text.isNotEmpty &&
         controller.confirmPasswordTextField.value.text.isNotEmpty) {
       if (controller.nameTextField.value.text.length < 4) {
-        controller.nameErrorText.value =
-            Strings.nameMustBeAtLeast(Get.context!);
+        Fluttertoast.showToast(msg: Strings.nameMustBeAtLeast(Get.context!));
       } else if (!Commons.isValidEmail(
           controller.emailTextField.value.text.toString())) {
-        controller.emailAddressErrorText.value =
-            Strings.pleaseEnterValidEmail(Get.context!);
+        Fluttertoast.showToast(
+            msg: Strings.pleaseEnterValidEmail(Get.context!));
       } else if (!controller.phoneTextField.value.text
           .toString()
           .isPhoneNumber) {
-        controller.phoneErrorText.value =
-            Strings.pleaseEnterValidPhoneText(Get.context!);
+        Fluttertoast.showToast(
+            msg: Strings.pleaseEnterValidPhoneText(Get.context!));
       } else if (controller.passwordStrength.value < 0.8) {
-        controller.passErrorText.value =
-            Strings.pleaseFollowPasswordRules(Get.context!);
+        Fluttertoast.showToast(
+            msg: Strings.pleaseFollowPasswordRules(Get.context!));
       } else if (controller.confirmPasswordTextField.value.text.toString() !=
           controller.passwordTextField.value.text.toString()) {
-        controller.confirmPassErrorText.value =
-            Strings.passwordDoNotMatch(Get.context!);
+        Fluttertoast.showToast(msg: Strings.passwordDoNotMatch(Get.context!));
       } else {
+        FocusManager.instance.primaryFocus?.unfocus();
         Commons.showProgressDialog(Get.context!);
         String res = await controller.pleaseRegisterUser();
         if (res != "") {
@@ -483,15 +480,12 @@ class SignupScreen extends GetView<SignUpContoller> {
                       onPressed: () {
                         Get.back();
                       },
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 50.0.w, right: 50.0.w),
-                        child: Container(
-                          child: Center(
-                              child: Text(
-                            Strings.tryAgain(Get.context!),
-                            style: const TextStyle(color: Colors.white),
-                          )),
-                        ),
+                      child: Container(
+                        child: Center(
+                            child: Text(
+                          Strings.cancelText(Get.context!),
+                          style: const TextStyle(color: Colors.white),
+                        )),
                       )),
                 ),
                 SizedBox(height: 16.0.h)

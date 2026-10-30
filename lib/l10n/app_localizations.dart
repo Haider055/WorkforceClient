@@ -144,6 +144,18 @@ abstract class AppLocalizations {
   /// **'Select Language'**
   String get select_languageText;
 
+  /// No description provided for @noInternetText.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet'**
+  String get noInternetText;
+
+  /// No description provided for @onlineText.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get onlineText;
+
   /// No description provided for @englishText.
   ///
   /// In en, this message translates to:
@@ -189,7 +201,7 @@ abstract class AppLocalizations {
   /// No description provided for @canceledText.
   ///
   /// In en, this message translates to:
-  /// **'Canceled'**
+  /// **'Cancelled'**
   String get canceledText;
 
   /// No description provided for @loginText.
@@ -209,6 +221,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Register'**
   String get registerText;
+
+  /// No description provided for @agreeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree'**
+  String get agreeText;
+
+  /// No description provided for @dated.
+  ///
+  /// In en, this message translates to:
+  /// **'Dated'**
+  String get dated;
 
   /// No description provided for @phoneText.
   ///
@@ -252,6 +276,18 @@ abstract class AppLocalizations {
   /// **'Change Language'**
   String get changeLanguageText;
 
+  /// No description provided for @contractCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Completed'**
+  String get contractCompleted;
+
+  /// No description provided for @contractInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract in Progress'**
+  String get contractInProgress;
+
   /// No description provided for @createText.
   ///
   /// In en, this message translates to:
@@ -269,6 +305,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign In'**
   String get signInText;
+
+  /// No description provided for @totalJobText.
+  ///
+  /// In en, this message translates to:
+  /// **'Total jobs'**
+  String get totalJobText;
 
   /// No description provided for @loginDesc.
   ///
@@ -708,6 +750,12 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get backText;
 
+  /// No description provided for @aboutText.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutText;
+
   /// No description provided for @photosText.
   ///
   /// In en, this message translates to:
@@ -780,6 +828,12 @@ abstract class AppLocalizations {
   /// **'Please Select Sevice!'**
   String get pleaseSelectSeviceText;
 
+  /// No description provided for @pleaseEntercurrentPasswordText.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter current password'**
+  String get pleaseEntercurrentPasswordText;
+
   /// No description provided for @overviewText.
   ///
   /// In en, this message translates to:
@@ -792,17 +846,41 @@ abstract class AppLocalizations {
   /// **'Details'**
   String get detailsText;
 
+  /// No description provided for @saveText.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveText;
+
   /// No description provided for @tradesman.
   ///
   /// In en, this message translates to:
   /// **'Tradesman'**
   String get tradesman;
 
+  /// No description provided for @restartText.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get restartText;
+
   /// No description provided for @orderDetailText.
   ///
   /// In en, this message translates to:
   /// **'Order Detail'**
   String get orderDetailText;
+
+  /// No description provided for @resultsFoundText.
+  ///
+  /// In en, this message translates to:
+  /// **'results found'**
+  String get resultsFoundText;
+
+  /// No description provided for @unFinishedJobText.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfinished Job'**
+  String get unFinishedJobText;
 
   /// No description provided for @searchYourLocationText.
   ///
@@ -1209,7 +1287,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectServiceDescText.
   ///
   /// In en, this message translates to:
-  /// **'Find and hire certified tradesmen in your \narea for the services your need.'**
+  /// **'Find and hire certified tradesmen in your area for the services your need.'**
   String get selectServiceDescText;
 
   /// No description provided for @selectServiceInfoText1.
@@ -1716,17 +1794,35 @@ abstract class AppLocalizations {
   /// **'to more 0 tradesmen to get additional asnwers'**
   String get toMore0TradesmenText;
 
+  /// No description provided for @mapPermissionDeniedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable the location service for AuftragNow app in your phone settings'**
+  String get mapPermissionDeniedDesc;
+
   /// No description provided for @messageNotSentText.
   ///
   /// In en, this message translates to:
   /// **'Message not Sent'**
   String get messageNotSentText;
 
+  /// No description provided for @eulaHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'End User Lisence Agreement'**
+  String get eulaHeading;
+
   /// No description provided for @loadMoreText.
   ///
   /// In en, this message translates to:
   /// **'Load more'**
   String get loadMoreText;
+
+  /// No description provided for @permissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Denied'**
+  String get permissionDenied;
 
   /// No description provided for @nowText.
   ///
@@ -1800,6 +1896,12 @@ abstract class AppLocalizations {
   /// **'Go Back'**
   String get goBackText;
 
+  /// No description provided for @goToSettingsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to settings'**
+  String get goToSettingsText;
+
   /// No description provided for @emailUsText.
   ///
   /// In en, this message translates to:
@@ -1836,11 +1938,17 @@ abstract class AppLocalizations {
   /// **'Tell us more...'**
   String get tellUsMore;
 
-  /// No description provided for @atLeast12CharactersText.
+  /// No description provided for @disclaimerInPickImageText.
   ///
   /// In en, this message translates to:
-  /// **'at least 12 characters'**
-  String get atLeast12CharactersText;
+  /// **'Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.'**
+  String get disclaimerInPickImageText;
+
+  /// No description provided for @atLeast10CharactersText.
+  ///
+  /// In en, this message translates to:
+  /// **'at least 10 characters'**
+  String get atLeast10CharactersText;
 
   /// No description provided for @whyareyoublockinghim.
   ///
@@ -2082,6 +2190,48 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get emailText;
 
+  /// No description provided for @legalText.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get legalText;
+
+  /// No description provided for @retryText.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryText;
+
+  /// No description provided for @newText.
+  ///
+  /// In en, this message translates to:
+  /// **'new'**
+  String get newText;
+
+  /// No description provided for @uploadPhotosText.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Photos'**
+  String get uploadPhotosText;
+
+  /// No description provided for @newNotificationText.
+  ///
+  /// In en, this message translates to:
+  /// **'New Notification'**
+  String get newNotificationText;
+
+  /// No description provided for @lastUsedLocationText.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used location'**
+  String get lastUsedLocationText;
+
+  /// No description provided for @useCurrentLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use current location'**
+  String get useCurrentLocation;
+
   /// No description provided for @tellUsMoreAboutYourNeed.
   ///
   /// In en, this message translates to:
@@ -2121,7 +2271,7 @@ abstract class AppLocalizations {
   /// No description provided for @max15MbFileText.
   ///
   /// In en, this message translates to:
-  /// **'Max. 15 files, Max. 2 MB per file'**
+  /// **'Max. 15 files'**
   String get max15MbFileText;
 
   /// No description provided for @uploadFilesFromGalleryText.
@@ -2141,6 +2291,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select'**
   String get selectText;
+
+  /// No description provided for @onlyUsersAllowedToLoginText.
+  ///
+  /// In en, this message translates to:
+  /// **'Only Users allowed to login'**
+  String get onlyUsersAllowedToLoginText;
 
   /// No description provided for @requestHasSentText.
   ///
@@ -2165,6 +2321,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reviewed on'**
   String get reviewedOnText;
+
+  /// No description provided for @giveReviewText.
+  ///
+  /// In en, this message translates to:
+  /// **'Give Review'**
+  String get giveReviewText;
 
   /// No description provided for @seeourPrivacyPlolicyText.
   ///
@@ -2339,6 +2501,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OTP failed to Sent'**
   String get otpFailedToSentText;
+
+  /// No description provided for @onlineSnackbarDescText.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet is now back'**
+  String get onlineSnackbarDescText;
+
+  /// No description provided for @offlineSnackbarDescText.
+  ///
+  /// In en, this message translates to:
+  /// **'Seems you are out of network connection'**
+  String get offlineSnackbarDescText;
 
   /// No description provided for @imagesCanBeAddMoreText.
   ///

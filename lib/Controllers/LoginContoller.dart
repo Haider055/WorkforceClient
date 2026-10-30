@@ -38,7 +38,8 @@ class LoginContoller extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      print(response.body);
+      //print(response.body);
+      Commons.hideProgressDialog();
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
@@ -65,11 +66,13 @@ class LoginContoller extends GetxController {
               if (dataObj['user'] != null) {
                 if (dataObj['user']['role'] != null) {
                   if (dataObj['user']['role'] == "tradeperson") {
-                    Fluttertoast.showToast(msg: "Only Users allowed to login");
+                    Fluttertoast.showToast(
+                        msg: Strings.onlyUsersAllowedToLoginText(Get.context!));
                     return "otherUser";
                   } else {
                     await saveUserInfo(dataObj['user']);
                     fCMSaveToken();
+                    pleaseChangeLanguage();
                     Fluttertoast.showToast(msg: msg);
                     return "done";
                   }
@@ -109,8 +112,11 @@ class LoginContoller extends GetxController {
         return msg;
       }
     } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }
@@ -174,7 +180,7 @@ class LoginContoller extends GetxController {
         }),
       );
       print("object");
-      print(response.body);
+      //print(response.body);
 
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -191,6 +197,7 @@ class LoginContoller extends GetxController {
         return "";
       }
     } catch (e) {
+      Commons.hideProgressDialog();
       print(e.toString());
     }
     return "";
@@ -296,7 +303,7 @@ class LoginContoller extends GetxController {
                         child: Container(
                           child: Center(
                               child: Text(
-                            Strings.tryAgain(Get.context!),
+                            Strings.cancelText(Get.context!),
                             style: const TextStyle(color: Colors.white),
                           )),
                         ),
@@ -313,6 +320,47 @@ class LoginContoller extends GetxController {
     } else {
       Commons.hideProgressDialog();
       emailAddressErrorText.value = Strings.pleaseEnterValidEmail(Get.context!);
+    }
+  }
+
+  Future<bool> pleaseChangeLanguage() async {
+    try {
+      print("language updated");
+      String lang = await Commons.getPrefLanguageValue();
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/locale'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, dynamic>{'language': lang}),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      //print(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonData['success']) {
+          return true;
+        } else {
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          return false;
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser(true);
+        return false;
+      } else {
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        return false;
+      }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return false;
+    } catch (e) {
+      Commons.hideProgressDialog();
+      throw Exception(e);
     }
   }
 

@@ -11,6 +11,7 @@ import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/ConversationScreen.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
+import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 
@@ -53,19 +54,28 @@ class _AllChatsState extends State<AllChats> {
                         SizedBox(width: 8.w),
                       ],
                     ),
-                    controller.isLoading.value
-                        ? const Expanded(
+                    controller.isError.value
+                        ? Expanded(
                             child: Center(
-                              child: CircularProgressIndicator(
-                                color: Color(MyColors.themeRedColor),
-                              ),
+                              child: HeadingTextW500(
+                                  text: Strings.somethingWentWrong(context),
+                                  centerAlign: true,
+                                  size: 12),
                             ),
                           )
-                        : Expanded(
-                            child: (controller.list.isEmpty)
-                                ? _buildNoChatsView()
-                                : _buildCombinedList(),
-                          ),
+                        : controller.isLoading.value
+                            ? const Expanded(
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(MyColors.themeRedColor),
+                                  ),
+                                ),
+                              )
+                            : Expanded(
+                                child: (controller.list.isEmpty)
+                                    ? _buildNoChatsView()
+                                    : _buildCombinedList(),
+                              ),
                   ],
                 );
         }),
@@ -91,7 +101,7 @@ class _AllChatsState extends State<AllChats> {
 
         // 2. Load-more button — right after normal chats, before blocked
         if (hasMoreChats && index == chatsCount) {
-          return _buildLoadMoreButton();
+          return _buildLoadMoreButton(context);
         }
         return null;
       },
@@ -127,7 +137,7 @@ class _AllChatsState extends State<AllChats> {
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 20.0.h),
             child: FullWidthButtonPrimary(
                 text: Strings.loginText(Get.context!),
-                fontsize: 15.0.sp,
+                fontsize: 15.0,
                 color: MyColors.themeRedColor,
                 onPressed: () {
                   Constants.fromWhere = "SelectServiceScreen";
@@ -140,64 +150,84 @@ class _AllChatsState extends State<AllChats> {
     );
   }
 
-  Widget _buildLoadMoreButton() {
+  Widget _buildLoadMoreButton(BuildContext context) {
     return Obx(() {
-      return controller.isLoadingMore.value
-          ? Center(
-              child: Padding(
-                padding: EdgeInsets.all(4.0.r),
-                child: const CircularProgressIndicator(
-                  color: Color(MyColors.themeRedColor),
-                ),
-              ),
-            )
-          : SizedBox(
-              width: 100,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0.r))),
-                    fixedSize: WidgetStatePropertyAll(Size.fromWidth(
-                        MediaQuery.of(Get.context!).size.width.w / 2)),
-                    foregroundColor: const WidgetStatePropertyAll(
-                        Color(MyColors.infoPinkColor2)),
-                    elevation: const WidgetStatePropertyAll(0)),
-                onPressed: () {
-                  try {
-                    if (controller.chatsList!.pagination != null) {
-                      if (controller.chatsList!.pagination!.hasMore ?? false) {
-                        int page =
-                            controller.chatsList!.pagination!.currentPage! + 1;
-                        controller.isLoadingMore.value = true;
-                        controller.getChats(page);
-                      }
-                    }
-                  } catch (e) {
-                    throw Exception(e);
-                  }
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(4.0.r),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Headingdescription(
-                          text: Strings.loadMoreText(Get.context!),
-                          centerAlign: false,
-                          size: 14.sp),
-                      SizedBox(
-                        width: 5.0.w,
-                      ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 20.0.sp,
-                      )
-                    ],
+      final loading = controller.isLoadingMore.value;
+
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.h),
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 1.6,
+            height: 42.h,
+            child: ElevatedButton(
+              onPressed: loading ? null : () => _loadMoreData(),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                padding: EdgeInsets.zero,
+                backgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                disabledBackgroundColor:
+                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                foregroundColor: const Color(MyColors.themeRedColor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(21.r),
+                  side: BorderSide(
+                    color:
+                        const Color(MyColors.themeRedColor).withOpacity(0.25),
                   ),
                 ),
               ),
-            );
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: loading
+                    ? SizedBox(
+                        key: const ValueKey(''),
+                        width: 18.w,
+                        height: 18.w,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(MyColors.themeRedColor),
+                        ),
+                      )
+                    : Row(
+                        key: const ValueKey('label'),
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            Strings.loadMoreText(context),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                              color: const Color(MyColors.themeRedColor),
+                            ),
+                          ),
+                          SizedBox(width: 6.w),
+                          Icon(Icons.keyboard_arrow_down, size: 19.sp),
+                        ],
+                      ),
+              ),
+            ),
+          ),
+        ),
+      );
     });
+  }
+
+  void _loadMoreData() {
+    try {
+      if (controller.chatsList!.pagination != null) {
+        if (controller.chatsList!.pagination!.hasMore ?? false) {
+          int page = controller.chatsList!.pagination!.currentPage! + 1;
+          controller.isLoadingMore.value = true;
+          controller.getChats(page);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Widget _buildNoChatsView() {
@@ -235,7 +265,7 @@ class _AllChatsState extends State<AllChats> {
 
   Widget _buildChatView(Chat chat, int index) {
     if (index == controller.list.length) {
-      return _buildLoadMoreButton();
+      return _buildLoadMoreButton(context);
     }
     return GestureDetector(
       onTap: () async {
@@ -244,7 +274,7 @@ class _AllChatsState extends State<AllChats> {
             const ConversationScreen(),
             arguments: {
               'index': index,
-              'chat': chat,
+              'chat': controller.list.elementAt(index),
               'fromWhere': 'AllChats',
             },
           );
@@ -479,7 +509,7 @@ class _AllChatsState extends State<AllChats> {
                           minHeight: 16.0.r,
                         ),
                         child: Text(
-                          '${chat.unreadCount.value} new ',
+                          '${chat.unreadCount.value} ${Strings.newText(context)} ',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.0.sp,
