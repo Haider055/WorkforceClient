@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -471,6 +472,20 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                   // 3. Services list
                   SliverToBoxAdapter(
                     child: Obx(() {
+                      if (controller.searching.value) {
+                        return Padding(
+                          padding: EdgeInsets.only(top: 10.0.h),
+                          child: Center(
+                            child: SizedBox(
+                              height: 24.0.h,
+                              width: 24.0.w,
+                              child: const CircularProgressIndicator(
+                                color: Color(MyColors.themeRedColor),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                       final services = controller.searchInput.value.isEmpty
                           ? controller.allListOptions.toList()
                           : controller.filteredOptions.toList();
@@ -527,7 +542,16 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
             },
             onChanged: (value) {
               controller.searchInput.value = value;
-              controller.filterSearchResults(controller.searchInput.value);
+              controller.searchDebounce?.cancel();
+              if (value.isEmpty) {
+                controller.searching.value = false;
+                controller.filteredOptions.clear();
+                return;
+              }
+              controller.searching.value = true;
+              controller.searchDebounce =
+                  Timer(const Duration(seconds: 1), manageSearch);
+              // controller.filterSearchResults(controller.searchInput.value);
             },
             cursorColor: const Color(MyColors.themeRedColor),
             decoration: InputDecoration(
@@ -549,6 +573,8 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                 padding: EdgeInsets.only(right: 6.0.w),
                 child: GestureDetector(
                   onTap: () {
+                    controller.searchDebounce?.cancel();
+                    controller.searching.value = false;
                     controller.searchController.value.text = "";
                     controller.searchInput.value = "";
                     controller.filteredOptions.value = [];
@@ -606,6 +632,24 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
         ],
       );
     });
+  }
+
+  void manageSearch() async {
+    final query = controller.searchInput.value;
+    try {
+      controller.searching.value = true;
+      final results = await controller.searchServices();
+      // Ignore stale responses if the user typed again meanwhile
+      if (query == controller.searchInput.value) {
+        controller.filteredOptions.value = results;
+      }
+    } catch (e) {
+      throw Exception(e);
+    } finally {
+      if (query == controller.searchInput.value) {
+        controller.searching.value = false;
+      }
+    }
   }
 }
 

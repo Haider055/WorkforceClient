@@ -49,6 +49,8 @@ class SelectServiceController extends GetxController
   int chatLinstenerRetryCount = 0;
   RxBool isEnabled = true.obs;
   int _currentClientId = -1;
+  RxBool searching = false.obs;
+  Timer? searchDebounce;
 
   @override
   void onInit() {
@@ -333,6 +335,62 @@ class SelectServiceController extends GetxController
     try {
       final response = await http
           .get(Uri.parse('${Constants.baseUrl}/services'),
+              headers: await Commons.manageRequestHeader())
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      //print(response.body);
+
+      if (response.statusCode == 200) {
+        // If the server did return a 200 CREATED response,
+        // then parse the JSON.
+
+        if (jsonData['success']) {
+          if (jsonData.keys.contains('data')) {
+            Map<String, dynamic> dataObj = jsonData['data'];
+            if (dataObj.keys.contains('services')) {
+              Iterable l = dataObj['services'];
+              list = List<Services>.from(
+                  l.map((model) => Services.fromJson(model)));
+            }
+          }
+
+          return list;
+        } else {
+          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+
+          return list;
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser(true);
+        return list;
+      } else {
+        // If the server did not return a 200 CREATED response,
+        // then throw an exception.
+        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        return list;
+      }
+    } on TimeoutException {
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return list;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Services>> searchServices() async {
+    if (searchInput.value.isEmpty) {
+      return [];
+    }
+    List<Services> list = [];
+
+    try {
+      final response = await http
+          .get(
+              Uri.parse(
+                  '${Constants.baseUrl}/services?search=${searchInput.value}'),
               headers: await Commons.manageRequestHeader())
           .timeout(const Duration(seconds: 5));
 

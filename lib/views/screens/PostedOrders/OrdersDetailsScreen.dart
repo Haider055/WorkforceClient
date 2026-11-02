@@ -729,7 +729,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         maxFontSize: 14,
                         minFontSize: 9,
                         maxLines: 1,
-                        style: TextStyle(),
+                        style: const TextStyle(),
                       ),
                     ],
                   )
