@@ -143,15 +143,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 elevation: 0,
                 padding: EdgeInsets.zero,
                 backgroundColor:
-                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                    const Color(MyColors.themeRedColor).withValues(alpha: 0.07),
                 disabledBackgroundColor:
-                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                    const Color(MyColors.themeRedColor).withValues(alpha: 0.04),
                 foregroundColor: const Color(MyColors.themeRedColor),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(21.r),
                   side: BorderSide(
-                    color:
-                        const Color(MyColors.themeRedColor).withOpacity(0.25),
+                    color: const Color(MyColors.themeRedColor)
+                        .withValues(alpha: 0.25),
                   ),
                 ),
               ),
@@ -311,8 +311,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       child: Obx(() {
         return Container(
           color: notification.isRead.value
-              ? Colors.black.withOpacity(0)
-              : Colors.black.withOpacity(0.05),
+              ? Colors.black.withValues(alpha: 0)
+              : Colors.black.withValues(alpha: 0.05),
           child: Padding(
             padding: EdgeInsets.all(3.0.r),
             child: Column(

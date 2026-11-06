@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:workforceclientapp/Others/Constants.dart';
 
 class TermsandconditionController extends GetxController {
   static const String _termsUrl =
-      'https://auftragnow.de/api/legal/terms-and-conditions';
+      '${Constants.baseUrl}/legal/terms-and-conditions';
 
   final RxBool isLoading = false.obs;
   final RxString termsText = ''.obs;

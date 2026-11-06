@@ -272,7 +272,7 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                       padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
                         color: const Color(MyColors.themeRedColor)
-                            .withOpacity(0.10),
+                            .withValues(alpha: 0.10),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -353,10 +353,10 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                             const Color(MyColors.fieldBorderColor)),
                         focusedBorder: passwordDialogBorder(
                             const Color(MyColors.themeRedColor)),
-                        errorBorder:
-                            passwordDialogBorder(Colors.red.withOpacity(0.7)),
-                        focusedErrorBorder:
-                            passwordDialogBorder(Colors.red.withOpacity(0.7)),
+                        errorBorder: passwordDialogBorder(
+                            Colors.red.withValues(alpha: 0.7)),
+                        focusedErrorBorder: passwordDialogBorder(
+                            Colors.red.withValues(alpha: 0.7)),
                       ),
                     ),
                     SizedBox(height: 20.h),

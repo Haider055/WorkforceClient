@@ -307,7 +307,7 @@
   "enable2FAText": "Enable 2FA Verification",
   "tellUsMore": "Tell us more...",
   "disclaimerInPickImageText": "Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.",
-  "atLeast10CharactersText": "at least 10 characters",
+  "atLeast8CharactersText": "at least 8 characters",
   "whyareyoublockinghim": "Why are you Blocking him?",
   "whyareyoureportinghim": "Why are you reporting him?",
   "lowercaseText": "lowercase",
@@ -405,6 +405,9 @@
   "imagesCanBeAddMoreText": "images can be add more",
   "searchForServicesText": "Search for services",
   "requestAlreadySentText": "Request already sent",
-  "phoneNumberCannotbemorethan13digitText": "Phone Number Cannot be more than 13 digits"
+  "phoneNumberCannotbemorethan13digitText": "Phone Number Cannot be more than 13 digits",
+  "newUpdateAvailableText": "New update available",
+  "newUpdateAvailableDescriptionText": "A new version of the app is available. Update now to get the latest features and improvements.",
+  "laterText": "Later"
 
 }

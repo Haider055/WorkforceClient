@@ -37,6 +37,7 @@ class OTPVerificationController extends GetxController {
   RxInt remainingSeconds = 240.obs;
   Timer? _countdownTimer;
   RxBool canResend = false.obs;
+  String? resendAvailableAt;
 
   late final SmsRetriever smsRetriever;
   final TextEditingController pinController = TextEditingController();
@@ -67,6 +68,11 @@ class OTPVerificationController extends GetxController {
     if (_countdownTimer != null) {
       _countdownTimer?.cancel();
     }
+    resendAvailableAt = Constants.resendAvailableAt;
+    if (resendAvailableAt!.isEmpty) {
+      resendAvailableAt = null;
+    }
+    Constants.resendAvailableAt = "";
 
     startTimer();
 
@@ -83,7 +89,7 @@ class OTPVerificationController extends GetxController {
 
   void startTimer() {
     canResend.value = false;
-    remainingSeconds.value = 240;
+    remainingSeconds.value = _secondsUntilResendAvailable();
     _countdownTimer?.cancel();
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds.value > 0) {
@@ -93,6 +99,17 @@ class OTPVerificationController extends GetxController {
         timer.cancel();
       }
     });
+  }
+
+  // Seconds left until the backend's resend_available_at. Falls back to the
+  // default 4 minutes when the flow has no timestamp or it can't be parsed.
+  int _secondsUntilResendAvailable() {
+    final resendAt = DateTime.tryParse(resendAvailableAt ?? '');
+    if (resendAt == null) {
+      return 240;
+    }
+    final seconds = resendAt.difference(DateTime.now()).inSeconds;
+    return seconds > 0 ? seconds : 0;
   }
 
   String get formattedTime {
@@ -117,8 +134,14 @@ class OTPVerificationController extends GetxController {
     super.dispose();
   }
 
-  Future<String> pleaseRegisterUser(String name, String email, String password,
-      String confirmpassword, String phone, BuildContext context) async {
+  Future<String> pleaseRegisterUser(
+    String name,
+    String email,
+    String password,
+    String confirmpassword,
+    String phone,
+    BuildContext context,
+  ) async {
     try {
       final response = await http
           .post(
@@ -170,19 +193,25 @@ class OTPVerificationController extends GetxController {
         // If the server did return a 200 CREATED response,
         // then parse the JSON.
         if (jsonData['success']) {
+          final responseData = jsonData['data'];
+          resendAvailableAt = responseData is Map
+              ? responseData['resend_available_at']?.toString()
+              : null;
           Fluttertoast.showToast(msg: Strings.otpSentText(Get.context!));
           print("object");
           return true;
           // return directLoginUser(context);
         } else {
           Fluttertoast.showToast(
-              msg: Strings.otpFailedToSentText(Get.context!));
+            msg: Strings.otpFailedToSentText(Get.context!),
+          );
           print("object1");
           return false;
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
-            msg: Strings.accountBlockedMessage(Get.context!));
+          msg: Strings.accountBlockedMessage(Get.context!),
+        );
         Commons.logoutUser(true);
         return false;
       } else {
@@ -201,7 +230,10 @@ class OTPVerificationController extends GetxController {
   }
 
   Future<String> pleaseVerifyOTP(
-      String otp, String email, BuildContext context) async {
+    String otp,
+    String email,
+    BuildContext context,
+  ) async {
     try {
       final response = await http
           .post(
@@ -210,7 +242,7 @@ class OTPVerificationController extends GetxController {
             body: jsonEncode(<String, String>{
               "email": email,
               "otp": otp,
-              "type": "register"
+              "type": "register",
             }),
           )
           .timeout(const Duration(seconds: 5));
@@ -231,7 +263,8 @@ class OTPVerificationController extends GetxController {
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
-            msg: Strings.accountBlockedMessage(Get.context!));
+          msg: Strings.accountBlockedMessage(Get.context!),
+        );
         Commons.logoutUser(true);
         return '';
       } else {
@@ -251,7 +284,10 @@ class OTPVerificationController extends GetxController {
   }
 
   Future<String> verify2FA(
-      String token, String otp, BuildContext context) async {
+    String token,
+    String otp,
+    BuildContext context,
+  ) async {
     try {
       final response = await http
           .post(
@@ -283,7 +319,8 @@ class OTPVerificationController extends GetxController {
                 if (dataObj['user']['role'] != null) {
                   if (dataObj['user']['role'] == "tradeperson") {
                     Fluttertoast.showToast(
-                        msg: Strings.onlyUsersAllowedToLoginText(Get.context!));
+                      msg: Strings.onlyUsersAllowedToLoginText(Get.context!),
+                    );
                     return "otherUser";
                   } else {
                     await saveUserInfo(dataObj['user']);
@@ -382,7 +419,7 @@ class OTPVerificationController extends GetxController {
         body: jsonEncode(<String, String>{
           "token": token.toString(),
           "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
-          "device_id": deviceId.toString()
+          "device_id": deviceId.toString(),
         }),
       );
       print("object");
@@ -399,7 +436,8 @@ class OTPVerificationController extends GetxController {
         return "";
       } else {
         Fluttertoast.showToast(
-            msg: Strings.notificationSetupError(Get.context!));
+          msg: Strings.notificationSetupError(Get.context!),
+        );
         return "";
       }
     } catch (e) {
@@ -432,6 +470,8 @@ class OTPVerificationController extends GetxController {
     await _prefs.setString('phone', userObj['phone'] ?? "");
     await _prefs.setString('profile_img', userObj['profile_img'] ?? "");
     await _prefs.setBool(
-        'two_factor_enabled', userObj['two_factor_enabled'] ?? false);
+      'two_factor_enabled',
+      userObj['two_factor_enabled'] ?? false,
+    );
   }
 }

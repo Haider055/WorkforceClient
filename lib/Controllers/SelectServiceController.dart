@@ -395,7 +395,7 @@ class SelectServiceController extends GetxController
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      //print(response.body);
+      print(response.body);
 
       if (response.statusCode == 200) {
         // If the server did return a 200 CREATED response,
@@ -676,10 +676,11 @@ class SelectServiceController extends GetxController
       final token = await Commons.getUserToken();
       final options = SimpleFlutterReverbOptions(
         scheme: "wss",
-        host: "auftragnow.com",
+        host: "staging.auftragnow.de", //auftragnow.com
         port: "443",
-        appKey: Constants.pusherAPIkey,
-        authUrl: "${Constants.baseUrl}/broadcasting/auth",
+        appKey: "4ff6d12d375da4d98e3b", //Constants.pusherAPIkey,
+        authUrl:
+            "https://staging.auftragnow.de/broadcasting/auth", //"${Constants.baseUrl}/broadcasting/auth",
         authToken: token,
         privatePrefix: "private-",
         usePrefix: true,

@@ -306,7 +306,7 @@
   "taptounblock": "Toque para desbloquear",
   "tellUsMore": "Conte-nos mais...",
   "disclaimerInPickImageText": "Aviso: Poderão ser tomadas medidas legais contra o utilizador caso as fotos enviadas violem os nossos termos de serviço.",
-  "atLeast10CharactersText": "pelo menos 10 caracteres",
+  "atLeast8CharactersText": "pelo menos 8 caracteres",
   "whyareyoublockinghim": "Porque está a bloquear este utilizador?",
   "whyareyoureportinghim": "Porque está a denunciar este utilizador?",
   "lowercaseText": "minúsculas",
@@ -405,5 +405,8 @@
   "imagesCanBeAddMoreText": "imagens ainda podem ser adicionadas",
   "searchForServicesText": "procura de serviços",
   "requestAlreadySentText": "Solicitação já enviada",
-  "phoneNumberCannotbemorethan13digitText": "O número de telefone não pode ter mais de 13 dígitos"
+  "phoneNumberCannotbemorethan13digitText": "O número de telefone não pode ter mais de 13 dígitos",
+  "newUpdateAvailableText": "Nova atualização disponível",
+  "newUpdateAvailableDescriptionText": "Uma nova versão do aplicativo está disponível. Atualize agora para obter os recursos e melhorias mais recentes.",
+  "laterText": "Mais tarde"
 }

@@ -144,7 +144,7 @@ class AppRoutes {
     ),
     GetPage(
       name: AppLinks.orders_details_screen,
-      page: () => OrdersDetailsScreen(),
+      page: () => const OrdersDetailsScreen(),
       binding: OrdersDetailsScreenBinding(),
     ),
     GetPage(

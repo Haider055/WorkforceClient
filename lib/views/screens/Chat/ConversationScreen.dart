@@ -47,9 +47,10 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   String fromWhere = "";
   int index = 0;
   static const _channel = MethodChannel('app/lifecycle');
-  final PostedOrderDetailsController postedOrderDetailsController = Get.put(
-    PostedOrderDetailsController(),
-  );
+  // Plain instance (not Get.put) so the OrdersDetailsScreen binding creates
+  // its own controller with fresh arguments when navigating with toNamed.
+  final PostedOrderDetailsController postedOrderDetailsController =
+      PostedOrderDetailsController();
   ConversationContoller conversationContoller = Get.put(
     ConversationContoller(),
   );
@@ -430,52 +431,49 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                 );
                               }),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 16.0.h),
-                              child: Row(
-                                children: [
-                                  Expanded(flex: 10, child: textfieldWidget()),
-                                  chat!.canSendMessage
-                                      ? Expanded(
-                                          flex: 2,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              try {
-                                                if (conversationContoller
-                                                    .messageTextField
-                                                    .value
-                                                    .text
-                                                    .isNotEmpty) {
-                                                  sendMessage(
-                                                    conversationContoller
-                                                        .messageTextField
-                                                        .value
-                                                        .text,
-                                                  );
-                                                }
-                                              } catch (e) {
-                                                throw Exception(e);
+                            Row(
+                              children: [
+                                Expanded(flex: 10, child: textfieldWidget()),
+                                chat!.canSendMessage
+                                    ? Expanded(
+                                        flex: 2,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            try {
+                                              if (conversationContoller
+                                                  .messageTextField
+                                                  .value
+                                                  .text
+                                                  .isNotEmpty) {
+                                                sendMessage(
+                                                  conversationContoller
+                                                      .messageTextField
+                                                      .value
+                                                      .text,
+                                                );
                                               }
-                                            },
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                "lib/assets/icons/sendButton.svg",
-                                                fit: BoxFit.cover,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    10,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    8,
-                                              ),
+                                            } catch (e) {
+                                              throw Exception(e);
+                                            }
+                                          },
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              "lib/assets/icons/sendButton.svg",
+                                              fit: BoxFit.cover,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  10,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  8,
                                             ),
                                           ),
-                                        )
-                                      : const SizedBox(),
-                                ],
-                              ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
                             )
                           ],
                         ),
@@ -633,19 +631,19 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                         borderRadius: BorderRadius.circular(10.0.r),
                         borderSide: BorderSide(
                           width: 2.0.w,
-                          color: Colors.red.withOpacity(0.7),
+                          color: Colors.red.withValues(alpha: 0.7),
                         ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0.r),
                         borderSide: BorderSide(
                           width: 2.0.w,
-                          color: Colors.red.withOpacity(0.7),
+                          color: Colors.red.withValues(alpha: 0.7),
                         ),
                       ),
                       filled: true,
                       fillColor: const Color(MyColors.lightSilverColor)
-                          .withOpacity(0.8),
+                          .withValues(alpha: 0.8),
                       hintStyle: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14.0.sp,
@@ -1011,6 +1009,20 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                       });
                                 } else if (value == 'unblock') {
                                   _showUnblockDialog(context, chat);
+                                } else if (value == 'job') {
+                                  print(chat!.jobPostingId);
+                                  // Opened from the order details screen: just go
+                                  // back to it instead of stacking a duplicate.
+                                  if (Get.previousRoute ==
+                                      AppLinks.orders_details_screen) {
+                                    Get.back();
+                                    return;
+                                  }
+                                  Get.toNamed(AppLinks.orders_details_screen,
+                                      arguments: {
+                                        'jobId': jobId ?? -1,
+                                        'index': index
+                                      });
                                 }
                               },
                               itemBuilder: (context) => [
@@ -1062,6 +1074,21 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                           ],
                                         ),
                                       ),
+                                PopupMenuItem(
+                                  value: "job",
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.remove_red_eye_outlined,
+                                          size: 18, color: Colors.black87),
+                                      const SizedBox(width: 8),
+                                      Headingdescription(
+                                          text:
+                                              Strings.jobPostText(Get.context!),
+                                          centerAlign: false,
+                                          size: 13),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),

@@ -238,8 +238,8 @@ class JobPostCompleteController extends GetxController {
                 Container(
                   padding: EdgeInsets.all(14.r),
                   decoration: BoxDecoration(
-                    color:
-                        const Color(MyColors.themeRedColor).withOpacity(0.10),
+                    color: const Color(MyColors.themeRedColor)
+                        .withValues(alpha: 0.10),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -462,7 +462,8 @@ class JobPostCompleteController extends GetxController {
               Container(
                 padding: EdgeInsets.all(12.r),
                 decoration: BoxDecoration(
-                  color: const Color(MyColors.themeRedColor).withOpacity(0.10),
+                  color: const Color(MyColors.themeRedColor)
+                      .withValues(alpha: 0.10),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

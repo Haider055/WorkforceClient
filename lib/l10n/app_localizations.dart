@@ -1944,11 +1944,11 @@ abstract class AppLocalizations {
   /// **'Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.'**
   String get disclaimerInPickImageText;
 
-  /// No description provided for @atLeast10CharactersText.
+  /// No description provided for @atLeast8CharactersText.
   ///
   /// In en, this message translates to:
-  /// **'at least 10 characters'**
-  String get atLeast10CharactersText;
+  /// **'at least 8 characters'**
+  String get atLeast8CharactersText;
 
   /// No description provided for @whyareyoublockinghim.
   ///
@@ -2537,6 +2537,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phone Number Cannot be more than 13 digits'**
   String get phoneNumberCannotbemorethan13digitText;
+
+  /// No description provided for @newUpdateAvailableText.
+  ///
+  /// In en, this message translates to:
+  /// **'New update available'**
+  String get newUpdateAvailableText;
+
+  /// No description provided for @newUpdateAvailableDescriptionText.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of the app is available. Update now to get the latest features and improvements.'**
+  String get newUpdateAvailableDescriptionText;
+
+  /// No description provided for @laterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get laterText;
 }
 
 class _AppLocalizationsDelegate

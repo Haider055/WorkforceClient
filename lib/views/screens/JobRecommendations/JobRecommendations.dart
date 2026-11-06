@@ -284,15 +284,15 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                 elevation: 0,
                 padding: EdgeInsets.zero,
                 backgroundColor:
-                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                    const Color(MyColors.themeRedColor).withValues(alpha: 0.07),
                 disabledBackgroundColor:
-                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                    const Color(MyColors.themeRedColor).withValues(alpha: 0.04),
                 foregroundColor: const Color(MyColors.themeRedColor),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(21.r),
                   side: BorderSide(
-                    color:
-                        const Color(MyColors.themeRedColor).withOpacity(0.25),
+                    color: const Color(MyColors.themeRedColor)
+                        .withValues(alpha: 0.25),
                   ),
                 ),
               ),
@@ -383,7 +383,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
           elevation: 0,
           shape: RoundedRectangleBorder(
             side: BorderSide(
-                color: const Color(MyColors.cardGrayColor300).withOpacity(0.4),
+                color: const Color(MyColors.cardGrayColor300)
+                    .withValues(alpha: 0.4),
                 width: 1.0.w),
             borderRadius: BorderRadius.circular(12.r),
           ),

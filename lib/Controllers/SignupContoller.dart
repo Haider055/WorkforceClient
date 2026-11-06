@@ -56,8 +56,9 @@ class SignUpContoller extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      //print(response.body);
+      print(response.body);
       Map<String, dynamic> jsonData = jsonDecode(response.body);
+      // print(response.body);
       String message = jsonData['message'];
 
       if (response.statusCode == 200) {
@@ -66,11 +67,19 @@ class SignUpContoller extends GetxController {
           Constants.signupEmail = emailTextField.value.text;
           Constants.signupPassword = passwordTextField.value.text;
           Commons.hideProgressDialog();
+          if (jsonData['data'] != null &&
+              jsonData['data']['resend_available_at'] != null) {
+            Constants.resendAvailableAt =
+                jsonData['data']['resend_available_at'].toString();
+          }
           Get.toNamed(
             AppLinks.otp_verification_screen,
             arguments: {
               "email": emailTextField.value.text.toString(),
-              "fromWhere": "signup"
+              "fromWhere": "signup",
+              'resend_available_at': Constants.resendAvailableAt.isEmpty
+                  ? null
+                  : Constants.resendAvailableAt,
             },
           );
           return "";
@@ -106,7 +115,7 @@ class SignUpContoller extends GetxController {
 
   void checkPasswordStrength(String password) {
     double strength = 0;
-    if (password.length >= 10) strength += 0.2;
+    if (password.length >= 8) strength += 0.2;
     if (RegExp(r'[a-z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[A-Z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[0-9]').hasMatch(password)) strength += 0.2;

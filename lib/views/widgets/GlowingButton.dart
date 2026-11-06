@@ -49,7 +49,8 @@ class _GlowingButtonState extends State<GlowingButton>
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.red.withOpacity(_glowAnimation.value * 0.9),
+                  color:
+                      Colors.red.withValues(alpha: _glowAnimation.value * 0.9),
                   blurRadius: 7,
                   spreadRadius: 1,
                 ),

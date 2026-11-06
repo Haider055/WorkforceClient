@@ -14,7 +14,6 @@ import 'package:workforceclientapp/Models/PostedJobAnswers.dart';
 import 'package:workforceclientapp/Models/RequestedTradesmen.dart';
 import 'package:workforceclientapp/Models/TradesmenRequest.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
-import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
@@ -23,7 +22,6 @@ import 'package:workforceclientapp/views/screens/JobRecommendations/TradesmenDet
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthElevatedButton.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthOutlineButton.dart';
-import 'package:workforceclientapp/views/widgets/GlowingButton.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW700.dart';
@@ -31,9 +29,7 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:lottie/lottie.dart' as lottie;
 
 class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
-  OrdersDetailsScreen({super.key});
-
-  RxBool chatAvailable = false.obs;
+  const OrdersDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -475,7 +471,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                   Row(
                     children: [
                       RatingBarIndicator(
-                        rating: (review.rating ?? 0).toDouble(),
+                        rating: (review.rating.value ?? 0).toDouble(),
                         itemCount: 5,
                         itemSize: 16.r,
                         itemPadding: EdgeInsets.only(right: 2.w),
@@ -486,7 +482,7 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                       SizedBox(width: 8.w),
                       Flexible(
                         child: Text(
-                          "${Strings.reviewedOn(Get.context!)} ${TradesmenDetailScreen.formatDate(review.createdAt)}",
+                          "${Strings.reviewedOn(Get.context!)} ${TradesmenDetailScreen.formatDate(review.createdAt.value)}",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -498,10 +494,10 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                       ),
                     ],
                   ),
-                  if ((review.comment ?? "").trim().isNotEmpty) ...[
-                    SizedBox(height: 8.h),
+                  SizedBox(height: 8.h),
+                  if ((review.comment.value ?? "").trim().isNotEmpty) ...[
                     Text(
-                      review.comment!,
+                      review.comment.value ?? "",
                       style: TextStyle(
                         fontSize: 13.sp,
                         height: 1.5,
@@ -542,28 +538,189 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         ),
                       )
                     : const SizedBox(),
-                if (status == "completed" && review == null) ...[
-                  SizedBox(height: 12.h),
-                  FullWidthElevatedButton(
-                    text: Strings.giveReview(Get.context!),
-                    color: MyColors.themeRedColor,
-                    textColor: MyColors.whiteColor,
-                    onPressed: () async {
-                      await Get.toNamed(AppLinks.review_screen, arguments: {
-                        'jobPostingId': controller.jobId.value,
-                        'tradesmenId': tradesman.id,
-                      });
-                      // Refresh in case a review was submitted.
-                      controller.getJobContact(controller.jobId.value);
-                    },
-                  ),
-                ],
+                (status == "completed" && (review == null))
+                    ? Column(
+                        children: [
+                          SizedBox(height: 12.h),
+                          FullWidthElevatedButton(
+                            text: Strings.giveReview(Get.context!),
+                            color: MyColors.themeRedColor,
+                            textColor: MyColors.whiteColor,
+                            onPressed: () async {
+                              if (review == null) {
+                                await Get.toNamed(AppLinks.review_screen,
+                                    arguments: {
+                                      'jobPostingId': controller.jobId.value,
+                                      'tradesmenId': tradesman.id,
+                                    });
+                                // Refresh in case a review was submitted.
+                                controller
+                                    .getJobContact(controller.jobId.value);
+                              } // } else {
+                              //   SharedPreferences prefs =
+                              //       await SharedPreferences.getInstance();
+                              //   int id = prefs.getInt('id') ?? -1;
+                              //   updateReviewDialog(
+                              //       jobPostingId: controller.jobId.value,
+                              //       revieweeId: id,
+                              //       id: review.id ?? -1,
+                              //       rating: review.rating.value ?? 0,
+                              //       comment: review.comment.value ?? "");
+                              // }
+                            },
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),
         ),
       );
     });
+  }
+
+  Future<bool> updateReviewDialog({
+    required int jobPostingId,
+    required int revieweeId,
+    required int id,
+    required int rating,
+    required String comment,
+  }) async {
+    int updatedRating = rating;
+    String updatedComment = comment;
+
+    final bool? confirmed = await showDialog<bool>(
+      context: Get.context!,
+      barrierDismissible: true,
+      builder: (dialogContext) => Dialog(
+        backgroundColor: Colors.white,
+        insetPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                Strings.howwouldYourateTradesmenText(dialogContext),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins',
+                  color: const Color(MyColors.blackColor),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                Strings.howyourExperiencewithtradesman(dialogContext),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontFamily: 'Poppins',
+                  color: const Color(MyColors.darkGrayColor),
+                  height: 1.4,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              RatingBar.builder(
+                initialRating: updatedRating.toDouble(),
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemCount: 5,
+                glowColor: Colors.amber,
+                itemSize: 40.r,
+                itemPadding: EdgeInsets.symmetric(horizontal: 2.0.r),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Color(MyColors.infoYellowColor),
+                ),
+                onRatingUpdate: (value) => updatedRating = value.toInt(),
+              ),
+              SizedBox(height: 16.h),
+              TextField(
+                maxLines: 4,
+                onChanged: (value) => updatedComment = value,
+                cursorColor: const Color(MyColors.themeRedColor),
+                decoration: InputDecoration(
+                  hintText: Strings.pleaseExplaininyourownWords(dialogContext),
+                  hintStyle: TextStyle(
+                    fontSize: 14.sp,
+                    color: const Color(MyColors.midGrayColor),
+                    fontWeight: FontWeight.w400,
+                  ),
+                  fillColor: const Color(MyColors.whiteColor),
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0.r),
+                    borderSide:
+                        const BorderSide(color: Color(MyColors.lightGrayColor)),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9.0.r),
+                    borderSide:
+                        const BorderSide(color: Color(MyColors.lightGrayColor)),
+                  ),
+                ),
+              ),
+              SizedBox(height: 24.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: FullWidthOutlineButton(
+                      text: Strings.cancelText(dialogContext),
+                      fontsize: 14,
+                      color: MyColors.colorNeutral700,
+                      onPressed: () => Navigator.of(dialogContext).pop(false),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: FullWidthButtonPrimary(
+                      text: Strings.giveReview(dialogContext),
+                      fontsize: 14,
+                      color: MyColors.themeRedColor,
+                      onPressed: () {
+                        if (updatedRating == 0) {
+                          Fluttertoast.showToast(
+                              msg: Strings.pleaseGiveSomeRatingText(
+                                  dialogContext));
+                          return;
+                        }
+                        if (updatedComment.isEmpty) {
+                          Fluttertoast.showToast(
+                              msg: Strings.reviewCannotbeemptyText(
+                                  dialogContext));
+                          return;
+                        }
+                        Navigator.of(dialogContext).pop(true);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (confirmed != true) return false;
+
+    Commons.showProgressDialog(Get.context!);
+    var res = await controller.pleaseUpdateReview(
+        id, updatedComment, jobPostingId, revieweeId, updatedRating);
+    Commons.hideProgressDialog();
+    if (res) {
+      controller.jobContact.value!.tradesmanReview!.comment.value =
+          updatedComment;
+      controller.jobContact.value!.tradesmanReview!.rating.value =
+          updatedRating;
+    }
+    return true;
   }
 
   Widget orderDetailsView() {
@@ -1345,121 +1502,129 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
           ),
         ),
         Obx(() {
-          return Padding(
-            padding: EdgeInsets.all(14.0.r),
-            child: Card(
-              elevation: 0,
-              color: const Color(MyColors.cardGrayColor200),
-              child: Padding(
-                padding: EdgeInsets.all(16.0.r),
-                child: Center(
-                  child: Row(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(left: 4.0.w, right: 12.0.w),
-                          child: SvgPicture.asset(
-                              "lib/assets/icons/informationLogo.svg",
-                              height: 24.0.h,
-                              width: 24.0.w)),
-                      Expanded(
-                        child: GestureDetector(
-                            onTap: () async {
-                              try {
-                                if (controller.postedJobDetail
-                                        .tradespersonRequestsCount ==
-                                    null) {
-                                  Fluttertoast.showToast(
-                                      msg: Strings.somethingWentWrong(
-                                          Get.context!));
-                                  return;
-                                }
-                                int remainingReqCount =
-                                    controller.getRemainingTrademenRequests(
-                                        int.parse(controller.postedJobDetail
-                                            .tradespersonRequestsCount!.value));
-                                await Get.toNamed(
-                                  AppLinks.job_recommendations,
-                                  arguments: {
-                                    'jobId': controller.postedJobDetail.id,
-                                    'remainingRequeststoSend':
-                                        remainingReqCount,
-                                    'fromWhere': 'orderDetail',
-                                    'index': controller.jobIndex
+          return controller.postedJobDetail.status!.value == "cancelled" ||
+                  controller.postedJobDetail.status!.value == "completed" ||
+                  controller.postedJobDetail.status!.value == 'in_progress'
+              ? const SizedBox()
+              : Padding(
+                  padding: EdgeInsets.all(14.0.r),
+                  child: Card(
+                    elevation: 0,
+                    color: const Color(MyColors.cardGrayColor200),
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0.r),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Padding(
+                                padding:
+                                    EdgeInsets.only(left: 4.0.w, right: 12.0.w),
+                                child: SvgPicture.asset(
+                                    "lib/assets/icons/informationLogo.svg",
+                                    height: 24.0.h,
+                                    width: 24.0.w)),
+                            Expanded(
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    try {
+                                      if (controller.postedJobDetail
+                                              .tradespersonRequestsCount ==
+                                          null) {
+                                        Fluttertoast.showToast(
+                                            msg: Strings.somethingWentWrong(
+                                                Get.context!));
+                                        return;
+                                      }
+                                      int remainingReqCount = controller
+                                          .getRemainingTrademenRequests(
+                                              int.parse(controller
+                                                  .postedJobDetail
+                                                  .tradespersonRequestsCount!
+                                                  .value));
+                                      await Get.toNamed(
+                                        AppLinks.job_recommendations,
+                                        arguments: {
+                                          'jobId':
+                                              controller.postedJobDetail.id,
+                                          'remainingRequeststoSend':
+                                              remainingReqCount,
+                                          'fromWhere': 'orderDetail',
+                                          'index': controller.jobIndex
+                                        },
+                                      );
+                                      // controller.postedJobDetail
+                                      //         .tradespersonRequestsCount!.value =
+                                      //     Constants.remainingRequestsCount.toString();
+                                      // Constants.remainingRequestsCount = 0;
+                                    } catch (e) {
+                                      throw Exception(e);
+                                    }
                                   },
-                                );
-                                // controller.postedJobDetail
-                                //         .tradespersonRequestsCount!.value =
-                                //     Constants.remainingRequestsCount.toString();
-                                // Constants.remainingRequestsCount = 0;
-                              } catch (e) {
-                                throw Exception(e);
-                              }
-                            },
-                            child: RichText(
-                              text: TextSpan(
-                                text: '',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 13.sp),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text:
-                                        '${Strings.sendARequestText(Get.context!)} ',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(
-                                            MyColors.themeRedColor)),
-                                  ),
-                                  TextSpan(
-                                    text: controller.getRemainingTrademenRequests(
-                                                int.parse(controller
-                                                    .postedJobDetail
-                                                    .tradespersonRequestsCount!
-                                                    .value)) ==
-                                            0
-                                        ? Strings.toMore0TradesmenText(
-                                            Get.context!)
-                                        : controller.getRemainingTrademenRequests(
-                                                    int.parse(controller
-                                                        .postedJobDetail
-                                                        .tradespersonRequestsCount!
-                                                        .value)) ==
-                                                1
-                                            ? Strings.toMore1TradesmenText(Get.context!)
-                                            : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 2
-                                                ? Strings.toMore2TradesmenText(Get.context!)
-                                                : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 3
-                                                    ? Strings.toMore3TradesmenText(Get.context!)
-                                                    : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 4
-                                                        ? Strings.toMore4TradesmenText(Get.context!)
-                                                        : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 5
-                                                            ? Strings.toMore5TradesmenText(Get.context!)
-                                                            : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 6
-                                                                ? Strings.toMore6TradesmenText(Get.context!)
-                                                                : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 7
-                                                                    ? Strings.toMore7TradesmenText(Get.context!)
-                                                                    : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 8
-                                                                        ? Strings.toMore8TradesmenText(Get.context!)
-                                                                        : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 9
-                                                                            ? Strings.toMore9TradesmenText(Get.context!)
-                                                                            : Strings.toMore10TradesmenText(Get.context!),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Poppins'),
-                                  ),
-                                ],
-                              ),
-                            )),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: '',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 13.sp),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              '${Strings.sendARequestText(Get.context!)} ',
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 13.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: const Color(
+                                                  MyColors.themeRedColor)),
+                                        ),
+                                        TextSpan(
+                                          text: controller.getRemainingTrademenRequests(
+                                                      int.parse(controller
+                                                          .postedJobDetail
+                                                          .tradespersonRequestsCount!
+                                                          .value)) ==
+                                                  0
+                                              ? Strings.toMore0TradesmenText(
+                                                  Get.context!)
+                                              : controller.getRemainingTrademenRequests(
+                                                          int.parse(controller
+                                                              .postedJobDetail
+                                                              .tradespersonRequestsCount!
+                                                              .value)) ==
+                                                      1
+                                                  ? Strings.toMore1TradesmenText(Get.context!)
+                                                  : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 2
+                                                      ? Strings.toMore2TradesmenText(Get.context!)
+                                                      : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 3
+                                                          ? Strings.toMore3TradesmenText(Get.context!)
+                                                          : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 4
+                                                              ? Strings.toMore4TradesmenText(Get.context!)
+                                                              : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 5
+                                                                  ? Strings.toMore5TradesmenText(Get.context!)
+                                                                  : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 6
+                                                                      ? Strings.toMore6TradesmenText(Get.context!)
+                                                                      : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 7
+                                                                          ? Strings.toMore7TradesmenText(Get.context!)
+                                                                          : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 8
+                                                                              ? Strings.toMore8TradesmenText(Get.context!)
+                                                                              : controller.getRemainingTrademenRequests(int.parse(controller.postedJobDetail.tradespersonRequestsCount!.value)) == 9
+                                                                                  ? Strings.toMore9TradesmenText(Get.context!)
+                                                                                  : Strings.toMore10TradesmenText(Get.context!),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 13.sp,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'Poppins'),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          );
+                );
         }),
       ],
     );

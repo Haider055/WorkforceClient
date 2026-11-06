@@ -155,7 +155,7 @@ class CreateNewPasswordController extends GetxController {
 
   void checkPasswordStrength(String password) {
     double strength = 0;
-    if (password.length >= 10) strength += 0.2;
+    if (password.length >= 8) strength += 0.2;
     if (RegExp(r'[a-z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[A-Z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[0-9]').hasMatch(password)) strength += 0.2;

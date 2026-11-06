@@ -18,6 +18,7 @@ class Constants {
 
   static String signupEmail = "";
   static String signupPassword = "";
+  static String resendAvailableAt = "";
 
   static List<Map<String, dynamic>> questionsList = [];
   static String selectedServiceName = "";

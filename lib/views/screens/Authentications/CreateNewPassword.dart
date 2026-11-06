@@ -129,8 +129,26 @@ class CreateNewPassword extends GetView<CreateNewPasswordController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 8.0.w,
+                                        right: 20.0.w,
+                                        top: 12.0.h,
+                                        bottom: 8.0.h),
+                                    child: LinearProgressIndicator(
+                                      value: controller.passwordStrength.value,
+                                      color: controller.passwordStrength.value <
+                                              0.4
+                                          ? Colors.red
+                                          : controller.passwordStrength.value <
+                                                  0.8
+                                              ? Colors.orange
+                                              : Colors.green,
+                                      minHeight: 4,
+                                    ),
+                                  ),
                                   controller.passwordRule(
-                                      Strings.atLeast10CharactersText(
+                                      Strings.atLeast8CharactersText(
                                           Get.context!),
                                       pass.length >= 10),
                                   controller.passwordRule(

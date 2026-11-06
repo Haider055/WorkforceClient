@@ -993,7 +993,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.';
 
   @override
-  String get atLeast10CharactersText => 'at least 10 characters';
+  String get atLeast8CharactersText => 'at least 8 characters';
 
   @override
   String get whyareyoublockinghim => 'Why are you Blocking him?';
@@ -1308,4 +1308,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get phoneNumberCannotbemorethan13digitText =>
       'Phone Number Cannot be more than 13 digits';
+
+  @override
+  String get newUpdateAvailableText => 'New update available';
+
+  @override
+  String get newUpdateAvailableDescriptionText =>
+      'A new version of the app is available. Update now to get the latest features and improvements.';
+
+  @override
+  String get laterText => 'Later';
 }

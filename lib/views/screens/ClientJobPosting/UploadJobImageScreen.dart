@@ -19,10 +19,6 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 class UploadJobImageScreen extends GetView<UploadJobImagesController> {
   const UploadJobImageScreen({super.key});
 
-  // The stored values are inverted relative to the display order, which is
-  // what made the old `val == 1 ? "2" : "1"` juggling so easy to get wrong.
-  // Named here so the intent is readable; the values themselves are
-  // unchanged, so anything else reading selectedValue still works.
   static const String _yes = "2";
   static const String _no = "1";
 

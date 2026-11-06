@@ -515,8 +515,8 @@ class Strings {
   static String aboutText(BuildContext context) =>
       AppLocalizations.of(context)!.aboutText;
 
-  static String atLeast10CharactersText(BuildContext context) =>
-      AppLocalizations.of(context)!.atLeast10CharactersText;
+  static String atLeast8CharactersText(BuildContext context) =>
+      AppLocalizations.of(context)!.atLeast8CharactersText;
   static String pleaseFollowPasswordRules(BuildContext context) =>
       AppLocalizations.of(context)!.pleaseFollowPasswordRulesText;
   static String seeourPrivacyPlolicyText(BuildContext context) =>
@@ -860,4 +860,10 @@ class Strings {
       AppLocalizations.of(context)!.privacyPolicyPoint10Text;
   static String jobisnowliveandreadyText(BuildContext context) =>
       AppLocalizations.of(context)!.jobisnowliveandreadyText;
+  static String newUpdateAvailableText(BuildContext context) =>
+      AppLocalizations.of(context)!.newUpdateAvailableText;
+  static String newUpdateAvailableDescriptionText(BuildContext context) =>
+      AppLocalizations.of(context)!.newUpdateAvailableDescriptionText;
+  static String laterText(BuildContext context) =>
+      AppLocalizations.of(context)!.laterText;
 }

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class JobContact {
   int? id;
   String? status;
@@ -88,9 +90,9 @@ class JobContactReview {
   int? id;
   int? userId;
   int? revieweeId;
-  int? rating;
-  String? comment;
-  String? createdAt;
+  RxnInt rating;
+  RxnString comment;
+  RxnString createdAt;
   String? userName;
   String? userProfileImg;
 
@@ -98,12 +100,14 @@ class JobContactReview {
     this.id,
     this.userId,
     this.revieweeId,
-    this.rating,
-    this.comment,
-    this.createdAt,
+    int? rating,
+    String? comment,
+    String? createdAt,
     this.userName,
     this.userProfileImg,
-  });
+  })  : rating = RxnInt(rating),
+        comment = RxnString(comment),
+        createdAt = RxnString(createdAt);
 
   factory JobContactReview.fromJson(Map<String, dynamic> json) {
     return JobContactReview(

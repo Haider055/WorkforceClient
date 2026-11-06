@@ -1004,7 +1004,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Aviso: Poderão ser tomadas medidas legais contra o utilizador caso as fotos enviadas violem os nossos termos de serviço.';
 
   @override
-  String get atLeast10CharactersText => 'pelo menos 10 caracteres';
+  String get atLeast8CharactersText => 'pelo menos 8 caracteres';
 
   @override
   String get whyareyoublockinghim => 'Porque está a bloquear este utilizador?';
@@ -1325,4 +1325,14 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get phoneNumberCannotbemorethan13digitText =>
       'O número de telefone não pode ter mais de 13 dígitos';
+
+  @override
+  String get newUpdateAvailableText => 'Nova atualização disponível';
+
+  @override
+  String get newUpdateAvailableDescriptionText =>
+      'Uma nova versão do aplicativo está disponível. Atualize agora para obter os recursos e melhorias mais recentes.';
+
+  @override
+  String get laterText => 'Mais tarde';
 }

@@ -306,7 +306,7 @@
   "taptounblock": "Engeli kaldırmak için dokunun",
   "tellUsMore": "Bize daha fazlasını anlatın...",
   "disclaimerInPickImageText": "Yasal Uyarı: Yüklenen fotoğrafların hizmet şartlarımıza aykırı olması durumunda, kullanıcıya karşı her türlü yasal işlem başlatılabilir.",
-  "atLeast10CharactersText": "en az 10 karakter",
+  "atLeast8CharactersText": "en az 8 karakter",
   "whyareyoublockinghim": "Bu kullanıcıyı neden engelliyorsunuz?",
   "whyareyoureportinghim": "Bu kullanıcıyı neden şikayet ediyorsunuz?",
   "lowercaseText": "küçük harf",
@@ -405,5 +405,8 @@
   "imagesCanBeAddMoreText": "görsel daha eklenebilir",
   "searchForServicesText": "Hizmet Ara",
   "requestAlreadySentText": "Talep zaten gönderildi",
-  "phoneNumberCannotbemorethan13digitText": "Telefon numarası 13 haneden uzun olamaz"
+  "phoneNumberCannotbemorethan13digitText": "Telefon numarası 13 haneden uzun olamaz",
+  "newUpdateAvailableText": "Yeni güncelleme mevcut",
+  "newUpdateAvailableDescriptionText": "Uygulamanın yeni bir sürümü mevcut. En son özellikler ve iyileştirmeler için şimdi güncelleyin.",
+  "laterText": "Daha sonra"
 }

@@ -169,7 +169,7 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                                       color: phoneErrorText.isEmpty
                                           ? const Color(
                                               MyColors.fieldBorderColor)
-                                          : Colors.red.withOpacity(0.7),
+                                          : Colors.red.withValues(alpha: 0.7),
                                     ),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
@@ -179,14 +179,14 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                                       color: phoneErrorText.isEmpty
                                           ? const Color(
                                               MyColors.fieldBorderColor)
-                                          : Colors.red.withOpacity(0.7),
+                                          : Colors.red.withValues(alpha: 0.7),
                                     ),
                                   ),
 
                                   filled: true,
                                   fillColor: phoneErrorText.isEmpty
                                       ? const Color(MyColors.whiteColor)
-                                      : Colors.red.withOpacity(0.12),
+                                      : Colors.red.withValues(alpha: 0.12),
 
                                   hintStyle: TextStyle(
                                     fontFamily: 'Poppins',

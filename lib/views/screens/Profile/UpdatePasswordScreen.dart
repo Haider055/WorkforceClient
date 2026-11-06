@@ -119,11 +119,29 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      // Label said 10 while the check is 12,
-                                      // which is what _checkPasswordStrength
-                                      // uses too.
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0.w,
+                                            right: 20.0.w,
+                                            top: 12.0.h,
+                                            bottom: 8.0.h),
+                                        child: LinearProgressIndicator(
+                                          value:
+                                              controller.passwordStrength.value,
+                                          color: controller
+                                                      .passwordStrength.value <
+                                                  0.4
+                                              ? Colors.red
+                                              : controller.passwordStrength
+                                                          .value <
+                                                      0.8
+                                                  ? Colors.orange
+                                                  : Colors.green,
+                                          minHeight: 4,
+                                        ),
+                                      ),
                                       _passwordRule(
-                                          Strings.atLeast10CharactersText(
+                                          Strings.atLeast8CharactersText(
                                               Get.context!),
                                           pass.length >= 12),
                                       _passwordRule(
@@ -248,7 +266,7 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
 
   void _checkPasswordStrength(String password) {
     double strength = 0;
-    if (password.length >= 10) strength += 0.2;
+    if (password.length >= 8) strength += 0.2;
     if (RegExp(r'[a-z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[A-Z]').hasMatch(password)) strength += 0.2;
     if (RegExp(r'[0-9]').hasMatch(password)) strength += 0.2;

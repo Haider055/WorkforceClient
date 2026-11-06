@@ -64,7 +64,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
         backgroundColor: Colors.white,
         bottomNavigationBar: Obx(() {
           return BottomNavigationBar(
-            backgroundColor: Colors.white,
+            type: BottomNavigationBarType.shifting,
             enableFeedback: true,
             showSelectedLabels: true,
             elevation: 7,
@@ -355,7 +355,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
-                                                        .withOpacity(0.3),
+                                                        .withValues(alpha: 0.3),
                                                     blurRadius: 5,
                                                     spreadRadius: 2,
                                                     offset: const Offset(0, 2),
@@ -474,7 +474,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                     child: Obx(() {
                       if (controller.searching.value) {
                         return Padding(
-                          padding: EdgeInsets.only(top: 10.0.h),
+                          padding: EdgeInsets.only(top: 12.0.h),
                           child: Center(
                             child: SizedBox(
                               height: 24.0.h,
@@ -486,7 +486,8 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                           ),
                         );
                       }
-                      final services = controller.searchInput.value.isEmpty
+                      final services = controller.searchInput.value.isEmpty ||
+                              controller.searchInput.value.length < 3
                           ? controller.allListOptions.toList()
                           : controller.filteredOptions.toList();
                       if (services.isEmpty) {
@@ -543,15 +544,14 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
             onChanged: (value) {
               controller.searchInput.value = value;
               controller.searchDebounce?.cancel();
-              if (value.isEmpty) {
+              if (value.isEmpty || value.length < 3) {
                 controller.searching.value = false;
                 controller.filteredOptions.clear();
                 return;
               }
               controller.searching.value = true;
               controller.searchDebounce =
-                  Timer(const Duration(seconds: 1), manageSearch);
-              // controller.filterSearchResults(controller.searchInput.value);
+                  Timer(const Duration(milliseconds: 700), manageSearch);
             },
             cursorColor: const Color(MyColors.themeRedColor),
             decoration: InputDecoration(
@@ -614,11 +614,12 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
           ),
           controller.searchInput.value.isNotEmpty
               ? Padding(
-                  padding: EdgeInsets.only(top: 4.0.h),
+                  padding: EdgeInsets.only(top: 2.0.h),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                        controller.searchInput.value.isEmpty
+                        controller.searchInput.value.isEmpty ||
+                                controller.searchInput.value.length < 3
                             ? ""
                             : "${controller.filteredOptions.toList().length} ${Strings.resultsFoundText(Get.context!)}",
                         textAlign: TextAlign.left,
@@ -943,15 +944,15 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                 elevation: 0,
                 padding: EdgeInsets.zero,
                 backgroundColor:
-                    const Color(MyColors.themeRedColor).withOpacity(0.07),
+                    const Color(MyColors.themeRedColor).withValues(alpha: 0.07),
                 disabledBackgroundColor:
-                    const Color(MyColors.themeRedColor).withOpacity(0.04),
+                    const Color(MyColors.themeRedColor).withValues(alpha: 0.04),
                 foregroundColor: const Color(MyColors.themeRedColor),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(21.r),
                   side: BorderSide(
-                    color:
-                        const Color(MyColors.themeRedColor).withOpacity(0.25),
+                    color: const Color(MyColors.themeRedColor)
+                        .withValues(alpha: 0.25),
                   ),
                 ),
               ),
@@ -1167,8 +1168,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: const Color(MyColors.themeRedColor)
-                      .withValues(alpha: 0.07),
+                  color:
+                      const Color(MyColors.blackColor).withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
@@ -1177,7 +1178,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                     fontSize: 12.5.sp,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Poppins',
-                    color: const Color(MyColors.themeRedColor),
+                    color: const Color(MyColors.blackColor),
                   ),
                 ),
               ),

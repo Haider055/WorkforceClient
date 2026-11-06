@@ -130,7 +130,9 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                                     arguments: {
                                       "email":
                                           controller.emailTextField.value.text,
-                                      "fromWhere": "forgotPassword"
+                                      "fromWhere": "forgotPassword",
+                                      "resend_available_at":
+                                          controller.resendAvailableAt
                                     });
                               } else {
                                 controller.pleaseShowDialog(res);

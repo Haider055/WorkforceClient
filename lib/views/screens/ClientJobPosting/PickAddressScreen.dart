@@ -675,7 +675,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(18.r)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.10),
+            color: Colors.black.withValues(alpha: 0.10),
             blurRadius: 12,
             offset: const Offset(0, -3),
           ),
@@ -762,7 +762,8 @@ class PickAddressScreen extends GetView<PickAddressController> {
         children: [
           _iconBox(
             icon: Icons.location_on,
-            background: const Color(MyColors.themeRedColor).withOpacity(0.10),
+            background:
+                const Color(MyColors.themeRedColor).withValues(alpha: 0.10),
             iconColor: const Color(MyColors.themeRedColor),
           ),
           SizedBox(width: 12.w),
@@ -836,7 +837,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
         },
         child: Container(
           color: selected
-              ? const Color(MyColors.themeRedColor).withOpacity(0.05)
+              ? const Color(MyColors.themeRedColor).withValues(alpha: 0.05)
               : Colors.transparent,
           padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
           child: Row(
@@ -893,7 +894,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
       },
       child: Container(
         color: selected
-            ? const Color(MyColors.themeRedColor).withOpacity(0.05)
+            ? const Color(MyColors.themeRedColor).withValues(alpha: 0.05)
             : Colors.transparent,
         padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
         child: Row(

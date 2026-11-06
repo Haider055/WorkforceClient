@@ -38,7 +38,7 @@ class LoginContoller extends GetxController {
           )
           .timeout(const Duration(seconds: 5));
 
-      //print(response.body);
+      print(response.body);
       Commons.hideProgressDialog();
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
@@ -48,6 +48,10 @@ class LoginContoller extends GetxController {
         if (jsonData['success']) {
           if (jsonData.keys.contains('data')) {
             Map<String, dynamic> dataObj = jsonData['data'];
+            if (dataObj.keys.contains('resend_available_at')) {
+              Constants.resendAvailableAt =
+                  dataObj['resend_available_at'].toString();
+            }
             if (dataObj.keys.contains('requires_2fa')) {
               if (dataObj['requires_2fa'] == true) {
                 if (dataObj['pre_auth_token'] != null) {
@@ -67,7 +71,8 @@ class LoginContoller extends GetxController {
                 if (dataObj['user']['role'] != null) {
                   if (dataObj['user']['role'] == "tradeperson") {
                     Fluttertoast.showToast(
-                        msg: Strings.onlyUsersAllowedToLoginText(Get.context!));
+                      msg: Strings.onlyUsersAllowedToLoginText(Get.context!),
+                    );
                     return "otherUser";
                   } else {
                     await saveUserInfo(dataObj['user']);
@@ -92,7 +97,8 @@ class LoginContoller extends GetxController {
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
-            msg: Strings.accountBlockedMessage(Get.context!));
+          msg: Strings.accountBlockedMessage(Get.context!),
+        );
         Commons.logoutUser(true);
         return '';
       } else {
@@ -101,7 +107,8 @@ class LoginContoller extends GetxController {
           if (errorObj.keys.contains('email_verified')) {
             if (!errorObj['email_verified']) {
               Fluttertoast.showToast(
-                  msg: Strings.pleaseVerifyYourEmail(Get.context!));
+                msg: Strings.pleaseVerifyYourEmail(Get.context!),
+              );
               Constants.emailToVerify = emailTextField.value.text.toString();
               return "emailNotVerified";
             }
@@ -176,7 +183,7 @@ class LoginContoller extends GetxController {
         body: jsonEncode(<String, String>{
           "token": token.toString(),
           "device_type": Platform.isAndroid ? "ANDROID" : "IOS",
-          "device_id": deviceId.toString()
+          "device_id": deviceId.toString(),
         }),
       );
       print("object");
@@ -193,7 +200,8 @@ class LoginContoller extends GetxController {
         return "";
       } else {
         Fluttertoast.showToast(
-            msg: Strings.notificationSetupError(Get.context!));
+          msg: Strings.notificationSetupError(Get.context!),
+        );
         return "";
       }
     } catch (e) {
@@ -218,8 +226,9 @@ class LoginContoller extends GetxController {
 
   Future<void> pleaseValidateData() async {
     if (emailTextField.value.text.isEmpty) {
-      emailAddressErrorText.value =
-          Strings.emailCannotBeEmptyText(Get.context!);
+      emailAddressErrorText.value = Strings.emailCannotBeEmptyText(
+        Get.context!,
+      );
       return;
     }
     if (passwordTextField.value.text.isEmpty) {
@@ -234,7 +243,13 @@ class LoginContoller extends GetxController {
         try {
           Get.toNamed(
             AppLinks.otp_verification_screen,
-            arguments: {"email": Constants.emailToVerify, "fromWhere": "login"},
+            arguments: {
+              "email": Constants.emailToVerify,
+              "fromWhere": "login",
+              'resend_available_at': Constants.resendAvailableAt.isEmpty
+                  ? null
+                  : Constants.resendAvailableAt
+            },
           );
         } catch (e) {
           e.printError();
@@ -252,12 +267,18 @@ class LoginContoller extends GetxController {
       } else if (res == "otherUser") {
       } else if (res == "pre_auth") {
         try {
-          Get.toNamed(AppLinks.otp_verification_screen, arguments: {
-            "password": passwordTextField.value.text.toString(),
-            "fromWhere": "login",
-            "email": emailTextField.value.text.toString(),
-            "pre_auth_token": preAuthToken
-          });
+          Get.toNamed(
+            AppLinks.otp_verification_screen,
+            arguments: {
+              "password": passwordTextField.value.text.toString(),
+              "fromWhere": "login",
+              "email": emailTextField.value.text.toString(),
+              "pre_auth_token": preAuthToken,
+              "resend_available_at": Constants.resendAvailableAt.isEmpty
+                  ? null
+                  : Constants.resendAvailableAt,
+            },
+          );
         } catch (e) {
           e.printError();
         }
@@ -271,45 +292,59 @@ class LoginContoller extends GetxController {
                 Padding(
                   padding: const EdgeInsets.only(top: 0.0),
                   child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Image.asset(
-                        "lib/assets/images/signuperrorimage.png",
-                        fit: BoxFit.contain,
-                        height: 136.92,
-                        width: 123.72,
-                      )),
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      "lib/assets/images/signuperrorimage.png",
+                      fit: BoxFit.contain,
+                      height: 136.92,
+                      width: 123.72,
+                    ),
+                  ),
                 ),
                 HeadingText(
-                    text: Strings.failedText(Get.context!), centerAlign: true),
+                  text: Strings.failedText(Get.context!),
+                  centerAlign: true,
+                ),
                 Headingdescription(
-                    text: Strings.somethingWentWrong(Get.context!),
-                    centerAlign: true,
-                    size: 15.0),
+                  text: Strings.somethingWentWrong(Get.context!),
+                  centerAlign: true,
+                  size: 15.0,
+                ),
                 Headingdescription(text: res, centerAlign: true, size: 15.0),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(top: 18.0, left: 12.0, right: 12.0),
+                  padding: const EdgeInsets.only(
+                    top: 18.0,
+                    left: 12.0,
+                    right: 12.0,
+                  ),
                   child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: const WidgetStatePropertyAll(
-                              Color(MyColors.themeRedColor)),
-                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)))),
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                        child: Container(
-                          child: Center(
-                              child: Text(
+                    style: ButtonStyle(
+                      backgroundColor: const WidgetStatePropertyAll(
+                        Color(MyColors.themeRedColor),
+                      ),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                      child: Container(
+                        child: Center(
+                          child: Text(
                             Strings.cancelText(Get.context!),
                             style: const TextStyle(color: Colors.white),
-                          )),
+                          ),
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 16.0)
+                const SizedBox(height: 16.0),
               ],
             ),
           );
@@ -347,7 +382,8 @@ class LoginContoller extends GetxController {
         }
       } else if (response.statusCode == 403) {
         Fluttertoast.showToast(
-            msg: Strings.accountBlockedMessage(Get.context!));
+          msg: Strings.accountBlockedMessage(Get.context!),
+        );
         Commons.logoutUser(true);
         return false;
       } else {
@@ -372,10 +408,14 @@ class LoginContoller extends GetxController {
     await _prefs.setString('name', userObj['name'] ?? "");
     await _prefs.setString('email', userObj['email'] ?? "");
     await _prefs.setString(
-        'password', passwordTextField.value.text.toString() ?? "");
+      'password',
+      passwordTextField.value.text.toString() ?? "",
+    );
     await _prefs.setString('phone', userObj['phone'] ?? "");
     await _prefs.setString('profile_img', userObj['profile_img'] ?? "");
     await _prefs.setBool(
-        'two_factor_enabled', userObj['two_factor_enabled'] ?? false);
+      'two_factor_enabled',
+      userObj['two_factor_enabled'] ?? false,
+    );
   }
 }

@@ -16,7 +16,6 @@ class SplashController extends GetxController {
       _loadSavedValue();
     });
 
-    // to listen notifications when the app is in foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("Foreground message received");
       // if (Platform.isAndroid) {
@@ -48,6 +47,7 @@ class SplashController extends GetxController {
       Get.offAllNamed(AppLinks.eula_screen);
       return;
     }
+
     bool isSuspended = _prefs.getBool('isSuspended') ?? false;
     if (isSuspended) {
       Get.offAllNamed(AppLinks.account_suspended_screen);

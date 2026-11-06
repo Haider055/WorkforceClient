@@ -988,7 +988,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Yasal Uyarı: Yüklenen fotoğrafların hizmet şartlarımıza aykırı olması durumunda, kullanıcıya karşı her türlü yasal işlem başlatılabilir.';
 
   @override
-  String get atLeast10CharactersText => 'en az 10 karakter';
+  String get atLeast8CharactersText => 'en az 8 karakter';
 
   @override
   String get whyareyoublockinghim => 'Bu kullanıcıyı neden engelliyorsunuz?';
@@ -1306,4 +1306,14 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get phoneNumberCannotbemorethan13digitText =>
       'Telefon numarası 13 haneden uzun olamaz';
+
+  @override
+  String get newUpdateAvailableText => 'Yeni güncelleme mevcut';
+
+  @override
+  String get newUpdateAvailableDescriptionText =>
+      'Uygulamanın yeni bir sürümü mevcut. En son özellikler ve iyileştirmeler için şimdi güncelleyin.';
+
+  @override
+  String get laterText => 'Daha sonra';
 }

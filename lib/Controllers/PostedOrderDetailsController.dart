@@ -59,7 +59,7 @@ class PostedOrderDetailsController extends GetxController {
         return;
       }
       getJobDetails(jobId.value);
-    }
+    } else {}
   }
 
   int getRemainingTrademenRequests(int? count) {
@@ -436,6 +436,51 @@ class PostedOrderDetailsController extends GetxController {
             arguments: {'jobPostingId': jobId, 'tradesmenId': tradesmanId});
       }
     } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> pleaseUpdateReview(
+      int id, String review, int jobId, int revieweeid, int rating) async {
+    try {
+      final response = await http
+          .put(
+            Uri.parse('${Constants.baseUrl}/reviews/$id'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, dynamic>{
+              'job_posting_id': jobId,
+              'reviewee_id': revieweeid,
+              'rating': rating,
+              'comment': review
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonData['success']) {
+          return true;
+        } else {
+          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          return false;
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser(true);
+        return false;
+      } else {
+        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        return false;
+      }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return false;
+    } catch (e) {
+      Commons.hideProgressDialog();
       throw Exception(e);
     }
   }

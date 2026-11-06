@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:workforceclientapp/Others/Constants.dart';
 
 class PrivacyPolicyController extends GetxController {
   static const String _privacyPolicyUrl =
-      'https://auftragnow.de/api/legal/privacy-policy';
+      '${Constants.baseUrl}/legal/privacy-policy';
 
   final RxBool isLoading = false.obs;
   final RxString privacyPolicyText = ''.obs;

@@ -16,6 +16,7 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 class ForgotPasswordContoller extends GetxController {
   final emailTextField = TextEditingController().obs;
   RxString emailAddressErrorText = "".obs;
+  String? resendAvailableAt;
 
   @override
   void onInit() {
@@ -36,9 +37,14 @@ class ForgotPasswordContoller extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
+      print(response.body);
 
       if (response.statusCode == 200) {
         String msg = jsonData['message'];
+        final responseData = jsonData['data'];
+        resendAvailableAt = responseData is Map
+            ? responseData['resend_available_at']?.toString()
+            : null;
         Fluttertoast.showToast(msg: msg);
         return "success";
       } else if (response.statusCode == 403) {

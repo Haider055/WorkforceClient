@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 
 class KeyboardDismissOverlay extends StatelessWidget {
   final Widget child;
@@ -24,7 +25,9 @@ class KeyboardDismissOverlay extends StatelessWidget {
           Positioned(
             right: 12.w,
             bottom: keyboardHeight + 5.h,
-            child: _DismissButton(),
+            child: !Constants.inConversationScreen.value
+                ? _DismissButton()
+                : const SizedBox(),
           ),
       ],
     );
@@ -35,7 +38,7 @@ class _DismissButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black.withOpacity(0.78),
+      color: Colors.black.withValues(alpha: 0.78),
       shape: const CircleBorder(),
       elevation: 3,
       child: InkWell(

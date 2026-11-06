@@ -69,21 +69,21 @@ class _CommonTextFieldState extends State<CommonTextFieldWhite> {
             borderRadius: BorderRadius.circular(10.r),
             borderSide: BorderSide(
               width: 2.w,
-              color: Colors.red.withOpacity(0.7),
+              color: Colors.red.withValues(alpha: 0.7),
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.r),
             borderSide: BorderSide(
               width: 2.w,
-              color: Colors.red.withOpacity(0.7),
+              color: Colors.red.withValues(alpha: 0.7),
             ),
           ),
 
           filled: true,
           fillColor: widget.errorText.isEmpty
               ? const Color(MyColors.whiteColor)
-              : Colors.red.withOpacity(0.12),
+              : Colors.red.withValues(alpha: 0.12),
 
           // TEXT STYLE
           hintStyle: TextStyle(

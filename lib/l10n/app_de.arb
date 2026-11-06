@@ -305,7 +305,7 @@
   "taptounblock": "Zum Entsperren tippen",
   "tellUsMore": "Erzählen Sie uns mehr...",
   "disclaimerInPickImageText": "Haftungsausschluss: Gegen den Nutzer können rechtliche Schritte eingeleitet werden, falls die hochgeladenen Fotos gegen unsere Nutzungsbedingungen verstoßen.",
-  "atLeast10CharactersText": "Mindestens 10 Zeichen",
+  "atLeast8CharactersText": "Mindestens 8 Zeichen",
   "whyareyoublockinghim": "Warum blockierst du ihn?",
   "whyareyoureportinginghim": "Warum meldest du ihn?",
   "lowercaseText": "Kleinbuchstaben",
@@ -403,5 +403,8 @@
   "imagesCanBeAddMoreText": "Es können weitere Bilder hinzugefügt werden",
   "searchForServicesText": "Nach Dienstleistungen suchen",
   "requestAlreadySentText": "Anfrage bereits gesendet",
-  "phoneNumberCannotbemorethan13digitText": "Die Telefonnummer darf nicht mehr als 13 Ziffern haben."
+  "phoneNumberCannotbemorethan13digitText": "Die Telefonnummer darf nicht mehr als 13 Ziffern haben.",
+  "newUpdateAvailableText": "Neues Update verfügbar",
+  "newUpdateAvailableDescriptionText": "Eine neue Version der App ist verfügbar. Aktualisieren Sie jetzt, um die neuesten Funktionen und Verbesserungen zu erhalten.",
+  "laterText": "Später"
 }

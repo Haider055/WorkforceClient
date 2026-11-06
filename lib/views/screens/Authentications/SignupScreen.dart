@@ -277,7 +277,7 @@ class SignupScreen extends GetView<SignUpContoller> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         _passwordRule(
-                                            Strings.atLeast10CharactersText(
+                                            Strings.atLeast8CharactersText(
                                                 Get.context!),
                                             controller.passwordTextField.value
                                                     .text.length >=
