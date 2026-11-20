@@ -57,7 +57,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cancelText => 'Abbrechen';
 
   @override
-  String get canceledText => 'Abgebrochen';
+  String get cancelledText => 'Abgebrochen';
 
   @override
   String get loginText => 'Anmelden';
@@ -206,16 +206,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get youGotText => 'You got';
 
   @override
-  String get orderNowText => 'Jetzt bestellen';
+  String get postaJobText => 'Stellenanzeige aufgeben';
 
   @override
   String get hireNowText => 'Jetzt mieten';
-
-  @override
-  String get myOrdersText => 'Meine Bestellungen';
-
-  @override
-  String get myPostedOrdersText => 'Meine veröffentlichten Bestellungen';
 
   @override
   String get acceptedText => 'Akzeptiert';
@@ -248,7 +242,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get postJobText => 'Job posten';
 
   @override
-  String get noOrdersText => 'Keine Bestellungen';
+  String get noJobsText => 'Keine Jobs';
 
   @override
   String get todayText => 'Heute';
@@ -263,25 +257,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get passwodisWrongText => 'Passwort ist falsch';
 
   @override
-  String get noActiveOrdersText => 'Noch keine aktiven Bestellungen';
+  String get noActiveJobsText => 'Noch keine aktiven Stellen';
 
   @override
   String get noMaybeLaterText => 'Nein, vielleicht später';
 
   @override
-  String get noInProcessOrdersText => 'Noch keine laufenden Bestellungen';
+  String get noInProcessJobsText => 'Noch kein laufender Auftrag';
 
   @override
-  String get noOpenOrdersText => 'Noch keine offenen Bestellungen';
+  String get noOpenJobsText => 'Noch keine offene Stelle';
 
   @override
-  String get noCompleteOrdersText => 'Noch keine abgeschlossenen Bestellungen';
+  String get noCompleteJobsText => 'Noch keine abgeschlossenen Aufträge';
 
   @override
-  String get orderCompletedText => 'Bestellung abgeschlossen';
+  String get jobCompletedText => 'Auftrag abgeschlossen';
 
   @override
-  String get noCancelOrdersText => 'Noch keine stornierten Bestellungen';
+  String get noCancelJobsText => 'Noch keine stornierten Aufträge';
 
   @override
   String get showMoreText => 'Mehr anzeigen';
@@ -356,7 +350,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tryAgainText => 'Erneut versuchen';
 
   @override
-  String get cancelOrderText => 'Bestellung stornieren';
+  String get cancelJobText => 'Auftrag abbrechen';
 
   @override
   String get removeJobText => 'Job entfernen';
@@ -393,7 +387,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get restartText => 'Neustart';
 
   @override
-  String get orderDetailText => 'Bestelldetails';
+  String get jobDetailText => 'Bestelldetails';
 
   @override
   String get resultsFoundText => 'Ergebnisse gefunden';
@@ -423,12 +417,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noPhotosWereUploadText => 'Keine Fotos wurden hochgeladen!';
 
   @override
-  String get pleaseLoginToSeeOrdersText =>
-      'Bitte melden Sie sich an, um Ihre Bestellungen zu sehen.';
+  String get pleaseLoginToSeeJobsText =>
+      'Bitte melden Sie sich an, um Ihre Aufträge einzusehen';
 
   @override
-  String get startPostingYourOrdersText =>
-      'Beginnen Sie mit dem Posten Ihrer Bestellungen, um sie hier zu sehen.';
+  String get startPostingYourJobsText =>
+      'Veröffentliche deine Stellenanzeigen, damit sie hier erscheinen';
 
   @override
   String get goodToknowText => 'Gut zu wissen';
@@ -494,7 +488,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get viewPostedJobsText => 'Veröffentlichte Aufträge anzeigen';
 
   @override
-  String get leaveOrderText => 'Leave order';
+  String get leaveJobText => 'Job verlassen';
 
   @override
   String get jobTitleText => 'Auftragstitel';
@@ -620,18 +614,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get passwordhasbeenupdatedText => 'Ihr Passwort wurde aktualisiert.';
 
   @override
-  String get selectServiceHeadingText => 'Welche Art von Auftrag ist es?';
+  String get selectServiceHeadingText => 'Was für eine Art von Job ist das?';
 
   @override
   String get selectServiceDescText =>
       'Finden und beauftragen Sie zertifizierte Handwerker in Ihrer Nähe für die gewünschten Dienstleistungen.';
-
-  @override
-  String get selectServiceInfoText1 =>
-      'Erstellen Sie Ihren Auftrag kostenlos und ohne Verpflichtungen.';
-
-  @override
-  String get selectServiceInfoText2 => 'Mehr als 1000 registrierte Handwerker.';
 
   @override
   String get moreThanText => 'Mehr als';
@@ -775,7 +762,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get orderCompletedDescText =>
-      'Ihre Bestellung ist abgeschlossen und Sie haben absolut fantastische Arbeit geleistet. Machen Sie weiter so!';
+      'Deine Aufgabe ist abgeschlossen – du hast wirklich fantastische Arbeit geleistet. Mach weiter so!';
 
   @override
   String get eULAText =>
@@ -992,6 +979,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get needHelpText => 'Ich brauche Hilfe';
 
   @override
+  String get checkAgainText => 'Noch einmal überprüfen';
+
+  @override
   String get blockedonText => 'Blockiert durch';
 
   @override
@@ -1001,11 +991,41 @@ class AppLocalizationsDe extends AppLocalizations {
   String get enable2FAText => '2FA-Verifizierung aktivieren';
 
   @override
+  String get disable2FAText => '2FA-Verifizierung deaktivieren';
+
+  @override
+  String get youareuptodateText => 'Du bist auf dem neuesten Stand';
+
+  @override
+  String get updateAvailableText => 'Update verfügbar!';
+
+  @override
+  String get checkingForUpdates => 'Suche nach Updates...';
+
+  @override
   String get tellUsMore => 'Erzählen Sie uns mehr...';
+
+  @override
+  String get expiresInText => 'läuft ab in';
+
+  @override
+  String get updateNowText => 'Jetzt aktualisieren';
 
   @override
   String get disclaimerInPickImageText =>
       'Haftungsausschluss: Gegen den Nutzer können rechtliche Schritte eingeleitet werden, falls die hochgeladenen Fotos gegen unsere Nutzungsbedingungen verstoßen.';
+
+  @override
+  String get updateAppDesc1 =>
+      'Eine neue Version von AuftragNow ist verfügbar. Aktualisieren Sie jetzt, um von den neuesten Funktionen und Verbesserungen zu profitieren.';
+
+  @override
+  String get updateAppDesc2 =>
+      'Sie verwenden die neueste Version von AuftragNow. Derzeit ist kein Update erforderlich.';
+
+  @override
+  String get pleaseagreeToOurTermsAndConditionsText =>
+      'Bitte stimmen Sie unseren Allgemeinen Geschäftsbedingungen zu.';
 
   @override
   String get atLeast8CharactersText => 'Mindestens 8 Zeichen';
@@ -1219,6 +1239,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get giveReviewText => 'Bewertung abgeben';
 
   @override
+  String get hiredTradesmanText => 'Beauftragter Handwerker';
+
+  @override
   String get seeourPrivacyPlolicyText => 'siehe unsere Datenschutzerklärung';
 
   @override
@@ -1241,6 +1264,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noRecommendedText => 'nein Empfohlen';
+
+  @override
+  String get youSentRequesttothisTradesmanText =>
+      'Sie haben eine Anfrage an diesen Handwerker gesendet';
 
   @override
   String get zeroAnswers => '0 Antworten';
@@ -1343,4 +1370,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get laterText => 'Später';
+
+  @override
+  String get tradesmanAcceptedYourRequestText =>
+      'Dieser Handwerker hat Ihre Anfrage angenommen';
 }

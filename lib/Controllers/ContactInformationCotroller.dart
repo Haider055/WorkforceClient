@@ -45,7 +45,7 @@ class ContactInformationCotroller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();
@@ -87,7 +87,7 @@ class ContactInformationCotroller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();

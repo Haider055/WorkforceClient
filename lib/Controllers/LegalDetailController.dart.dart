@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
-import 'package:workforceclientapp/Others/Strings.dart';
 
 class LegalDetailController extends GetxController {
   final data = Get.arguments;
@@ -57,17 +55,17 @@ class LegalDetailController extends GetxController {
         hasError.value = content.value.trim().isEmpty;
       } else {
         hasError.value = true;
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       }
     } on TimeoutException {
       hasError.value = true;
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
     } catch (e) {
       debugPrint('loadDocument error: $e');
       hasError.value = true;
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
     } finally {
       isLoading.value = false;
     }

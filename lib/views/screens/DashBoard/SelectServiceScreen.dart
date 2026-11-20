@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:workforceclientapp/Controllers/AllChatsContoller.dart';
 import 'package:workforceclientapp/Controllers/NotificationScreenContoller.dart';
 import 'package:workforceclientapp/Controllers/PostedOrdersController.dart';
@@ -24,6 +25,7 @@ import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/screens/Chat/AllChats.dart';
 import 'package:workforceclientapp/views/screens/Notifications/NotificationsScreen.dart';
+import 'package:workforceclientapp/views/screens/Profile/CheckUpdateScreen.dart';
 import 'package:workforceclientapp/views/screens/Profile/ContactInformationScreen.dart';
 import 'package:workforceclientapp/views/widgets/ContinueLastJobCard.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButtonPrimary.dart';
@@ -33,6 +35,7 @@ import 'package:workforceclientapp/views/widgets/HeadingTextW500.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/HeadingTextW700.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
+import 'package:workforceclientapp/views/widgets/LiquidGlassNavBar.dart';
 import 'package:workforceclientapp/views/widgets/LogoImage.dart';
 import 'package:workforceclientapp/views/widgets/ProfileInfoCard.dart';
 
@@ -41,163 +44,189 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          leadingWidth: MediaQuery.of(context).size.width,
-          leading: Container(
-            color: const Color(MyColors.whiteColor),
-            child: const Card(
-              color: Color(MyColors.appbackgroundColor),
-              shadowColor: Color.fromARGB(158, 219, 219, 219),
-              elevation: 0.5,
-              shape: Border(
-                  bottom: BorderSide(
-                      color: Color(MyColors.cardGrayColor100),
-                      style: BorderStyle.solid)),
-              child: Center(
-                child: LogoImage(),
+    return UpgradeAlert(
+      dialogStyle: UpgradeDialogStyle.cupertino,
+      cupertinoButtonTextStyle: const TextStyle(fontFamily: 'Poppins'),
+      showReleaseNotes: false,
+      upgrader: Upgrader(languageCode: Constants.selectedLang),
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          // iOS: let page content run underneath the floating glass nav bar
+          // so the blur shows the page instead of a plain white strip.
+          // Each tab adds MediaQuery bottom padding so its last item stays
+          // reachable above the bar.
+          extendBody: Platform.isIOS,
+          appBar: AppBar(
+            leadingWidth: MediaQuery.of(context).size.width,
+            leading: Container(
+              color: const Color(MyColors.whiteColor),
+              child: const Card(
+                color: Color(MyColors.appbackgroundColor),
+                shadowColor: Color.fromARGB(158, 219, 219, 219),
+                elevation: 0.5,
+                shape: Border(
+                    bottom: BorderSide(
+                        color: Color(MyColors.cardGrayColor100),
+                        style: BorderStyle.solid)),
+                child: Center(
+                  child: LogoImage(),
+                ),
               ),
             ),
           ),
-        ),
-        backgroundColor: Colors.white,
-        bottomNavigationBar: Obx(() {
-          return BottomNavigationBar(
-            type: BottomNavigationBarType.shifting,
-            enableFeedback: true,
-            showSelectedLabels: true,
-            elevation: 7,
-            selectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
-            unselectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
-            showUnselectedLabels: true,
-            currentIndex: controller.currentIndex.value,
-            onTap: (index) {
-              print(index);
-              if (controller.isLoading.value) {
-                return;
-              }
-              changeTab(index);
-              controller.currentIndex.value = index;
-            },
-            items: [
-              BottomNavigationBarItem(
-                  icon: controller.currentIndex.value == 0
-                      ? SvgPicture.asset("lib/assets/icons/postjobRedIcon.svg")
-                      : SvgPicture.asset(
-                          "lib/assets/icons/postjobBlackIcon.svg"),
-                  label: Strings.postJob(context),
-                  backgroundColor: const Color(MyColors.whiteColor)),
-              BottomNavigationBarItem(
-                  icon: controller.currentIndex.value == 1
-                      ? SvgPicture.asset("lib/assets/icons/myordersRedIcon.svg")
-                      : SvgPicture.asset(
-                          "lib/assets/icons/myordersBlackIcon.svg"),
-                  label: Strings.myJobsText(context),
-                  backgroundColor: const Color(MyColors.whiteColor)),
-              BottomNavigationBarItem(
-                  icon: Obx(() {
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        controller.currentIndex.value == 2
-                            ? SvgPicture.asset(
-                                "lib/assets/icons/chatRedIcon.svg")
-                            : SvgPicture.asset(
-                                "lib/assets/icons/chatBlackIcon.svg"),
-                        if (controller.unreadMessagesCount.value > 0)
-                          Positioned(
-                            right: -6,
-                            top: -4,
-                            child: Container(
-                              padding: EdgeInsets.all(2.r),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: Text(
-                                '${controller.unreadMessagesCount.value}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
+          backgroundColor: Colors.white,
+          bottomNavigationBar: Obx(() {
+            final navBar = BottomNavigationBar(
+              type: BottomNavigationBarType.shifting,
+              enableFeedback: true,
+              showSelectedLabels: true,
+              elevation: 7,
+              selectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
+              unselectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
+              showUnselectedLabels: true,
+              currentIndex: controller.currentIndex.value,
+              onTap: (index) {
+                print(index);
+                // if (controller.isLoading.value) {
+                //   return;
+                // }
+                changeTab(index);
+                controller.currentIndex.value = index;
+              },
+              items: [
+                BottomNavigationBarItem(
+                    icon: controller.currentIndex.value == 0
+                        ? SvgPicture.asset(
+                            "lib/assets/icons/postjobRedIcon.svg")
+                        : SvgPicture.asset(
+                            "lib/assets/icons/postjobBlackIcon.svg"),
+                    label: Strings.postJob(context),
+                    backgroundColor: const Color(MyColors.whiteColor)),
+                BottomNavigationBarItem(
+                    icon: controller.currentIndex.value == 1
+                        ? SvgPicture.asset(
+                            "lib/assets/icons/myordersRedIcon.svg")
+                        : SvgPicture.asset(
+                            "lib/assets/icons/myordersBlackIcon.svg"),
+                    label: Strings.myJobsText(context),
+                    backgroundColor: const Color(MyColors.whiteColor)),
+                BottomNavigationBarItem(
+                    icon: Obx(() {
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          controller.currentIndex.value == 2
+                              ? SvgPicture.asset(
+                                  "lib/assets/icons/chatRedIcon.svg")
+                              : SvgPicture.asset(
+                                  "lib/assets/icons/chatBlackIcon.svg"),
+                          if (controller.unreadMessagesCount.value > 0)
+                            Positioned(
+                              right: -6,
+                              top: -4,
+                              child: Container(
+                                padding: EdgeInsets.all(2.r),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                textAlign: TextAlign.center,
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: Text(
+                                  '${controller.unreadMessagesCount.value}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10.sp,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                      ],
-                    );
-                  }),
-                  label: Strings.chatText(context),
-                  backgroundColor: const Color(MyColors.whiteColor)),
-              BottomNavigationBarItem(
-                  icon: Obx(() {
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        controller.currentIndex.value == 3
-                            ? SvgPicture.asset(
-                                "lib/assets/icons/notificationRedIcon.svg")
-                            : SvgPicture.asset(
-                                "lib/assets/icons/bellblackIcon.svg"),
-                        if (Constants.unreadNotificationsCount.value > 0)
-                          Positioned(
-                            right: -6,
-                            top: -4,
-                            child: Container(
-                              padding: EdgeInsets.all(2.r),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              constraints: BoxConstraints(
-                                minWidth: 16.r,
-                                minHeight: 16.r,
-                              ),
-                              child: Text(
-                                '${Constants.unreadNotificationsCount.value}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
+                        ],
+                      );
+                    }),
+                    label: Strings.chatText(context),
+                    backgroundColor: const Color(MyColors.whiteColor)),
+                BottomNavigationBarItem(
+                    icon: Obx(() {
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          controller.currentIndex.value == 3
+                              ? SvgPicture.asset(
+                                  "lib/assets/icons/notificationRedIcon.svg")
+                              : SvgPicture.asset(
+                                  "lib/assets/icons/bellblackIcon.svg"),
+                          if (Constants.unreadNotificationsCount.value > 0)
+                            Positioned(
+                              right: -6,
+                              top: -4,
+                              child: Container(
+                                padding: EdgeInsets.all(2.r),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                textAlign: TextAlign.center,
+                                constraints: BoxConstraints(
+                                  minWidth: 16.r,
+                                  minHeight: 16.r,
+                                ),
+                                child: Text(
+                                  '${Constants.unreadNotificationsCount.value}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10.sp,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                      ],
-                    );
-                  }),
-                  label: Strings.notification(context),
-                  backgroundColor: const Color(MyColors.whiteColor)),
-              BottomNavigationBarItem(
-                  icon: controller.currentIndex.value == 4
-                      ? SvgPicture.asset("lib/assets/icons/profileRedicon.svg")
-                      : SvgPicture.asset(
-                          "lib/assets/icons/profileBlackicon.svg"),
-                  label: Strings.profile(context),
-                  backgroundColor: const Color(MyColors.whiteColor)),
-            ],
-            selectedItemColor:
-                const Color(MyColors.themeRedColor), // Active tab color
-            unselectedItemColor: const Color(0x9C000000), // Inactive tab color
-          );
-        }),
-        body: Obx(() {
-          return controller.currentIndex.value == 0
-              ? mainScreenUI()
-              : controller.currentIndex.value == 1
-                  ? const PostedOrdersSection()
-                  : controller.currentIndex.value == 2
-                      ? const AllChats()
-                      : controller.currentIndex.value == 3
-                          ? const NotificationsScreen()
-                          : ProfileSection(
-                              isLoggedin: controller.isLoggedIn.value);
-        }));
+                        ],
+                      );
+                    }),
+                    label: Strings.notification(context),
+                    backgroundColor: const Color(MyColors.whiteColor)),
+                BottomNavigationBarItem(
+                    icon: controller.currentIndex.value == 4
+                        ? SvgPicture.asset(
+                            "lib/assets/icons/profileRedicon.svg")
+                        : SvgPicture.asset(
+                            "lib/assets/icons/profileBlackicon.svg"),
+                    label: Strings.profile(context),
+                    backgroundColor: const Color(MyColors.whiteColor)),
+              ],
+              selectedItemColor:
+                  const Color(MyColors.themeRedColor), // Active tab color
+              unselectedItemColor:
+                  const Color(0x9C000000), // Inactive tab color
+            );
+            if (Platform.isIOS) {
+              // iOS: Liquid Glass style floating tab bar (same items/behaviour)
+              return LiquidGlassNavBar(
+                items: navBar.items,
+                currentIndex: navBar.currentIndex,
+                onTap: navBar.onTap!,
+                selectedItemColor: navBar.selectedItemColor!,
+                unselectedItemColor: navBar.unselectedItemColor!,
+              );
+            }
+            return navBar;
+          }),
+          body: Obx(() {
+            return controller.currentIndex.value == 0
+                ? mainScreenUI()
+                : controller.currentIndex.value == 1
+                    ? const PostedOrdersSection()
+                    : controller.currentIndex.value == 2
+                        ? const AllChats()
+                        : controller.currentIndex.value == 3
+                            ? const NotificationsScreen()
+                            : ProfileSection(
+                                isLoggedin: controller.isLoggedIn.value);
+          })),
+    );
   }
 
   void changeTab(int index) {
@@ -426,7 +455,7 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                           child: Padding(
                             padding: EdgeInsets.only(top: 18.0.h, left: 24.w),
                             child: HeadingTextW600(
-                                text: Strings.hireNow(Get.context!),
+                                text: Strings.postaJobText(Get.context!),
                                 centerAlign: false,
                                 size: 28.sp),
                           ),
@@ -521,6 +550,14 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                         },
                       );
                     }),
+                  ),
+
+                  // 4. Room for the floating iOS nav bar (0 on Android)
+                  SliverToBoxAdapter(
+                    child: Builder(
+                      builder: (context) => SizedBox(
+                          height: MediaQuery.paddingOf(context).bottom),
+                    ),
                   ),
                 ],
               ),
@@ -669,7 +706,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
     return Scaffold(
       body: Obx(() {
         return Container(
-          color: const Color(MyColors.lightSilverColor),
+          color: const Color(MyColors.whiteColor),
           child: Padding(
             padding: EdgeInsets.all(8.0.r),
             child: controller.isLoggedin.value == "loggedOut"
@@ -681,7 +718,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 10.0.r),
                           child: HeadingTextW600(
-                              text: Strings.myPostedOrders(context),
+                              text: Strings.myJobsText(context),
                               centerAlign: false,
                               size: 22.sp),
                         ),
@@ -690,10 +727,15 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                       controller.isLoading.value == false
                           ? Expanded(
                               child: SingleChildScrollView(
+                                // Room for the floating iOS nav bar
+                                padding: EdgeInsets.only(
+                                    bottom:
+                                        MediaQuery.paddingOf(context).bottom),
                                 child: Column(
                                   children: [
                                     controller.postedOrdersList.isNotEmpty
                                         ? ListView.builder(
+                                            padding: EdgeInsets.zero,
                                             itemCount: controller
                                                 .postedOrdersList.length,
                                             physics:
@@ -893,7 +935,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                           right: 10.0.w,
                           top: 2.0.h,
                           bottom: 2.0.h),
-                      child: Text(Strings.canceledText(Get.context!),
+                      child: Text(Strings.cancelledText(Get.context!),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: controller.selectedTabName.value ==
@@ -1012,7 +1054,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
             Padding(
               padding: EdgeInsets.all(12.0.r),
               child: HeadingTextW700(
-                text: Strings.noOrders(Get.context!),
+                text: Strings.noJobsText(Get.context!),
                 centerAlign: true,
                 size: 22.sp,
               ),
@@ -1020,7 +1062,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0.r),
               child: Headingdescription(
-                text: Strings.startPostingYourOrders(Get.context!),
+                text: Strings.startPostingYourJobsText(Get.context!),
                 centerAlign: true,
                 size: 13.0.sp,
               ),
@@ -1045,12 +1087,12 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               padding: EdgeInsets.all(12.0.r),
               child: HeadingTextW700(
                 text: controller.selectedTabName.value == "Active"
-                    ? Strings.noActiveOrders(Get.context!)
+                    ? Strings.noActiveJobsText(Get.context!)
                     : controller.selectedTabName.value == "open"
-                        ? Strings.noOpenOrders(Get.context!)
+                        ? Strings.noOpenJobsText(Get.context!)
                         : controller.selectedTabName.value == "completed"
-                            ? Strings.noCompleteOrders(Get.context!)
-                            : Strings.noCancelOrders(Get.context!),
+                            ? Strings.noCompleteJobsText(Get.context!)
+                            : Strings.noCancelJobsText(Get.context!),
                 centerAlign: true,
                 size: 22.sp,
               ),
@@ -1079,14 +1121,14 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                 Padding(
                   padding: EdgeInsets.all(12.0.r),
                   child: HeadingTextW600(
-                      text: Strings.myOrders(Get.context!),
+                      text: Strings.myJobsText(Get.context!),
                       centerAlign: true,
                       size: 20.sp),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 12.0.r, right: 12.0.r),
                   child: Headingdescription(
-                      text: Strings.pleaseLoginToSeeOrders(Get.context!),
+                      text: Strings.pleaseLoginToSeeJobsText(Get.context!),
                       centerAlign: true,
                       size: 13.5.sp),
                 ),
@@ -1126,9 +1168,9 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
       child: Container(
         margin: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white38,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: const Color(0xFFEDEDEF)),
+          border: Border.all(color: const Color.fromARGB(255, 226, 226, 230)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.04),
@@ -1143,6 +1185,24 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ---- Title + Status row ----
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color:
+                      const Color(MyColors.blackColor).withValues(alpha: 0.04),
+                  borderRadius: BorderRadius.circular(9.r),
+                ),
+                child: Text(
+                  job.serviceName ?? "N/A",
+                  style: TextStyle(
+                    fontSize: 11.5.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Poppins',
+                    color: const Color(MyColors.blackColor),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1158,48 +1218,22 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8.w),
-                  Obx(() => _statusBadge(job)),
                 ],
               ),
               SizedBox(height: 6.h),
 
               // ---- Service name chip ----
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color:
-                      const Color(MyColors.blackColor).withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text(
-                  job.serviceName ?? "N/A",
-                  style: TextStyle(
-                    fontSize: 12.5.sp,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Poppins',
-                    color: const Color(MyColors.blackColor),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
 
-              // ---- Description ----
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(10.r),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF7F7F8),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0, bottom: 5),
                 child: Text(
                   job.desc ?? "N/A",
                   textAlign: TextAlign.start,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: const Color(MyColors.darkGrayColor),
-                    fontSize: 13.5.sp,
+                    color: const Color(MyColors.blackColor80),
+                    fontSize: 12.5.sp,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'Poppins',
                     height: 1.45,
@@ -1207,15 +1241,13 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                 ),
               ),
               SizedBox(height: 10.h),
-
-              // ---- Posted at ----
               Row(
                 children: [
                   Icon(Icons.access_time_rounded,
                       size: 14.r, color: const Color(MyColors.darkGrayColor)),
                   SizedBox(width: 5.w),
                   Text(
-                    '${Strings.postedAt(Get.context!)}: ${job.humanReadableCreatedAt ?? "N/A"}',
+                    job.humanReadableCreatedAt ?? "N/A",
                     style: TextStyle(
                       color: const Color(MyColors.darkGrayColor),
                       fontSize: 12.sp,
@@ -1224,6 +1256,10 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                   ),
                 ],
               ),
+              Obx(() => Padding(
+                    padding: const EdgeInsets.only(top: 6.0),
+                    child: _statusBadge(job),
+                  )),
 
               // ---- Interested / Chat stats ----
               Obx(() {
@@ -1232,12 +1268,13 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                   return const SizedBox();
                 }
                 return Padding(
-                  padding: EdgeInsets.only(top: 12.h),
+                  padding: EdgeInsets.only(top: 10.h),
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 10.h, horizontal: 6.w),
                     decoration: BoxDecoration(
-                      color: const Color(MyColors.colorNeutral100),
+                      color: const Color(MyColors.colorNeutral200)
+                          .withOpacity(0.35),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Row(
@@ -1290,79 +1327,82 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               }),
 
               // ---- Send request card ----
-              job.status!.value == "open"
-                  ? Padding(
-                      padding: EdgeInsets.only(top: 12.h),
-                      child: GestureDetector(
-                        onTap: () async {
-                          if (job.tradespersonRequestsCount!.value == "10") {
-                            Fluttertoast.showToast(
-                                msg: Strings.youHaveReachedLimit(Get.context!));
-                            return;
-                          }
-                          int remainingReqCount =
-                              controller.getRemainingTrademenRequests(int.parse(
-                                  job.tradespersonRequestsCount!.value));
-                          var result = await Get.toNamed(
-                            AppLinks.job_recommendations,
-                            arguments: {
-                              'jobId': job.id,
-                              'remainingRequeststoSend': remainingReqCount,
-                              'fromWhere': 'MyOrders',
-                              'index': index,
-                            },
-                          );
-                          if (result != null) {
-                            job.tradespersonRequestsCount!.value =
-                                (10 - result).toString();
-                          }
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12.w, vertical: 10.h),
-                          decoration: BoxDecoration(
-                            color: const Color(MyColors.themeRedColor)
-                                .withValues(alpha: 0.06),
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: const Color(MyColors.themeRedColor)
-                                  .withValues(alpha: 0.15),
-                            ),
-                          ),
-                          child: Obx(() {
-                            return RichText(
-                              text: TextSpan(
-                                text: '',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 13.sp),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text:
-                                        '${Strings.sendARequestText(context)} ',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(
-                                            MyColors.themeRedColor)),
-                                  ),
-                                  TextSpan(
-                                    text: _remainingTradesmenText(job),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Poppins'),
-                                  ),
-                                ],
-                              ),
+              Obx(() {
+                return job.status!.value == "open"
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 12.h),
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (job.tradespersonRequestsCount!.value == "10") {
+                              Fluttertoast.showToast(
+                                  msg: Strings.youHaveReachedLimit(
+                                      Get.context!));
+                              return;
+                            }
+                            int remainingReqCount = controller
+                                .getRemainingTrademenRequests(int.parse(
+                                    job.tradespersonRequestsCount!.value));
+                            var result = await Get.toNamed(
+                              AppLinks.job_recommendations,
+                              arguments: {
+                                'jobId': job.id,
+                                'remainingRequeststoSend': remainingReqCount,
+                                'fromWhere': 'MyOrders',
+                                'index': index,
+                              },
                             );
-                          }),
+                            if (result != null) {
+                              job.tradespersonRequestsCount!.value =
+                                  (10 - result).toString();
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12.w, vertical: 10.h),
+                            decoration: BoxDecoration(
+                              color: const Color(MyColors.themeRedColor)
+                                  .withValues(alpha: 0.06),
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: const Color(MyColors.themeRedColor)
+                                    .withValues(alpha: 0.15),
+                              ),
+                            ),
+                            child: Obx(() {
+                              return RichText(
+                                text: TextSpan(
+                                  text: '',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 13.sp),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text:
+                                          '${Strings.sendARequestText(context)} ',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(
+                                              MyColors.themeRedColor)),
+                                    ),
+                                    TextSpan(
+                                      text: _remainingTradesmenText(job),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Poppins'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ),
                         ),
-                      ),
-                    )
-                  : const SizedBox(),
+                      )
+                    : const SizedBox();
+              }),
             ],
           ),
         ),
@@ -1398,7 +1438,7 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
         break;
       case "cancelled":
         bgColor = const Color(MyColors.cardcolorOrange200);
-        label = Strings.canceledText(Get.context!);
+        label = Strings.cancelledText(Get.context!);
         icon = SvgPicture.asset("lib/assets/icons/jobCancelledIcon.svg",
             height: 12.h, width: 12.w);
         break;
@@ -1592,13 +1632,18 @@ class _ProfileSectionState extends State<ProfileSection> {
 
   @override
   Widget build(BuildContext context) {
+    // bottom: false so the page extends under the floating iOS nav bar;
+    // the scroll view adds that space back as padding instead.
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
     return SafeArea(
+      bottom: false,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: const Color(MyColors.lightSilverColor),
         body: Padding(
           padding: EdgeInsets.all(8.0.r),
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: bottomInset),
             child: Column(
               children: [
                 widget.isLoggedin == "loggedOut"
@@ -1759,20 +1804,20 @@ class _ProfileSectionState extends State<ProfileSection> {
                     },
                   ),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
-                //   child: ProfileInfoCard(
-                //     icon: "lib/assets/icons/eyeOffIcon.svg",
-                //     text: Strings.privacyPolicy(context),
-                //     onPressed: () {
-                //       try {
-                //         Get.toNamed(AppLinks.privacy_policy);
-                //       } catch (e) {
-                //         throw Exception(e);
-                //       }
-                //     },
-                //   ),
-                // ),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
+                  child: ProfileInfoCard(
+                    icon: "lib/assets/icons/update.svg",
+                    text: Strings.updateText(context),
+                    onPressed: () {
+                      try {
+                        Get.to(() => const CheckUpdateScreen());
+                      } catch (e) {
+                        throw Exception(e);
+                      }
+                    },
+                  ),
+                ),
                 widget.isLoggedin == "loggedOut"
                     ? const SizedBox()
                     : Padding(

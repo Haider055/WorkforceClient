@@ -171,7 +171,7 @@ class JobPostCompleteController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       print("Error: request timed out");
       // showErrorDialog(Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
@@ -395,7 +395,10 @@ class JobPostCompleteController extends GetxController {
                           ),
                           padding: EdgeInsets.symmetric(vertical: 13.h),
                         ),
-                        onPressed: () => Get.back(),
+                        onPressed: () {
+                          Get.back();
+                          Get.offAllNamed(AppLinks.select_service_screen);
+                        },
                         child: Text(
                           Strings.cancelText(Get.context!),
                           style: TextStyle(

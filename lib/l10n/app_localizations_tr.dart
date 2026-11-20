@@ -57,7 +57,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cancelText => 'İptal';
 
   @override
-  String get canceledText => 'İptal Edildi';
+  String get cancelledText => 'İptal Edildi';
 
   @override
   String get loginText => 'Giriş Yap';
@@ -206,16 +206,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get youGotText => 'Aldığınız';
 
   @override
-  String get orderNowText => 'Hemen Sipariş Ver';
+  String get postaJobText => 'İş İlanı Yayınla';
 
   @override
   String get hireNowText => 'Hemen İşe Al';
-
-  @override
-  String get myOrdersText => 'Siparişlerim';
-
-  @override
-  String get myPostedOrdersText => 'Yayınladığım Siparişler';
 
   @override
   String get acceptedText => 'Kabul Edildi';
@@ -248,7 +242,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get postJobText => 'İş Yayınla';
 
   @override
-  String get noOrdersText => 'Sipariş Yok';
+  String get noJobsText => 'İş yok';
 
   @override
   String get todayText => 'Bugün';
@@ -263,25 +257,25 @@ class AppLocalizationsTr extends AppLocalizations {
   String get passwodisWrongText => 'Şifre yanlış';
 
   @override
-  String get noActiveOrdersText => 'Henüz aktif sipariş yok';
+  String get noActiveJobsText => 'Henüz aktif iş yok';
 
   @override
   String get noMaybeLaterText => 'Hayır, Belki Sonra';
 
   @override
-  String get noInProcessOrdersText => 'Henüz devam eden sipariş yok';
+  String get noInProcessJobsText => 'Henüz işlemde olan bir iş yok';
 
   @override
-  String get noOpenOrdersText => 'Henüz açık sipariş yok';
+  String get noOpenJobsText => 'Henüz açık iş pozisyonu yok';
 
   @override
-  String get noCompleteOrdersText => 'Henüz tamamlanan sipariş yok';
+  String get noCompleteJobsText => 'Henüz tamamlanmış iş yok';
 
   @override
-  String get orderCompletedText => 'Sipariş Tamamlandı';
+  String get jobCompletedText => 'İş Tamamlandı';
 
   @override
-  String get noCancelOrdersText => 'Henüz iptal edilen sipariş yok';
+  String get noCancelJobsText => 'Henüz iptal edilmiş iş yok';
 
   @override
   String get showMoreText => 'Daha Fazla Göster';
@@ -356,7 +350,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tryAgainText => 'Tekrar Dene';
 
   @override
-  String get cancelOrderText => 'Siparişi İptal Et';
+  String get cancelJobText => 'işi iptal et';
 
   @override
   String get removeJobText => 'İşi Kaldır';
@@ -392,7 +386,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get restartText => 'Tekrar başlat';
 
   @override
-  String get orderDetailText => 'Sipariş Ayrıntısı';
+  String get jobDetailText => 'iş detayı';
 
   @override
   String get resultsFoundText => 'sonuç bulundu';
@@ -422,12 +416,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noPhotosWereUploadText => 'Hiç fotoğraf yüklenmedi!';
 
   @override
-  String get pleaseLoginToSeeOrdersText =>
-      'Siparişlerinizi görmek için lütfen giriş yapın.';
+  String get pleaseLoginToSeeJobsText =>
+      'Siİşlerinizi görmek için lütfen giriş yapın.';
 
   @override
-  String get startPostingYourOrdersText =>
-      'Siparişlerinizi burada görmek için sipariş yayınlamaya başlayın.';
+  String get startPostingYourJobsText =>
+      'İş ilanlarınızı yayınlamaya başlayın, burada görünsünler';
 
   @override
   String get goodToknowText => 'Bilmekte fayda var';
@@ -492,7 +486,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get viewPostedJobsText => 'Yayınlanan İşleri Görüntüle';
 
   @override
-  String get leaveOrderText => 'Siparişi sonlandır';
+  String get leaveJobText => 'İşten ayrıl';
 
   @override
   String get jobTitleText => 'İş Başlığı';
@@ -603,7 +597,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get endOrderReason3 => 'İşi kendim yapacağım';
 
   @override
-  String get endOrderReason4 => 'Sipariş yarıda kaldı';
+  String get endOrderReason4 => 'İş yarıda kesildi';
 
   @override
   String get endOrderReason5 => 'Diğer';
@@ -615,18 +609,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get passwordhasbeenupdatedText => 'Şifreniz güncellendi.';
 
   @override
-  String get selectServiceHeadingText => 'Ne tür bir sipariş?';
+  String get selectServiceHeadingText => 'Ne tür bir iş?';
 
   @override
   String get selectServiceDescText =>
       'Bölgenizdeki sertifikalı ustaları ihtiyacınız olan hizmetler için bulun ve işe alın.';
-
-  @override
-  String get selectServiceInfoText1 =>
-      'Siparişinizi ücretsiz ve\nhiçbir yükümlülük olmadan oluşturun.';
-
-  @override
-  String get selectServiceInfoText2 => '1000\'den fazla kayıtlı usta.';
 
   @override
   String get moreThanText => 'Daha fazla';
@@ -768,7 +755,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get orderCompletedDescText =>
-      'Siparişiniz tamamlandı ve gerçekten harika bir iş çıkardınız. Böyle devam edin!';
+      'İşiniz tamamlandı; gerçekten harika bir iş çıkardınız, bu muhteşem çalışmalarınızı sürdürmeye devam edin!';
 
   @override
   String get eULAText =>
@@ -972,6 +959,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get needHelpText => 'Yardıma ihtiyacım var';
 
   @override
+  String get checkAgainText => 'Tekrar kontrol et';
+
+  @override
   String get blockedonText => 'Engellenme tarihi:';
 
   @override
@@ -981,11 +971,41 @@ class AppLocalizationsTr extends AppLocalizations {
   String get enable2FAText => '2FA Doğrulamasını Etkinleştir';
 
   @override
+  String get disable2FAText => '2FA doğrulamasını devre dışı bırak';
+
+  @override
+  String get youareuptodateText => 'Güncel durumdasınız';
+
+  @override
+  String get updateAvailableText => 'Güncelleme Mevcut!';
+
+  @override
+  String get checkingForUpdates => 'A verificar se há atualizações...';
+
+  @override
   String get tellUsMore => 'Bize daha fazlasını anlatın...';
+
+  @override
+  String get expiresInText => 'sona erme süresi';
+
+  @override
+  String get updateNowText => 'şimdi güncelle';
 
   @override
   String get disclaimerInPickImageText =>
       'Yasal Uyarı: Yüklenen fotoğrafların hizmet şartlarımıza aykırı olması durumunda, kullanıcıya karşı her türlü yasal işlem başlatılabilir.';
+
+  @override
+  String get updateAppDesc1 =>
+      'AuftragNow\'un yeni bir sürümü mevcut. En güncel özelliklerin ve iyileştirmelerin keyfini çıkarmak için hemen güncelleyin.';
+
+  @override
+  String get updateAppDesc2 =>
+      'AuftragNow\'un en son sürümünü kullanıyorsunuz. Şu an için herhangi bir güncelleme gerekmemektedir.';
+
+  @override
+  String get pleaseagreeToOurTermsAndConditionsText =>
+      'Lütfen Şartlar ve Koşullarımızı kabul edin.';
 
   @override
   String get atLeast8CharactersText => 'en az 8 karakter';
@@ -1191,7 +1211,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reviewedOnText => 'Değerlendirme tarihi:';
 
   @override
-  String get giveReviewText => 'Değerlendirme yap';
+  String get giveReviewText => 'Tutulan Zanaatkâr';
+
+  @override
+  String get hiredTradesmanText => 'Profissional contratado';
 
   @override
   String get seeourPrivacyPlolicyText => 'Gizlilik Politikamızı inceleyin';
@@ -1216,6 +1239,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noRecommendedText => 'Öneri Yok';
+
+  @override
+  String get youSentRequesttothisTradesmanText =>
+      'Bu esnafa bir talep gönderdiniz';
 
   @override
   String get zeroAnswers => '0 Yanıt';
@@ -1316,4 +1343,8 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get laterText => 'Daha sonra';
+
+  @override
+  String get tradesmanAcceptedYourRequestText =>
+      'Bu usta talebinizi kabul etti';
 }

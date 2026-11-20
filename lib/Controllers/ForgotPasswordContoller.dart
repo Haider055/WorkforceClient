@@ -16,7 +16,6 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 class ForgotPasswordContoller extends GetxController {
   final emailTextField = TextEditingController().obs;
   RxString emailAddressErrorText = "".obs;
-  String? resendAvailableAt;
 
   @override
   void onInit() {
@@ -41,10 +40,12 @@ class ForgotPasswordContoller extends GetxController {
 
       if (response.statusCode == 200) {
         String msg = jsonData['message'];
-        final responseData = jsonData['data'];
-        resendAvailableAt = responseData is Map
-            ? responseData['resend_available_at']?.toString()
-            : null;
+        Map<String, dynamic> responseData = jsonData['data'];
+        if (responseData.containsKey('resend_available_at')) {
+          Constants.resendAvailableAt = responseData['resend_available_at'];
+        } else {
+          Constants.resendAvailableAt = '';
+        }
         Fluttertoast.showToast(msg: msg);
         return "success";
       } else if (response.statusCode == 403) {
@@ -58,7 +59,7 @@ class ForgotPasswordContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();

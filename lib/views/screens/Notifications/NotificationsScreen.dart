@@ -327,11 +327,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           child: SvgPicture.asset(notification.isRead.value
                               ? "lib/assets/icons/readIconNotify.svg"
                               : "lib/assets/icons/unreadIcon.svg"),
-                          //  notification.isRead.value
-                          //     ? SvgPicture.asset(
-                          //         "lib/assets/icons/readIconNotify.svg")
-                          //     : SvgPicture.asset(
-                          //         "lib/assets/icons/unreadIcon.svg")),
                         ),
                       ),
                     ),
@@ -382,7 +377,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 Padding(
                   padding: EdgeInsets.all(4.0.r),
                   child: Container(
-                    color: const Color(MyColors.grayColor),
+                    color: const Color.fromARGB(255, 239, 237, 237),
                     height: 1,
                   ),
                 )

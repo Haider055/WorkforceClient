@@ -32,6 +32,13 @@ class NetworkController extends GetxController {
     _init();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _init();
+    }
+  }
+
   Future<void> _init() async {
     final result = await _connectivity.checkConnectivity();
     await _handleChange(result);
@@ -147,12 +154,6 @@ class NetworkController extends GetxController {
       Get.find<NotificationScreenContoller>().isLoading.value = false;
       Get.find<NotificationScreenContoller>().refreshData();
     }
-    // if (Get.isRegistered<AllChatsContoller>()) {
-    //   Get.find<AllChatsContoller>().onInit();
-    // } else {
-    // Get.put(AllChatsContoller());
-    // }
-    // Get.offAllNamed(AppLinks.select_service_screen);
   }
 
   /// Call before any API hit if you want to fail fast with a message

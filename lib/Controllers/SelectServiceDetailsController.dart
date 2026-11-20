@@ -40,7 +40,7 @@ class SelectServiceDetailsController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else if (response.statusCode == 403) {
@@ -49,12 +49,12 @@ class SelectServiceDetailsController extends GetxController {
         Commons.logoutUser(true);
         return list;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
       Commons.hideProgressDialog();

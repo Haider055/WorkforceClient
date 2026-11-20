@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancelText => 'Cancel';
 
   @override
-  String get canceledText => 'Cancelled';
+  String get cancelledText => 'Cancelled';
 
   @override
   String get loginText => 'Login';
@@ -205,16 +205,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get youGotText => 'You got';
 
   @override
-  String get orderNowText => 'Order Now';
+  String get postaJobText => 'Post a Job';
 
   @override
   String get hireNowText => 'Hire Now';
-
-  @override
-  String get myOrdersText => 'My Orders';
-
-  @override
-  String get myPostedOrdersText => 'My Posted Orders';
 
   @override
   String get acceptedText => 'Accepted';
@@ -247,7 +241,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postJobText => 'Post Job';
 
   @override
-  String get noOrdersText => 'No Orders';
+  String get noJobsText => 'No Jobs';
 
   @override
   String get todayText => 'Today';
@@ -262,25 +256,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwodisWrongText => 'Passwod is Wrong';
 
   @override
-  String get noActiveOrdersText => 'No Active orders yet';
+  String get noActiveJobsText => 'No Active Jobs yet';
 
   @override
   String get noMaybeLaterText => 'No, Maybe Later';
 
   @override
-  String get noInProcessOrdersText => 'No In-Process Orders yet';
+  String get noInProcessJobsText => 'No In-Process Job yet';
 
   @override
-  String get noOpenOrdersText => 'No Open Orders yet';
+  String get noOpenJobsText => 'No Open Job yet';
 
   @override
-  String get noCompleteOrdersText => 'No Completed Orders yet';
+  String get noCompleteJobsText => 'No Completed Jobs yet';
 
   @override
-  String get orderCompletedText => 'Order Completed';
+  String get jobCompletedText => 'Job Completed';
 
   @override
-  String get noCancelOrdersText => 'No Cancelled Orders yet';
+  String get noCancelJobsText => 'No Cancelled Jobs yet';
 
   @override
   String get showMoreText => 'Show More';
@@ -355,7 +349,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tryAgainText => 'Try Again';
 
   @override
-  String get cancelOrderText => 'Cancel Order';
+  String get cancelJobText => 'Cancel Job';
 
   @override
   String get removeJobText => 'Remove Job';
@@ -391,7 +385,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restartText => 'Restart';
 
   @override
-  String get orderDetailText => 'Order Detail';
+  String get jobDetailText => 'Job Detail';
 
   @override
   String get resultsFoundText => 'results found';
@@ -421,11 +415,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noPhotosWereUploadText => 'No Photos were Uploaded!';
 
   @override
-  String get pleaseLoginToSeeOrdersText => 'Please Login to See Your Orders.';
+  String get pleaseLoginToSeeJobsText => 'Please login to see your jobs';
 
   @override
-  String get startPostingYourOrdersText =>
-      'Start posting your orders to see them here.';
+  String get startPostingYourJobsText =>
+      'Start posting your jobs to see them here';
 
   @override
   String get goodToknowText => 'Good to know';
@@ -488,7 +482,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewPostedJobsText => 'View Posted Jobs';
 
   @override
-  String get leaveOrderText => 'Leave order';
+  String get leaveJobText => 'Leave job';
 
   @override
   String get jobTitleText => 'Job Title';
@@ -547,7 +541,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get jobhasRemovedandNoActiveText =>
-      'This Job has been Canceled and no longer Active.';
+      'This Job has been cancelled and no longer Active.';
 
   @override
   String get somethingWentWrongText => 'Something Went Wrong!';
@@ -599,7 +593,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get endOrderReason3 => 'I will do the job myself';
 
   @override
-  String get endOrderReason4 => 'The order was interrupted';
+  String get endOrderReason4 => 'The job was interrupted';
 
   @override
   String get endOrderReason5 => 'Other';
@@ -611,18 +605,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordhasbeenupdatedText => 'Your Password has been Updated.';
 
   @override
-  String get selectServiceHeadingText => 'What kind of order is it?';
+  String get selectServiceHeadingText => 'What kind of job is it?';
 
   @override
   String get selectServiceDescText =>
       'Find and hire certified tradesmen in your area for the services your need.';
-
-  @override
-  String get selectServiceInfoText1 =>
-      'Create your order fee of charge and\nwithout obligations.';
-
-  @override
-  String get selectServiceInfoText2 => 'More than 1000 registered craftsmen.';
 
   @override
   String get moreThanText => 'More than';
@@ -763,7 +750,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orderCompletedDescText =>
-      'Your order is complete, and you’ve done an absolutely fantastic job keep up the amazing work!';
+      'Your job is complete, and you’ve done an absolutely fantastic job keep up the amazing work!';
 
   @override
   String get eULAText =>
@@ -977,6 +964,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get needHelpText => 'Need Help';
 
   @override
+  String get checkAgainText => 'Check again';
+
+  @override
   String get blockedonText => 'Blocked on';
 
   @override
@@ -986,11 +976,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enable2FAText => 'Enable 2FA Verification';
 
   @override
+  String get disable2FAText => 'Disable 2FA Verification';
+
+  @override
+  String get youareuptodateText => 'You are up to date';
+
+  @override
+  String get updateAvailableText => 'Update Available!';
+
+  @override
+  String get checkingForUpdates => 'Checking for updates...';
+
+  @override
   String get tellUsMore => 'Tell us more...';
+
+  @override
+  String get expiresInText => 'Expires in';
+
+  @override
+  String get updateNowText => 'Update Now';
 
   @override
   String get disclaimerInPickImageText =>
       'Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.';
+
+  @override
+  String get updateAppDesc1 =>
+      'A new version of AuftragNow is available. Update now to enjoy the latest features and improvements.';
+
+  @override
+  String get updateAppDesc2 =>
+      'You are using the latest version of AuftragNow. No update is required at this time.';
+
+  @override
+  String get pleaseagreeToOurTermsAndConditionsText =>
+      'Please agree To Our Terms And Conditions';
 
   @override
   String get atLeast8CharactersText => 'at least 8 characters';
@@ -1196,6 +1216,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get giveReviewText => 'Give Review';
 
   @override
+  String get hiredTradesmanText => 'Hired Tradesman';
+
+  @override
   String get seeourPrivacyPlolicyText => 'See our Privacy Policy';
 
   @override
@@ -1218,6 +1241,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRecommendedText => 'No Recommended';
+
+  @override
+  String get youSentRequesttothisTradesmanText =>
+      'You sent a request to this tradesman';
 
   @override
   String get zeroAnswers => '0 Answers';
@@ -1318,4 +1345,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get laterText => 'Later';
+
+  @override
+  String get tradesmanAcceptedYourRequestText =>
+      'This tradesman accepted your request';
 }

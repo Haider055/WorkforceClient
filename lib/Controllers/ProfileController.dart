@@ -60,7 +60,7 @@ class ProfileController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();
@@ -98,7 +98,7 @@ class ProfileController extends GetxController {
         return false;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       Commons.hideProgressDialog();
       throw Exception('Request timed out');
     } catch (e) {
@@ -154,7 +154,7 @@ class ProfileController extends GetxController {
           }
           return false;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -169,7 +169,7 @@ class ProfileController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -209,7 +209,7 @@ class ProfileController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();

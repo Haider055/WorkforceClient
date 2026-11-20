@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:workforceclientapp/Controllers/SignupContoller.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
@@ -322,7 +323,81 @@ class SignupScreen extends GetView<SignUpContoller> {
                             needprefixIcon: true),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 40.0.h),
+                        padding: EdgeInsets.only(top: 18.0.h, left: 23.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Obx(() => SizedBox(
+                                  width: 24.w,
+                                  height: 24.h,
+                                  child: Checkbox(
+                                    value: controller.agreeToTerms.value,
+                                    activeColor:
+                                        const Color(MyColors.themeRedColor),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.r),
+                                    ),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    onChanged: (val) => controller
+                                        .agreeToTerms.value = val ?? false,
+                                  ),
+                                )),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                children: [
+                                  Headingdescription(
+                                    text:
+                                        "${Strings.bycreatingaccountyouAgreetoourText(Get.context!)} ",
+                                    centerAlign: false,
+                                    size: 13.0.sp,
+                                  ),
+                                  RedClickableText(
+                                    text: Strings.termsAndConditionText(
+                                        Get.context!),
+                                    size: 13.5.sp,
+                                    callback: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      Get.toNamed(AppLinks.legal_detail_screen,
+                                          arguments: {
+                                            'slug': 'terms-services',
+                                            'title': 'Terms & Services',
+                                            'url':
+                                                '${Constants.baseUrl}/legal/terms-services',
+                                          });
+                                    },
+                                  ),
+                                  Headingdescription(
+                                    text: " ${Strings.and(Get.context!)} ",
+                                    centerAlign: false,
+                                    size: 13.0.sp,
+                                  ),
+                                  RedClickableText(
+                                    size: 13.5.sp,
+                                    text: Strings.privacyPolicy(Get.context!),
+                                    callback: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      Get.toNamed(AppLinks.legal_detail_screen,
+                                          arguments: {
+                                            'slug': 'privacy-policy',
+                                            'title': 'Privacy Policy',
+                                            'url':
+                                                '${Constants.baseUrl}/legal/privacy-policy',
+                                          });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0.h),
                         child: FullWidthButton(
                           text: Strings.registerText(context),
                           color: MyColors.themeRedColor,
@@ -330,45 +405,6 @@ class SignupScreen extends GetView<SignUpContoller> {
                             pleaseValidateData();
                           },
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 18.0.h),
-                        child: Headingdescription(
-                            text: Strings.bycreatingaccountyouAgreetoourText(
-                                Get.context!),
-                            centerAlign: true,
-                            size: 13.0.sp),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RedClickableText(
-                            text: Strings.termsAndConditionText(Get.context!),
-                            size: 13.5.sp,
-                            callback: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              Get.toNamed(AppLinks.legal_guides_screen);
-                            },
-                          ),
-                          const SizedBox(
-                            width: 4.0,
-                          ),
-                          Headingdescription(
-                              text: "${Strings.and(Get.context!)} ",
-                              centerAlign: false,
-                              size: 13.0.sp),
-                          SizedBox(
-                            width: 4.0.w,
-                          ),
-                          RedClickableText(
-                            size: 13.5.sp,
-                            text: Strings.privacyPolicy(Get.context!),
-                            callback: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              Get.toNamed(AppLinks.legal_guides_screen);
-                            },
-                          ),
-                        ],
                       ),
                       const Spacer(),
                     ],
@@ -403,20 +439,25 @@ class SignupScreen extends GetView<SignUpContoller> {
   Future<void> pleaseValidateData() async {
     if (controller.nameTextField.value.text.isEmpty) {
       Fluttertoast.showToast(msg: Strings.nameCannotBeEmptyText(Get.context!));
+      return;
     }
     if (controller.emailTextField.value.text.isEmpty) {
       Fluttertoast.showToast(msg: Strings.emailCannotBeEmptyText(Get.context!));
+      return;
     }
     if (controller.phoneTextField.value.text.isEmpty) {
       Fluttertoast.showToast(msg: Strings.phoneCannotBeEmptyText(Get.context!));
+      return;
     }
     if (controller.passwordTextField.value.text.isEmpty) {
       Fluttertoast.showToast(
           msg: Strings.passwordCannotBeEmptyText(Get.context!));
+      return;
     }
     if (controller.confirmPasswordTextField.value.text.isEmpty) {
       Fluttertoast.showToast(
           msg: Strings.confirmPasswordCannotBeEmptyText(Get.context!));
+      return;
     }
     if (controller.nameTextField.value.text.isNotEmpty &&
         controller.emailTextField.value.text.isNotEmpty &&
@@ -441,6 +482,13 @@ class SignupScreen extends GetView<SignUpContoller> {
           controller.passwordTextField.value.text.toString()) {
         Fluttertoast.showToast(msg: Strings.passwordDoNotMatch(Get.context!));
       } else {
+        if (!controller.agreeToTerms.value) {
+          Fluttertoast.showToast(
+              msg:
+                  Strings.pleaseagreeToOurTermsAndConditionsText(Get.context!));
+          return;
+        }
+
         FocusManager.instance.primaryFocus?.unfocus();
         Commons.showProgressDialog(Get.context!);
         String res = await controller.pleaseRegisterUser();

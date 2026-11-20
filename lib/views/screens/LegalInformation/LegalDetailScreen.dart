@@ -117,15 +117,29 @@ class LegalDetailScreen extends GetView<LegalDetailController> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    const Icon(
+                      Icons.error_outline,
+                      color: Color(MyColors.themeRedColor),
+                      size: 40,
+                    ),
+                    SizedBox(height: 12.h),
                     Headingdescription(
                       text: Strings.somethingWentWrong(Get.context!),
                       centerAlign: true,
                       size: 14.sp,
                     ),
-                    SizedBox(height: 12.h),
-                    TextButton(
+                    SizedBox(height: 16.h),
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Color(MyColors.themeRedColor)),
+                          elevation: WidgetStatePropertyAll(0)),
                       onPressed: controller.loadDocument,
-                      child: Text(Strings.retryText(Get.context!)),
+                      child: Text(
+                        Strings.retryText(context),
+                        style: const TextStyle(
+                            color: Colors.white, fontFamily: 'Poppins'),
+                      ),
                     ),
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/NotificationNavigationService.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
@@ -12,6 +13,7 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Constants.checkProfile = true;
     Future.delayed(const Duration(seconds: 3), () {
       _loadSavedValue();
     });
@@ -40,6 +42,7 @@ class SplashController extends GetxController {
     // EULA must be accepted before anything else, and only ever shown once.
     _prefs = await SharedPreferences.getInstance();
     String lang = _prefs.getString('language') ?? "de";
+    Constants.selectedLang = lang;
     Get.updateLocale(Locale(lang));
 
     bool eulaAccepted = _prefs.getBool('eula_accepted') ?? false;

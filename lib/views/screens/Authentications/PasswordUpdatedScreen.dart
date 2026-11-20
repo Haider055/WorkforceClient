@@ -75,8 +75,10 @@ class PasswordUpdatedScreen extends GetView<PasswordUpdatedController> {
                     text: Strings.signInText(context),
                     color: MyColors.themeRedColor,
                     onPressed: () {
-                      Constants.fromWhere = "SelectServiceScreen";
-                      Get.toNamed(AppLinks.login_screen);
+                      if (Constants.fromWhere != 'JobPostCompletedScreen') {
+                        Constants.fromWhere = "SelectServiceScreen";
+                      }
+                      Get.offAllNamed(AppLinks.login_screen);
                     },
                   ),
                 ),

@@ -123,7 +123,7 @@ class NotificationScreenContoller extends GetxController {
           }
           return notificationList;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return notificationList;
         }
       } else if (response.statusCode == 403) {
@@ -132,12 +132,12 @@ class NotificationScreenContoller extends GetxController {
         Commons.logoutUser(true);
         return notificationList;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return notificationList;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return null;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -180,7 +180,7 @@ class NotificationScreenContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {
@@ -218,7 +218,7 @@ class NotificationScreenContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {

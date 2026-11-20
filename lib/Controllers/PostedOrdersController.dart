@@ -139,7 +139,7 @@ class PostedOrdersController extends GetxController {
           }
           return postedOrders;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedOrders;
         }
       } else if (response.statusCode == 403) {
@@ -150,12 +150,12 @@ class PostedOrdersController extends GetxController {
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedOrders;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return postedOrders;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -192,7 +192,7 @@ class PostedOrdersController extends GetxController {
           }
           return postedJobDetail;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return postedJobDetail;
         }
       } else if (response.statusCode == 403) {
@@ -201,12 +201,12 @@ class PostedOrdersController extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return postedJobDetail;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return postedJobDetail;
     } catch (e) {
       Commons.hideProgressDialog();

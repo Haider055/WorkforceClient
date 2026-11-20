@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Controllers/SelectLanguageController.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
@@ -64,6 +65,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                               _prefs = await SharedPreferences.getInstance();
                               await _prefs.setString("language", "de");
                               Get.updateLocale(const Locale('de'));
+                              Constants.selectedLang = 'de';
                               Get.offAllNamed(AppLinks.onboard_screen);
                             }),
                       ),
@@ -77,6 +79,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                               _prefs = await SharedPreferences.getInstance();
                               await _prefs.setString("language", "en");
                               Get.updateLocale(const Locale('en'));
+                              Constants.selectedLang = 'en';
                               Get.offAllNamed(AppLinks.onboard_screen);
                             }),
                       ),
@@ -91,6 +94,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                               _prefs = await SharedPreferences.getInstance();
                               await _prefs.setString("language", "pt");
                               Get.updateLocale(const Locale('pt'));
+                              Constants.selectedLang = 'pt';
                               Get.offAllNamed(AppLinks.onboard_screen);
                             }),
                       ),
@@ -105,6 +109,7 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                               _prefs = await SharedPreferences.getInstance();
                               await _prefs.setString("language", "tr");
                               Get.updateLocale(const Locale('tr'));
+                              Constants.selectedLang = 'tr';
                               Get.offAllNamed(AppLinks.onboard_screen);
                             }),
                       ),

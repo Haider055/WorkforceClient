@@ -44,7 +44,7 @@ class TradesmenDetailController extends GetxController {
     super.onInit();
     tradesmenId.value = Get.arguments['tradesmenId'];
     if (tradesmenId == -1) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return;
     }
     getTradesmenObject();
@@ -74,7 +74,7 @@ class TradesmenDetailController extends GetxController {
 
           return tradesmen;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return tradesmen;
         }
       } else if (response.statusCode == 403) {
@@ -83,12 +83,12 @@ class TradesmenDetailController extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmen;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return tradesmen;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -127,7 +127,7 @@ class TradesmenDetailController extends GetxController {
 
           return tradesmenReview;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return tradesmenReview;
         }
       } else if (response.statusCode == 403) {
@@ -136,12 +136,12 @@ class TradesmenDetailController extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return tradesmenReview;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return tradesmenReview;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -177,7 +177,7 @@ class TradesmenDetailController extends GetxController {
 
           return list;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else if (response.statusCode == 403) {
@@ -186,12 +186,12 @@ class TradesmenDetailController extends GetxController {
         Commons.logoutUser(true);
         return list;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -210,10 +210,12 @@ class TradesmenDetailController extends GetxController {
         }
         getTradesmenPortfolios(tradesmenId.value);
       } else {
+        loading.value = false;
         Fluttertoast.showToast(
             msg: Strings.somethingWentWrongGettingResults(Get.context!));
       }
     } catch (e) {
+      loading.value = false;
       e.printError();
     }
   }
@@ -252,9 +254,10 @@ class TradesmenDetailController extends GetxController {
       portfolioList = <Portfolio>[].obs;
       portfolioList!.value = await pleaseGetTradesmenPortfolio(tradesmenId);
       totalPortfolio.value = portfolioList!.length;
-      loading.value = false;
     } catch (e) {
       e.printError();
+    } finally {
+      loading.value = false;
     }
   }
 }

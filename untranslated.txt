@@ -2,7 +2,6 @@
   "de": [
     "youGotText",
     "recommendedCraftsmenText",
-    "leaveOrderText",
     "addingPicturesHelpsBetterQuotesText",
     "whyareyoureportinghim",
     "confirmPasswordCannotBeEmptyText"

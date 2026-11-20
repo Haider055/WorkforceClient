@@ -120,7 +120,7 @@ class LoginContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();
@@ -274,9 +274,7 @@ class LoginContoller extends GetxController {
               "fromWhere": "login",
               "email": emailTextField.value.text.toString(),
               "pre_auth_token": preAuthToken,
-              "resend_available_at": Constants.resendAvailableAt.isEmpty
-                  ? null
-                  : Constants.resendAvailableAt,
+              "resend_available_at": Constants.resendAvailableAt,
             },
           );
         } catch (e) {
@@ -377,7 +375,7 @@ class LoginContoller extends GetxController {
         if (jsonData['success']) {
           return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -387,12 +385,12 @@ class LoginContoller extends GetxController {
         Commons.logoutUser(true);
         return false;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
       Commons.hideProgressDialog();

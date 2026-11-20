@@ -234,21 +234,7 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                                   ),
                                 ),
                               ),
-                            )
-                            //  CommonTextFieldWhite(
-                            //                           hint: phoneErrorText,
-                            //                           errorText: phoneErrorText,
-                            //                           controller: controller.phoneTextField(),
-                            //                           inputType: TextInputType.number,
-                            //                           prefixIcon: const Icon(Icons.phone),
-                            //                           needPasswordSuffixIcon: false,
-                            //                           needprefixIcon: false,
-                            //                           onChanged: (value) {
-                            // setState(() {
-                            //   emailAddressErrorText = "";
-                            // });
-                            //                           }),
-                            ),
+                            )),
                         Padding(
                           padding: EdgeInsets.all(20.0.sp),
                           child: FullWidthElevatedButton(

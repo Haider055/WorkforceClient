@@ -248,4 +248,5 @@ class AppLinks {
   static const support_centre = '/support_centre';
   static const legal_guides_screen = '/legal_guides_screen';
   static const legal_detail_screen = '/legal_detail_screen';
+  static const check_for_update = '/check_for_update';
 }

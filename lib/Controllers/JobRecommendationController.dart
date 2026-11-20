@@ -91,12 +91,12 @@ class JobRecommendationController extends GetxController {
         Commons.logoutUser(true);
         return RecommendedTradesman(tradesmenList: [], pagination: null);
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return RecommendedTradesman(tradesmenList: [], pagination: null);
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return RecommendedTradesman(tradesmenList: [], pagination: null);
     } catch (e) {
       Commons.hideProgressDialog();
@@ -139,7 +139,7 @@ class JobRecommendationController extends GetxController {
           }
           return "";
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return "";
         }
       } else if (response.statusCode == 403) {
@@ -154,7 +154,7 @@ class JobRecommendationController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return "";
     } catch (e) {
       Commons.hideProgressDialog();

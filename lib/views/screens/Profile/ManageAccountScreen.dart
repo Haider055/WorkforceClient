@@ -174,36 +174,35 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                                           const Color(MyColors.themeRedColor),
                                       onChanged: (value) async {
                                         showPasswordDialog(
-                                          onConfirm: (password) async {
-                                            if (password !=
-                                                controller.pass.value) {
-                                              Fluttertoast.showToast(
-                                                  msg: Strings.passwordIsWrong(
-                                                      Get.context!));
-                                              return;
-                                            }
-                                            Commons.showProgressDialog(
-                                                Get.context!);
-                                            bool res = false;
-                                            try {
-                                              // The controller hides the progress
-                                              // dialog itself on every normal path.
-                                              res = await controller
-                                                  .pleaseChange2FAStatus(
-                                                      value, password);
-                                            } catch (e) {
-                                              Commons.hideProgressDialog();
-                                            }
-                                            if (res) {
-                                              controller.isTwoFAEnabled.value =
-                                                  value;
-                                            } else {
-                                              Fluttertoast.showToast(
-                                                  msg: Strings.failedText(
-                                                      Get.context!));
-                                            }
-                                          },
-                                        );
+                                            onConfirm: (password) async {
+                                              if (password !=
+                                                  controller.pass.value) {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        Strings.passwordIsWrong(
+                                                            Get.context!));
+                                                return;
+                                              }
+                                              Commons.showProgressDialog(
+                                                  Get.context!);
+                                              bool res = false;
+                                              try {
+                                                res = await controller
+                                                    .pleaseChange2FAStatus(
+                                                        value, password);
+                                              } catch (e) {
+                                                Commons.hideProgressDialog();
+                                              }
+                                              if (res) {
+                                                controller.isTwoFAEnabled
+                                                    .value = value;
+                                              } else {
+                                                Fluttertoast.showToast(
+                                                    msg: Strings.failedText(
+                                                        Get.context!));
+                                              }
+                                            },
+                                            value: value);
                                       },
                                     ),
                                   ),
@@ -224,10 +223,10 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
     );
   }
 
-  void showPasswordDialog({
-    required Future<void> Function(String password) onConfirm,
-    IconData icon = Icons.lock_outline,
-  }) {
+  void showPasswordDialog(
+      {required Future<void> Function(String password) onConfirm,
+      IconData icon = Icons.lock_outline,
+      required bool value}) {
     // Local to this dialog. Not disposed manually: the dialog's Future
     // completes before its exit animation ends, so disposing in .then()
     // crashes the TextField that is still on screen.
@@ -283,7 +282,9 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                     ),
                     SizedBox(height: 14.h),
                     Text(
-                      Strings.enable2FAText(context),
+                      value
+                          ? Strings.enable2FAText(Get.context!)
+                          : Strings.disable2FAText(Get.context!),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.sp,

@@ -52,6 +52,41 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
         ),
       ),
       body: Obx(() {
+        if (!controller.isLoading.value && controller.hasError.value) {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    color: Color(MyColors.themeRedColor),
+                    size: 40,
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    Strings.somethingWentWrong(context),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 16.h),
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                            Color(MyColors.themeRedColor)),
+                        elevation: WidgetStatePropertyAll(0)),
+                    onPressed: controller.getPreferencesOptions,
+                    child: Text(
+                      Strings.retryText(context),
+                      style: const TextStyle(
+                          color: Colors.white, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
         return controller.isLoading.value
             ? const Center(
                 child: CircularProgressIndicator(

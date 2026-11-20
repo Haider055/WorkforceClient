@@ -27,6 +27,7 @@ class SignUpContoller extends GetxController {
   RxDouble passwordStrength = 0.0.obs;
   RxString passwordStrengthText = "".obs;
   RxBool showPasswordRules = false.obs;
+  RxBool agreeToTerms = false.obs;
 
   final nameTextField = TextEditingController().obs;
   final emailTextField = TextEditingController().obs;
@@ -105,7 +106,7 @@ class SignUpContoller extends GetxController {
       return "";
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();

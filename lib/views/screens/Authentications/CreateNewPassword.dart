@@ -12,14 +12,6 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/FullWidthButton.dart';
 import 'package:get/get.dart';
 
-// ---------------------------------------------------------------------
-// Uses the same new field as UpdatePasswordScreen:
-//
-//     RxString passwordInput = "".obs;
-//
-// in CreateNewPasswordController. Add it once and both screens work.
-// ---------------------------------------------------------------------
-
 class CreateNewPassword extends GetView<CreateNewPasswordController> {
   const CreateNewPassword({super.key});
 

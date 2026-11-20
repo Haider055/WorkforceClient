@@ -20,10 +20,6 @@ class LoginScreen extends GetView<LoginContoller> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // if (FocusScope.of(context).hasFocus) {
-        // FocusScope.of(context).unfocus(); // Close keyboard
-        //   return false;
-        // }
         if (Constants.fromWhere == "SelectServiceScreen") {
           Get.offAllNamed(AppLinks.select_service_screen);
         } else {
@@ -164,7 +160,7 @@ class LoginScreen extends GetView<LoginContoller> {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

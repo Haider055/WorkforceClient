@@ -46,6 +46,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   String backResults = "update";
   String fromWhere = "";
   int index = 0;
+  bool hiredTradesman = true;
   static const _channel = MethodChannel('app/lifecycle');
   // Plain instance (not Get.put) so the OrdersDetailsScreen binding creates
   // its own controller with fresh arguments when navigating with toNamed.
@@ -60,14 +61,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
   late int clientId, chatId;
   late SharedPreferences _prefs;
   final ScrollController _scrollController = ScrollController();
-  // final PusherChannelsFlutter _pusher = PusherChannelsFlutter.getInstance();
   Chat? chat;
-  // late PusherClient pusher;
-  // late Channel channel;
-  // final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
-  // late PusherConfig pusherConfig;
-  // PusherService pusherService = PusherService();
-  // late final SimpleFlutterReverb reverb;
   bool shouldShowDateSeparator(int index) {
     if (index >= messagesList.length) return false;
 
@@ -112,6 +106,10 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
     if (data['index'] != null) {
       index = data['index'];
     }
+    if (data['hiredTradesman'] != null) {
+      hiredTradesman = data['hiredTradesman'];
+    }
+
     if (data['chat'] != null) {
       chat = data['chat'];
       getUserInfo();
@@ -121,14 +119,18 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       requestId = chat!.jobApplicationId!;
       chatId = chat!.id!;
       status = chat!.applicationStatus!;
-      if (jobStatus == "completed") {
+      if (!hiredTradesman && jobStatus == "in_progress") {
         option = Strings.jobHasBeenDoneText(Get.context!);
-      } else if (jobStatus == "in_progress" && status == "in_progress") {
-        option = Strings.markAsCompleteText(Get.context!);
-      } else if (status == "rejected") {
-        option = Strings.chatIsClosedText(Get.context!);
       } else {
-        option = Strings.startContractNowText(Get.context!);
+        if (jobStatus == "completed") {
+          option = Strings.jobHasBeenDoneText(Get.context!);
+        } else if (jobStatus == "in_progress" && status == "in_progress") {
+          option = Strings.markAsCompleteText(Get.context!);
+        } else if (status == "rejected") {
+          option = Strings.chatIsClosedText(Get.context!);
+        } else {
+          option = Strings.startContractNowText(Get.context!);
+        }
       }
       // pusherService.initPusher();
       // initPusher();
@@ -848,14 +850,18 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
       requestId = chat!.jobApplicationId!;
       chatId = chat!.id!;
       status = chat!.applicationStatus!;
-      if (jobStatus == "completed") {
+      if (!hiredTradesman && jobStatus == "in_progress") {
         option = Strings.jobHasBeenDoneText(Get.context!);
-      } else if (jobStatus == "in_progress" && status == "in_progress") {
-        option = Strings.markAsCompleteText(Get.context!);
-      } else if (status == "rejected") {
-        option = Strings.completed(Get.context!);
       } else {
-        option = Strings.startContractNowText(Get.context!);
+        if (jobStatus == "completed") {
+          option = Strings.jobHasBeenDoneText(Get.context!);
+        } else if (jobStatus == "in_progress" && status == "in_progress") {
+          option = Strings.markAsCompleteText(Get.context!);
+        } else if (status == "rejected") {
+          option = Strings.completed(Get.context!);
+        } else {
+          option = Strings.startContractNowText(Get.context!);
+        }
       }
       getUserInfo();
       getLastMessages("");
@@ -1217,7 +1223,7 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                   width: 2.0.w,
                                                 ),
                                                 Headingdescription(
-                                                    text: Strings.canceledText(
+                                                    text: Strings.cancelledText(
                                                         context),
                                                     centerAlign: false,
                                                     size: 12.sp)
@@ -1251,105 +1257,6 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                   updateJobStatus("in_progress");
                                 } else if (option ==
                                     Strings.markAsCompleteText(Get.context!)) {
-                                  // showDialog(
-                                  //     context: context,
-                                  //     barrierDismissible: true,
-                                  //     builder: (context) => Dialog(
-                                  //           backgroundColor: Colors.white,
-                                  //           insetPadding: EdgeInsets.symmetric(
-                                  //               horizontal: 24.w),
-                                  //           shape: RoundedRectangleBorder(
-                                  //               borderRadius:
-                                  //                   BorderRadius.circular(
-                                  //                       16.r)),
-                                  //           child: Padding(
-                                  //             padding: EdgeInsets.symmetric(
-                                  //                 horizontal: 20.w,
-                                  //                 vertical: 24.h),
-                                  //             child: Column(
-                                  //               mainAxisSize: MainAxisSize.min,
-                                  //               children: [
-                                  //                 Container(
-                                  //                   padding:
-                                  //                       EdgeInsets.all(14.r),
-                                  //                   decoration:
-                                  //                       const BoxDecoration(
-                                  //                     color: Color(MyColors
-                                  //                         .cardColorGreen200),
-                                  //                     shape: BoxShape.circle,
-                                  //                   ),
-                                  //                   child: SvgPicture.asset(
-                                  //                     "lib/assets/icons/completedTickIcon.svg",
-                                  //                     height: 26.h,
-                                  //                     width: 26.w,
-                                  //                   ),
-                                  //                 ),
-                                  //                 SizedBox(height: 16.h),
-                                  //                 Text(
-                                  //                   "${Strings.jobHasBeenDoneText(context)}?",
-                                  //                   textAlign: TextAlign.center,
-                                  //                   style: TextStyle(
-                                  //                     fontSize: 17.sp,
-                                  //                     fontWeight:
-                                  //                         FontWeight.w600,
-                                  //                     fontFamily: 'Poppins',
-                                  //                     color: const Color(
-                                  //                         MyColors.blackColor),
-                                  //                   ),
-                                  //                 ),
-                                  //                 SizedBox(height: 10.h),
-                                  //                 Text(
-                                  //                   Strings
-                                  //                       .areYouSureToCompleteThisContractText(
-                                  //                           context),
-                                  //                   textAlign: TextAlign.center,
-                                  //                   style: TextStyle(
-                                  //                     fontSize: 14.sp,
-                                  //                     fontFamily: 'Poppins',
-                                  //                     color: const Color(
-                                  //                         MyColors
-                                  //                             .darkGrayColor),
-                                  //                     height: 1.4,
-                                  //                   ),
-                                  //                 ),
-                                  //                 SizedBox(height: 24.h),
-                                  //                 Row(
-                                  //                   children: [
-                                  //                     Expanded(
-                                  //                       child:
-                                  //                           FullWidthOutlineButton(
-                                  //                               text: Strings
-                                  //                                   .noText(
-                                  //                                       context),
-                                  //                               fontsize: 14,
-                                  //                               color: MyColors
-                                  //                                   .colorNeutral700,
-                                  //                               onPressed: () {
-                                  //                                 Get.back();
-                                  //                               }),
-                                  //                     ),
-                                  //                     SizedBox(width: 12.w),
-                                  //                     Expanded(
-                                  //                       child:
-                                  //                           FullWidthButtonPrimary(
-                                  //                               text: Strings
-                                  //                                   .yesText(
-                                  //                                       context),
-                                  //                               fontsize: 14,
-                                  //                               color: MyColors
-                                  //                                   .themeRedColor,
-                                  //                               onPressed: () {
-                                  //                                 Get.back();
-                                  //                                 updateJobStatus(
-                                  //                                     "completed");
-                                  //                               }),
-                                  //                     ),
-                                  //                   ],
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //           ),
-                                  //         ));
                                   _confirmAndComplete();
                                 } else {}
                               },

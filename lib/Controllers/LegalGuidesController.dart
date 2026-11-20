@@ -13,6 +13,8 @@ class LegalGuidesController extends GetxController {
   RxBool isLoading = true.obs;
   RxBool hasError = false.obs;
   RxList<LegalGuide> guides = <LegalGuide>[].obs;
+  RxString detailScreen = ''.obs;
+  final data = Get.arguments;
 
   @override
   void onInit() {
@@ -21,6 +23,9 @@ class LegalGuidesController extends GetxController {
   }
 
   Future<void> loadGuides() async {
+    if (data != null) {
+      detailScreen.value = data['detailScreen'] ?? '';
+    }
     isLoading.value = true;
     hasError.value = false;
 
@@ -48,17 +53,17 @@ class LegalGuidesController extends GetxController {
         Commons.logoutUser(true);
         hasError.value = true;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         hasError.value = true;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       hasError.value = true;
     } catch (e) {
       debugPrint('loadGuides error: $e');
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       hasError.value = true;
     } finally {
       isLoading.value = false;

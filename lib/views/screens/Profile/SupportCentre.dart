@@ -88,6 +88,41 @@ class SupportCentre extends GetView<SupportCentreController> {
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
+                if (controller.hasError.value) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 32.h),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            color: Color(MyColors.themeRedColor),
+                            size: 40,
+                          ),
+                          SizedBox(height: 12.h),
+                          Text(
+                            Strings.somethingWentWrong(context),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 16.h),
+                          ElevatedButton(
+                            style: const ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                    Color(MyColors.themeRedColor)),
+                                elevation: WidgetStatePropertyAll(0)),
+                            onPressed: controller.getSupportCentreInfo,
+                            child: Text(
+                              Strings.retryText(context),
+                              style: const TextStyle(
+                                  color: Colors.white, fontFamily: 'Poppins'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -99,30 +134,6 @@ class SupportCentre extends GetView<SupportCentreController> {
                       onTap: () => _launchEmail(controller.supportEmail.value),
                     ),
                     SizedBox(height: 12.h),
-                    // _ContactTile(
-                    //   icon: Icons.call_outlined,
-                    //   iconColor: Colors.green,
-                    //   title: "Call us",
-                    //   subtitle: controller.supportPhone.value,
-                    //   onTap: () => _launchPhone(controller.supportPhone.value),
-                    // ),
-                    // SizedBox(height: 12.h),
-                    // _ContactTile(
-                    //   icon: Icons.chat_bubble_outline,
-                    //   iconColor: const Color(0xFF25D366), // WhatsApp green
-                    //   title: "WhatsApp us",
-                    //   subtitle: controller.supportWhatsApp.value,
-                    //   onTap: () =>
-                    //       _launchWhatsApp(controller.supportWhatsApp.value),
-                    // ),
-                    // SizedBox(height: 12.h),
-                    // _ContactTile(
-                    //   icon: Icons.home,
-                    //   iconColor: const Color(0xFF25D366), // WhatsApp green
-                    //   title: "Address",
-                    //   subtitle: controller.supportAddress.value,
-                    //   onTap: () {},
-                    // ),
                   ],
                 );
               }),

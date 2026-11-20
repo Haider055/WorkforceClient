@@ -11,10 +11,5 @@ class JobPostTextQuestion {
     this.answer,
   });
 
-  JobPostTextQuestion.fromJson(Map<String, dynamic> json) {
-    // id = json['id'];
-    // question = json['name'];
-    // questionDesc = json['father_name'];
-    // answer = json['phone'];
-  }
+  JobPostTextQuestion.fromJson(Map<String, dynamic> json);
 }

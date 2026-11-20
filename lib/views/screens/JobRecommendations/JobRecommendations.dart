@@ -242,7 +242,7 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                     padding: EdgeInsets.only(
                                         left: 10.0.w, right: 20.0.w),
                                     child: FullWidthButtonPrimary(
-                                        text: Strings.orderDetail(context),
+                                        text: Strings.jobDetailText(context),
                                         fontsize: 16.0,
                                         color: MyColors.themeRedColor,
                                         onPressed: () {

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:workforceclientapp/Controllers/ForgotPasswordContoller.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
+import 'package:workforceclientapp/Others/Constants.dart';
 import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
@@ -132,7 +133,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordContoller> {
                                           controller.emailTextField.value.text,
                                       "fromWhere": "forgotPassword",
                                       "resend_available_at":
-                                          controller.resendAvailableAt
+                                          Constants.resendAvailableAt
                                     });
                               } else {
                                 controller.pleaseShowDialog(res);

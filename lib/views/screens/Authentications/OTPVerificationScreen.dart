@@ -206,6 +206,19 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
 //                                                   }
 //                                                 } else
                                                 if (res == "success") {
+                                                  if (controller
+                                                          .fromWhere.value ==
+                                                      'forgotPassword') {
+                                                    Get.toNamed(
+                                                        AppLinks
+                                                            .create_new_password_screen,
+                                                        arguments: {
+                                                          "email": controller
+                                                              .email.value
+                                                              .toString()
+                                                        });
+                                                    return;
+                                                  }
                                                   print(Constants.fromWhere);
                                                   // need to remove else if
                                                   if (Constants.fromWhere ==
@@ -362,10 +375,13 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Headingdescription(
-                                    text: Strings.didNotReceiveCode(context),
-                                    centerAlign: false,
-                                    size: 16.0.sp),
+                                controller.canResend.value
+                                    ? Headingdescription(
+                                        text:
+                                            Strings.didNotReceiveCode(context),
+                                        centerAlign: false,
+                                        size: 16.0.sp)
+                                    : const SizedBox(),
                                 SizedBox(width: 4.0.w),
                                 controller.canResend.value
                                     ? RedClickableText(
@@ -377,19 +393,31 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
                                                   controller.email.value,
                                                   context);
                                           if (res) {
-                                            controller
-                                                .startTimer(); // restart countdown after resend
+                                            controller.startTimer();
                                           }
                                         },
                                       )
-                                    : Text(
-                                        controller.formattedTime,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 16.0.sp,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Poppins',
-                                        ),
+                                    : Row(
+                                        children: [
+                                          Text(
+                                            "${Strings.expiresInText(Get.context!)}: ",
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 18.0.sp,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Poppins',
+                                            ),
+                                          ),
+                                          Text(
+                                            controller.formattedTime,
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 18.0.sp,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Poppins',
+                                            ),
+                                          ),
+                                        ],
                                       ),
                               ],
                             );
@@ -462,113 +490,4 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
       ),
     );
   }
-
-  // Future<void> pleaseValidateData() async {
-  //   if (controller.emailTextField.value.text.isEmpty) {
-  //     setState(() {
-  //       emailAddressErrorText = "Email cannot be empty!";
-  //     });
-  //     return;
-  //   }
-  //   if (controller.passwordTextField.value.text.isEmpty) {
-  //     setState(() {
-  //       passwordErrorText = "Password cannot be empty!";
-  //     });
-  //     return;
-  //   }
-  //   if (Commons.isValidEmail(controller.emailTextField.value.text)) {
-  //     String res = await controller.pleaseLoginUser();
-  //     if (res == "emailNotVerified") {
-  //       try {
-  //         Commons.hideProgressDialog();
-  //         Get.to(
-  //           const OTPVerificationScreen(),
-  //           arguments: {"email": Constants.emailToVerify, "fromWhere": "login"},
-  //           transition: Transition.rightToLeft, // Left-to-right animation
-  //           duration: const Duration(
-  //               milliseconds: 500), // Optional: animation duration
-  //         );
-  //       } catch (e) {
-  //         e.printError();
-  //       }
-  //     } else if (res == "done") {
-  //       try {
-  //         Commons.hideProgressDialog();
-  //         if (Constants.fromWhere == "JobPostCompletedScreen") {
-  //           Get.to(
-  //             const JobPostCompletedScreen(),
-  //             transition: Transition.rightToLeft, // Left-to-right animation
-  //             duration: const Duration(
-  //                 milliseconds: 500), // Optional: animation duration
-  //           );
-  //         } else {
-  //           Get.to(
-  //             const SelectServiceScreen(),
-  //             transition: Transition.rightToLeft, // Left-to-right animation
-  //             duration: const Duration(
-  //                 milliseconds: 500), // Optional: animation duration
-  //           );
-  //         }
-  //       } catch (e) {
-  //         e.printError();
-  //       }
-  //     } else {
-  //       try {
-  //         Commons.hideProgressDialog();
-  //         dialogDesc2 = res;
-  //         Get.defaultDialog(
-  //           titleStyle: null,
-  //           title: "",
-  //           content: Column(
-  //             children: <Widget>[
-  //               Padding(
-  //                 padding: const EdgeInsets.only(top: 0.0),
-  //                 child: Align(
-  //                     alignment: Alignment.topCenter,
-  //                     child: Image.asset(
-  //                       "lib/assets/images/signuperrorimage.png",
-  //                       fit: BoxFit.contain,
-  //                       height: 136.92,
-  //                       width: 123.72,
-  //                     )),
-  //               ),
-  //               HeadingText(text: dialogHeadingText, centerAlign: true),
-  //               Headingdescription(
-  //                   text: dialogDesc1, centerAlign: true, size: 15.0),
-  //               Headingdescription(
-  //                   text: dialogDesc2, centerAlign: true, size: 15.0),
-  //               Padding(
-  //                 padding: const EdgeInsets.only(top: 18.0),
-  //                 child: ElevatedButton(
-  //                     style: ButtonStyle(
-  //                         backgroundColor: WidgetStatePropertyAll(
-  //                             Color(MyColors.themeRedColor)),
-  //                         shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-  //                             borderRadius: BorderRadius.circular(12)))),
-  //                     onPressed: () {
-  //                       Get.back();
-  //                     },
-  //                     child: Padding(
-  //                       padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-  //                       child: Container(
-  //                         child: Center(
-  //                             child: Text(
-  //                           Strings.tryAgainText,
-  //                           style: TextStyle(color: Colors.white),
-  //                         )),
-  //                       ),
-  //                     )),
-  //               ),
-  //               SizedBox(height: 16.0)
-  //             ],
-  //           ),
-  //         );
-  //       } catch (e) {
-  //         e.printError();
-  //       }
-  //     }
-  //   } else {
-  //     Commons.hideProgressDialog();
-  //   }
-  // }
 }

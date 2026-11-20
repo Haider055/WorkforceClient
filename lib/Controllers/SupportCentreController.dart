@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
-import 'package:workforceclientapp/Others/Strings.dart';
 
 class SupportCentreController extends GetxController {
   RxBool isLoading = true.obs;
+  RxBool hasError = false.obs;
   RxString supportAddress = ''.obs;
   RxString supportPhone = ''.obs;
   RxString supportWhatsApp = ''.obs;
@@ -24,6 +23,7 @@ class SupportCentreController extends GetxController {
   Future<void> getSupportCentreInfo() async {
     try {
       isLoading.value = true;
+      hasError.value = false;
 
       final response = await http
           .get(
@@ -59,16 +59,22 @@ class SupportCentreController extends GetxController {
               }
             }
           }
+          // Email is the only contact shown on the screen.
+          hasError.value = supportEmail.value.isEmpty;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          hasError.value = true;
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         }
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        hasError.value = true;
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      hasError.value = true;
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      hasError.value = true;
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       debugPrint('getSupportCentreInfo error: $e');
     } finally {
       isLoading.value = false;

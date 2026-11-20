@@ -198,11 +198,11 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancelText;
 
-  /// No description provided for @canceledText.
+  /// No description provided for @cancelledText.
   ///
   /// In en, this message translates to:
   /// **'Cancelled'**
-  String get canceledText;
+  String get cancelledText;
 
   /// No description provided for @loginText.
   ///
@@ -492,29 +492,17 @@ abstract class AppLocalizations {
   /// **'You got'**
   String get youGotText;
 
-  /// No description provided for @orderNowText.
+  /// No description provided for @postaJobText.
   ///
   /// In en, this message translates to:
-  /// **'Order Now'**
-  String get orderNowText;
+  /// **'Post a Job'**
+  String get postaJobText;
 
   /// No description provided for @hireNowText.
   ///
   /// In en, this message translates to:
   /// **'Hire Now'**
   String get hireNowText;
-
-  /// No description provided for @myOrdersText.
-  ///
-  /// In en, this message translates to:
-  /// **'My Orders'**
-  String get myOrdersText;
-
-  /// No description provided for @myPostedOrdersText.
-  ///
-  /// In en, this message translates to:
-  /// **'My Posted Orders'**
-  String get myPostedOrdersText;
 
   /// No description provided for @acceptedText.
   ///
@@ -576,11 +564,11 @@ abstract class AppLocalizations {
   /// **'Post Job'**
   String get postJobText;
 
-  /// No description provided for @noOrdersText.
+  /// No description provided for @noJobsText.
   ///
   /// In en, this message translates to:
-  /// **'No Orders'**
-  String get noOrdersText;
+  /// **'No Jobs'**
+  String get noJobsText;
 
   /// No description provided for @todayText.
   ///
@@ -606,11 +594,11 @@ abstract class AppLocalizations {
   /// **'Passwod is Wrong'**
   String get passwodisWrongText;
 
-  /// No description provided for @noActiveOrdersText.
+  /// No description provided for @noActiveJobsText.
   ///
   /// In en, this message translates to:
-  /// **'No Active orders yet'**
-  String get noActiveOrdersText;
+  /// **'No Active Jobs yet'**
+  String get noActiveJobsText;
 
   /// No description provided for @noMaybeLaterText.
   ///
@@ -618,35 +606,35 @@ abstract class AppLocalizations {
   /// **'No, Maybe Later'**
   String get noMaybeLaterText;
 
-  /// No description provided for @noInProcessOrdersText.
+  /// No description provided for @noInProcessJobsText.
   ///
   /// In en, this message translates to:
-  /// **'No In-Process Orders yet'**
-  String get noInProcessOrdersText;
+  /// **'No In-Process Job yet'**
+  String get noInProcessJobsText;
 
-  /// No description provided for @noOpenOrdersText.
+  /// No description provided for @noOpenJobsText.
   ///
   /// In en, this message translates to:
-  /// **'No Open Orders yet'**
-  String get noOpenOrdersText;
+  /// **'No Open Job yet'**
+  String get noOpenJobsText;
 
-  /// No description provided for @noCompleteOrdersText.
+  /// No description provided for @noCompleteJobsText.
   ///
   /// In en, this message translates to:
-  /// **'No Completed Orders yet'**
-  String get noCompleteOrdersText;
+  /// **'No Completed Jobs yet'**
+  String get noCompleteJobsText;
 
-  /// No description provided for @orderCompletedText.
+  /// No description provided for @jobCompletedText.
   ///
   /// In en, this message translates to:
-  /// **'Order Completed'**
-  String get orderCompletedText;
+  /// **'Job Completed'**
+  String get jobCompletedText;
 
-  /// No description provided for @noCancelOrdersText.
+  /// No description provided for @noCancelJobsText.
   ///
   /// In en, this message translates to:
-  /// **'No Cancelled Orders yet'**
-  String get noCancelOrdersText;
+  /// **'No Cancelled Jobs yet'**
+  String get noCancelJobsText;
 
   /// No description provided for @showMoreText.
   ///
@@ -792,11 +780,11 @@ abstract class AppLocalizations {
   /// **'Try Again'**
   String get tryAgainText;
 
-  /// No description provided for @cancelOrderText.
+  /// No description provided for @cancelJobText.
   ///
   /// In en, this message translates to:
-  /// **'Cancel Order'**
-  String get cancelOrderText;
+  /// **'Cancel Job'**
+  String get cancelJobText;
 
   /// No description provided for @removeJobText.
   ///
@@ -864,11 +852,11 @@ abstract class AppLocalizations {
   /// **'Restart'**
   String get restartText;
 
-  /// No description provided for @orderDetailText.
+  /// No description provided for @jobDetailText.
   ///
   /// In en, this message translates to:
-  /// **'Order Detail'**
-  String get orderDetailText;
+  /// **'Job Detail'**
+  String get jobDetailText;
 
   /// No description provided for @resultsFoundText.
   ///
@@ -924,17 +912,17 @@ abstract class AppLocalizations {
   /// **'No Photos were Uploaded!'**
   String get noPhotosWereUploadText;
 
-  /// No description provided for @pleaseLoginToSeeOrdersText.
+  /// No description provided for @pleaseLoginToSeeJobsText.
   ///
   /// In en, this message translates to:
-  /// **'Please Login to See Your Orders.'**
-  String get pleaseLoginToSeeOrdersText;
+  /// **'Please login to see your jobs'**
+  String get pleaseLoginToSeeJobsText;
 
-  /// No description provided for @startPostingYourOrdersText.
+  /// No description provided for @startPostingYourJobsText.
   ///
   /// In en, this message translates to:
-  /// **'Start posting your orders to see them here.'**
-  String get startPostingYourOrdersText;
+  /// **'Start posting your jobs to see them here'**
+  String get startPostingYourJobsText;
 
   /// No description provided for @goodToknowText.
   ///
@@ -1050,11 +1038,11 @@ abstract class AppLocalizations {
   /// **'View Posted Jobs'**
   String get viewPostedJobsText;
 
-  /// No description provided for @leaveOrderText.
+  /// No description provided for @leaveJobText.
   ///
   /// In en, this message translates to:
-  /// **'Leave order'**
-  String get leaveOrderText;
+  /// **'Leave job'**
+  String get leaveJobText;
 
   /// No description provided for @jobTitleText.
   ///
@@ -1167,7 +1155,7 @@ abstract class AppLocalizations {
   /// No description provided for @jobhasRemovedandNoActiveText.
   ///
   /// In en, this message translates to:
-  /// **'This Job has been Canceled and no longer Active.'**
+  /// **'This Job has been cancelled and no longer Active.'**
   String get jobhasRemovedandNoActiveText;
 
   /// No description provided for @somethingWentWrongText.
@@ -1257,7 +1245,7 @@ abstract class AppLocalizations {
   /// No description provided for @endOrderReason4.
   ///
   /// In en, this message translates to:
-  /// **'The order was interrupted'**
+  /// **'The job was interrupted'**
   String get endOrderReason4;
 
   /// No description provided for @endOrderReason5.
@@ -1281,7 +1269,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectServiceHeadingText.
   ///
   /// In en, this message translates to:
-  /// **'What kind of order is it?'**
+  /// **'What kind of job is it?'**
   String get selectServiceHeadingText;
 
   /// No description provided for @selectServiceDescText.
@@ -1289,18 +1277,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find and hire certified tradesmen in your area for the services your need.'**
   String get selectServiceDescText;
-
-  /// No description provided for @selectServiceInfoText1.
-  ///
-  /// In en, this message translates to:
-  /// **'Create your order fee of charge and\nwithout obligations.'**
-  String get selectServiceInfoText1;
-
-  /// No description provided for @selectServiceInfoText2.
-  ///
-  /// In en, this message translates to:
-  /// **'More than 1000 registered craftsmen.'**
-  String get selectServiceInfoText2;
 
   /// No description provided for @moreThanText.
   ///
@@ -1545,7 +1521,7 @@ abstract class AppLocalizations {
   /// No description provided for @orderCompletedDescText.
   ///
   /// In en, this message translates to:
-  /// **'Your order is complete, and you’ve done an absolutely fantastic job keep up the amazing work!'**
+  /// **'Your job is complete, and you’ve done an absolutely fantastic job keep up the amazing work!'**
   String get orderCompletedDescText;
 
   /// No description provided for @eULAText.
@@ -1914,6 +1890,12 @@ abstract class AppLocalizations {
   /// **'Need Help'**
   String get needHelpText;
 
+  /// No description provided for @checkAgainText.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get checkAgainText;
+
   /// No description provided for @blockedonText.
   ///
   /// In en, this message translates to:
@@ -1932,17 +1914,71 @@ abstract class AppLocalizations {
   /// **'Enable 2FA Verification'**
   String get enable2FAText;
 
+  /// No description provided for @disable2FAText.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable 2FA Verification'**
+  String get disable2FAText;
+
+  /// No description provided for @youareuptodateText.
+  ///
+  /// In en, this message translates to:
+  /// **'You are up to date'**
+  String get youareuptodateText;
+
+  /// No description provided for @updateAvailableText.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available!'**
+  String get updateAvailableText;
+
+  /// No description provided for @checkingForUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking for updates...'**
+  String get checkingForUpdates;
+
   /// No description provided for @tellUsMore.
   ///
   /// In en, this message translates to:
   /// **'Tell us more...'**
   String get tellUsMore;
 
+  /// No description provided for @expiresInText.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires in'**
+  String get expiresInText;
+
+  /// No description provided for @updateNowText.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Now'**
+  String get updateNowText;
+
   /// No description provided for @disclaimerInPickImageText.
   ///
   /// In en, this message translates to:
   /// **'Disclaimer: Any Legal action can be taken against the user if the photos uploaded are against our terms of service.'**
   String get disclaimerInPickImageText;
+
+  /// No description provided for @updateAppDesc1.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of AuftragNow is available. Update now to enjoy the latest features and improvements.'**
+  String get updateAppDesc1;
+
+  /// No description provided for @updateAppDesc2.
+  ///
+  /// In en, this message translates to:
+  /// **'You are using the latest version of AuftragNow. No update is required at this time.'**
+  String get updateAppDesc2;
+
+  /// No description provided for @pleaseagreeToOurTermsAndConditionsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Please agree To Our Terms And Conditions'**
+  String get pleaseagreeToOurTermsAndConditionsText;
 
   /// No description provided for @atLeast8CharactersText.
   ///
@@ -2328,6 +2364,12 @@ abstract class AppLocalizations {
   /// **'Give Review'**
   String get giveReviewText;
 
+  /// No description provided for @hiredTradesmanText.
+  ///
+  /// In en, this message translates to:
+  /// **'Hired Tradesman'**
+  String get hiredTradesmanText;
+
   /// No description provided for @seeourPrivacyPlolicyText.
   ///
   /// In en, this message translates to:
@@ -2369,6 +2411,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Recommended'**
   String get noRecommendedText;
+
+  /// No description provided for @youSentRequesttothisTradesmanText.
+  ///
+  /// In en, this message translates to:
+  /// **'You sent a request to this tradesman'**
+  String get youSentRequesttothisTradesmanText;
 
   /// No description provided for @zeroAnswers.
   ///
@@ -2555,6 +2603,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get laterText;
+
+  /// No description provided for @tradesmanAcceptedYourRequestText.
+  ///
+  /// In en, this message translates to:
+  /// **'This tradesman accepted your request'**
+  String get tradesmanAcceptedYourRequestText;
 }
 
 class _AppLocalizationsDelegate

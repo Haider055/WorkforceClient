@@ -97,7 +97,7 @@ class BlockPeopleController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return null;
     } catch (e) {
@@ -140,7 +140,7 @@ class BlockPeopleController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {

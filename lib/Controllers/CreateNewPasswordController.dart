@@ -73,7 +73,7 @@ class CreateNewPasswordController extends GetxController {
         Fluttertoast.showToast(msg: msg);
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       Commons.hideProgressDialog();
       throw Exception('Request timed out');
     } catch (e) {
@@ -118,7 +118,7 @@ class CreateNewPasswordController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
       Commons.hideProgressDialog();

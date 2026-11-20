@@ -11,6 +11,23 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
   const ChangeLanguageScreen({super.key});
 
+  // Resolve the language name from the current context so it updates
+  // immediately when the locale changes.
+  String _localizedLangName(BuildContext context, Lang lang) {
+    switch (lang.code) {
+      case "en":
+        return Strings.englishText(context);
+      case "de":
+        return Strings.germanText(context);
+      case "tr":
+        return Strings.turkishText(context);
+      case "pt":
+        return Strings.portugueseText(context);
+      default:
+        return lang.name;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +112,7 @@ class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
                           ),
                           child: RadioListTile(
                             title: Headingdescription(
-                                text: lang.name,
+                                text: _localizedLangName(context, lang),
                                 centerAlign: false,
                                 size: 14.sp),
                             value: lang.code,

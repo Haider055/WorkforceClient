@@ -31,7 +31,7 @@ class ReportController extends GetxController {
   Future<void> _initFromArguments() async {
     try {
       if (data == null) {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         isLoading.value = false;
         return;
       }
@@ -41,7 +41,7 @@ class ReportController extends GetxController {
       final result = await pleaseGetReportOptions(Get.context!);
       options.value = result;
     } catch (e) {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
     } finally {
       isLoading.value = false;
     }
@@ -123,7 +123,7 @@ class ReportController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return null;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -175,7 +175,7 @@ class ReportController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
       Commons.hideProgressDialog();

@@ -34,7 +34,7 @@ class OTPVerificationController extends GetxController {
   RxInt verifyButtonColor = 0xffDDDDDD.obs;
   int tokenRetry = 0;
 
-  RxInt remainingSeconds = 240.obs;
+  RxInt remainingSeconds = 300.obs;
   Timer? _countdownTimer;
   RxBool canResend = false.obs;
   String? resendAvailableAt;
@@ -101,12 +101,10 @@ class OTPVerificationController extends GetxController {
     });
   }
 
-  // Seconds left until the backend's resend_available_at. Falls back to the
-  // default 4 minutes when the flow has no timestamp or it can't be parsed.
   int _secondsUntilResendAvailable() {
     final resendAt = DateTime.tryParse(resendAvailableAt ?? '');
     if (resendAt == null) {
-      return 240;
+      return 300;
     }
     final seconds = resendAt.difference(DateTime.now()).inSeconds;
     return seconds > 0 ? seconds : 0;
@@ -130,6 +128,15 @@ class OTPVerificationController extends GetxController {
       BrowserContextMenu.enableContextMenu();
     }
     pinController.dispose();
+    if (_countdownTimer != null) {
+      _countdownTimer?.cancel();
+    }
+    editTextField1.value.clear();
+    editTextField2.value.clear();
+    editTextField3.value.clear();
+    editTextField4.value.clear();
+    editTextField5.value.clear();
+    editTextField6.value.clear();
     focusNode.dispose();
     super.dispose();
   }
@@ -167,7 +174,7 @@ class OTPVerificationController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return "failed";
     } catch (e) {
@@ -275,7 +282,7 @@ class OTPVerificationController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       throw Exception('Request timed out');
     } catch (e) {
       Commons.hideProgressDialog();
@@ -355,7 +362,7 @@ class OTPVerificationController extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return "failed";
     } catch (e) {

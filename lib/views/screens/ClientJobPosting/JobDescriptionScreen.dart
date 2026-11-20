@@ -268,16 +268,8 @@ class JobDescriptionScreen extends GetView<JobDescController> {
   }
 
   Future<void> _goNext() async {
-    // Order matters. The old code called Get.toNamed FIRST and unfocused
-    // afterwards, inside the delayed callback — by then Get.context! was the
-    // upload screen, so it unfocused the wrong route while this screen still
-    // owned the keyboard. Drop focus here, first.
-    //
-    // FocusScope.of(Get.context!).unfocus() also never released the field's
-    // own node; FocusManager does.
     FocusManager.instance.primaryFocus?.unfocus();
 
-    // Let the keyboard finish closing before the push animation starts.
     await Future.delayed(const Duration(milliseconds: 120));
 
     Get.toNamed(AppLinks.upload_job_image_screen);

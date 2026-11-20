@@ -16,6 +16,7 @@ import 'package:workforceclientapp/Others/Strings.dart';
 class NotificationsContoller extends GetxController {
   RxList<NotificationPreference> list = <NotificationPreference>[].obs;
   RxBool isLoading = true.obs;
+  RxBool hasError = false.obs;
   NotificationList? notificationList;
   RxString status = "".obs;
   RxBool isLoadingMore = false.obs;
@@ -37,7 +38,15 @@ class NotificationsContoller extends GetxController {
   }
 
   Future<void> getPreferencesOptions() async {
-    list.value = await getAllNotificationOptions(Get.context!);
+    isLoading.value = true;
+    hasError.value = false;
+    try {
+      list.value = await getAllNotificationOptions(Get.context!);
+      // Failures inside getAllNotificationOptions return an empty list.
+      hasError.value = list.isEmpty;
+    } catch (_) {
+      hasError.value = true;
+    }
     isLoading.value = false;
   }
 
@@ -84,7 +93,7 @@ class NotificationsContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return list;
     } catch (e) {
@@ -132,7 +141,7 @@ class NotificationsContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {
@@ -179,7 +188,7 @@ class NotificationsContoller extends GetxController {
           }
           return notificationsList;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return notificationsList;
         }
       } else if (response.statusCode == 403) {
@@ -188,12 +197,12 @@ class NotificationsContoller extends GetxController {
         Commons.logoutUser(true);
         return null;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return notificationsList;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return null;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -218,7 +227,7 @@ class NotificationsContoller extends GetxController {
               msg: Strings.allNotificationsMarkedAsReadText(Get.context!));
           return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -227,12 +236,12 @@ class NotificationsContoller extends GetxController {
         Commons.logoutUser(true);
         return false;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -269,7 +278,7 @@ class NotificationsContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return false;
     } catch (e) {

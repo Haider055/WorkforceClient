@@ -61,7 +61,7 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0.r),
-                            child: Text(Strings.orderCompleted(context),
+                            child: Text(Strings.jobCompletedText(context),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: const Color(MyColors.themeRedColor),

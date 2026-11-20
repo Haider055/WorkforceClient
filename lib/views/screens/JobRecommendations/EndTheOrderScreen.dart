@@ -12,17 +12,6 @@ import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 class EndTheOrderScreen extends GetView<EndtheOrderController> {
   const EndTheOrderScreen({super.key});
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  //   reasons.add(Strings.endOrderReason1(context));
-  //   reasons.add(Strings.endOrderReason2(context));
-  //   reasons.add(Strings.endOrderReason3(context));
-  //   reasons.add(Strings.endOrderReason4(context));
-  //   reasons.add(Strings.endOrderReason5(context));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

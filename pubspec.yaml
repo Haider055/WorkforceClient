@@ -1,7 +1,7 @@
 name: workforceclientapp
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.8.4+67
+version: 1.8.9+72
 
 environment:
   sdk: ^3.5.3
@@ -46,8 +46,9 @@ dependencies:
   connectivity_plus: ^6.0.0
   internet_connection_checker_plus: ^3.1.2
   country_code_picker: ^3.4.1
-  flutter_markdown: ^0.7.7+1  
-
+  flutter_markdown: ^0.7.7+1
+  photo_view: ^0.15.0
+  upgrader: ^13.8.0
 
 dependency_overrides:
   http: ^0.13.0
@@ -60,7 +61,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "lib/assets/icons/app_Icon.png"
+  image_path: "lib/assets/icons/app_Icon_simple.png"
   remove_alpha_ios: true
 
 

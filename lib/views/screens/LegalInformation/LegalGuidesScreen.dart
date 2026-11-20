@@ -73,6 +73,14 @@ class LegalGuidesScreen extends GetView<LegalGuidesController> {
                     padding: EdgeInsets.all(20.0.r),
                     child: Column(
                       children: [
+                        if (controller.hasError.value) ...[
+                          const Icon(
+                            Icons.error_outline,
+                            color: Color(MyColors.themeRedColor),
+                            size: 40,
+                          ),
+                          SizedBox(height: 12.h),
+                        ],
                         Headingdescription(
                           text: controller.hasError.value
                               ? Strings.somethingWentWrong(Get.context!)
@@ -80,11 +88,21 @@ class LegalGuidesScreen extends GetView<LegalGuidesController> {
                           centerAlign: true,
                           size: 14.sp,
                         ),
-                        SizedBox(height: 12.h),
-                        // TextButton(
-                        //   onPressed: controller.loadGuides,
-                        //   child: const Text("Retry"),
-                        // ),
+                        if (controller.hasError.value) ...[
+                          SizedBox(height: 16.h),
+                          ElevatedButton(
+                            style: const ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                    Color(MyColors.themeRedColor)),
+                                elevation: WidgetStatePropertyAll(0)),
+                            onPressed: controller.loadGuides,
+                            child: Text(
+                              Strings.retryText(context),
+                              style: const TextStyle(
+                                  color: Colors.white, fontFamily: 'Poppins'),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),

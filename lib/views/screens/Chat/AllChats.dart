@@ -281,14 +281,6 @@ class _AllChatsState extends State<AllChats> {
           if (result != null) {
             if (result == "reload") {
               print("object1111");
-              // if (Constants.unReadcount.value >= chat.unreadCount.value) {
-              //   Constants.unReadcount.value =
-              //       Constants.unReadcount.value - chat.unreadCount.value;
-              // } else {
-              //   Constants.unReadcount.value -= chat.unreadCount.value;
-              // }
-              // chat.unreadCount.value = 0;
-              // Constants.unReadcount.value -= chat.unreadCount.value;
               if (controller.list.elementAt(0).id != chat.id) {
                 Commons.showProgressDialog(Get.context!);
                 controller.updateChatObject(chat.id!, index);
@@ -296,13 +288,6 @@ class _AllChatsState extends State<AllChats> {
               setState(() {});
             } else {
               print("object2222");
-              // if (Constants.unReadcount.value >= chat.unreadCount.value) {
-              //   Constants.unReadcount.value =
-              //       Constants.unReadcount.value - chat.unreadCount.value;
-              // } else {
-              //   Constants.unReadcount.value -= chat.unreadCount.value;
-              // }
-              // chat.unreadCount.value = 0;
               setState(() {});
             }
           }
@@ -386,26 +371,7 @@ class _AllChatsState extends State<AllChats> {
                                         fontSize: 15.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500),
-                                    children: [
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 4.0
-                                                  .r), // space between text and icon
-                                          child: chat.tradesmenName != null
-                                              ? chat.tradesmenName != null
-                                                  ? chat.isVerified!
-                                                      ? SvgPicture.asset(
-                                                          "lib/assets/icons/verifiedIcon.svg",
-                                                          height: 14.0.h,
-                                                          width: 14.0.w)
-                                                      : const SizedBox()
-                                                  : const SizedBox()
-                                              : const SizedBox(),
-                                        ),
-                                      ),
-                                    ],
+                                    children: [],
                                   ))),
                                   Headingdescription(
                                       text: chat.lastMessage == null

@@ -173,7 +173,8 @@ class AllChatsContoller extends GetxController {
           return chatsList;
         }
       } else if (response.statusCode == 403) {
-        Fluttertoast.showToast(msg: Strings.accountBlockedMessage(context));
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
         Commons.logoutUser(true);
         return null;
       } else {
@@ -182,7 +183,7 @@ class AllChatsContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return null;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -235,7 +236,7 @@ class AllChatsContoller extends GetxController {
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))
       return null;
     } catch (e) {

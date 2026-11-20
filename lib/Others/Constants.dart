@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 class Constants {
   static const String baseUrl =
       "https://staging.auftragnow.de/api"; //"https://auftragnow.de/api";
-  // static const String baseUrl = "https://service.ghostbear.pw/api";
   static const String googleMapsAPIkey =
       "AIzaSyBZz4unF-wEdjkLUM6jOI8TSKu8E-CisnM";
   static const String pusherAPIkey = "key-x8y7z6w5v4u3t2s1r0q9p8n7m6l5k4j3";
@@ -19,6 +18,8 @@ class Constants {
   static String signupEmail = "";
   static String signupPassword = "";
   static String resendAvailableAt = "";
+  static String selectedLang = "";
+  static bool checkProfile = false;
 
   static List<Map<String, dynamic>> questionsList = [];
   static String selectedServiceName = "";

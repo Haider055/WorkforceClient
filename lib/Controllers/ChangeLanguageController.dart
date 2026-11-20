@@ -55,7 +55,7 @@ class ChangeLanguageController extends GetxController {
         if (jsonData['success']) {
           return true;
         } else {
-          Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return false;
         }
       } else if (response.statusCode == 403) {
@@ -64,12 +64,12 @@ class ChangeLanguageController extends GetxController {
         Commons.logoutUser(true);
         return false;
       } else {
-        Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return false;
       }
     } on TimeoutException {
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return false;
     } catch (e) {
       Commons.hideProgressDialog();
@@ -85,6 +85,7 @@ class ChangeLanguageController extends GetxController {
         selectedLang.value = lang;
         await _prefs.setString("language", lang);
         Get.updateLocale(Locale(lang));
+        Constants.selectedLang = lang;
         Commons.hideProgressDialog();
         onInit();
       }

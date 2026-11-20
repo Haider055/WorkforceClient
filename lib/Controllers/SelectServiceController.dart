@@ -104,11 +104,11 @@ class SelectServiceController extends GetxController
   void refreshData() async {
     try {
       // print("called refresh");
+      _prefs = await SharedPreferences.getInstance();
       isLoading.value = true;
       isEnabled.value = true;
       Constants.selectedImages.clear();
       await getAllOptionsOfServices();
-      _prefs = await SharedPreferences.getInstance();
       isLoggedIn.value = _prefs.getString("isLogin") ?? "loggedOut";
       print(isLoggedIn.value);
       if (isLoggedIn.value != "loggedOut") {
@@ -130,6 +130,10 @@ class SelectServiceController extends GetxController
     Constants.fromWhere = '';
     await getAllOptionsOfServices();
     await getNotificationsCount();
+    if (Constants.checkProfile) {
+      Constants.checkProfile = false;
+      await getProfileInfo();
+    }
     manageIfFcmTokenNotSaved();
     await checkIsLoggedIn();
 
@@ -271,16 +275,12 @@ class SelectServiceController extends GetxController
 
   Future<void> getNotificationsCount() async {
     Get.put(NotificationScreenContoller());
-    // NotificationList? notificationList = await notificationScreenContoller
-    //     .getAllNotificationList(Get.context!, "");
-    // if (notificationList != null) {
-    //   for (var i = 0; i < notificationList.notificationsList!.length; i++) {
-    //     if (!notificationList.notificationsList![i].isRead.value) {
-    //       Constants.unreadNotificationsCount.value++;
-    //     }
-    //   }
-    //   // unreadNotificationsCount.value =
-    //   //     notificationList.notificationsList!.length;
+    // _reverbWatchdogTimer?.cancel();
+
+    // try {
+    //   reverb?.close();
+    // } catch (e) {
+    //   throw Exception(e);
     // }
   }
 
@@ -309,7 +309,7 @@ class SelectServiceController extends GetxController
 
           return list;
         } else {
-          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return list;
         }
       } else if (response.statusCode == 403) {
@@ -318,11 +318,11 @@ class SelectServiceController extends GetxController
         Commons.logoutUser(true);
         return list;
       } else {
-        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
       throw Exception(e);
@@ -357,7 +357,7 @@ class SelectServiceController extends GetxController
 
           return list;
         } else {
-          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
 
           return list;
         }
@@ -369,11 +369,11 @@ class SelectServiceController extends GetxController
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
       throw Exception(e);
@@ -413,7 +413,7 @@ class SelectServiceController extends GetxController
 
           return list;
         } else {
-          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
 
           return list;
         }
@@ -425,11 +425,11 @@ class SelectServiceController extends GetxController
       } else {
         // If the server did not return a 200 CREATED response,
         // then throw an exception.
-        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return list;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return list;
     } catch (e) {
       throw Exception(e);
@@ -560,7 +560,7 @@ class SelectServiceController extends GetxController
       isEnabled.value = true;
       Commons.hideProgressDialog();
       Commons.hideProgressDialog();
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return "error";
     } catch (e) {
       Commons.hideProgressDialog();
@@ -601,7 +601,7 @@ class SelectServiceController extends GetxController
 
           return count;
         } else {
-          // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
           return count;
         }
       } else if (response.statusCode == 403) {
@@ -610,11 +610,11 @@ class SelectServiceController extends GetxController
         Commons.logoutUser(true);
         return 0;
       } else {
-        // Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
         return count;
       }
     } on TimeoutException {
-      Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
       return count;
     } catch (e) {
       throw Exception(e);
@@ -680,7 +680,7 @@ class SelectServiceController extends GetxController
         port: "443",
         appKey: "4ff6d12d375da4d98e3b", //Constants.pusherAPIkey,
         authUrl:
-            "https://staging.auftragnow.de/broadcasting/auth", //"${Constants.baseUrl}/broadcasting/auth",
+            "https://staging.auftragnow.de/api/broadcasting/auth", //"${Constants.baseUrl}/broadcasting/auth",
         authToken: token,
         privatePrefix: "private-",
         usePrefix: true,
@@ -769,5 +769,100 @@ class SelectServiceController extends GetxController
     try {
       reverb?.close();
     } catch (_) {}
+  }
+
+  Future<void> getProfileInfo() async {
+    _prefs = await SharedPreferences.getInstance();
+    if (isLoggedIn.value == "loggedOut") {
+      return;
+    }
+    try {
+      final response = await http
+          .get(Uri.parse('${Constants.baseUrl}/me'),
+              headers: await Commons.manageRequestHeader())
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonData['success']) {
+          if (jsonData.keys.contains('data')) {
+            Map<String, dynamic> userObj = jsonData['data'];
+            await _prefs.setInt('id', userObj['id'] ?? -1);
+            await _prefs.setString('name', userObj['name'] ?? "");
+            await _prefs.setString('email', userObj['email'] ?? "");
+            await _prefs.setString('phone', userObj['phone'] ?? "");
+            await _prefs.setString('profile_img', userObj['profile_img'] ?? "");
+            await _prefs.setBool(
+              'two_factor_enabled',
+              userObj['two_factor_enabled'] ?? false,
+            );
+            Fluttertoast.showToast(msg: "profile updates");
+            String serverLanguage = userObj['language'];
+            String lang = await Commons.getPrefLanguageValue();
+            if (serverLanguage != lang) {
+              await pleaseUpdateLanguage();
+              await _prefs.setString("language", serverLanguage);
+              Get.updateLocale(Locale(serverLanguage));
+              Constants.selectedLang = serverLanguage;
+            }
+          }
+        } else {
+          // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: Strings.accountBlockedMessage(Get.context!));
+        Commons.logoutUser(true);
+      } else {
+        // //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      }
+    } on TimeoutException {
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> pleaseUpdateLanguage() async {
+    try {
+      Fluttertoast.showToast(msg: "language updates");
+      String lang = await Commons.getPrefLanguageValue();
+      final response = await http
+          .post(
+            Uri.parse('${Constants.baseUrl}/locale'),
+            headers: await Commons.manageRequestHeader(),
+            body: jsonEncode(<String, dynamic>{'language': lang}),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      //print(response.body);
+
+      if (response.statusCode == 200) {
+        if (jsonData['success']) {
+          return true;
+        } else {
+          //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+          return false;
+        }
+      } else if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+          msg: Strings.accountBlockedMessage(Get.context!),
+        );
+        Commons.logoutUser(true);
+        return false;
+      } else {
+        //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+        return false;
+      }
+    } on TimeoutException {
+      Commons.hideProgressDialog();
+      //Fluttertoast.showToast(msg: Strings.somethingWentWrong(Get.context!));
+      return false;
+    } catch (e) {
+      Commons.hideProgressDialog();
+      throw Exception(e);
+    }
   }
 }

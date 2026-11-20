@@ -130,13 +130,6 @@ class PickAddressController extends GetxController with WidgetsBindingObserver {
   Future<void> getCurrentLocation() async {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      // if (!serviceEnabled) {
-      //   if (Platform.isAndroid) {
-      //     locationPermissionDialog();
-      //     return;
-      //   }
-      //   debugPrint("Location services are disabled.");
-      // }
 
       LocationPermission permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied ||

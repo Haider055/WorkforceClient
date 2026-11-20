@@ -9,9 +9,5 @@ class JobPostMCQQuestion {
     this.choices,
   });
 
-  JobPostMCQQuestion.fromJson(Map<String, dynamic> json) {
-    // id = json['id'];
-    // question = json['name'];
-    // choices = json['father_name'];
-  }
+  JobPostMCQQuestion.fromJson(Map<String, dynamic> json);
 }
