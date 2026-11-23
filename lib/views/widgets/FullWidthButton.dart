@@ -41,7 +41,7 @@ class FullWidthButton extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 18.0.sp,
+                fontSize: 18,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w500),
           ),

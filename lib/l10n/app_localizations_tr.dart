@@ -959,6 +959,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get needHelpText => 'Yardıma ihtiyacım var';
 
   @override
+  String get notNowText => 'Şimdi değil';
+
+  @override
   String get checkAgainText => 'Tekrar kontrol et';
 
   @override
@@ -981,6 +984,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get checkingForUpdates => 'A verificar se há atualizações...';
+
+  @override
+  String get alreadyHaveAnAccountText => 'Zaten bir hesabınız var mı?';
+
+  @override
+  String get userUnblockedText => 'Kullanıcının engeli kaldırıldı';
 
   @override
   String get tellUsMore => 'Bize daha fazlasını anlatın...';
@@ -1080,6 +1089,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get andText => 've';
+
+  @override
+  String get passwordCannotBeLessthan8charactersText =>
+      'Parola 8 karakterden kısa olamaz';
 
   @override
   String get nameCannotBeEmptyText => 'Ad boş bırakılamaz';

@@ -12,6 +12,7 @@ import 'package:workforceclientapp/Others/MyColors.dart';
 import 'package:workforceclientapp/Others/Strings.dart';
 import 'package:workforceclientapp/Others/routes.dart';
 import 'package:workforceclientapp/views/widgets/HeadingText.dart';
+import 'package:workforceclientapp/views/widgets/HeadingTextW600.dart';
 import 'package:workforceclientapp/views/widgets/Headingdescription.dart';
 import 'package:workforceclientapp/views/widgets/RedClickableText.dart';
 import 'package:get/get.dart';
@@ -49,155 +50,164 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(
+        body: Column(
           children: [
+            SizedBox(
+              height: 50.h,
+            ),
             GestureDetector(
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
                 Get.back();
               },
-              child: Padding(
-                padding: EdgeInsets.only(top: 44.0.h, left: 12.0.w),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      "lib/assets/icons/bckTwoarrows.svg",
-                      height: 14.h,
-                      width: 14.w,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 12.0.w),
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: 5.w, right: 5.w, top: 2.5.w, bottom: 2.5.w),
+                    decoration: BoxDecoration(
+                      color: const Color(MyColors.lightSilverColor)
+                          .withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: SvgPicture.asset(
+                      "lib/assets/icons/goback_button.svg",
+                      height: 19.h,
+                      width: 30.w,
                       fit: BoxFit.contain,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 6.0.w),
-                      child: Headingdescription(
-                          text: Strings.goBackText(Get.context!),
-                          centerAlign: false,
-                          size: 12.sp),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-            Center(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Align(
+            Padding(
+              padding: EdgeInsets.only(top: 32.0.h),
+              child: SvgPicture.asset(
+                "lib/assets/icons/auftragnowRedBalck.svg",
+                fit: BoxFit.contain,
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(vertical: 20.0.h),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+                        child: Align(
                           alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 25.0.w),
-                            child: Text(
-                              controller.preAuthToken.value.isNotEmpty
+                          child: HeadingTextW600(
+                              text: controller.preAuthToken.value.isNotEmpty
                                   ? "2FA Verification"
                                   : Strings.otpVerification(context),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 28.0.sp,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 25.0.w, top: 6.0.h),
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Headingdescription(
-                              text: Strings.otpVerificationScreenText(context),
                               centerAlign: false,
-                              size: 15.0.sp,
-                            ),
+                              size: 24,
+                              minSize: 20),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 20.0.w, right: 20.0.w, top: 6.0.h),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Headingdescription(
+                            text: Strings.otpVerificationScreenText(context),
+                            centerAlign: false,
+                            size: 15,
+                            minSize: 11,
                           ),
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 25.0.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Form(
-                                  key: controller.formKey,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Directionality(
-                                        // Specify direction if desired
-                                        textDirection: TextDirection.ltr,
-                                        child: Pinput(
-                                          length: 6,
-                                          // You can pass your own SmsRetriever implementation based on any package
-                                          // in this example we are using the SmartAuth
-                                          // smsRetriever: smsRetriever,
-                                          controller: controller.pinController,
-                                          focusNode: controller.focusNode,
-                                          defaultPinTheme: defaultPinTheme,
-                                          separatorBuilder: (index) =>
-                                              SizedBox(width: 8.w),
-                                          // validator: (value) {
-                                          //   return value == '2222'
-                                          //       ? null
-                                          //       : 'Pin is incorrect';
-                                          // },
-                                          hapticFeedbackType:
-                                              HapticFeedbackType.lightImpact,
-                                          onCompleted: (pin) async {
-                                            // Release the pin field before
-                                            // any navigation below, or the
-                                            // keyboard flashes on the next
-                                            // screen.
-                                            FocusManager.instance.primaryFocus
-                                                ?.unfocus();
-                                            controller.middleText.value =
-                                                Strings.pleaseVerify(context)
-                                                    .obs();
-                                            controller.verifyButtonColor.value =
-                                                MyColors.themeRedColor.obs();
-                                            controller.pinCode.value =
-                                                pin.toString();
-                                            debugPrint('onCompleted: $pin');
-                                            if (controller.middleText.value ==
-                                                Strings.pleaseVerify(context)) {
-                                              if (controller.fromWhere.value ==
-                                                      "login" &&
-                                                  controller.preAuthToken.value
-                                                      .isNotEmpty) {
-                                                print("object1");
-                                                Commons.showProgressDialog(
-                                                    context);
-                                                String res =
-                                                    await controller.verify2FA(
-                                                        controller
-                                                            .preAuthToken.value,
-                                                        controller
-                                                            .pinCode.value,
-                                                        context);
-                                                if (res == 'done') {
-                                                  if (Constants.fromWhere ==
-                                                      'JobPostCompletedScreen') {
-                                                    Get.offAllNamed(AppLinks
-                                                        .job_post_completed_screen);
-                                                  } else {
-                                                    Get.offAllNamed(AppLinks
-                                                        .select_service_screen);
-                                                  }
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 25.0.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Form(
+                                key: controller.formKey,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Directionality(
+                                      // Specify direction if desired
+                                      textDirection: TextDirection.ltr,
+                                      child: Pinput(
+                                        length: 6,
+                                        // You can pass your own SmsRetriever implementation based on any package
+                                        // in this example we are using the SmartAuth
+                                        // smsRetriever: smsRetriever,
+                                        controller: controller.pinController,
+                                        focusNode: controller.focusNode,
+                                        defaultPinTheme: defaultPinTheme,
+                                        separatorBuilder: (index) =>
+                                            SizedBox(width: 8.w),
+                                        // validator: (value) {
+                                        //   return value == '2222'
+                                        //       ? null
+                                        //       : 'Pin is incorrect';
+                                        // },
+                                        hapticFeedbackType:
+                                            HapticFeedbackType.lightImpact,
+                                        onCompleted: (pin) async {
+                                          // Release the pin field before
+                                          // any navigation below, or the
+                                          // keyboard flashes on the next
+                                          // screen.
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          controller.middleText.value =
+                                              Strings.pleaseVerify(context)
+                                                  .obs();
+                                          controller.verifyButtonColor.value =
+                                              MyColors.themeRedColor.obs();
+                                          controller.pinCode.value =
+                                              pin.toString();
+                                          debugPrint('onCompleted: $pin');
+                                          if (controller.middleText.value ==
+                                              Strings.pleaseVerify(context)) {
+                                            if (controller.fromWhere.value ==
+                                                    "login" &&
+                                                controller.preAuthToken.value
+                                                    .isNotEmpty) {
+                                              print("object1");
+                                              Commons.showProgressDialog(
+                                                  context);
+                                              String res =
+                                                  await controller.verify2FA(
+                                                      controller
+                                                          .preAuthToken.value,
+                                                      controller.pinCode.value,
+                                                      context);
+                                              if (res == 'done') {
+                                                if (Constants.fromWhere ==
+                                                    'JobPostCompletedScreen') {
+                                                  Get.offAllNamed(AppLinks
+                                                      .job_post_completed_screen);
                                                 } else {
-                                                  pleaseShowDialog(res);
+                                                  Get.offAllNamed(AppLinks
+                                                      .select_service_screen);
                                                 }
-
-                                                return;
                                               } else {
-                                                print("object2");
-                                                Commons.showProgressDialog(
-                                                    context);
-                                                String res = await controller
-                                                    .pleaseVerifyOTP(
-                                                        controller
-                                                            .pinCode.value,
-                                                        controller.email.value,
-                                                        context);
-                                                Commons.hideProgressDialog();
+                                                pleaseShowDialog(res);
+                                              }
+
+                                              return;
+                                            } else {
+                                              print("object2");
+                                              Commons.showProgressDialog(
+                                                  context);
+                                              String res = await controller
+                                                  .pleaseVerifyOTP(
+                                                      controller.pinCode.value,
+                                                      controller.email.value,
+                                                      context);
+                                              Commons.hideProgressDialog();
 //                                                 if (res == "done") {
 //                                                   try {
 //  else {}
@@ -205,226 +215,223 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
 //                                                     e.printError();
 //                                                   }
 //                                                 } else
-                                                if (res == "success") {
-                                                  if (controller
-                                                          .fromWhere.value ==
-                                                      'forgotPassword') {
-                                                    Get.toNamed(
-                                                        AppLinks
-                                                            .create_new_password_screen,
-                                                        arguments: {
-                                                          "email": controller
-                                                              .email.value
-                                                              .toString()
-                                                        });
-                                                    return;
+                                              if (res == "success") {
+                                                if (controller
+                                                        .fromWhere.value ==
+                                                    'forgotPassword') {
+                                                  controller.pinController
+                                                      .clear();
+                                                  Get.toNamed(
+                                                      AppLinks
+                                                          .create_new_password_screen,
+                                                      arguments: {
+                                                        "email": controller
+                                                            .email.value
+                                                            .toString()
+                                                      });
+                                                  return;
+                                                }
+                                                print(Constants.fromWhere);
+                                                // need to remove else if
+                                                if (Constants.fromWhere ==
+                                                    "JobPostCompletedScreen") {
+                                                  Commons.showProgressDialog(
+                                                      Get.context!);
+                                                  Get.find<LoginContoller>()
+                                                          .emailTextField
+                                                          .value
+                                                          .text =
+                                                      Constants.signupEmail;
+                                                  Get.find<LoginContoller>()
+                                                          .passwordTextField
+                                                          .value
+                                                          .text =
+                                                      Constants.signupPassword;
+                                                  String res = await Get.find<
+                                                          LoginContoller>()
+                                                      .pleaseLoginUser();
+                                                  if (res == 'done') {
+                                                    try {
+                                                      Commons
+                                                          .hideProgressDialog();
+                                                      Get.offAllNamed(AppLinks
+                                                          .job_post_completed_screen);
+                                                    } catch (e) {
+                                                      e.printError();
+                                                    }
                                                   }
-                                                  print(Constants.fromWhere);
-                                                  // need to remove else if
-                                                  if (Constants.fromWhere ==
-                                                      "JobPostCompletedScreen") {
-                                                    Commons.showProgressDialog(
-                                                        Get.context!);
-                                                    Get.find<LoginContoller>()
-                                                            .emailTextField
-                                                            .value
-                                                            .text =
-                                                        Constants.signupEmail;
-                                                    Get.find<LoginContoller>()
-                                                            .passwordTextField
-                                                            .value
-                                                            .text =
-                                                        Constants
-                                                            .signupPassword;
-                                                    String res = await Get.find<
-                                                            LoginContoller>()
-                                                        .pleaseLoginUser();
-                                                    if (res == 'done') {
-                                                      try {
-                                                        Commons
-                                                            .hideProgressDialog();
-                                                        Get.offAllNamed(AppLinks
-                                                            .job_post_completed_screen);
-                                                      } catch (e) {
-                                                        e.printError();
-                                                      }
+                                                } else if (controller
+                                                            .fromWhere.value ==
+                                                        "signup" ||
+                                                    controller
+                                                            .fromWhere.value ==
+                                                        "login") {
+                                                  Commons.showProgressDialog(
+                                                      Get.context!);
+                                                  Get.find<LoginContoller>()
+                                                          .emailTextField
+                                                          .value
+                                                          .text =
+                                                      Constants.signupEmail;
+                                                  Get.find<LoginContoller>()
+                                                          .passwordTextField
+                                                          .value
+                                                          .text =
+                                                      Constants.signupPassword;
+                                                  String res = await Get.find<
+                                                          LoginContoller>()
+                                                      .pleaseLoginUser();
+                                                  if (res == 'done') {
+                                                    try {
+                                                      Commons
+                                                          .hideProgressDialog();
+                                                      Get.offAllNamed(AppLinks
+                                                          .select_service_screen);
+                                                    } catch (e) {
+                                                      e.printError();
                                                     }
-                                                  } else if (controller
-                                                              .fromWhere
-                                                              .value ==
-                                                          "signup" ||
-                                                      controller.fromWhere
-                                                              .value ==
-                                                          "login") {
-                                                    Commons.showProgressDialog(
-                                                        Get.context!);
-                                                    Get.find<LoginContoller>()
-                                                            .emailTextField
-                                                            .value
-                                                            .text =
-                                                        Constants.signupEmail;
-                                                    Get.find<LoginContoller>()
-                                                            .passwordTextField
-                                                            .value
-                                                            .text =
-                                                        Constants
-                                                            .signupPassword;
-                                                    String res = await Get.find<
-                                                            LoginContoller>()
-                                                        .pleaseLoginUser();
-                                                    if (res == 'done') {
-                                                      try {
-                                                        Commons
-                                                            .hideProgressDialog();
-                                                        Get.offAllNamed(AppLinks
-                                                            .select_service_screen);
-                                                      } catch (e) {
-                                                        e.printError();
-                                                      }
-                                                    }
-                                                  } else {
-                                                    Get.toNamed(
-                                                        AppLinks
-                                                            .create_new_password_screen,
-                                                        arguments: {
-                                                          "email": controller
-                                                              .email.value
-                                                              .toString()
-                                                        });
                                                   }
                                                 } else {
-                                                  pleaseShowDialog(res);
+                                                  controller.pinController
+                                                      .clear();
+                                                  Get.toNamed(
+                                                      AppLinks
+                                                          .create_new_password_screen,
+                                                      arguments: {
+                                                        "email": controller
+                                                            .email.value
+                                                            .toString()
+                                                      });
                                                 }
+                                              } else {
+                                                pleaseShowDialog(res);
                                               }
                                             }
-                                          },
-                                          onChanged: (value) {
-                                            controller.middleText.value =
-                                                Strings.enterCode(context)
-                                                    .obs();
-                                            controller.verifyButtonColor.value =
-                                                0xffDDDDDD.obs();
-                                            debugPrint('onChanged: $value');
-                                          },
-                                          cursor: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 9.0.h),
-                                                width: 22.0.w,
-                                                height: 1.0.h,
-                                                color: Color(controller
-                                                    .completeBorderColor.value),
-                                              ),
-                                            ],
-                                          ),
-                                          focusedPinTheme:
-                                              defaultPinTheme.copyWith(
-                                            decoration: defaultPinTheme
-                                                .decoration!
-                                                .copyWith(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.r),
-                                                    border: Border.all(
-                                                        color: Color(controller
-                                                            .completeBorderColor
-                                                            .value))),
-                                          ),
-                                          submittedPinTheme:
-                                              defaultPinTheme.copyWith(
-                                            decoration: defaultPinTheme
-                                                .decoration!
-                                                .copyWith(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(15.r),
-                                              border: Border.all(
-                                                  color: Color(controller
-                                                      .completeBorderColor
-                                                      .value)),
-                                            ),
-                                          ),
-                                          errorPinTheme:
-                                              defaultPinTheme.copyBorderWith(
-                                            border: Border.all(
-                                                color: Colors.redAccent),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Padding(
-                          padding: EdgeInsets.only(top: 55.0.h),
-                          child: Text(controller.middleText.value,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Color(controller.middleTextCode.value),
-                                  fontSize: 16.0.sp,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Poppins')),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 50.0.h),
-                          child: Obx(() {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                controller.canResend.value
-                                    ? Headingdescription(
-                                        text:
-                                            Strings.didNotReceiveCode(context),
-                                        centerAlign: false,
-                                        size: 16.0.sp)
-                                    : const SizedBox(),
-                                SizedBox(width: 4.0.w),
-                                controller.canResend.value
-                                    ? RedClickableText(
-                                        text: Strings.resend(context),
-                                        size: 16.0.sp,
-                                        callback: () async {
-                                          var res =
-                                              await controller.sendOtpAgain(
-                                                  controller.email.value,
-                                                  context);
-                                          if (res) {
-                                            controller.startTimer();
                                           }
                                         },
-                                      )
-                                    : Row(
-                                        children: [
-                                          Text(
-                                            "${Strings.expiresInText(Get.context!)}: ",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 18.0.sp,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'Poppins',
+                                        onChanged: (value) {
+                                          controller.middleText.value =
+                                              Strings.enterCode(context).obs();
+                                          controller.verifyButtonColor.value =
+                                              0xffDDDDDD.obs();
+                                          debugPrint('onChanged: $value');
+                                        },
+                                        cursor: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  bottom: 9.0.h),
+                                              width: 22.0.w,
+                                              height: 1.0.h,
+                                              color: Color(controller
+                                                  .completeBorderColor.value),
                                             ),
+                                          ],
+                                        ),
+                                        focusedPinTheme:
+                                            defaultPinTheme.copyWith(
+                                          decoration: defaultPinTheme
+                                              .decoration!
+                                              .copyWith(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r),
+                                                  border: Border.all(
+                                                      color: Color(controller
+                                                          .completeBorderColor
+                                                          .value))),
+                                        ),
+                                        submittedPinTheme:
+                                            defaultPinTheme.copyWith(
+                                          decoration: defaultPinTheme
+                                              .decoration!
+                                              .copyWith(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15.r),
+                                            border: Border.all(
+                                                color: Color(controller
+                                                    .completeBorderColor
+                                                    .value)),
                                           ),
-                                          Text(
-                                            controller.formattedTime,
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 18.0.sp,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ],
+                                        ),
+                                        errorPinTheme:
+                                            defaultPinTheme.copyBorderWith(
+                                          border: Border.all(
+                                              color: Colors.redAccent),
+                                        ),
                                       ),
-                              ],
-                            );
-                          }),
-                        ),
-                      ],
-                    ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                        padding: EdgeInsets.only(top: 36.0.h),
+                        child: Text(controller.middleText.value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color(controller.middleTextCode.value),
+                                fontSize: 16.0.sp,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Poppins')),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 30.0.h),
+                        child: Obx(() {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              controller.canResend.value
+                                  ? Headingdescription(
+                                      text: Strings.didNotReceiveCode(context),
+                                      centerAlign: false,
+                                      size: 16,
+                                      minSize: 12)
+                                  : const SizedBox(),
+                              SizedBox(width: 4.0.w),
+                              controller.canResend.value
+                                  ? RedClickableText(
+                                      text: Strings.resend(context),
+                                      size: 16,
+                                      callback: () async {
+                                        var res = await controller.sendOtpAgain(
+                                            controller.email.value, context);
+                                        if (res) {
+                                          controller.startTimer();
+                                        }
+                                      },
+                                    )
+                                  : Row(
+                                      children: [
+                                        Text(
+                                          "${Strings.expiresInText(Get.context!)}: ",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 18.0.sp,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                        Text(
+                                          controller.formattedTime,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 18.0.sp,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ],
+                          );
+                        }),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -437,56 +444,66 @@ class OTPVerificationScreen extends GetView<OTPVerificationController> {
 
   void pleaseShowDialog(String msg) {
     Commons.hideProgressDialog();
-    Get.defaultDialog(
-      titleStyle: null,
-      title: "",
-      content: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 0.0),
-            child: Align(
-                alignment: Alignment.topCenter,
-                child: Image.asset(
-                  "lib/assets/images/signuperrorimage.png",
-                  fit: BoxFit.contain,
-                  height: 136.0.h,
-                  width: 123.0.w,
-                )),
-          ),
-          HeadingText(
-              text: Strings.failedText(Get.context!), centerAlign: true),
-          Headingdescription(
-              text: Strings.somethingWentWrong(Get.context!),
-              centerAlign: true,
-              size: 15.0.sp),
-          Headingdescription(
-              text: Strings.wrongPin(Get.context!),
-              centerAlign: true,
-              size: 15.0.sp),
-          Padding(
-            padding: EdgeInsets.only(top: 18.0.h),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: const WidgetStatePropertyAll(
-                        Color(MyColors.themeRedColor)),
-                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)))),
-                onPressed: () {
-                  Get.back();
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(left: 50.0.w, right: 50.0.w),
-                  child: Container(
-                    child: Center(
-                        child: Text(
-                      Strings.cancelText(Get.context!),
-                      style: const TextStyle(color: Colors.white),
+    controller.pinController.clear();
+    controller.pinCode.value = '';
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16.0.w, 24.0.h, 16.0.w, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      "lib/assets/images/signuperrorimage.png",
+                      fit: BoxFit.contain,
+                      height: 136.0.h,
+                      width: 123.0.w,
                     )),
-                  ),
-                )),
+              ),
+              HeadingText(
+                  text: Strings.failedText(Get.context!), centerAlign: true),
+              Headingdescription(
+                  text: Strings.somethingWentWrong(Get.context!),
+                  centerAlign: true,
+                  size: 15,
+                  minSize: 11),
+              Headingdescription(
+                  text: Strings.wrongPin(Get.context!),
+                  centerAlign: true,
+                  size: 15,
+                  minSize: 11),
+              Padding(
+                padding: EdgeInsets.only(top: 18.0.h),
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: const WidgetStatePropertyAll(
+                            Color(MyColors.themeRedColor)),
+                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)))),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 50.0.w, right: 50.0.w),
+                      child: Container(
+                        child: Center(
+                            child: Text(
+                          Strings.cancelText(Get.context!),
+                          style: const TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    )),
+              ),
+              SizedBox(height: 16.0.h)
+            ],
           ),
-          SizedBox(height: 16.0.h)
-        ],
+        ),
       ),
     );
   }

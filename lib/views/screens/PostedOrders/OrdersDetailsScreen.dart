@@ -61,7 +61,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         child: HeadingTextW600(
                       text: Strings.jobDetailText(context),
                       centerAlign: false,
-                      size: 19.0.sp,
+                      size: 19,
+                      minSize: 16,
                     )),
                     GestureDetector(
                       onTap: () {
@@ -332,7 +333,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
             child: HeadingTextW700(
                 text: Strings.nointerestedTradesmanText(Get.context!),
                 centerAlign: true,
-                size: 22.sp),
+                size: 22,
+                minSize: 18),
           ),
           Padding(
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
@@ -340,7 +342,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                 text:
                     Strings.nointerestedTradesmanDescriptionText(Get.context!),
                 centerAlign: true,
-                size: 13.0.sp),
+                size: 13,
+                minSize: 10),
           ),
           const Spacer(),
         ],
@@ -357,12 +360,14 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
         HeadingTextW500(
             text: postedJobAnswers.question!.question ?? "N/A",
             centerAlign: false,
-            size: 14.0.sp),
+            size: 14,
+            minSize: 11),
         SizedBox(height: 10.0.h),
         Headingdescription(
             text: postedJobAnswers.answer ?? "N/A",
             centerAlign: false,
-            size: 14.0.sp),
+            size: 14,
+            minSize: 11),
         SizedBox(height: 7.0.h),
         postedJobAnswers.id == controller.postedJobDetail.jobAnswers!.last.id
             ? const SizedBox()
@@ -439,7 +444,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                     HeadingTextW500(
                       text: Strings.hiredTradesmanText(Get.context!),
                       centerAlign: false,
-                      size: 14.sp,
+                      size: 14,
+                      minSize: 11,
                     ),
                   ],
                 ),
@@ -517,7 +523,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                   HeadingTextW500(
                     text: Strings.reviews(Get.context!),
                     centerAlign: false,
-                    size: 14.sp,
+                    size: 14,
+                    minSize: 11,
                   ),
                   SizedBox(height: 6.h),
                   Row(
@@ -775,7 +782,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
             child: HeadingTextW600(
                 text: controller.postedJobDetail.serviceName ?? "N/A",
                 centerAlign: false,
-                size: 17.0.sp),
+                size: 17,
+                minSize: 14),
           ),
           Padding(
             padding: EdgeInsets.only(left: 14.0.w, top: 4.0.h),
@@ -809,7 +817,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             Headingdescription(
                                 text: Strings.openText(Get.context!),
                                 centerAlign: false,
-                                size: 12.sp)
+                                size: 12,
+                                minSize: 9)
                           ],
                         )
                       : controller.postedJobDetail.status!.value ==
@@ -831,7 +840,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                 Headingdescription(
                                     text: Strings.active(Get.context!),
                                     centerAlign: false,
-                                    size: 12.sp)
+                                    size: 12,
+                                    minSize: 9)
                               ],
                             )
                           : controller.postedJobDetail.status!.value ==
@@ -850,7 +860,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                         text:
                                             Strings.cancelledText(Get.context!),
                                         centerAlign: false,
-                                        size: 12.sp)
+                                        size: 12,
+                                        minSize: 9)
                                   ],
                                 )
                               : Row(
@@ -866,7 +877,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                     Headingdescription(
                                         text: Strings.completed(Get.context!),
                                         centerAlign: false,
-                                        size: 12.sp)
+                                        size: 12,
+                                        minSize: 9)
                                   ],
                                 ),
                 ),
@@ -909,7 +921,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                   HeadingTextW600(
                       text: Strings.contractCompleted(Get.context!),
                       centerAlign: false,
-                      size: 16.sp),
+                      size: 16,
+                      minSize: 12),
                   AutoSizeText(
                     controller.jobContact.value == null
                         ? ""
@@ -926,7 +939,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         HeadingTextW600(
                             text: Strings.contractInProgress(Get.context!),
                             centerAlign: false,
-                            size: 16.sp),
+                            size: 16,
+                            minSize: 12),
                         AutoSizeText(
                           controller.jobContact.value == null
                               ? ""
@@ -982,7 +996,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                         text: Strings.interestedTradesman(
                                             Get.context!),
                                         centerAlign: false,
-                                        size: 14.sp,
+                                        size: 14,
+                                        minSize: 11,
                                       ),
                                     ],
                                   ),
@@ -1107,7 +1122,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         child: HeadingTextW500(
                             text: Strings.info(Get.context!),
                             centerAlign: false,
-                            size: 18.0.r),
+                            size: 18,
+                            minSize: 15),
                       ),
                     ),
                     Align(
@@ -1117,7 +1133,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         child: HeadingTextW500(
                             text: Strings.jobTitle(Get.context!),
                             centerAlign: false,
-                            size: 15.0.sp),
+                            size: 15,
+                            minSize: 12),
                       ),
                     ),
                     Align(
@@ -1127,7 +1144,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         child: Headingdescription(
                             text: controller.postedJobDetail.title ?? "N/A",
                             centerAlign: false,
-                            size: 13.5.sp),
+                            size: 14,
+                            minSize: 11),
                       ),
                     ),
                     Align(
@@ -1137,7 +1155,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         child: HeadingTextW500(
                             text: Strings.jobDescription(Get.context!),
                             centerAlign: false,
-                            size: 15.0.sp),
+                            size: 15,
+                            minSize: 12),
                       ),
                     ),
                     Align(
@@ -1151,7 +1170,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                         child: Headingdescription(
                             text: controller.postedJobDetail.desc ?? "N/A",
                             centerAlign: false,
-                            size: 13.5.sp),
+                            size: 13,
+                            minSize: 10),
                       ),
                     ),
                   ],
@@ -1172,7 +1192,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                     child: HeadingTextW500(
                         text: Strings.detailsText(Get.context!),
                         centerAlign: false,
-                        size: 18.0.sp),
+                        size: 18,
+                        minSize: 15),
                   ),
                   Padding(
                     padding: EdgeInsets.all(10.0.r),
@@ -1192,7 +1213,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                             child: Headingdescription(
                                 text: Strings.dataNotFound(Get.context!),
                                 centerAlign: false,
-                                size: 15.sp),
+                                size: 15,
+                                minSize: 12),
                           ),
                   ),
                 ],
@@ -1216,7 +1238,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                       child: HeadingTextW500(
                           text: Strings.photos(Get.context!),
                           centerAlign: false,
-                          size: 18.0.sp),
+                          size: 18,
+                          minSize: 14),
                     ),
                     controller.postedJobDetail.imageList != null
                         ? controller.postedJobDetail.imageList!.isNotEmpty
@@ -1254,7 +1277,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                       text: Strings.noPhotosWereUploaded(
                                           Get.context!),
                                       centerAlign: false,
-                                      size: 15.sp),
+                                      size: 15,
+                                      minSize: 12),
                                 ),
                               )
                         : Padding(
@@ -1264,7 +1288,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                                   text: Strings.noPhotosWereUploaded(
                                       Get.context!),
                                   centerAlign: false,
-                                  size: 15.sp),
+                                  size: 15,
+                                  minSize: 12),
                             ),
                           ),
                   ],
@@ -1289,7 +1314,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                       child: HeadingTextW500(
                           text: Strings.yourAddress(Get.context!),
                           centerAlign: false,
-                          size: 18.0.sp),
+                          size: 18,
+                          minSize: 15),
                     ),
                     Padding(
                       padding: EdgeInsets.all(6.0.r),
@@ -1451,7 +1477,8 @@ class OrdersDetailsScreen extends GetView<PostedOrderDetailsController> {
                       child: HeadingTextW500(
                           text: Strings.viewOnMap(Get.context!),
                           centerAlign: false,
-                          size: 18.0.sp),
+                          size: 18,
+                          minSize: 15),
                     ),
                     Obx(() {
                       return Expanded(
@@ -1821,7 +1848,8 @@ class _TradesmenSectionState extends State<TradesmenSection> {
             child: HeadingTextW600(
                 text: Strings.reviewApplicants(context),
                 centerAlign: false,
-                size: 16),
+                size: 16,
+                minSize: 13),
           ),
         ),
         Padding(
@@ -1968,7 +1996,8 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                           child: Headingdescription(
                               text: Strings.noTradesmen(context),
                               centerAlign: false,
-                              size: 16.0.sp),
+                              size: 16,
+                              minSize: 12),
                         ),
                       )
                 : const SizedBox(),
@@ -2045,7 +2074,8 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                                     text: Strings.agency(
                                                         Get.context!),
                                                     centerAlign: false,
-                                                    size: 10.0.sp,
+                                                    size: 10,
+                                                    minSize: 7,
                                                   ),
                                                 ],
                                               ),
@@ -2078,7 +2108,8 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                                     text: Strings.hiredTradesmanText(
                                         Get.context!),
                                     centerAlign: false,
-                                    size: 10.0.sp,
+                                    size: 10,
+                                    minSize: 7,
                                   ),
                                 ),
                               ),
@@ -2294,7 +2325,8 @@ class _TradesmenSectionState extends State<TradesmenSection> {
                     child: Headingdescription(
                         text: "${tradesmen.humanReadableCreatedAt ?? "N/A"}",
                         centerAlign: false,
-                        size: 11.sp),
+                        size: 11,
+                        minSize: 8),
                   ),
                 ),
                 // Send Request Button

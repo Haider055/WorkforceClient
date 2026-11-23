@@ -72,47 +72,64 @@ class Commons {
   static void showExitJobPostingDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(Strings.discardChangesText(context)),
-        content: Text(Strings.areYouSureToEndJobPostingProcess(context)),
-        contentTextStyle: TextStyle(fontSize: 15.5.sp, color: Colors.black),
+      // Plain Dialog, not AlertDialog: AlertDialog's IntrinsicWidth can't
+      // measure the buttons' AutoSizeText (LayoutBuilder), which broke the
+      // dialog and made the screen look frozen.
+      builder: (context) => Dialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
         backgroundColor: const Color(MyColors.colorRed200),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                  child: FullWidthOutlineButton(
-                    text: Strings.noText(context),
-                    fontsize: 15.0,
-                    color: MyColors.themeRedColor,
-                    onPressed: () => Get.back(), // close dialog only
-                  ),
-                ),
+              Text(
+                Strings.discardChangesText(context),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                  child: FullWidthButtonPrimary(
-                    text: Strings.yesText(context),
-                    fontsize: 15.0,
-                    color: MyColors.themeRedColor,
-                    onPressed: () {
-                      Get.back();
-                      Constants.selectedImages.clear();
-                      JobDraftService.clear();
-                      Get.offAllNamed(AppLinks.select_service_screen);
-                    },
+              const SizedBox(height: 16),
+              Text(
+                Strings.areYouSureToEndJobPostingProcess(context),
+                style: TextStyle(fontSize: 15.5.sp, color: Colors.black),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                      child: FullWidthOutlineButton(
+                        text: Strings.noText(context),
+                        fontsize: 15.0,
+                        color: MyColors.themeRedColor,
+                        onPressed: () => Get.back(), // close dialog only
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w),
+                      child: FullWidthButtonPrimary(
+                        text: Strings.yesText(context),
+                        fontsize: 15.0,
+                        color: MyColors.themeRedColor,
+                        onPressed: () {
+                          Get.back();
+                          Constants.selectedImages.clear();
+                          JobDraftService.clear();
+                          Get.offAllNamed(AppLinks.select_service_screen);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

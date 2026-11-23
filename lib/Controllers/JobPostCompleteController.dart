@@ -279,6 +279,7 @@ class JobPostCompleteController extends GetxController {
                       // Close FIRST — otherwise the dialog stays mounted
                       // over the login screen.
                       Get.back();
+                      Get.back();
                       Get.toNamed(AppLinks.login_screen);
                     },
                     style: ElevatedButton.styleFrom(

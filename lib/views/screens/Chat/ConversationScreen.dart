@@ -1043,7 +1043,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                           text:
                                               Strings.reportText(Get.context!),
                                           centerAlign: false,
-                                          size: 13),
+                                          size: 13,
+                                          minSize: 10),
                                     ],
                                   ),
                                 ),
@@ -1060,7 +1061,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                 text: Strings.blockText(
                                                     Get.context!),
                                                 centerAlign: false,
-                                                size: 13),
+                                                size: 13,
+                                                minSize: 10),
                                           ],
                                         ),
                                       )
@@ -1076,7 +1078,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                 text: Strings.unblockText(
                                                     Get.context!),
                                                 centerAlign: false,
-                                                size: 13),
+                                                size: 13,
+                                                minSize: 10),
                                           ],
                                         ),
                                       ),
@@ -1091,7 +1094,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                           text:
                                               Strings.jobPostText(Get.context!),
                                           centerAlign: false,
-                                          size: 13),
+                                          size: 13,
+                                          minSize: 10),
                                     ],
                                   ),
                                 ),
@@ -1119,7 +1123,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                             text:
                                 "${Strings.jobText(Get.context!)}: ${chat!.jobTitle ?? "N/A"}",
                             centerAlign: false,
-                            size: 13.sp),
+                            size: 13,
+                            minSize: 10),
                       ),
                     ),
                     Align(
@@ -1169,7 +1174,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                         Headingdescription(
                                             text: Strings.active(context),
                                             centerAlign: false,
-                                            size: 12.sp)
+                                            size: 12,
+                                            minSize: 9)
                                       ],
                                     )
                                   : option ==
@@ -1189,7 +1195,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                 text:
                                                     Strings.inProcess(context),
                                                 centerAlign: false,
-                                                size: 12.sp)
+                                                size: 12,
+                                                minSize: 10)
                                           ],
                                         )
                                       : option ==
@@ -1209,7 +1216,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                     text: Strings.completed(
                                                         context),
                                                     centerAlign: false,
-                                                    size: 12.sp)
+                                                    size: 12,
+                                                    minSize: 10)
                                               ],
                                             )
                                           : Row(
@@ -1226,7 +1234,8 @@ class _TradesmenChatScreenState extends State<ConversationScreen>
                                                     text: Strings.cancelledText(
                                                         context),
                                                     centerAlign: false,
-                                                    size: 12.sp)
+                                                    size: 12,
+                                                    minSize: 10)
                                               ],
                                             ),
                             ),

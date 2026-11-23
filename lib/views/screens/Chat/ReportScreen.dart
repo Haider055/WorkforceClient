@@ -34,7 +34,8 @@ class ReportScreen extends GetView<ReportController> {
                       child: HeadingTextW600(
                     text: Strings.reportText(context),
                     centerAlign: false,
-                    size: 18.0.sp,
+                    size: 18,
+                    minSize: 15,
                   )),
                   GestureDetector(
                     onTap: () {

@@ -15,14 +15,12 @@ class PasswordUpdatedScreen extends GetView<PasswordUpdatedController> {
   const PasswordUpdatedScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (Platform.isAndroid) {
-          Get.offAllNamed(AppLinks.login_screen);
-        } else if (Platform.isIOS) {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) {
           Get.offAllNamed(AppLinks.login_screen);
         }
-        return false;
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -58,7 +56,8 @@ class PasswordUpdatedScreen extends GetView<PasswordUpdatedController> {
                   child: Headingdescription(
                     text: Strings.congratulations(context),
                     centerAlign: true,
-                    size: 16.0.sp,
+                    size: 16,
+                    minSize: 12,
                   ),
                 ),
                 Padding(
@@ -66,7 +65,8 @@ class PasswordUpdatedScreen extends GetView<PasswordUpdatedController> {
                   child: Headingdescription(
                     text: Strings.passwordHasBeenUpdated(context),
                     centerAlign: true,
-                    size: 16.0.sp,
+                    size: 16,
+                    minSize: 12,
                   ),
                 ),
                 Padding(

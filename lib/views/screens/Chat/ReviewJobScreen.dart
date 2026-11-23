@@ -93,7 +93,8 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                                           Strings.howwouldYourateTradesmenText(
                                               context),
                                       centerAlign: true,
-                                      size: 16.sp),
+                                      size: 16,
+                                      minSize: 13),
                                   Padding(
                                     padding: EdgeInsets.all(8.0.r),
                                     child: Headingdescription(
@@ -101,7 +102,8 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                                             .howyourExperiencewithtradesman(
                                                 context),
                                         centerAlign: true,
-                                        size: 14.sp),
+                                        size: 14,
+                                        minSize: 11),
                                   ),
                                   RatingBar.builder(
                                     initialRating: 0.0,
@@ -131,7 +133,8 @@ class ReviewJobScreen extends GetView<ReviewScreenController> {
                                           text: Strings.canYoutellusMore(
                                               Get.context!),
                                           centerAlign: false,
-                                          size: 14.sp),
+                                          size: 14,
+                                          minSize: 11),
                                     ),
                                   ),
                                   Padding(

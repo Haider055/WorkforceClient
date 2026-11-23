@@ -46,7 +46,8 @@ class _AllChatsState extends State<AllChats> {
                             child: HeadingTextW600(
                               text: Strings.chatText(context),
                               centerAlign: false,
-                              size: 22.sp,
+                              size: 22,
+                              minSize: 18,
                             ),
                           ),
                         ),
@@ -60,7 +61,8 @@ class _AllChatsState extends State<AllChats> {
                               child: HeadingTextW500(
                                   text: Strings.somethingWentWrong(context),
                                   centerAlign: true,
-                                  size: 12),
+                                  size: 12,
+                                  minSize: 9),
                             ),
                           )
                         : controller.isLoading.value
@@ -124,14 +126,16 @@ class _AllChatsState extends State<AllChats> {
             child: HeadingTextW600(
                 text: Strings.chatText(Get.context!),
                 centerAlign: true,
-                size: 20.sp),
+                size: 20,
+                minSize: 17),
           ),
           Padding(
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
             child: Headingdescription(
                 text: Strings.pleaseLoginToSeeChats(Get.context!),
                 centerAlign: true,
-                size: 13.5.sp),
+                size: 13,
+                minSize: 9),
           ),
           Padding(
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 20.0.h),
@@ -247,14 +251,16 @@ class _AllChatsState extends State<AllChats> {
               child: HeadingTextW600(
                   text: Strings.chatBoxIsEmpty(Get.context!),
                   centerAlign: true,
-                  size: 20.0.sp),
+                  size: 20,
+                  minSize: 17),
             ),
             Padding(
               padding: EdgeInsets.only(left: 12.0.r, right: 12.0.r),
               child: Headingdescription(
                   text: Strings.chatBoxIsEmptyDesc(Get.context!),
                   centerAlign: true,
-                  size: 13.0.sp),
+                  size: 13,
+                  minSize: 9),
             ),
             const Spacer(),
           ],
@@ -397,7 +403,8 @@ class _AllChatsState extends State<AllChats> {
                                                   : chat.lastMessage!
                                                       .humanReadableCreatedAt!,
                                       centerAlign: false,
-                                      size: 11.sp)
+                                      size: 11,
+                                      minSize: 7)
                                 ],
                               ),
                               Padding(

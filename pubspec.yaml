@@ -1,7 +1,7 @@
 name: workforceclientapp
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.8.9+72
+version: 4.0.0+73
 
 environment:
   sdk: ^3.5.3
@@ -45,7 +45,6 @@ dependencies:
   flutter_image_compress: ^2.5.1
   connectivity_plus: ^6.0.0
   internet_connection_checker_plus: ^3.1.2
-  country_code_picker: ^3.4.1
   flutter_markdown: ^0.7.7+1
   photo_view: ^0.15.0
   upgrader: ^13.8.0

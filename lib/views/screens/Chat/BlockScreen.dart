@@ -34,7 +34,8 @@ class BlockScreen extends GetView<BlockController> {
                       child: HeadingTextW600(
                     text: Strings.blockText(context),
                     centerAlign: false,
-                    size: 18.0.sp,
+                    size: 18,
+                    minSize: 14,
                   )),
                   GestureDetector(
                     onTap: () {

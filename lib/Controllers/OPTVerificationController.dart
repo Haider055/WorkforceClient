@@ -44,13 +44,6 @@ class OTPVerificationController extends GetxController {
   final FocusNode focusNode = FocusNode();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final editTextField1 = TextEditingController().obs;
-  final editTextField2 = TextEditingController().obs;
-  final editTextField3 = TextEditingController().obs;
-  final editTextField4 = TextEditingController().obs;
-  final editTextField5 = TextEditingController().obs;
-  final editTextField6 = TextEditingController().obs;
-
   @override
   void onInit() {
     super.onInit();
@@ -79,12 +72,7 @@ class OTPVerificationController extends GetxController {
     if (kIsWeb) {
       BrowserContextMenu.disableContextMenu();
     }
-    editTextField1.value.clear();
-    editTextField2.value.clear();
-    editTextField3.value.clear();
-    editTextField4.value.clear();
-    editTextField5.value.clear();
-    editTextField6.value.clear();
+    pinController.clear();
   }
 
   void startTimer() {
@@ -131,12 +119,7 @@ class OTPVerificationController extends GetxController {
     if (_countdownTimer != null) {
       _countdownTimer?.cancel();
     }
-    editTextField1.value.clear();
-    editTextField2.value.clear();
-    editTextField3.value.clear();
-    editTextField4.value.clear();
-    editTextField5.value.clear();
-    editTextField6.value.clear();
+    pinController.clear();
     focusNode.dispose();
     super.dispose();
   }

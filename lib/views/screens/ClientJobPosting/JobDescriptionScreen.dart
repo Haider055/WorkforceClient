@@ -56,7 +56,7 @@ class JobDescriptionScreen extends GetView<JobDescController> {
                       minFontSize: 9,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontSize: 15.5, fontWeight: FontWeight.w600),
+                          fontSize: 15, fontWeight: FontWeight.w600),
                     ),
                   )),
                   Positioned(
@@ -133,7 +133,8 @@ class JobDescriptionScreen extends GetView<JobDescController> {
                                 child: HeadingTextW500(
                                     text: Strings.description(context),
                                     centerAlign: false,
-                                    size: 20.sp),
+                                    size: 20,
+                                    minSize: 17),
                               ),
                               Padding(
                                 padding:
@@ -142,7 +143,8 @@ class JobDescriptionScreen extends GetView<JobDescController> {
                                   text: Strings.tellUsMoreAboutYourNeed(
                                       Get.context!),
                                   centerAlign: false,
-                                  size: 16.sp,
+                                  size: 16,
+                                  minSize: 12,
                                 ),
                               ),
                               Padding(

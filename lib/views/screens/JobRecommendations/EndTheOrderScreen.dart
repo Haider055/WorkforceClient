@@ -37,7 +37,8 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                       child: HeadingTextW600(
                     text: Strings.assignment(context),
                     centerAlign: false,
-                    size: 19.0.sp,
+                    size: 19,
+                    minSize: 16,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -68,7 +69,8 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                 child: HeadingTextW600(
                     text: Strings.endingOrderPageHead(context),
                     centerAlign: false,
-                    size: 18.0.sp),
+                    size: 18,
+                    minSize: 15),
               ),
             ),
             Align(
@@ -79,7 +81,8 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                 child: HeadingTextW500(
                     text: Strings.endingOrderPageDesc(context),
                     centerAlign: false,
-                    size: 14.0.sp),
+                    size: 14,
+                    minSize: 11),
               ),
             ),
             Expanded(
@@ -111,7 +114,8 @@ class EndTheOrderScreen extends GetView<EndtheOrderController> {
                             title: Headingdescription(
                                 text: controller.reasons[index],
                                 centerAlign: false,
-                                size: 14.sp),
+                                size: 14,
+                                minSize: 11),
                             value: controller.reasons[index],
                             groupValue: controller.selectedReason.value,
                             activeColor: const Color(MyColors.themeRedColor),

@@ -37,7 +37,11 @@ class ProfileInfoCard extends StatelessWidget {
                   child: Padding(
                 padding: EdgeInsets.only(left: 12.0.r),
                 child: Headingdescription(
-                    text: text, centerAlign: false, size: 14.sp),
+                  text: text,
+                  centerAlign: false,
+                  size: 14,
+                  minSize: 12,
+                ),
               )),
               Align(
                 alignment: Alignment.centerRight,

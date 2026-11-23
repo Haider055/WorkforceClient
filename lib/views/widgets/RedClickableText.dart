@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,17 +14,17 @@ class RedClickableText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTap: callback,
-        child: Text(text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: const Color(0xFFD60107),
-                fontSize: size.sp,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Poppins')),
-      ),
+    return GestureDetector(
+      onTap: callback,
+      child: AutoSizeText(text,
+          textAlign: TextAlign.center,
+          minFontSize: 10,
+          maxFontSize: size,
+          style: TextStyle(
+              color: const Color(0xFFD60107),
+              fontSize: size,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Poppins')),
     );
   }
 }

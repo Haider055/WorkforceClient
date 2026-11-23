@@ -28,6 +28,23 @@ class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
     }
   }
 
+  // Emoji flags render natively on iOS and Android, so no image assets
+  // are needed.
+  String _flagFor(Lang lang) {
+    switch (lang.code) {
+      case "en":
+        return "🇬🇧";
+      case "de":
+        return "🇩🇪";
+      case "tr":
+        return "🇹🇷";
+      case "pt":
+        return "🇵🇹";
+      default:
+        return "🌐";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +65,8 @@ class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
                     child: HeadingTextW600(
                   text: Strings.changeLanguageText(context),
                   centerAlign: false,
-                  size: 16.0.sp,
+                  size: 16,
+                  minSize: 12,
                 )),
                 GestureDetector(
                   onTap: () {
@@ -86,7 +104,8 @@ class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
                         child: HeadingTextW500(
                             text: Strings.selectLanguageText(context),
                             centerAlign: false,
-                            size: 16.sp),
+                            size: 16,
+                            minSize: 12),
                       ),
                     ),
                     for (final lang in controller.languages)
@@ -111,10 +130,22 @@ class ChangeLanguageScreen extends GetView<ChangeLanguageController> {
                             ),
                           ),
                           child: RadioListTile(
-                            title: Headingdescription(
-                                text: _localizedLangName(context, lang),
-                                centerAlign: false,
-                                size: 14.sp),
+                            title: Row(
+                              children: [
+                                Text(
+                                  _flagFor(lang),
+                                  style: TextStyle(fontSize: 22.sp),
+                                ),
+                                SizedBox(width: 10.0.w),
+                                Expanded(
+                                  child: Headingdescription(
+                                      text: _localizedLangName(context, lang),
+                                      centerAlign: false,
+                                      size: 14,
+                                      minSize: 11),
+                                ),
+                              ],
+                            ),
                             value: lang.code,
                             groupValue: controller.selectedLang.value,
                             selected:

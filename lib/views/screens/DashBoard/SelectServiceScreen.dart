@@ -405,7 +405,8 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                                                         .itSeemsYouAreNotLoginText(
                                                             Get.context!),
                                                     centerAlign: false,
-                                                    size: 13.0.sp)),
+                                                    size: 13,
+                                                    minSize: 10)),
                                           ],
                                         ),
                                       ),
@@ -457,14 +458,21 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                             child: HeadingTextW600(
                                 text: Strings.postaJobText(Get.context!),
                                 centerAlign: false,
-                                size: 28.sp),
+                                size: 28,
+                                minSize: 23),
                           ),
                         ),
                         Align(
                           alignment: Alignment.topLeft,
-                          child: HeadingText(
-                              text: Strings.selectServiceHeading(Get.context!),
-                              centerAlign: false),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 3.0.h, left: 24.w),
+                            child: HeadingTextW500(
+                                text:
+                                    Strings.selectServiceHeading(Get.context!),
+                                centerAlign: false,
+                                size: 22,
+                                minSize: 19),
+                          ),
                         ),
                         Align(
                           alignment: Alignment.topLeft,
@@ -473,7 +481,8 @@ class SelectServiceScreen extends GetView<SelectServiceController> {
                             child: Headingdescription(
                                 text: Strings.selectServiceDesc(Get.context!),
                                 centerAlign: false,
-                                size: 14.5.sp),
+                                size: 14,
+                                minSize: 11),
                           ),
                         ),
                       ],
@@ -720,7 +729,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                           child: HeadingTextW600(
                               text: Strings.myJobsText(context),
                               centerAlign: false,
-                              size: 22.sp),
+                              size: 22,
+                              minSize: 18),
                         ),
                       ),
                       _buildFilterOptionsView(),
@@ -1056,7 +1066,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               child: HeadingTextW700(
                 text: Strings.noJobsText(Get.context!),
                 centerAlign: true,
-                size: 22.sp,
+                size: 22,
+                minSize: 18,
               ),
             ),
             Padding(
@@ -1064,7 +1075,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
               child: Headingdescription(
                 text: Strings.startPostingYourJobsText(Get.context!),
                 centerAlign: true,
-                size: 13.0.sp,
+                size: 13,
+                minSize: 9,
               ),
             ),
             const Spacer(),
@@ -1094,7 +1106,8 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                             ? Strings.noCompleteJobsText(Get.context!)
                             : Strings.noCancelJobsText(Get.context!),
                 centerAlign: true,
-                size: 22.sp,
+                size: 22,
+                minSize: 18,
               ),
             ),
             const Spacer(),
@@ -1123,14 +1136,16 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                   child: HeadingTextW600(
                       text: Strings.myJobsText(Get.context!),
                       centerAlign: true,
-                      size: 20.sp),
+                      size: 20,
+                      minSize: 17),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 12.0.r, right: 12.0.r),
                   child: Headingdescription(
                       text: Strings.pleaseLoginToSeeJobsText(Get.context!),
                       centerAlign: true,
-                      size: 13.5.sp),
+                      size: 13,
+                      minSize: 10),
                 ),
                 Padding(
                   padding:
@@ -1287,12 +1302,14 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                   text:
                                       '${job.tradespersonApplicationsCount!.value}',
                                   centerAlign: true,
-                                  size: 20.sp,
+                                  size: 20,
+                                  minSize: 17,
                                 ),
                               Headingdescription(
                                 text: Strings.interested(Get.context!),
                                 centerAlign: true,
-                                size: 13.sp,
+                                size: 13,
+                                minSize: 10,
                               ),
                             ],
                           ),
@@ -1310,12 +1327,14 @@ class _PostedOrdersSectionState extends State<PostedOrdersSection> {
                                 HeadingTextW600(
                                   text: '${job.inContactTradesmenCount!.value}',
                                   centerAlign: true,
-                                  size: 20.sp,
+                                  size: 20,
+                                  minSize: 17,
                                 ),
                               Headingdescription(
                                 text: Strings.chatText(Get.context!),
                                 centerAlign: true,
-                                size: 13.sp,
+                                size: 13,
+                                minSize: 10,
                               ),
                             ],
                           ),
@@ -1654,11 +1673,17 @@ class _ProfileSectionState extends State<ProfileSection> {
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? HeadingTextW600(
-                        text: userName, centerAlign: true, size: 16.sp)
+                        text: userName,
+                        centerAlign: true,
+                        size: 16,
+                        minSize: 13)
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? HeadingTextW500(
-                        text: userEmail, centerAlign: true, size: 13.sp)
+                        text: userEmail,
+                        centerAlign: true,
+                        size: 13,
+                        minSize: 10)
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
                     ? SizedBox(
@@ -1674,7 +1699,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                           child: HeadingTextW600(
                               text: Strings.account(context),
                               centerAlign: false,
-                              size: 16.sp),
+                              size: 16,
+                              minSize: 13),
                         ))
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
@@ -1721,7 +1747,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                           child: HeadingTextW600(
                               text: Strings.settingsText(context),
                               centerAlign: false,
-                              size: 16.sp),
+                              size: 16,
+                              minSize: 13),
                         ))
                     : const SizedBox(),
                 widget.isLoggedin != "loggedOut"
@@ -1764,7 +1791,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                       child: HeadingTextW600(
                           text: Strings.help(context),
                           centerAlign: false,
-                          size: 16.sp),
+                          size: 16,
+                          minSize: 13),
                     )),
                 Padding(
                   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
@@ -1788,7 +1816,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                       child: HeadingTextW600(
                           text: Strings.auftragText(context),
                           centerAlign: false,
-                          size: 16.sp),
+                          size: 16,
+                          minSize: 13),
                     )),
                 Padding(
                   padding: EdgeInsets.only(left: 8.0.r, right: 8.0.r),
@@ -1899,7 +1928,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                 child: HeadingTextW500(
                     text: Strings.pleaseLoginToSeeprofileText(Get.context!),
                     centerAlign: true,
-                    size: 16.sp),
+                    size: 16,
+                    minSize: 13),
               ),
               Padding(
                 padding: EdgeInsets.all(12.0.r),

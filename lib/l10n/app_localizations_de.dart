@@ -979,6 +979,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get needHelpText => 'Ich brauche Hilfe';
 
   @override
+  String get notNowText => 'nicht jetzt';
+
+  @override
   String get checkAgainText => 'Noch einmal überprüfen';
 
   @override
@@ -1001,6 +1004,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get checkingForUpdates => 'Suche nach Updates...';
+
+  @override
+  String get alreadyHaveAnAccountText => 'Hast du bereits ein Konto?';
+
+  @override
+  String get userUnblockedText => 'Benutzer freigeschaltet';
 
   @override
   String get tellUsMore => 'Erzählen Sie uns mehr...';
@@ -1101,6 +1110,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get andText => 'Und';
+
+  @override
+  String get passwordCannotBeLessthan8charactersText =>
+      'Das Passwort darf nicht weniger als 8 Zeichen lang sein';
 
   @override
   String get nameCannotBeEmptyText => 'Der Name darf nicht leer sein.';

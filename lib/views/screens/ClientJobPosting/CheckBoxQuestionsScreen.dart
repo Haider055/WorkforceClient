@@ -163,7 +163,7 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                         minFontSize: 9,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontSize: 15.5, fontWeight: FontWeight.w600),
+                            fontSize: 15, fontWeight: FontWeight.w600),
                       ),
                     )),
                     Positioned(
@@ -314,7 +314,10 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
           Padding(
             padding: EdgeInsets.only(top: 12.0.h, left: 12.0.w, right: 12.0.w),
             child: HeadingTextW500(
-                text: question.question!, centerAlign: false, size: 20.0.sp),
+                text: question.question!,
+                centerAlign: false,
+                size: 20,
+                minSize: 17),
           ),
           SizedBox(height: 12.0.h),
           Align(
@@ -325,7 +328,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                   text:
                       question.description == null ? "" : question.description!,
                   centerAlign: false,
-                  size: 16.0.sp),
+                  size: 16,
+                  minSize: 12),
             ),
           ),
           Expanded(
@@ -431,7 +435,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                           ? Headingdescription(
                               text: option.optionText!,
                               centerAlign: true,
-                              size: 13.5.sp)
+                              size: 14,
+                              minSize: 11)
                           : const Text("N/A"),
                     )
                   ],
@@ -589,17 +594,18 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                 child: HeadingTextW500(
                   text: question.question ?? '',
                   centerAlign: false,
-                  size: 20.0.sp,
+                  size: 20,
+                  minSize: 17,
                 ),
               ),
               // Question Description
               Padding(
                 padding: EdgeInsets.only(left: 20.0.w, top: 15.0.h),
                 child: Headingdescription(
-                  text: question.description ?? '',
-                  centerAlign: false,
-                  size: 16.0.sp,
-                ),
+                    text: question.description ?? '',
+                    centerAlign: false,
+                    size: 16,
+                    minSize: 12),
               ),
               SizedBox(height: 20.h),
               // Options list - scrolls only if needed
@@ -637,7 +643,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                   child: HeadingTextW500(
                       text: question.question!,
                       centerAlign: false,
-                      size: 20.0.sp),
+                      size: 20,
+                      minSize: 17),
                 ),
               ),
               Align(
@@ -650,7 +657,8 @@ class _CheckBoxQuestionsScreenState extends State<CheckBoxQuestionsScreen> {
                           ? ""
                           : question.description!,
                       centerAlign: false,
-                      size: 16.0.sp),
+                      size: 16,
+                      minSize: 12),
                 ),
               ),
               Padding(

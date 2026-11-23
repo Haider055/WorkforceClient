@@ -1,4 +1,3 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -92,7 +91,6 @@ class MainApp extends StatelessWidget {
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: const [
           AppLocalizations.delegate,
-          CountryLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,

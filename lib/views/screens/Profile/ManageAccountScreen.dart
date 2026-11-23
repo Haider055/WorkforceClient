@@ -33,7 +33,8 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                     child: HeadingTextW600(
                   text: Strings.manageAccount(context),
                   centerAlign: false,
-                  size: 16.0.sp,
+                  size: 16,
+                  minSize: 12,
                 )),
                 GestureDetector(
                   onTap: () {
@@ -98,13 +99,13 @@ class ManageAccountScreen extends GetView<ManageAccountController> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 8.0.w),
                                     child: AutoSizeText(
-                                      minFontSize: 11.0,
-                                      maxFontSize: 16.0,
+                                      minFontSize: 11,
+                                      maxFontSize: 16,
                                       Strings.updatePassword(context),
                                       textAlign: TextAlign.start,
                                       style: const TextStyle(
                                         color: Colors.black,
-                                        fontSize: 16.0, // responsive font size
+                                        fontSize: 16, // responsive font size
                                         fontWeight: FontWeight.w400,
                                         fontFamily: 'Poppins',
                                       ),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workforceclientapp/Others/Commons.dart';
 import 'package:workforceclientapp/Others/Constants.dart';
@@ -226,16 +227,31 @@ class LoginContoller extends GetxController {
 
   Future<void> pleaseValidateData() async {
     if (emailTextField.value.text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: Strings.emailCannotBeEmptyText(
+        Get.context!,
+      ));
       emailAddressErrorText.value = Strings.emailCannotBeEmptyText(
         Get.context!,
       );
       return;
     }
     if (passwordTextField.value.text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: Strings.passwordCannotBeEmptyText(
+        Get.context!,
+      ));
       passwordErrorText.value = Strings.passwordCannotBeEmptyText(Get.context!);
       return;
     }
     if (Commons.isValidEmail(emailTextField.value.text)) {
+      if (passwordTextField.value.length < 8) {
+        Fluttertoast.showToast(
+            msg: Strings.passwordCannotBeLessthan8charactersText(Get.context!));
+        passwordErrorText.value =
+            Strings.passwordCannotBeLessthan8charactersText(Get.context!);
+        return;
+      }
       Commons.showProgressDialog(Get.context!);
       String res = await pleaseLoginUser();
       Commons.hideProgressDialog();
@@ -282,68 +298,81 @@ class LoginContoller extends GetxController {
         }
       } else {
         try {
-          Get.defaultDialog(
-            titleStyle: null,
-            title: "",
-            content: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Image.asset(
-                      "lib/assets/images/signuperrorimage.png",
-                      fit: BoxFit.contain,
-                      height: 136.92,
-                      width: 123.72,
-                    ),
-                  ),
-                ),
-                HeadingText(
-                  text: Strings.failedText(Get.context!),
-                  centerAlign: true,
-                ),
-                Headingdescription(
-                  text: Strings.somethingWentWrong(Get.context!),
-                  centerAlign: true,
-                  size: 15.0,
-                ),
-                Headingdescription(text: res, centerAlign: true, size: 15.0),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 18.0,
-                    left: 12.0,
-                    right: 12.0,
-                  ),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: const WidgetStatePropertyAll(
-                        Color(MyColors.themeRedColor),
-                      ),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+          // Plain Dialog, not Get.defaultDialog: AlertDialog's IntrinsicWidth
+          // can't measure Headingdescription (AutoSizeText -> LayoutBuilder),
+          // which broke the dialog and made the screen look frozen.
+          Get.dialog(
+            Dialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0.0),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          "lib/assets/images/signuperrorimage.png",
+                          fit: BoxFit.contain,
+                          height: 136.92,
+                          width: 123.72,
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                      child: Container(
-                        child: Center(
-                          child: Text(
-                            Strings.cancelText(Get.context!),
-                            style: const TextStyle(color: Colors.white),
+                    HeadingText(
+                      text: Strings.failedText(Get.context!),
+                      centerAlign: true,
+                    ),
+                    Headingdescription(
+                      text: Strings.somethingWentWrong(Get.context!),
+                      centerAlign: true,
+                      size: 15,
+                      minSize: 12,
+                    ),
+                    Headingdescription(
+                        text: res, centerAlign: true, size: 15, minSize: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 18.0,
+                        left: 12.0,
+                        right: 12.0,
+                      ),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: const WidgetStatePropertyAll(
+                            Color(MyColors.themeRedColor),
+                          ),
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 50.0, right: 50.0),
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                Strings.cancelText(Get.context!),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 16.0),
+                  ],
                 ),
-                const SizedBox(height: 16.0),
-              ],
+              ),
             ),
           );
         } catch (e) {
@@ -352,6 +381,7 @@ class LoginContoller extends GetxController {
       }
     } else {
       Commons.hideProgressDialog();
+      Fluttertoast.showToast(msg: Strings.pleaseEnterValidEmail(Get.context!));
       emailAddressErrorText.value = Strings.pleaseEnterValidEmail(Get.context!);
     }
   }

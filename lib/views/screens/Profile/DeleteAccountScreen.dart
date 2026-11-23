@@ -32,7 +32,8 @@ class DeleteAccountScreen extends GetView<ProfileController> {
                     child: HeadingTextW600(
                   text: Strings.deleteAccount(context),
                   centerAlign: false,
-                  size: 16.0.sp,
+                  size: 16,
+                  minSize: 12,
                 )),
                 GestureDetector(
                   onTap: () {
@@ -65,7 +66,8 @@ class DeleteAccountScreen extends GetView<ProfileController> {
                     child: HeadingTextW500(
                         text: Strings.deleteAccountDescText(context),
                         centerAlign: false,
-                        size: 16),
+                        size: 16,
+                        minSize: 13),
                   ),
                   Padding(
                     padding: EdgeInsets.only(

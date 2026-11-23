@@ -36,7 +36,8 @@ class LegalGuidesScreen extends GetView<LegalGuidesController> {
                       child: HeadingTextW600(
                     text: Strings.legalText(context),
                     centerAlign: false,
-                    size: 18.0.sp,
+                    size: 18,
+                    minSize: 15,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -86,7 +87,8 @@ class LegalGuidesScreen extends GetView<LegalGuidesController> {
                               ? Strings.somethingWentWrong(Get.context!)
                               : Strings.noDataFound(Get.context!),
                           centerAlign: true,
-                          size: 14.sp,
+                          size: 14,
+                          minSize: 11,
                         ),
                         if (controller.hasError.value) ...[
                           SizedBox(height: 16.h),
@@ -148,7 +150,7 @@ class LegalGuidesScreen extends GetView<LegalGuidesController> {
                             maxFontSize: 16,
                             guide.title ?? "",
                             style: TextStyle(
-                              fontSize: 16.0.sp,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                               fontFamily: 'Poppins',
                             ),

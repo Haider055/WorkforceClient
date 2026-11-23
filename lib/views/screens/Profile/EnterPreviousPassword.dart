@@ -55,7 +55,8 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
                       child: HeadingTextW600(
                     text: Strings.updatePassword(context),
                     centerAlign: false,
-                    size: 16.0.sp,
+                    size: 16,
+                    minSize: 12,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -90,7 +91,8 @@ class _EnterPreviousPasswordState extends State<EnterPreviousPassword> {
                         child: HeadingTextW500(
                             text: Strings.currentPasswordText(context),
                             centerAlign: false,
-                            size: 16.sp),
+                            size: 16,
+                            minSize: 12),
                       ),
                     ),
                     Padding(

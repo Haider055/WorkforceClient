@@ -15,6 +15,25 @@ class SelectLanguage extends GetView<SelectLanguageController> {
   SelectLanguage({super.key});
   late SharedPreferences _prefs;
 
+  // Draws a larger emoji flag over the left edge of a language button.
+  // The buttons only take a String label, so a flag inside the label would
+  // be stuck at the label's font size. IgnorePointer lets taps on the flag
+  // reach the button underneath.
+  Widget _withFlag(String flag, Widget button) {
+    return Stack(
+      alignment: Alignment.centerLeft,
+      children: [
+        button,
+        Positioned(
+          left: 16.0.w,
+          child: IgnorePointer(
+            child: Text(flag, style: TextStyle(fontSize: 26.sp)),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,61 +76,73 @@ class SelectLanguage extends GetView<SelectLanguageController> {
                     children: [
                       Padding(
                         padding: EdgeInsets.all(12.0.r),
-                        child: FullWidthButtonPrimary(
-                            text: Strings.germanText(context),
-                            fontsize: 17.0,
-                            color: MyColors.themeRedColor,
-                            onPressed: () async {
-                              _prefs = await SharedPreferences.getInstance();
-                              await _prefs.setString("language", "de");
-                              Get.updateLocale(const Locale('de'));
-                              Constants.selectedLang = 'de';
-                              Get.offAllNamed(AppLinks.onboard_screen);
-                            }),
+                        child: _withFlag(
+                            "🇩🇪",
+                            FullWidthButtonPrimary(
+                                text: Strings.germanText(context),
+                                fontsize: 17.0,
+                                color: MyColors.themeRedColor,
+                                onPressed: () async {
+                                  _prefs =
+                                      await SharedPreferences.getInstance();
+                                  await _prefs.setString("language", "de");
+                                  Get.updateLocale(const Locale('de'));
+                                  Constants.selectedLang = 'de';
+                                  Get.offAllNamed(AppLinks.onboard_screen);
+                                })),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
-                        child: FullWidthOutlineButton(
-                            text: Strings.englishText(context),
-                            fontsize: 17.0,
-                            color: MyColors.themeRedColor,
-                            onPressed: () async {
-                              _prefs = await SharedPreferences.getInstance();
-                              await _prefs.setString("language", "en");
-                              Get.updateLocale(const Locale('en'));
-                              Constants.selectedLang = 'en';
-                              Get.offAllNamed(AppLinks.onboard_screen);
-                            }),
-                      ),
-                      SizedBox(height: 12.0.h),
-                      Padding(
-                        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
-                        child: FullWidthOutlineButton(
-                            text: Strings.portugueseText(context),
-                            fontsize: 17.0,
-                            color: MyColors.themeRedColor,
-                            onPressed: () async {
-                              _prefs = await SharedPreferences.getInstance();
-                              await _prefs.setString("language", "pt");
-                              Get.updateLocale(const Locale('pt'));
-                              Constants.selectedLang = 'pt';
-                              Get.offAllNamed(AppLinks.onboard_screen);
-                            }),
+                        child: _withFlag(
+                            "🇬🇧",
+                            FullWidthOutlineButton(
+                                text: Strings.englishText(context),
+                                fontsize: 17.0,
+                                color: MyColors.themeRedColor,
+                                onPressed: () async {
+                                  _prefs =
+                                      await SharedPreferences.getInstance();
+                                  await _prefs.setString("language", "en");
+                                  Get.updateLocale(const Locale('en'));
+                                  Constants.selectedLang = 'en';
+                                  Get.offAllNamed(AppLinks.onboard_screen);
+                                })),
                       ),
                       SizedBox(height: 12.0.h),
                       Padding(
                         padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
-                        child: FullWidthOutlineButton(
-                            text: Strings.turkishText(context),
-                            fontsize: 17.0,
-                            color: MyColors.themeRedColor,
-                            onPressed: () async {
-                              _prefs = await SharedPreferences.getInstance();
-                              await _prefs.setString("language", "tr");
-                              Get.updateLocale(const Locale('tr'));
-                              Constants.selectedLang = 'tr';
-                              Get.offAllNamed(AppLinks.onboard_screen);
-                            }),
+                        child: _withFlag(
+                            "🇵🇹",
+                            FullWidthOutlineButton(
+                                text: Strings.portugueseText(context),
+                                fontsize: 17.0,
+                                color: MyColors.themeRedColor,
+                                onPressed: () async {
+                                  _prefs =
+                                      await SharedPreferences.getInstance();
+                                  await _prefs.setString("language", "pt");
+                                  Get.updateLocale(const Locale('pt'));
+                                  Constants.selectedLang = 'pt';
+                                  Get.offAllNamed(AppLinks.onboard_screen);
+                                })),
+                      ),
+                      SizedBox(height: 12.0.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
+                        child: _withFlag(
+                            "🇹🇷",
+                            FullWidthOutlineButton(
+                                text: Strings.turkishText(context),
+                                fontsize: 17.0,
+                                color: MyColors.themeRedColor,
+                                onPressed: () async {
+                                  _prefs =
+                                      await SharedPreferences.getInstance();
+                                  await _prefs.setString("language", "tr");
+                                  Get.updateLocale(const Locale('tr'));
+                                  Constants.selectedLang = 'tr';
+                                  Get.offAllNamed(AppLinks.onboard_screen);
+                                })),
                       ),
                     ],
                   ),

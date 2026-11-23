@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,7 +84,8 @@ class LegalDetailScreen extends GetView<LegalDetailController> {
                           child: HeadingTextW600(
                             text: controller.title.value,
                             centerAlign: false,
-                            size: 18.0.sp,
+                            size: 17,
+                            minSize: 14,
                           ),
                         ),
                       )),
@@ -126,7 +128,8 @@ class LegalDetailScreen extends GetView<LegalDetailController> {
                     Headingdescription(
                       text: Strings.somethingWentWrong(Get.context!),
                       centerAlign: true,
-                      size: 14.sp,
+                      size: 14,
+                      minSize: 11,
                     ),
                     SizedBox(height: 16.h),
                     ElevatedButton(

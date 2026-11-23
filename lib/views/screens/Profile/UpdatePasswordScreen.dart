@@ -39,7 +39,8 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                       child: HeadingTextW600(
                     text: Strings.updatePassword(context),
                     centerAlign: false,
-                    size: 16.0.sp,
+                    size: 16,
+                    minSize: 13,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -79,7 +80,8 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                             child: HeadingTextW500(
                                 text: Strings.newPasswordText(context),
                                 centerAlign: false,
-                                size: 16.sp),
+                                size: 16,
+                                minSize: 13),
                           ),
                         ),
                         Padding(
@@ -170,7 +172,8 @@ class UpdatePasswordScreen extends GetView<CreateNewPasswordController> {
                             child: HeadingTextW500(
                                 text: Strings.confirmPasswordText(context),
                                 centerAlign: false,
-                                size: 16.sp),
+                                size: 16,
+                                minSize: 13),
                           ),
                         ),
                         Padding(

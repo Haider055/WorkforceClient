@@ -40,7 +40,7 @@ class DialogButton extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: const Color(MyColors.whiteColor),
-                fontSize: 13.0.sp,
+                fontSize: 13,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w500),
           ),

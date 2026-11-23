@@ -55,7 +55,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
                     minFontSize: 9,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontSize: 15.5, fontWeight: FontWeight.w600),
+                        fontSize: 15, fontWeight: FontWeight.w600),
                   ),
                 )),
                 Positioned(
@@ -285,7 +285,7 @@ class PickAddressScreen extends GetView<PickAddressController> {
                 maxLines: 2,
                 style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 11.0,
+                    fontSize: 11,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'Poppins'),
               ),
@@ -502,8 +502,9 @@ class PickAddressScreen extends GetView<PickAddressController> {
                     AutoSizeText(Strings.useCurrentLocation(context),
                         maxLines: 1,
                         minFontSize: 9,
+                        maxFontSize: 15,
                         style: TextStyle(
-                          fontSize: 14.5.sp,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                           fontFamily: 'Poppins',
@@ -559,8 +560,9 @@ class PickAddressScreen extends GetView<PickAddressController> {
                   AutoSizeText(Strings.lastUsedLocationText(context),
                       maxLines: 1,
                       minFontSize: 9,
+                      maxFontSize: 14,
                       style: TextStyle(
-                        fontSize: 14.5.sp,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                         fontFamily: 'Poppins',
@@ -569,8 +571,9 @@ class PickAddressScreen extends GetView<PickAddressController> {
                   AutoSizeText(saved.address,
                       maxLines: 3,
                       minFontSize: 7,
+                      maxFontSize: 13,
                       style: const TextStyle(
-                        fontSize: 12.5,
+                        fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: Color(MyColors.midGrayColor),
                         fontFamily: 'Poppins',

@@ -36,13 +36,15 @@ class AccountSuspendedScreen extends GetView<AccountSuspendedController> {
                 HeadingTextW600(
                   text: Strings.accountSuspendedMessage(context),
                   centerAlign: true,
-                  size: 20.sp,
+                  size: 20,
+                  minSize: 17,
                 ),
                 SizedBox(height: 12.h),
                 Headingdescription(
                   text: Strings.accountBlockedDesc(context),
                   centerAlign: true,
-                  size: 14.sp,
+                  size: 14,
+                  minSize: 11,
                 ),
                 const Spacer(),
                 Padding(

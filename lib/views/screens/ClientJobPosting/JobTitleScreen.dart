@@ -51,7 +51,7 @@ class JobTitleScreen extends GetView<JobTitleController> {
                     minFontSize: 9,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontSize: 15.5, fontWeight: FontWeight.w600),
+                        fontSize: 15, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -126,6 +126,7 @@ class JobTitleScreen extends GetView<JobTitleController> {
                                   text: Strings.jobTitle(context),
                                   centerAlign: false,
                                   size: 20,
+                                  minSize: 17,
                                 ),
                               ),
                               Padding(
@@ -138,6 +139,7 @@ class JobTitleScreen extends GetView<JobTitleController> {
                                   text: Strings.jobTitleDesc(context),
                                   centerAlign: false,
                                   size: 16,
+                                  minSize: 12,
                                 ),
                               ),
                               Padding(

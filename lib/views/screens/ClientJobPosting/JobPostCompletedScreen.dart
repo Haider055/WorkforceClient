@@ -40,7 +40,8 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
                             child: HeadingTextW600(
                                 text: Strings.congratulations(context),
                                 centerAlign: true,
-                                size: 28.0.sp),
+                                size: 28,
+                                minSize: 24),
                           ),
                           Padding(
                               padding: EdgeInsets.all(12.0.r),
@@ -55,14 +56,16 @@ class JobPostCompletedScreen extends GetView<JobPostCompleteController> {
                                 text: Strings.jobhasbeenpostedsuccessfullyText(
                                     context),
                                 centerAlign: true,
-                                size: 15.5.sp),
+                                size: 16,
+                                minSize: 12),
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0.r),
                             child: HeadingTextW500(
                                 text: Strings.jobisnowliveandreadyText(context),
                                 centerAlign: true,
-                                size: 14.5.sp),
+                                size: 14,
+                                minSize: 12),
                           ),
                           const Spacer(),
                           Padding(

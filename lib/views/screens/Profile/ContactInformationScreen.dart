@@ -67,7 +67,8 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                         child: HeadingTextW600(
                       text: Strings.contactInformation(context),
                       centerAlign: false,
-                      size: 16.0..sp,
+                      size: 16,
+                      minSize: 12,
                     )),
                     GestureDetector(
                       onTap: () {
@@ -106,7 +107,8 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                             child: HeadingTextW500(
                                 text: Strings.fullNameAddressText(context),
                                 centerAlign: false,
-                                size: 16.sp),
+                                size: 16,
+                                minSize: 12),
                           ),
                         ),
                         Padding(
@@ -132,7 +134,8 @@ class _ContactInformationScreenState extends State<ContactInformationScreen> {
                             child: HeadingTextW500(
                                 text: Strings.phoneText(context),
                                 centerAlign: false,
-                                size: 16.sp),
+                                size: 16,
+                                minSize: 12),
                           ),
                         ),
                         Padding(

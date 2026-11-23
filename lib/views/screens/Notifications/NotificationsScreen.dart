@@ -41,7 +41,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       child: HeadingTextW600(
                           text: Strings.notifications(context),
                           centerAlign: false,
-                          size: 20.sp),
+                          size: 20,
+                          minSize: 17),
                     ),
                   ),
                   Align(
@@ -224,14 +225,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             child: HeadingTextW600(
                 text: Strings.notifications(context),
                 centerAlign: true,
-                size: 20.sp),
+                size: 20,
+                minSize: 17),
           ),
           Padding(
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w),
             child: Headingdescription(
                 text: Strings.notificationIsEmptyDesc(context),
                 centerAlign: true,
-                size: 13.5.sp),
+                size: 13,
+                minSize: 10),
           ),
           Padding(
             padding: EdgeInsets.only(left: 12.0.w, right: 12.0.w, top: 20.0.h),
@@ -265,7 +268,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             child: HeadingTextW600(
                 text: Strings.notificationListEmpty(context),
                 centerAlign: true,
-                size: 17.sp),
+                size: 17,
+                minSize: 14),
           ),
         ],
       ),
@@ -370,7 +374,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           child: Headingdescription(
                               text: notification.humanReadableCreatedAt!,
                               centerAlign: true,
-                              size: 12.sp)),
+                              size: 12,
+                              minSize: 9)),
                     ),
                   ],
                 ),

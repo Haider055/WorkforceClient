@@ -55,9 +55,10 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       minFontSize: 9,
+                      maxFontSize: 15,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontSize: 15.5, fontWeight: FontWeight.w600),
+                          fontSize: 15, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -131,7 +132,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                           child: HeadingTextW500(
                             text: Strings.uploadPhotosText(context),
                             centerAlign: false,
-                            size: 18.sp,
+                            size: 18,
+                            minSize: 15,
                           ),
                         ),
                         Padding(
@@ -141,7 +143,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                             text: Strings.addingPicturesHelpsBetterQuotes(
                                 context),
                             centerAlign: false,
-                            size: 14.sp,
+                            size: 14,
+                            minSize: 11,
                           ),
                         ),
 
@@ -248,7 +251,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                             text: Strings.photoShareAgree(
                                                 context),
                                             centerAlign: false,
-                                            size: 11.sp,
+                                            size: 11,
+                                            minSize: 7,
                                           ),
                                         ),
                                       ),
@@ -263,7 +267,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
                                   text: Strings.disclaimerInPickImageText(
                                       context),
                                   centerAlign: false,
-                                  size: 10.5.sp,
+                                  size: 11,
+                                  minSize: 8,
                                 ),
                               )
                             ],
@@ -413,7 +418,8 @@ class UploadJobImageScreen extends GetView<UploadJobImagesController> {
             child: Headingdescription(
               text: Strings.max15MbFileText(Get.context!),
               centerAlign: false,
-              size: 12.0.sp,
+              size: 12,
+              minSize: 9,
             ),
           ),
         ),

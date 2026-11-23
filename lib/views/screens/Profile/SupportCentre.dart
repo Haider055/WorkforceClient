@@ -46,7 +46,8 @@ class SupportCentre extends GetView<SupportCentreController> {
                       child: HeadingTextW600(
                     text: Strings.supportCenter(context),
                     centerAlign: false,
-                    size: 18.0.sp,
+                    size: 18,
+                    minSize: 15,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -73,7 +74,8 @@ class SupportCentre extends GetView<SupportCentreController> {
                 text:
                     "${Strings.needHelpText(context)}? ${Strings.reachOutToUsText(context)}",
                 centerAlign: false,
-                size: 16.sp,
+                size: 16,
+                minSize: 12,
               ),
               SizedBox(height: 4.h),
               Text(

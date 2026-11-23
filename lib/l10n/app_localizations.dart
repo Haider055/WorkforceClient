@@ -1890,6 +1890,12 @@ abstract class AppLocalizations {
   /// **'Need Help'**
   String get needHelpText;
 
+  /// No description provided for @notNowText.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNowText;
+
   /// No description provided for @checkAgainText.
   ///
   /// In en, this message translates to:
@@ -1937,6 +1943,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checking for updates...'**
   String get checkingForUpdates;
+
+  /// No description provided for @alreadyHaveAnAccountText.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAnAccountText;
+
+  /// No description provided for @userUnblockedText.
+  ///
+  /// In en, this message translates to:
+  /// **'User unblocked'**
+  String get userUnblockedText;
 
   /// No description provided for @tellUsMore.
   ///
@@ -2117,6 +2135,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'and'**
   String get andText;
+
+  /// No description provided for @passwordCannotBeLessthan8charactersText.
+  ///
+  /// In en, this message translates to:
+  /// **'Password cannot be less than 8 characters'**
+  String get passwordCannotBeLessthan8charactersText;
 
   /// No description provided for @nameCannotBeEmptyText.
   ///

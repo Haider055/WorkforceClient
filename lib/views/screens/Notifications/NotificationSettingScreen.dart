@@ -33,7 +33,8 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                     child: HeadingTextW600(
                   text: Strings.notification(context),
                   centerAlign: false,
-                  size: 18.0.sp,
+                  size: 18,
+                  minSize: 15,
                 )),
                 GestureDetector(
                   onTap: () {
@@ -120,7 +121,8 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                         child: HeadingTextW600(
                             text: Strings.updatesOnJobsText(Get.context!),
                             centerAlign: false,
-                            size: 20.sp),
+                            size: 20,
+                            minSize: 17),
                       ),
                     ),
                     ListView.builder(
@@ -148,13 +150,15 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
           HeadingTextW600(
             text: preference.title ?? '',
             centerAlign: false,
-            size: 18.sp,
+            size: 18,
+            minSize: 15,
           ),
           SizedBox(height: 6.h),
           Headingdescription(
             text: preference.description ?? '',
             centerAlign: false,
-            size: 14.sp,
+            size: 14,
+            minSize: 11,
           ),
           SizedBox(height: 12.h),
           Card(
@@ -174,7 +178,8 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                       HeadingTextW500(
                           text: Strings.emailText(Get.context!),
                           centerAlign: false,
-                          size: 14.sp),
+                          size: 14,
+                          minSize: 11),
                       Transform.scale(
                         scale: 0.8, // Set to 0.6 or 0.7 for even smaller size
                         child: Obx(() {
@@ -213,7 +218,8 @@ class NotificationSettingScreen extends GetView<NotificationsContoller> {
                       HeadingTextW500(
                           text: Strings.notification(Get.context!),
                           centerAlign: false,
-                          size: 14.sp),
+                          size: 14,
+                          minSize: 11),
                       Transform.scale(
                         scale: 0.8, // Set to 0.6 or 0.7 for even smaller size
                         child: Obx(() {

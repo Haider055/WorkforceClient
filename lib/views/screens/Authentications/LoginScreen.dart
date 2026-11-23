@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,139 +34,159 @@ class LoginScreen extends GetView<LoginContoller> {
         },
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: Center(
-            child: SingleChildScrollView(
-              child: AutofillGroup(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      "lib/assets/icons/auftragnowRedBalck.svg",
-                      fit: BoxFit.contain,
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Center(
-                      child: SvgPicture.asset(
-                        "lib/assets/icons/Frame.svg",
+          body: Obx(() {
+            return Center(
+              child: SingleChildScrollView(
+                child: AutofillGroup(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        "lib/assets/icons/auftragnowRedBalck.svg",
                         fit: BoxFit.contain,
-                        height: 180.0.h,
-                        width: 180.0.w,
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: HeadingText(
-                          text: Strings.loginText(context), centerAlign: true),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 25.0.w, top: 10.0.h),
-                      child: Align(
+                      SizedBox(
+                        height: 70.h,
+                      ),
+                      Center(
+                        child: SvgPicture.asset(
+                          "lib/assets/icons/Frame.svg",
+                          fit: BoxFit.contain,
+                          height: 180.0.h,
+                          width: 180.0.w,
+                        ),
+                      ),
+                      Align(
                         alignment: Alignment.topLeft,
-                        child: Headingdescription(
-                            text: Strings.loginDesc(context),
-                            centerAlign: false,
-                            size: 13.0.sp),
+                        child: HeadingText(
+                            text: Strings.loginText(context),
+                            centerAlign: true),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0.h),
-                      child: CommonTextField(
-                          hint: Strings.emailAddressText(context),
-                          errorText: controller.emailAddressErrorText.value,
-                          controller: controller.emailTextField(),
-                          inputType: TextInputType.emailAddress,
-                          prefixIcon: const Icon(Icons.email_outlined),
-                          needPasswordSuffixIcon: false,
+                      Padding(
+                        padding: EdgeInsets.only(left: 25.0.w, top: 10.0.h),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Headingdescription(
+                              text: Strings.loginDesc(context),
+                              centerAlign: false,
+                              size: 13,
+                              minSize: 9),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0.h),
+                        child: CommonTextField(
+                            hint: Strings.emailAddressText(context),
+                            errorText: controller.emailAddressErrorText.value,
+                            controller: controller.emailTextField(),
+                            inputType: TextInputType.emailAddress,
+                            prefixIcon: const Icon(Icons.email_outlined),
+                            needPasswordSuffixIcon: false,
+                            needprefixIcon: true,
+                            onChanged: (value) {
+                              controller.emailAddressErrorText.value = "";
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16.0.h),
+                        child: CommonTextField(
+                          hint: Strings.passwordText(context),
+                          errorText: controller.passwordErrorText.value,
+                          inputType: TextInputType.visiblePassword,
+                          controller: controller.passwordTextField(),
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          needPasswordSuffixIcon: true,
                           needprefixIcon: true,
                           onChanged: (value) {
-                            controller.emailAddressErrorText.value = "";
-                          }),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16.0.h),
-                      child: CommonTextField(
-                        hint: Strings.passwordText(context),
-                        errorText: controller.passwordErrorText.value,
-                        inputType: TextInputType.visiblePassword,
-                        controller: controller.passwordTextField(),
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        needPasswordSuffixIcon: true,
-                        needprefixIcon: true,
-                        onChanged: (value) {
-                          if (controller.passwordErrorText.value.isNotEmpty) {
-                            controller.passwordErrorText.value = "";
-                          }
-                        },
+                            if (controller.passwordErrorText.value.isNotEmpty) {
+                              controller.passwordErrorText.value = "";
+                            }
+                          },
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 22.0.w, top: 8.0.h),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppLinks.forgot_password_screen);
-                        },
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            style: TextStyle(
-                                fontSize: 14.0.sp,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Poppins'),
-                            "${Strings.forgotPasswordText(context)} ?",
+                      Padding(
+                        padding: EdgeInsets.only(right: 22.0.w, top: 8.0.h),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.toNamed(AppLinks.forgot_password_screen);
+                          },
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                              style: TextStyle(
+                                  fontSize: 14.0.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Poppins'),
+                              "${Strings.forgotPasswordText(context)} ?",
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 40.0.h),
-                      child: FullWidthButton(
-                        text: Strings.loginText(context),
-                        color: MyColors.themeRedColor,
-                        onPressed: () async {
-                          controller.pleaseValidateData();
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.0.h),
-                      child: Align(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("${Strings.newUserText(Get.context!)}? ",
-                                style: TextStyle(
-                                    fontSize: 14.0.sp,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Poppins')),
-                            GestureDetector(
-                              onTap: () {
-                                controller.emailTextField.value.text = "";
-                                controller.passwordTextField.value.text = "";
-                                Get.toNamed(AppLinks.signup_screen);
-                              },
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  style: TextStyle(
-                                      color: const Color(0xFFD60107),
-                                      fontSize: 14.0.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: 'Poppins'),
-                                  Strings.signupText(Get.context!),
-                                ),
-                              ),
-                            ),
-                          ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 40.0.h),
+                        child: FullWidthButton(
+                          text: Strings.loginText(context),
+                          color: MyColors.themeRedColor,
+                          onPressed: () async {
+                            controller.pleaseValidateData();
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Get.offAllNamed(AppLinks.select_service_screen);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10.h),
+                          child: AutoSizeText(
+                            Strings.notNowText(Get.context!),
+                            maxLines: 1,
+                            minFontSize: 10,
+                            maxFontSize: 12,
+                            style: const TextStyle(
+                                fontSize: 12, fontFamily: 'Poppins'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.0.h),
+                        child: Align(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("${Strings.newUserText(Get.context!)}? ",
+                                  style: TextStyle(
+                                      fontSize: 14.0.sp,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Poppins')),
+                              GestureDetector(
+                                onTap: () {
+                                  controller.emailTextField.value.text = "";
+                                  controller.passwordTextField.value.text = "";
+                                  Get.toNamed(AppLinks.signup_screen);
+                                },
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    style: TextStyle(
+                                        color: const Color(0xFFD60107),
+                                        fontSize: 14.0.sp,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Poppins'),
+                                    Strings.signupText(Get.context!),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
       ),
     );

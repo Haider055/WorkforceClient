@@ -36,7 +36,7 @@ class ForgotPasswordContoller extends GetxController {
           .timeout(const Duration(seconds: 5));
 
       Map<String, dynamic> jsonData = json.decode(response.body);
-      print(response.body);
+      // print(response.body);
 
       if (response.statusCode == 200) {
         String msg = jsonData['message'];
@@ -68,53 +68,62 @@ class ForgotPasswordContoller extends GetxController {
   }
 
   void pleaseShowDialog(String msg) {
-    Get.defaultDialog(
-      titleStyle: null,
-      title: "",
-      content: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 0.0),
-            child: Align(
-                alignment: Alignment.topCenter,
-                child: Image.asset(
-                  "lib/assets/images/signuperrorimage.png",
-                  fit: BoxFit.contain,
-                  height: 136.92,
-                  width: 123.72,
-                )),
-          ),
-          HeadingText(
-              text: Strings.failedText(Get.context!), centerAlign: true),
-          Headingdescription(
-              text: Strings.somethingWentWrong(Get.context!),
-              centerAlign: true,
-              size: 15.0),
-          Headingdescription(text: msg, centerAlign: true, size: 15.0),
-          Padding(
-            padding: const EdgeInsets.only(top: 18.0),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: const WidgetStatePropertyAll(
-                        Color(MyColors.themeRedColor)),
-                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)))),
-                onPressed: () {
-                  Get.back();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                  child: Container(
-                    child: Center(
-                        child: Text(
-                      Strings.cancelText(Get.context!),
-                      style: const TextStyle(color: Colors.white),
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      "lib/assets/images/signuperrorimage.png",
+                      fit: BoxFit.contain,
+                      height: 136.92,
+                      width: 123.72,
                     )),
-                  ),
-                )),
+              ),
+              HeadingText(
+                  text: Strings.failedText(Get.context!), centerAlign: true),
+              Headingdescription(
+                text: Strings.somethingWentWrong(Get.context!),
+                centerAlign: true,
+                size: 15,
+                minSize: 12,
+              ),
+              Headingdescription(
+                  text: msg, centerAlign: true, size: 15, minSize: 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 18.0),
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: const WidgetStatePropertyAll(
+                            Color(MyColors.themeRedColor)),
+                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)))),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                      child: Container(
+                        child: Center(
+                            child: Text(
+                          Strings.cancelText(Get.context!),
+                          style: const TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    )),
+              ),
+              const SizedBox(height: 16.0)
+            ],
           ),
-          const SizedBox(height: 16.0)
-        ],
+        ),
       ),
     );
   }

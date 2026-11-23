@@ -86,10 +86,10 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
                         size: 17.r, color: Colors.black87),
                     SizedBox(width: 8.w),
                     Headingdescription(
-                      text: Strings.reportText(Get.context!),
-                      centerAlign: false,
-                      size: 13,
-                    ),
+                        text: Strings.reportText(Get.context!),
+                        centerAlign: false,
+                        size: 13,
+                        minSize: 10),
                   ],
                 ),
               ),
@@ -109,7 +109,8 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
               child: Headingdescription(
                 text: Strings.somethingWentWrong(context),
                 centerAlign: true,
-                size: 14.sp,
+                size: 14,
+                minSize: 11,
               ),
             ),
           );
@@ -324,8 +325,9 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
             value,
             maxLines: 1,
             minFontSize: 11,
+            maxFontSize: 17,
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 17,
               fontWeight: FontWeight.w700,
               fontFamily: 'Poppins',
               color: Colors.black,
@@ -337,8 +339,9 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
             label,
             maxLines: 1,
             minFontSize: 8,
+            maxFontSize: 11,
             style: TextStyle(
-              fontSize: 11.5.sp,
+              fontSize: 11,
               fontFamily: 'Poppins',
               color: _muted,
             ),
@@ -598,9 +601,10 @@ class TradesmenDetailScreen extends GetView<TradesmenDetailController> {
           label,
           maxLines: 1,
           minFontSize: 9,
+          maxFontSize: 13,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 13.5.sp,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
             fontFamily: 'Poppins',
             color: active ? Colors.white : _body,

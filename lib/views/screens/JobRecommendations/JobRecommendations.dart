@@ -63,7 +63,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                       child: HeadingTextW600(
                     text: Strings.recommendations(Get.context!),
                     centerAlign: false,
-                    size: 19.0.sp,
+                    size: 19,
+                    minSize: 16,
                   )),
                   GestureDetector(
                     onTap: () {
@@ -106,7 +107,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                         child: HeadingTextW600(
                             text: Strings.recommendationScreenHeading(context),
                             centerAlign: false,
-                            size: 18.sp),
+                            size: 18,
+                            minSize: 15),
                       ),
                     ),
                     Align(
@@ -117,7 +119,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                         child: Headingdescription(
                             text: Strings.recommendationScreenDesc(context),
                             centerAlign: false,
-                            size: 14.sp),
+                            size: 14,
+                            minSize: 11),
                       ),
                     ),
                     Padding(
@@ -428,7 +431,8 @@ class JobRecommendations extends GetView<JobRecommendationController> {
                                               text:
                                                   Strings.agency(Get.context!),
                                               centerAlign: false,
-                                              size: 10.0.sp,
+                                              size: 10,
+                                              minSize: 7,
                                             ),
                                           ],
                                         ),

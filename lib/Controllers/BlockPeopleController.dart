@@ -122,7 +122,8 @@ class BlockPeopleController extends GetxController {
       if (response.statusCode == 200) {
         if (jsonData['success'] == true) {
           Fluttertoast.showToast(
-              msg: jsonData['message'] ?? "User unblocked successfully");
+              msg: jsonData['message'] ??
+                  Strings.userUnblockedText(Get.context!));
           return true;
         } else {
           // Fluttertoast.showToast(msg: Strings.somethingWentWrong(context))

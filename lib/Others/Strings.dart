@@ -38,6 +38,10 @@ class Strings {
       AppLocalizations.of(context)!.postaJobText;
   static String hiredTradesmanText(BuildContext context) =>
       AppLocalizations.of(context)!.hiredTradesmanText;
+  static String userUnblockedText(BuildContext context) =>
+      AppLocalizations.of(context)!.userUnblockedText;
+  static String alreadyHaveAnAccountText(BuildContext context) =>
+      AppLocalizations.of(context)!.alreadyHaveAnAccountText;
 
   static String uploadPhotosText(BuildContext context) =>
       AppLocalizations.of(context)!.uploadPhotosText;
@@ -51,6 +55,8 @@ class Strings {
       AppLocalizations.of(context)!.unFinishedJobText;
   static String updateNowText(BuildContext context) =>
       AppLocalizations.of(context)!.updateNowText;
+  static String notNowText(BuildContext context) =>
+      AppLocalizations.of(context)!.notNowText;
 
   static String noteText(BuildContext context) =>
       AppLocalizations.of(context)!.noteText;
@@ -546,6 +552,8 @@ class Strings {
       AppLocalizations.of(context)!.passwordCannotBeEmptyText;
   static String confirmPasswordCannotBeEmptyText(BuildContext context) =>
       AppLocalizations.of(context)!.confirmPasswordCannotBeEmptyText;
+  static String passwordCannotBeLessthan8charactersText(BuildContext context) =>
+      AppLocalizations.of(context)!.passwordCannotBeLessthan8charactersText;
   static String reportSubmittedText(BuildContext context) =>
       AppLocalizations.of(context)!.reportSubmittedText;
 
